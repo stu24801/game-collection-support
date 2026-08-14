@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>吸血鬼復仇：技能特效樣本</title>
+<style>
+:root{
+  --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6;
+  --ink:#241A22; --ink-soft:#6E6270;
+  --gold:#8A6A1F; --canvas:#0D0206;
+}
+@media (prefers-color-scheme:dark){:root{
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+}}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 56px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:22px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 6px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em}
+.lede{margin:0;color:var(--ink-soft);font-size:14px}
+.fx{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.fx-head{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.fx-head h2{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.fx-id{font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--ink-soft)}
+.fx-count{margin-left:auto;font-family:ui-monospace,Menlo,monospace;font-size:11.5px;color:var(--ink-soft)}
+.fx-strip{overflow-x:auto;background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);-webkit-overflow-scrolling:touch}
+.fx-strip img{display:block;width:100%;min-width:680px;height:auto}
+.hint{padding:6px 16px 0;font-size:11.5px;color:var(--ink-soft)}
+.fx-meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.fx-meta dt{color:var(--ink-soft)}
+.fx-meta dd{margin:0}
+.colophon{border-left:2px solid var(--gold);padding:10px 0 10px 14px;color:var(--ink-soft);font-size:13px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Vampire Revenge · Phase 6</div>
+    <h1>技能特效樣本</h1>
+    <p class="lede">哥德手繪風，五支特效各 14 幀、已去背。每列橫向抽 8 幀，襯在遊戲實際的深色地面上。</p>
+  </div>
+
+  <article class="fx">
+    <div class="fx-head"><h2>雷擊</h2><code class="fx-id">lightning_strike</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="雷擊逐幀" src="vfx/lightning_strike.png"></div>
+    <p class="hint">← 左右滑動看完整幀序列</p>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>落雷、雷霆天罰</dd>
+      <dt>播放</dt><dd>連鎖打到的每個目標各播一次</dd>
+    </dl>
+  </article>
+
+  <article class="fx">
+    <div class="fx-head"><h2>火海</h2><code class="fx-id">fire_zone</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="火海逐幀" src="vfx/fire_zone.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>聖水炸彈、煉獄火海</dd>
+      <dt>播放</dt><dd>循環播放到地帶結束</dd>
+    </dl>
+  </article>
+
+  <article class="fx">
+    <div class="fx-head"><h2>法陣</h2><code class="fx-id">levelup_circle</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="法陣逐幀" src="vfx/levelup_circle.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>升等、轉職</dd>
+      <dt>播放</dt><dd>轉職時放大並染上職業色</dd>
+    </dl>
+  </article>
+
+  <article class="fx">
+    <div class="fx-head"><h2>隕石爆炸</h2><code class="fx-id">meteor_impact</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="隕石爆炸逐幀" src="vfx/meteor_impact.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>隕石術</dd>
+      <dt>播放</dt><dd>落點預警圈閃爍 0.45 秒後才引爆</dd>
+    </dl>
+  </article>
+
+  <article class="fx">
+    <div class="fx-head"><h2>冰霜新星</h2><code class="fx-id">frost_nova</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="冰霜新星逐幀" src="vfx/frost_nova.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>寒冰新星、絕對零度</dd>
+      <dt>播放</dt><dd>尺寸吃武器半徑，Lv1 到絕對零度會自然放大</dd>
+    </dl>
+  </article>
+
+  <p class="colophon">
+    產製：Grok 影片生成 → <code>video-sprite-extract --no-stabilize</code> 拆格去背。
+    配色對齊遊戲調色盤（舊金 #E8C46A、血紅 #C8203C、冰藍 #57C7FF）。
+    <code>--no-stabilize</code> 不能省——去背工具原本是為走路循環寫的，會把「面積變化」
+    判定成鏡頭在動而截斷影片，但特效的面積變化正是特效本身。
+  </p>
+</div>
+</body>
+</html>
