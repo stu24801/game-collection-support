@@ -47,7 +47,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
   <div class="masthead">
     <div class="eyebrow">Vampire Revenge · Phase 6</div>
     <h1>技能特效樣本</h1>
-    <p class="lede">哥德手繪風，五支特效各 14 幀、已去背。每列橫向抽 8 幀，襯在遊戲實際的深色地面上。</p>
+    <p class="lede">哥德手繪風，八支特效已去背（連鎖電弧 10 幀寬幅，其餘各 14 幀）。每列橫向抽 8 幀，襯在遊戲實際的深色地面上。</p>
   </div>
 
   <article class="fx">
@@ -93,6 +93,35 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
     <dl class="fx-meta">
       <dt>用於</dt><dd>寒冰新星、絕對零度</dd>
       <dt>播放</dt><dd>尺寸吃武器半徑，Lv1 到絕對零度會自然放大</dd>
+    </dl>
+  </article>
+
+
+  <article class="fx">
+    <div class="fx-head"><h2>連鎖電弧</h2><code class="fx-id">arc_segment</code><span class="fx-count">10 幀・寬幅</span></div>
+    <div class="fx-strip"><img alt="連鎖電弧逐幀" src="vfx/arc_segment.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>落雷、雷霆天罰的「連鎖」段</dd>
+      <dt>播放</dt><dd>程式把這段水平電弧旋轉＋沿長度拉伸，接在每一對敵人之間</dd>
+      <dt>為何特別</dt><dd>連鎖的起點終點與跳躍次數全是動態的，固定影片涵蓋不了；素材固定、組合由程式算</dd>
+    </dl>
+  </article>
+
+  <article class="fx">
+    <div class="fx-head"><h2>暴風雪牆</h2><code class="fx-id">blizzard_wall</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="暴風雪牆逐幀" src="vfx/blizzard_wall.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>第四關「冰雪絕地」的推進雪牆機制</dd>
+      <dt>狀態</dt><dd>素材已產出，尚未接上呼叫點</dd>
+    </dl>
+  </article>
+
+  <article class="fx">
+    <div class="fx-head"><h2>武器進化</h2><code class="fx-id">evolution_burst</code><span class="fx-count">14 幀</span></div>
+    <div class="fx-strip"><img alt="武器進化逐幀" src="vfx/evolution_burst.png"></div>
+    <dl class="fx-meta">
+      <dt>用於</dt><dd>組合技達成、武器進化的瞬間</dd>
+      <dt>狀態</dt><dd>素材已產出，尚未接上呼叫點</dd>
     </dl>
   </article>
 
