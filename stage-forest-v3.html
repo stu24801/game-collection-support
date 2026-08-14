@@ -62,8 +62,8 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
 <div class="wrap">
   <div class="masthead">
     <div class="eyebrow">Vampire Revenge · 場地美術</div>
-    <h1>幽暗森林 v3：更暗、成叢</h1>
-    <p class="lede">照你的兩點調整：地面再壓一階、加上「一叢一叢」的群聚擺放。下面的模擬圖是用真的伯爵、小惡魔、幽靈、蝙蝠貼圖，照遊戲真正的比例合成的。</p>
+    <h1>幽暗森林 v3：更暗、成叢、遮擋透明</h1>
+    <p class="lede">照你的三點調整：地面再壓一階、加上「一叢一叢」的群聚擺放、被擋住時遮擋處局部半透明並帶前後層次。下面的模擬圖是用真的伯爵、小惡魔、幽靈、蝙蝠貼圖，照遊戲真正的比例合成的。</p>
   </div>
 
   <h2 class="sec">① 地面再壓暗</h2>
@@ -121,6 +121,39 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
       <li><strong>Y 座標壓扁 0.55</strong>：一叢沿著地面橫向散開，而不是散成正圓——正圓會看起來像從正上方看，跟裝飾物的傾斜視角打架。</li>
       <li><strong>依 Y 排序繪製</strong>，角色也在同一個排序佇列裡，所以會走到樹後面去。</li>
     </ol>
+  </div>
+
+  <h2 class="sec">③ 遮擋處半透明 ＋ 前後層次</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>被樹擋住時</h3><span class="tag">建議採用</span></div>
+    <div class="pair">
+      <figure><img alt="沒有遮擋透明處理" src="stage/occ_off.png"><figcaption>沒處理：三個角色都被樹幹吃掉</figcaption></figure>
+      <figure><img alt="有遮擋透明處理" src="stage/occ_on.png"><figcaption>有處理：擋住的那一小塊變半透明</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>做法</dt><dd>不是整棵樹淡掉，是只在「被擋住的那一塊」挖一個柔邊的洞：中心透到 25%，往外 0.75 倍半徑內平滑回到全不透明。樹還在、遮蔽感還在，但角色讀得出來</dd>
+      <dt>為什麼不整棵淡掉</dt><dd>整棵淡掉的話，一叢六棵會同時閃爍，畫面會一直在抽動；而且樹叢的存在感沒了，等於白做</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><h3>前後距離的漸層</h3><span class="tag">建議採用</span></div>
+    <div class="shot"><img alt="前後層次" src="stage/forest_depth.png"></div>
+    <dl class="meta">
+      <dt>做法</dt><dd>依 Y 座標調亮度與彩度：遠處（畫面上方）壓到 55% 亮度、50% 彩度，近處維持原樣。就是大氣透視</dd>
+      <dt>順帶的好處</dt><dd>畫面上方那一排樹不再跟腳邊的樹搶注意力，玩家的視線自然落在自己身上</dd>
+    </dl>
+  </article>
+
+  <div class="note">
+    <h3>移植進 Unity 的做法與限制</h3>
+    <ul>
+      <li><strong>挖洞要靠自訂 shader。</strong>Unity 內建的 Sprite shader 只能整張調 alpha，做不到局部。要寫一支接受「洞的座標陣列」的 sprite shader，在片段著色器裡依世界座標距離衰減 alpha。</li>
+      <li><strong>洞的數量有上限。</strong>同屏最多 260 隻敵人，不可能每隻都挖一個洞——shader 的參數陣列會爆，效能也吃不消。務實的做法是：玩家永遠挖洞，加上「離玩家最近、且真的被擋住」的少數幾隻敵人（我打算先抓 8 隻）。超出的部分不挖洞。</li>
+      <li>如果實測覺得只挖 8 隻不夠，還有一條路是改用「遮蔽遮罩貼圖」：把所有單位畫進一張小的 RenderTexture，shader 直接取樣那張圖。效果完整但多一個 render pass，等接上去實測再決定要不要走。</li>
+      <li><strong>前後漸層不用 shader</strong>，生成時依 Y 直接寫進 <code>SpriteRenderer.color</code> 就好，零成本。</li>
+    </ul>
   </div>
 
   <div class="note">
