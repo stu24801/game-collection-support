@@ -1,0 +1,138 @@
+<title>森林關 v3</title>
+<style>
+:root{
+  --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6; --line-soft:#EAE4E8;
+  --ink:#241A22; --ink-soft:#6E6270;
+  --gold:#8A6A1F; --canvas:#0D0206;
+  --ok-bg:#E7F0E4; --ok-ink:#33612B;
+  --warn-bg:#F3EBDC; --warn-ink:#7A5A17;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.w{background:var(--warn-bg);color:var(--warn-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.shot img{display:block;width:100%;height:auto}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul,.note ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Vampire Revenge · 場地美術</div>
+    <h1>幽暗森林 v3：更暗、成叢</h1>
+    <p class="lede">照你的兩點調整：地面再壓一階、加上「一叢一叢」的群聚擺放。下面的模擬圖是用真的伯爵、小惡魔、幽靈、蝙蝠貼圖，照遊戲真正的比例合成的。</p>
+  </div>
+
+  <h2 class="sec">① 地面再壓暗</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>v2 → v3</h3><span class="tag">建議採用 v3</span></div>
+    <div class="pair">
+      <figure><img alt="森林地面 v2" src="stage/forest_ground_v2.png"><figcaption>v2：上一輪確認的版本</figcaption></figure>
+      <figure><img alt="森林地面 v3" src="stage/forest_ground_v3.png"><figcaption>v3：重生成＋降彩度後製</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>做了什麼</dt><dd>prompt 改成「近乎全黑、只有遠處月光」重生成，再把彩度壓到 55%——那些彩色小葉片是最像可撿寶石的東西</dd>
+    </dl>
+  </article>
+
+  <div class="tbl-scroll"><table>
+    <thead><tr><th>版本</th><th>平均亮度</th><th>對比（標準差）</th><th>亮於 80 的像素</th><th>亮於 120</th></tr></thead>
+    <tbody>
+      <tr><td>v1</td><td>32.4</td><td>47.0</td><td>15.73%</td><td>6.95%</td></tr>
+      <tr><td>v2</td><td>16.0</td><td>18.9</td><td>1.44%</td><td>0.60%</td></tr>
+      <tr><td><strong>v3</strong></td><td>16.3</td><td><strong>14.6</strong></td><td><strong>1.06%</strong></td><td><strong>0.06%</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p class="lede"><strong>要老實講：v3 的平均亮度跟 v2 幾乎一樣（16.3 vs 16.0），變的是對比。</strong>亮部從 18.9 降到 14.6，最亮那一段（亮於 120）從 0.60% 掉到 0.06%——也就是「會跳出來搶眼的東西」少了十倍。所以感覺更黑，但角色與敵人的可辨識度沒有被犧牲，因為底色本來就已經在極暗區間了。單純再把整張壓暗只會讓角色跟著糊掉。</p>
+
+  <h2 class="sec">② 群聚：先加變體，再改擺放</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>新增六款變體</h3><span class="tag">可用</span></div>
+    <div class="shot"><img alt="森林群聚變體彙整圖" src="stage/forest_cluster.png"></div>
+    <dl class="meta">
+      <dt>為什麼要加</dt><dd>「一叢一叢」的關鍵不只是擺放演算法。一叢五棵如果是同一張圖複製五次，看起來只會像貼圖 bug。所以每一類至少要三款不同的個體</dd>
+      <dt>內容</dt><dd>三棵樹幹形狀明顯不同的枯樹 ＋ 灌木 ＋ 蕨叢 ＋ 樹樁（後三者當地被，鋪在樹叢腳邊）</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><h3>擺放結果</h3></div>
+    <div class="pair">
+      <figure><img alt="森林群聚模擬 A" src="stage/forest_mock_v3.png"><figcaption>seed 3</figcaption></figure>
+      <figure><img alt="森林群聚模擬 B" src="stage/forest_mock_v3b.png"><figcaption>seed 11</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>放的是</dt><dd>真的伯爵走路幀、小惡魔、幽靈、蝙蝠，照遊戲真正的比例（視野半寬 3.25 單位、角色高 0.9 單位）</dd>
+    </dl>
+  </article>
+
+  <div class="note">
+    <h3>群聚邏輯（要移植進 Unity 的就是這一套）</h3>
+    <ol>
+      <li><strong>先散佈叢心</strong>：彼此至少隔 1.9 世界單位，避免兩叢黏成一坨。</li>
+      <li><strong>一叢固定同一類</strong>：樹叢就整叢是樹、墓園殘骸就整叢是碑與斷柱。混在一起會變成雜物堆，讀不出「一片森林」。</li>
+      <li><strong>主體在內圈、地被在外圈</strong>：一叢 6–9 件，前半是樹（高斯分佈、集中），後半是灌木蕨樹樁（散得更開）。這一層是「有層次」的來源，只有樹會很空。</li>
+      <li><strong>每一類有自己的高度範圍</strong>：樹 1.4–2.1 單位、地被 0.45–0.85。第一版沒分開，灌木被放大到樹的尺寸，整片畫面被巨大的怪東西蓋住。</li>
+      <li><strong>Y 座標壓扁 0.55</strong>：一叢沿著地面橫向散開，而不是散成正圓——正圓會看起來像從正上方看，跟裝飾物的傾斜視角打架。</li>
+      <li><strong>依 Y 排序繪製</strong>，角色也在同一個排序佇列裡，所以會走到樹後面去。</li>
+    </ol>
+  </div>
+
+  <div class="note">
+    <h3>兩件要你決定的事</h3>
+    <ul>
+      <li><strong>「形成阻擋」是視覺上的，還是真的會擋住移動？</strong>目前做的是視覺上的成片感（不影響走位）。如果要真的碰撞阻擋，那是遊戲性的改動——這是彈幕生存遊戲，走位是唯一的防禦手段，被樹卡住通常等於死，而且敵人也要跟著處理繞路，不然會穿樹而過。我的建議是維持視覺阻擋，但你說了算。</li>
+      <li><strong>密度</strong>：模擬圖是「看得出是森林」的密度。實戰時同屏最多 260 隻敵人，這個密度可能會擋住腳下的敵人與掉落物。我會把密度做成參數，預設比模擬圖再稀一點，接上去之後用實機截圖再調一輪。</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <h3>花費</h3>
+    <p>這一輪 2 張 Grok 生圖（地面 v3、群聚變體）＋ 1 次 OpenAI 去背，約 <strong>$0.4</strong>；場地素材累計約 <strong>$1.6</strong>。沒有遇到 Grok 額度不足。素材仍全在暫存路徑，<strong>沒有動到 <code>Assets/</code></strong>。</p>
+  </div>
+</div>
