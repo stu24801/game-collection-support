@@ -1,0 +1,146 @@
+<title>森林關實機與荒原試樣</title>
+<style>
+:root{
+  --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6; --line-soft:#EAE4E8;
+  --ink:#241A22; --ink-soft:#6E6270;
+  --gold:#8A6A1F; --canvas:#0D0206;
+  --ok-bg:#E7F0E4; --ok-ink:#33612B;
+  --warn-bg:#F3EBDC; --warn-ink:#7A5A17;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.w{background:var(--warn-bg);color:var(--warn-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.shot img{display:block;width:100%;height:auto}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Vampire Revenge · 場地美術</div>
+    <h1>森林關已進遊戲，荒原關試樣</h1>
+    <p class="lede">森林關的素材、擺放程式、樹幹碰撞、遮擋 shader 都已經接上並用實機驗證過。血月荒原是下一關的試樣，等你確認再往下做。</p>
+  </div>
+
+  <h2 class="sec">森林關：實機畫面</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>遊戲裡的樣子</h3><span class="tag">已上線</span></div>
+    <div class="pair">
+      <figure><img alt="森林關實機" src="stage/forest_game.png"><figcaption>成叢的樹、地被、前後明暗層次</figcaption></figure>
+      <figure><img alt="碰撞範圍" src="stage/forest_collider.png"><figcaption>綠圈＝真正的碰撞範圍</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>右圖在說什麼</dt><dd>綠圈只有樹底那一小塊，遠小於整張圖。灌木、蕨、荊棘完全沒有圈——它們不擋路。這是「看截圖看不出來」的東西，所以特地畫出來</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><h3>被樹擋住時</h3><span class="tag">已上線</span></div>
+    <div class="shot"><img alt="遮擋對照" src="stage/forest_occ.png"></div>
+    <dl class="meta">
+      <dt>左</dt><dd>關掉挖洞：角色整個被樹幹吃掉，只剩法杖的光露出來</dd>
+      <dt>右</dt><dd>開啟：樹幹在角色的位置淡掉，樹的上下段還在。同一個位置、同一棵樹拍的</dd>
+    </dl>
+  </article>
+
+  <h2 class="sec">量出來的數字</h2>
+  <div class="tbl-scroll"><table>
+    <thead><tr><th>項目</th><th>結果</th><th>怎麼判讀</th></tr></thead>
+    <tbody>
+      <tr><td>畫面內裝飾物</td><td>274 件（99 件有碰撞）</td><td>地被刻意不給碰撞，所以有碰撞的少於總數</td></tr>
+      <tr><td>正面撞樹幹</td><td>18 / 20 被擋下</td><td>沒被擋下的 2 次是「擦邊滑過去」，不是穿過樹</td></tr>
+      <tr><td>隨機直線穿越樹林</td><td>52 / 60 走得通</td><td>太低＝變成一道牆；100%＝碰撞根本沒作用</td></tr>
+      <tr><td>壓力測試</td><td>264 隻敵人 60.0 fps，最差幀 21.1 ms</td><td>加了 274 個裝飾物與挖洞 shader 之後仍然滿幀</td></tr>
+      <tr><td>完整跑測</td><td>跑完全程通關、零例外</td><td>排序層大改之後沒有東西破掉</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note">
+    <h3>過程中修掉的一個真問題</h3>
+    <p>「隨機直線穿越」一開始只有 <strong>35 / 60</strong>。原因是兩棵樹之間可能夾出比人還窄的縫——推出 A 會被推進 B、推出 B 又被推回 A，玩家原地卡死。那不是「繞得過去」，是夾角陷阱。</p>
+    <p>修法是生成時檢查碰撞體之間的淨空（0.6 世界單位，玩家直徑才 0.47），不夠寬就不生那一棵。改完之後穿越率回到 <strong>52 / 60</strong>，而正面撞樹幹的攔阻率沒有掉。一叢少一棵樹沒人看得出來，卡死一次玩家就死了。</p>
+  </div>
+
+  <h2 class="sec">血月荒原：下一關試樣</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>裝飾物兩版</h3><span class="tag w">建議用 v2</span></div>
+    <div class="pair">
+      <figure><img alt="荒原 v1" src="stage/badland_mock_v1.png"><figcaption>v1：慘白石頭、冰晶尖刺、黃色閃電</figcaption></figure>
+      <figure><img alt="荒原 v2" src="stage/badland_mock.png"><figcaption>v2：深色玄武岩＋暗紅礦脈</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>v1 的問題</dt><dd>顏色整個跑到冷色去了——白石頭、藍色冰晶般的尖刺、甚至黃色閃電紋，跟「火山荒原」對不上，擺在暗色地面上刺眼得像貼錯圖</dd>
+      <dt>v2 怎麼修</dt><dd>prompt 明講材質是深色玄武岩＋暗紅礦脈，並明確排除白石、大理石、冰、水晶、藍色、黃色閃電</dd>
+      <dt>圖裡的角色</dt><dd>真的伯爵、地獄犬，還有這一關的機制怪血月獵殺者</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><h3>素材本身</h3></div>
+    <div class="shot"><img alt="荒原裝飾物" src="stage/badland_props.png"></div>
+    <div class="shot"><img alt="荒原群聚變體" src="stage/badland_cluster.png"></div>
+    <dl class="meta">
+      <dt>內容</dt><dd>立石、裂開的方尖碑、火山口、焦骨堆、石拱殘塊、巨岩，加上三款不同的玄武岩立柱與地被</dd>
+    </dl>
+  </article>
+
+  <div class="note">
+    <h3>還沒定的事</h3>
+    <ul>
+      <li><strong>荒原的密度應該比森林低。</strong>這一關的機制是血月獵殺者全程追殺，設計上就需要空曠好走位。我打算把密度做成每一關各自的參數，荒原大約給森林的六成。</li>
+      <li><strong>石拱那件是目前最亮的素材</strong>（平均亮度 58，其他多在 26–40）。重複出現時滿搶眼的，要不要我再壓暗一階？</li>
+    </ul>
+  </div>
+
+  <div class="note">
+    <h3>花費</h3>
+    <p>這一輪荒原共 5 張 Grok 生圖（含被退掉的 v1 兩張、地面重生成一張）＋ 4 次 OpenAI 去背，約 <strong>$1.0</strong>；場地素材累計約 <strong>$2.6</strong>。沒有遇到 Grok 額度不足。</p>
+    <p>荒原素材還在暫存路徑，<strong>沒有進 <code>Assets/</code></strong>。森林關的已經進去並 commit 了。</p>
+  </div>
+</div>
