@@ -1,0 +1,199 @@
+<title>道具系統與 HUD 重排</title>
+<style>
+:root{
+  --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6; --line-soft:#EAE4E8;
+  --ink:#241A22; --ink-soft:#6E6270;
+  --gold:#8A6A1F; --canvas:#0D0206;
+  --ok-bg:#E7F0E4; --ok-ink:#33612B;
+  --warn-bg:#F3EBDC; --warn-ink:#7A5A17;
+  --bad-bg:#F0E6E8; --bad-ink:#8A2B3C;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+  --bad-bg:#331119; --bad-ink:#F09AAB;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+  --bad-bg:#331119; --bad-ink:#F09AAB;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.w{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.b{background:var(--bad-bg);color:var(--bad-ink)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:540px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+.pass{color:var(--ok-ink);font-weight:600}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul,.note ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Vampire Revenge · 這一批</div>
+    <h1>道具系統補上了，HUD 也照你說的重排</h1>
+    <p class="lede">先回答你的兩個問題，再講改了什麼。</p>
+  </div>
+
+  <h2 class="sec">你的兩個問題</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>道具系統確實沒做</h3><span class="tag b">是漏的</span></div>
+    <dl class="meta">
+      <dt>狀況</dt><dd>八種拾取物裡，Unity 版<strong>只移植了寶箱</strong>，其他七種完全沒有生成過。你玩到現在沒看過補血道具，是因為它根本不存在，不是機率太低</dd>
+      <dt>已補</dt><dd>照你貼的那張表、對著原版 <code>engine.ts</code> 的數值全部補齊，包含掉落機率</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><h3>升級選項確實有限制，但跟轉職無關</h3><span class="tag">原本設計</span></div>
+    <dl class="meta">
+      <dt>規則</dt><dd><strong>武器上限 4 個、被動上限 5 個</strong>。裝滿之後就不會再出現「沒帶過的」武器，只會出現手上這幾把的升級</dd>
+      <dt>所以</dt><dd>你拿到第 4 把武器之後，聖光書／隕石／落雷就再也不會出現了——這是原版就有的設計（Expo 版 <code>MAX_WEAPON_SLOTS = 4</code>），不是 bug，也跟轉職沒有關係</dd>
+      <dt>另外</dt><dd>進化武器不會出現在三選一裡，只能靠特定組合解鎖</dd>
+    </dl>
+  </article>
+
+  <h2 class="sec">HUD 重排</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>改完的樣子</h3><span class="tag">已驗證</span></div>
+    <div class="pair">
+      <figure><img alt="遊戲中 HUD" src="hud/hud_play.png"><figcaption>等級／擊殺變成徽章，下半畫面淨空</figcaption></figure>
+      <figure><img alt="暫停面板" src="hud/hud_pause.png"><figcaption>轉職任務搬到這裡</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>魔王血條</dt><dd>從畫面下方中央移到經驗條下方。原位置正好擋住你往下走時要看的路</dd>
+      <dt>轉職任務</dt><dd>那三行小字從戰鬥畫面拿掉，移進暫停面板。戰鬥中讀不完也擋畫面，而「還差多少轉職」本來就是暫停時才會確認的</dd>
+      <dt>等級／擊殺</dt><dd>改成兩枚盾形徽章，貼著血量與經驗條的左右兩側，讀起來是同一排狀態列</dd>
+      <dt>升級三選一</dt><dd>說明文字 26 → 36（約 9.5pt → 13.1pt）</dd>
+    </dl>
+  </article>
+
+  <h2 class="sec">敵人「滑步」的原因</h2>
+
+  <div class="note">
+    <p>走路動畫的播放速度是拿「移動速度 ÷ 參考速度」算的，而那個參考速度<strong>寫死成玩家的基礎移速 200</strong>。敵人的移速在 40~150 之間（殭屍只有 46），除下來全部低於播放速度的下限 0.45——等於整場敵人都用 4.5fps 播 12 幀的循環，<strong>2.7 秒才走完一步</strong>。腳幾乎不動，人卻一直滑過來。</p>
+    <p>改成每個單位用自己的基礎速度當基準：正常追擊時就是 10fps，被冰凍減速時才會跟著慢下來。左右鏡像本來就有作用，不是鏡像的問題。</p>
+  </div>
+
+  <h2 class="sec">道具系統：量出來的結果</h2>
+  <div class="tbl-scroll"><table>
+    <thead><tr><th>道具</th><th>效果</th><th>實測</th></tr></thead>
+    <tbody>
+      <tr><td>烤雞</td><td>回復 30 生命</td><td class="pass">HP 40 → 70</td></tr>
+      <tr><td>懷錶</td><td>敵人定格 5 秒</td><td class="pass">定格中敵人 1 秒位移 0.000</td></tr>
+      <tr><td>磁鐵</td><td>全場寶石吸附</td><td class="pass">最遠寶石 9.01 → 2.24</td></tr>
+      <tr><td>炸彈</td><td>畫面內敵人重擊</td><td class="pass">波及 8 隻，敵人 10 → 2</td></tr>
+      <tr><td>狂暴</td><td>傷害 ×1.5（8 秒）</td><td class="pass">倍率 1.50</td></tr>
+      <tr><td>經驗×2</td><td>經驗加倍（10 秒）</td><td class="pass">倍率 2.00</td></tr>
+      <tr><td>疾速</td><td>移速 ×1.3（8 秒）</td><td class="pass">倍率 1.30</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="note">
+    <p>圖示先沿用既有的武器／被動圖（烤雞用紅心、懷錶用絕對零度、炸彈用隕石、狂暴用力量、疾速用靴子），語意對得上。要另外做一套專屬道具美術再跟我說。</p>
+    <p>第一次跑驗證時炸彈之後全部回 0，看起來像功能壞了——查下來是磁鐵一撿、寶石全湧進來就升級，遊戲暫停等玩家點選，而驗證流程沒處理升級選單。是測試方法的問題，不是功能問題。</p>
+  </div>
+
+  <h2 class="sec">其他一起改的</h2>
+
+  <div class="note">
+    <ul>
+      <li><strong>血月獵殺者放大</strong>：Size 40 → 78，跟最小的魔王同一個量級（接觸半徑只從 14 提到 20，畫得比判定大是安全的方向）。原本跟一般小怪差不多大，難怪看不出被追殺。</li>
+      <li><strong>敵方彈幕會被樹幹擋下來</strong>。樹幹擋得住人也擋得住敵人，沒有理由讓箭穿過去。<strong>玩家的彈丸維持不擋</strong>——武器是自動瞄準的，玩家無法自己選角度，擋下來只會像攻擊莫名失效。要改成雙向都擋跟我說。</li>
+      <li><strong>經驗寶石放大</strong>（U 9/14 → 14/20）、<strong>彈丸圖示放大</strong>（2.4 → 3.6 倍）。兩者的傷害判定都沒有跟著放大。</li>
+      <li><strong>伯爵開場造型</strong>改用走路動畫第一幀，站著跟走路不再是兩個人。</li>
+    </ul>
+  </div>
+
+  <h2 class="sec">結算畫面全部重做</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>你回報的四件事都改了</h3><span class="tag">已驗證</span></div>
+    <div class="shot" style="background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line)"><img alt="結算畫面" src="hud/end_screen.png" style="display:block;width:100%;height:auto"></div>
+    <dl class="meta">
+      <dt>靈動島</dt><dd>這個畫面從來沒讓開上緣安全區，標題掛在距頂 110 而靈動島佔 162</dd>
+      <dt>配裝</dt><dd>把暫停面板那份圖示清單抽成共用元件，兩邊用同一份排版（複製一份的話兩邊之後一定會走鐘）</dd>
+      <dt>輸入框與按鈕</dt><dd>暱稱框 360×60 → 440×96、上傳鈕 460×80 → 520×108，字級都拉到 40 以上。下半部改成一律從畫面底部往上排——原本從上面接著排，配裝一多就會把「回到選單」推出畫面外</dd>
+      <dt>上傳沒回饋</dt><dd>狀態文字原本 24 級（手機上約 8.7pt）又被擠在按鈕下面，等於按了什麼都看不到。放大到 38、移到上傳鈕正上方，成功綠色、失敗紅色</dd>
+    </dl>
+  </article>
+
+  <div class="note">
+    <h3>順帶：那些 emoji 一直都是空白</h3>
+    <p>結算標題的 🏆💀、按鈕上的 🌐📤、上傳結果的 ✅❌——介面字型沒有 emoji 字符，這些位置在手機上一直是空白。你截圖裡「力戰而亡」前面那塊空隙就是 💀。全部改成純文字，成功失敗改用顏色區分。</p>
+  </div>
+
+  <h2 class="sec">分享戰場截圖：確實漏掉了</h2>
+
+  <div class="note">
+    <p>你記得沒錯，Expo 版有這個功能（<code>shared/shareResult.ts</code> 的「分享戰場截圖」），移植到 Unity 時漏掉了。已經補上：截圖存成 PNG，再開系統的分享面板。Unity 沒有等價的內建功能，所以另外接了一層原生程式碼（跟 Game Center 那層同一種做法）。</p>
+    <p>Mac 上沒有系統分享面板，所以只驗到截圖那一段：檔案確實產生、140,364 bytes。分享面板本身要到你手機上才看得到。</p>
+  </div>
+
+  <h2 class="sec">精通文字重疊</h2>
+
+  <div class="note">
+    <p>精通的名字都叫「奧義：○○精通」，七個字擺進 210 寬的格子一定滿出來，相鄰兩格就疊在一起。區塊標題已經寫著「精通」，前綴是純重複，拿掉；同時把名稱改成允許折行、放不下自動縮字級，之後就算加更長的名字也不會再疊。</p>
+  </div>
+
+  <h2 class="sec">還沒做的（排隊中）</h2>
+
+  <div class="note">
+    <ol>
+      <li><strong>神秘商人的動畫</strong>——目前太融入背景。</li>
+      <li><strong>每隻魔王專屬的衝鋒預告動畫</strong>——這個要走生成流程，會先估成本、先出試樣給你看。</li>
+      <li><strong>夜巫的走路素材是壞的</strong>（下面單獨說明）。</li>
+    </ol>
+  </div>
+
+  <article class="card">
+    <div class="card-head"><h3>順帶發現：夜巫的走路素材沒去背</h3><span class="tag b">要花錢才能修</span></div>
+    <dl class="meta">
+      <dt>狀況</dt><dd>夜巫的 12 張走路幀<strong>每一張都帶著紫色方形背景</strong>，而且畫面是推近後的半身特寫，不是全身。其他三個角色都是乾淨的去背全身圖</dd>
+      <dt>為什麼沒被發現</dt><dd>夜巫要「單局存活 30 分鐘」才解鎖，一直沒有人選到它</dd>
+      <dt>能不能免費修</dt><dd>不行。我拿原始影片重跑了一次去背，背景是整片紫藍漸層、角色的深色長袍直接融進去，分不開；而且影片本身是持續推近的特寫，抽不到全身的穩定片段</dd>
+      <dt>要怎麼修</dt><dd>得用綠幕重新生成一支走路影片（Grok 影片生成，要花錢）。<strong>依照你訂的規則我先停在這裡</strong>，等你決定</dd>
+    </dl>
+  </article>
+
+  <div class="note">
+    <h3>iOS 專案已重新匯出</h3>
+    <p>上面所有改動都在裡面，Xcode 直接 build 就好。</p>
+  </div>
+</div>
