@@ -1,4 +1,4 @@
-<title>HUD 字級與靈動島</title>
+<title>UI 字級全面放大</title>
 <style>
 :root{
   --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6; --line-soft:#EAE4E8;
@@ -51,6 +51,7 @@ table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px;font-
 th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
 thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
 tbody tr:last-child td{border-bottom:none}
+tbody th{font-weight:600;font-size:12px;color:var(--gold);background:var(--ground)}
 .note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
 .note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
 .note ul,.note ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
@@ -60,70 +61,91 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
 <div class="wrap">
   <div class="masthead">
     <div class="eyebrow">Vampire Revenge · UI</div>
-    <h1>字再放大一階，暫停面板也讓開靈動島</h1>
-    <p class="lede">先講一件重要的事：你上次測的那個版本，其實根本沒有包含前一輪的 HUD 修正——Xcode 專案是更早的 commit 匯出的。所以「文字還是太小」有一部分是那個原因。這一輪除了再放大一階，也把真正沒修到的地方修掉，而且這次是有實際畫面可以看的。</p>
+    <h1>首頁、選角、暫停面板全部放大</h1>
+    <p class="lede">你點名的三個畫面都調過了，而且四張畫面都是在模擬 iPhone 靈動島的情況下實際跑出來拍的。選角那一頁順便解決了兩個「字放大之後才看得出來」的問題。</p>
   </div>
 
-  <h2 class="sec">這次的畫面</h2>
+  <h2 class="sec">四張畫面</h2>
 
   <article class="card">
-    <div class="card-head"><h3>模擬 iPhone 靈動島拍的</h3><span class="tag">已驗證</span></div>
+    <div class="card-head"><h3>選集首頁 ／ 選角</h3><span class="tag">已驗證</span></div>
     <div class="pair">
-      <figure><img alt="遊戲中 HUD" src="hud/hud_play.png"><figcaption>遊戲中：上緣保留區已讓開</figcaption></figure>
-      <figure><img alt="暫停面板" src="hud/hud_pause.png"><figcaption>暫停：標題不再被切到</figcaption></figure>
+      <figure><img alt="選集首頁" src="hud/menu_hub.png"><figcaption>首頁：標題 54→72</figcaption></figure>
+      <figure><img alt="選角畫面" src="hud/menu_char.png"><figcaption>選角：改 2×2，補上立繪</figcaption></figure>
     </div>
-    <dl class="meta">
-      <dt>怎麼拍的</dt><dd>Mac 上跑真的遊戲，用 540×1170 的視窗，並且照 iPhone 14 Pro 的比例（上緣內縮 6.92%）模擬靈動島＝81px。截圖裡最上面的時間落在 y≈55、暫停標題落在 y≈132，都在那條線下面</dd>
-      <dt>暫停怎麼按的</dt><dd>走跟你手指按下去同一條程式路徑，不是另外開一個捷徑直接把面板叫出來——不然驗到的就不是你會遇到的狀態</dd>
-    </dl>
   </article>
 
-  <h2 class="sec">真正沒修到的是暫停「面板」</h2>
+  <article class="card">
+    <div class="card-head"><h3>遊戲中 ／ 暫停面板</h3><span class="tag">已驗證</span></div>
+    <div class="pair">
+      <figure><img alt="遊戲中 HUD" src="hud/hud_play.png"><figcaption>遊戲中</figcaption></figure>
+      <figure><img alt="暫停面板" src="hud/hud_pause.png"><figcaption>暫停：武器格改四欄</figcaption></figure>
+    </div>
+  </article>
+
+  <h2 class="sec">最小的字有多小</h2>
 
   <div class="note">
-    <p>上一輪我只讓右上角那顆暫停<strong>鈕</strong>吃到安全區位移，面板自己的內容沒有。面板標題是寫死「距離畫面頂端 90」，打開來就正好在靈動島底下。你回報的「按下暫停一樣靈動島切到字」就是這個，跟字級無關。</p>
-    <p>現在面板裡的標題、四格數值、關卡/職業那兩行、下面的武器與被動區塊，全部一起吃同一個位移。</p>
+    <p>選角卡的說明文字原本是 20 級，換算到 iPhone 14 Pro 上實際是 <strong>7.3pt</strong>——系統內文標準是 17pt，iOS 介面裡最小的輔助文字也有 11pt。那確實不是「偏小」，是根本讀不了。現在是 30 級＝10.9pt，受限於卡片寬度只能到這裡，但配合下面的版面改動已經好讀很多。</p>
   </div>
 
   <h2 class="sec">字級對照</h2>
   <div class="tbl-scroll"><table>
-    <thead><tr><th>項目</th><th>改前</th><th>改後</th><th>iPhone 14 Pro 實際大小</th></tr></thead>
+    <thead><tr><th>項目</th><th>改前</th><th>改後</th><th>iPhone 上實際大小</th></tr></thead>
     <tbody>
-      <tr><td>時間</td><td>52</td><td>64</td><td>18.9pt → 23.3pt</td></tr>
-      <tr><td>關卡名</td><td>32</td><td>42</td><td>11.6pt → 15.3pt</td></tr>
-      <tr><td>等級／擊殺</td><td>38</td><td>50</td><td>13.8pt → 18.2pt</td></tr>
-      <tr><td>機制提示</td><td>34</td><td>44</td><td>12.4pt → 16.0pt</td></tr>
-      <tr><td>轉職任務</td><td>30</td><td>36</td><td>10.9pt → 13.1pt</td></tr>
-      <tr><td>魔王名</td><td>30</td><td>40</td><td>10.9pt → 14.6pt</td></tr>
-      <tr><td>暫停標題</td><td>52</td><td>64</td><td>18.9pt → 23.3pt</td></tr>
-      <tr><td>暫停面板數值</td><td>40</td><td>48</td><td>14.6pt → 17.5pt</td></tr>
-      <tr><td>武器／被動名稱</td><td>19</td><td>30</td><td>6.9pt → 10.9pt</td></tr>
+      <tr><th colspan="4">選集首頁</th></tr>
+      <tr><td>主標題</td><td>54</td><td>72</td><td>19.7pt → 26.2pt</td></tr>
+      <tr><td>標語</td><td>26</td><td>36</td><td>9.5pt → 13.1pt</td></tr>
+      <tr><td>卡片標題</td><td>40</td><td>52</td><td>14.6pt → 18.9pt</td></tr>
+      <tr><td>卡片說明</td><td>23</td><td>32</td><td>8.4pt → 11.6pt</td></tr>
+      <tr><td>開始按鈕</td><td>28</td><td>40</td><td>10.2pt → 14.6pt</td></tr>
+      <tr><th colspan="4">選角</th></tr>
+      <tr><td>標題</td><td>56</td><td>72</td><td>20.4pt → 26.2pt</td></tr>
+      <tr><td>選擇角色／難度</td><td>30</td><td>44</td><td>10.9pt → 16.0pt</td></tr>
+      <tr><td>角色名</td><td>26</td><td>40</td><td>9.5pt → 14.6pt</td></tr>
+      <tr><td>角色說明</td><td>20</td><td>30</td><td>7.3pt → 10.9pt</td></tr>
+      <tr><td>難度名</td><td>30</td><td>42</td><td>10.9pt → 15.3pt</td></tr>
+      <tr><td>開始遊戲</td><td>34</td><td>46</td><td>12.4pt → 16.7pt</td></tr>
+      <tr><th colspan="4">暫停面板</th></tr>
+      <tr><td>四格數值</td><td>48</td><td>58</td><td>17.5pt → 21.1pt</td></tr>
+      <tr><td>格子標籤</td><td>28</td><td>36</td><td>10.2pt → 13.1pt</td></tr>
+      <tr><td>職業</td><td>32</td><td>40</td><td>11.6pt → 14.6pt</td></tr>
+      <tr><td>區塊標題</td><td>34</td><td>42</td><td>12.4pt → 15.3pt</td></tr>
+      <tr><td>武器名稱</td><td>30</td><td>34</td><td>10.9pt → 12.4pt</td></tr>
+      <tr><td>繼續遊戲</td><td>40</td><td>48</td><td>14.6pt → 17.5pt</td></tr>
     </tbody>
   </table></div>
-  <p class="lede">（左邊那兩欄是遊戲內部的單位，換算成 iPhone 上實際看到的大小才是右邊那欄。系統內文的標準大小是 17pt，可以拿來比對。）</p>
 
-  <h2 class="sec">順手修掉的三個問題</h2>
+  <h2 class="sec">光放大字級不夠，版面也得改</h2>
 
   <div class="note">
     <ol>
-      <li><strong>暫停面板的標題本來是空白的。</strong>標題寫死了 ⏸ 這個符號，但遊戲用的內建字型沒有這個字，畫出來就是空的。諷刺的是同一個檔案上面的註解就寫著「不要用 ⏸，用文字」，那是之前做暫停鈕時踩過的坑，我自己在標題又踩了一次。現在是純文字「暫停」。</li>
-      <li><strong>面板底色不夠黑，底下的 HUD 會透出來</strong>，暫停時兩層字疊在一起（上一版截圖看得很明顯）。暫停畫面本來就是要好好看配裝的，底下不需要留任何東西，改成完全不透明。</li>
-      <li><strong>轉職任務那行字放大後右邊被切掉</strong>——「元素使 8/1」直接斷在畫面外。這是我這次放大字級造成的，第一輪截圖就抓到了。改成排不下會折行，不會有看不到的字。</li>
+      <li><strong>四張角色卡原本擠在同一行</strong>，每張只有 250 寬（畫面總寬 1080），字級再放大就直接塞不下。改成 <strong>2×2</strong>，每張加寬到 500。</li>
+      <li><strong>暫停面板的武器格原本一列五格</strong>，每格 168 寬，放大後的名稱（像「大蒜光環」）會超出格子。改成一列四格、每格 210。</li>
     </ol>
   </div>
 
-  <h2 class="sec">另外修掉一個讓 Mac 建置失敗的舊問題</h2>
+  <h2 class="sec">兩個順帶修掉的問題</h2>
 
   <div class="note">
-    <p>這一輪一開始建置直接失敗（36 個 error）。原因跟畫面無關：驗證版才存在的那些除錯欄位被引擎當成「需要存檔的欄位」，編輯器跟遊戲兩邊對不起來就判定建置失敗。這些欄位都是跑的時候才塞值進去的，全部標成不需要存檔就解決了。</p>
-    <p>順帶一提，先前 Mac 端一直跑不起來（程式卡在系統的事件迴圈、一幀都不畫）現在也正常了——所以這次才有真的畫面可以給你看，不是只有「編譯過了」。</p>
+    <ol>
+      <li><strong>首頁與選角畫面從來沒有讓開靈動島。</strong>標題掛在距頂 100~150，而靈動島換算下來佔 162——也就是整條壓在標題上。原因是安全區的換算在 HUD 跟暫停面板各寫了一份，新畫面就漏掉了；現在收成一份共用的，之後不會再有畫面漏掉。</li>
+      <li><strong>卡片上的 emoji 一直都是空白。</strong>🧛🧟 和角色圖示都畫不出來，因為介面用的字型沒有 emoji 字符。角色卡改用該角色的<strong>手繪立繪</strong>（素材本來就有，就是遊戲裡那個角色）；首頁卡片則把 emoji 拿掉、標題往左移，不留那塊空白。</li>
+    </ol>
+  </div>
+
+  <div class="note">
+    <h3>驗證方式</h3>
+    <p>新增了「只拍選單」的跑法：拍首頁 → 走跟手指點卡片同一條程式路徑進選角 → 拍選角。過程中抓到一個會讓驗證失效的問題——模擬靈動島的那行設定原本放在「開局」裡面，只看選單的驗證根本沒吃到，第一版首頁截圖<em>看起來</em>有讓開、其實位移是 0。移到最前面之後重拍，才是上面這幾張。</p>
+  </div>
+
+  <div class="note">
+    <h3>還沒動的畫面</h3>
+    <p>升級選擇、神秘商人、轉職、結算這幾個面板也有同樣的問題（最小的字在 20~24 級之間）。你點名的是三個畫面，我就先做這三個——要一起放大跟我說一聲，同一套做法直接套過去。</p>
   </div>
 
   <div class="note">
     <h3>你要做的事</h3>
-    <ul>
-      <li>iOS 專案我正在重新匯出（這次會確實包含上面所有改動）。匯出完成後在 Xcode 重新 build 到手機就會看到。</li>
-      <li>看完之後如果覺得<strong>還是偏小</strong>，直接跟我說哪一行——現在有 <code>VR_ONLY=hud</code> 這條驗證路徑，調完可以馬上拍給你看，不用再靠猜的。</li>
-    </ul>
+    <p>iOS 專案已重新匯出，在 Xcode 重新 build 到手機就會看到。簽章那件事上一輪已經修好，這次不用再設定。</p>
   </div>
 </div>
