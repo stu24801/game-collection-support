@@ -1,0 +1,75 @@
+<title>城堡地板變體</title>
+<style>
+:root{--ground:#EDE9EC;--card:#FFF;--line:#D8D0D6;--line-soft:#EAE4E8;--ink:#241A22;--ink-soft:#6E6270;--gold:#8A6A1F;--canvas:#0D0206;--warn-bg:#F3EBDC;--warn-ink:#7A5A17}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A}}
+:root[data-theme="dark"]{--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;line-height:1.65}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--warn-bg);color:var(--warn-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow-x:auto}
+.shot img{display:block;width:100%;min-width:640px;height:auto}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}.meta dd{margin:0}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+<div class="wrap">
+<div class="masthead">
+<div class="eyebrow">Vampire Revenge · 魔王城堡</div>
+<h1>地板變體：從 4 塊變成 60 塊</h1>
+<p class="lede">照你說的增加地板變化、保留邊框格線、密度維持 0.5。還沒進遊戲，等你確認。</p>
+</div>
+
+<h2 class="sec">前後對照</h2>
+<article class="card">
+<div class="card-head"><h3>單張重複 vs 隨機拼貼</h3></div>
+<div class="shot"><img alt="地板對照" src="stage/castle_floor_cmp.png"></div>
+<dl class="meta">
+<dt>左</dt><dd>原本：一張 4 單位的貼圖整片重複，看得出來只有 4 塊在輪</dd>
+<dt>右</dt><dd>現在：60 塊 1 單位的地磚隨機拼，再隨機水平／垂直翻轉</dd>
+</dl>
+</article>
+
+<article class="card">
+<div class="card-head"><h3>擺進場景</h3><span class="tag">等你確認</span></div>
+<div class="shot"><img alt="城堡模擬" src="stage/castle_mock2.png"></div>
+</article>
+
+<article class="card">
+<div class="card-head"><h3>新生成的三張變體（＋原本那張）</h3></div>
+<div class="shot"><img alt="四張地面變體" src="stage/castle_grounds.png"></div>
+<dl class="meta"><dt>差異</dt><dd>裂紋密度、血絲分布、磨損程度、破損缺角各不相同</dd></dl>
+</article>
+
+<div class="note">
+<h3>不是直接「四張輪流貼」——那樣會更醜</h3>
+<ul>
+<li>四張生成出來的<strong>格線週期不一樣</strong>（512／256／341／256 像素）。直接整張輪流貼的話，相鄰兩格的格線接不上，接縫會比原本的重複感更明顯。</li>
+<li>所以先把每張的格線<strong>對齊到同一個相位</strong>（變體 3 的橫線週期 341 先縮到 256），再切成 1 單位一塊的小地磚，得到 60 塊。每一塊都剛好是一個格子，格線自動對得上。</li>
+<li>每塊再<strong>各自校正亮度到中位數</strong>。不做的話拼起來像一地補丁——亮度差異比裂紋差異搶眼得多，那不是「豐富」是「沒對齊」。</li>
+<li>60 塊 × 4 種翻轉 = 240 種組合，實務上看不出重複。</li>
+</ul>
+</div>
+
+<div class="note">
+<h3>套用時要動到的程式</h3>
+<p>目前地板是<strong>單一個 Tiled 模式的 SpriteRenderer</strong>，一張貼圖無限重複——沒辦法「每格換一張」。要支援隨機拼貼得改成「跟著玩家維護一片 1 單位格子的地板」，做法跟裝飾物的生成／回收一樣，位置由格子座標的固定種子決定（走回同一塊地還是同一片地板）。這是新的一段程式，不是改參數。</p>
+<p>其他四關維持現在的單張平鋪，不受影響。</p>
+</div>
+
+<div class="note">
+<h3>花費</h3>
+<p>這一輪 4 張生圖（3 張新變體＋基底重生成）≈ <strong>$0.8</strong>；場地與特效累計約 <strong>$5.8</strong>。沒有遇到 Grok 額度不足。</p>
+</div>
+</div>
