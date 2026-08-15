@@ -1,0 +1,77 @@
+<title>敵人特效第二輪</title>
+<style>
+:root{--ground:#EDE9EC;--card:#FFF;--line:#D8D0D6;--line-soft:#EAE4E8;--ink:#241A22;--ink-soft:#6E6270;--gold:#8A6A1F;--canvas:#0D0206;--ok-bg:#E7F0E4;--ok-ink:#33612B;--warn-bg:#F3EBDC;--warn-ink:#7A5A17}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A;--warn-bg:#33280F;--warn-ink:#E8C46A}}
+:root[data-theme="dark"]{--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A;--warn-bg:#33280F;--warn-ink:#E8C46A}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;line-height:1.65}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--warn-bg);color:var(--warn-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow-x:auto}
+.shot img{display:block;width:100%;min-width:640px;height:auto}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+<div class="wrap">
+<div class="masthead">
+<div class="eyebrow">Vampire Revenge · 敵人特效</div>
+<h1>法陣傷害調好了，自爆與召喚出試樣</h1>
+<p class="lede">①②已收尾並 commit；剩下三項裡的兩項在下面等你確認，第三項（衝刺殘影）我判斷不需要素材。</p>
+</div>
+
+<h2 class="sec">② 地面法術：8% 當下血量</h2>
+<div class="tbl-scroll"><table>
+<thead><tr><th>情境</th><th>命中</th><th>總傷害</th><th>平均每次</th></tr></thead>
+<tbody>
+<tr><td>滿血 HP 100/100</td><td>3 次</td><td>18.4</td><td><strong>6.13</strong></td></tr>
+<tr><td>殘血 HP 15/100</td><td>3 次</td><td>3.6</td><td><strong>1.20</strong></td></tr>
+</tbody>
+</table></div>
+<p class="lede">高低血量的絕對值差約 <strong>5 倍</strong>，殘血時踩到不會致命，方向跟你要的一致。基準維持「當下血量」沒有換成最大血量。</p>
+
+<div class="note">
+<h3>順帶改了一件你沒提到但會毀掉這個設計的事</h3>
+<p>百分比傷害<strong>不吃固定值護甲</strong>了。護甲是每級 -2 的固定減免，設計上是拿來擋一次幾十點的硬傷害；套在十來點的百分比傷害上，鐵制護甲 Lv5（-10）幾乎能把整個技能歸零，又會變回裝飾。減傷倍率照樣算，那本來就是比例式的。</p>
+</div>
+
+<h2 class="sec">③④ 自爆與召喚：試樣</h2>
+<article class="card">
+<div class="card-head"><h3>自爆引信＋爆炸／召喚法陣</h3><span class="tag">等你確認</span></div>
+<div class="shot"><img alt="自爆與召喚試樣" src="vfx2/boom_summon.png"></div>
+</article>
+
+<div class="note">
+<h3>這一輪只花了 $0.2，因為兩項有一半不用生成</h3>
+<ul>
+<li><strong>自爆的引信</strong>：純程序化。引信一點燃就讓自爆魔的染色往紅色推、閃爍越來越快（上圖左邊三格）。這種「規律變化」用程式做比貼圖準，而且能跟真正的引信秒數同步。</li>
+<li><strong>爆炸本體</strong>：沿用既有的 <code>meteor_impact</code>。那是一支已經確認過的爆炸序列，自爆跟隕石落地本來就是同一種視覺事件，再生一支是浪費。</li>
+<li><strong>召喚法陣</strong>：這個要生（$0.2）。骨質字骸的環、中心留空讓小怪從裡面爬出來。生成出來偏金骨色而不是我要求的屍綠色，但擺在一起反而更貼現有的色票，我傾向就用這版。</li>
+</ul>
+</div>
+
+<div class="note">
+<h3>⑤ 衝刺殘影：我建議不做素材</h3>
+<p>殘影就是「把角色當下的貼圖複製幾份、往後放、逐份調淡」。用程式做的話會自動跟著魔王當下的走路幀、體型、染色走；做成固定素材反而會跟魔王本體對不上（十隻魔王長相全不一樣）。這一項我打算純程式做，不花錢。</p>
+</div>
+
+<div class="note">
+<h3>花費</h3>
+<p>這一輪 1 張生圖 ≈ <strong>$0.2</strong>；累計約 <strong>$6.9</strong>。沒有遇到 Grok 額度不足。</p>
+<p>另外環狀素材<strong>第五次</strong>中同一個坑（去背後中心留成不透明近黑）。這次我在切之前就先量了，沒有再被咬到。</p>
+</div>
+</div>
