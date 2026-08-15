@@ -1,0 +1,75 @@
+<title>自爆與召喚重做版</title>
+<style>
+:root{--ground:#EDE9EC;--card:#FFF;--line:#D8D0D6;--line-soft:#EAE4E8;--ink:#241A22;--ink-soft:#6E6270;--gold:#8A6A1F;--canvas:#0D0206;--warn-bg:#F3EBDC;--warn-ink:#7A5A17;--ok-bg:#E7F0E4;--ok-ink:#33612B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A}}
+:root[data-theme="dark"]{--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;line-height:1.65}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--warn-bg);color:var(--warn-ink)}
+.tag.ok{background:var(--ok-bg);color:var(--ok-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow-x:auto}
+.shot img{display:block;width:100%;min-width:640px;height:auto}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}.meta dd{margin:0}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+<div class="wrap">
+<div class="masthead">
+<div class="eyebrow">Vampire Revenge · 敵人特效</div>
+<h1>自爆改成專屬爆炸、召喚改成大法陣</h1>
+<p class="lede">兩項都照你的方向重做了，還沒進遊戲。衝刺殘影已經用程式做好（沒有新素材，照你說的不用等確認）。</p>
+</div>
+
+<article class="card">
+<div class="card-head"><h3>自爆專屬爆炸</h3><span class="tag">等你確認</span></div>
+<div class="shot"><img alt="自爆逐幀" src="vfx2/boom_strip.png"></div>
+<dl class="meta">
+<dt>怎麼跟隕石區分</dt><dd>隕石是「橘紅火焰 + 由上往下砸 + 碎石」；自爆是「屍綠毒氣 + 由內往外炸 + 緋紅血肉噴濺」。連色系都刻意錯開，不會看混</dd>
+<dt>動作</dt><dd>從一個點開始，往外炸成擴張的衝擊環，最後散成飄移的毒煙</dd>
+</dl>
+</article>
+
+<article class="card">
+<div class="card-head"><h3>擺進場景（右邊那顆是隕石，放來對照）</h3></div>
+<div class="shot"><img alt="自爆與召喚" src="vfx2/boom_summon2.png"></div>
+<dl class="meta">
+<dt>上排</dt><dd>自爆的三個階段，真實半徑 1.83 世界單位；最右是隕石爆炸，一眼就分得出來</dd>
+<dt>下排</dt><dd>大召喚法陣（半徑 2.4 單位），魔王站在正中央，三隻小怪在圈內不同位置由淡到濃浮現</dd>
+</dl>
+</article>
+
+<div class="note">
+<h3>召喚改成什麼樣</h3>
+<ul>
+<li><strong>一個大法陣取代三個小圈。</strong>雙層環 + 環間的符文節點，半徑 2.4 世界單位——畫面可視寬度才 6.5，等於一放出來就佔掉大半個畫面。</li>
+<li><strong>小怪從法陣範圍內各處浮現</strong>，不是三個獨立召喚點。模擬圖用透明度表現「浮現中」的三個階段。</li>
+<li>生成原圖的金環很亮很搶，壓暗到 62% 並把內圈開透，魔王與浮現中的小怪才讀得出來。</li>
+</ul>
+</div>
+
+<div class="note">
+<h3>衝刺殘影（已做好，純程式）</h3>
+<p>每 0.045 秒把魔王「當下的貼圖」複製一份留在原地，逐份淡出。用複製當下貼圖而不是固定素材——十隻魔王長相全不一樣，而且衝刺途中走路幀還在換，固定素材會跟本體對不上。</p>
+</div>
+
+<div class="note">
+<h3>環狀素材第六次</h3>
+<p>擴張中的衝擊環，中間本來應該透得出地面，去背又把圍起來的暗區留成不透明。這次比較麻煩——中心不是純黑而是<strong>有顏色的暗煙</strong>（RGB 23/41/27），亮度門檻切不掉，改用會跟著環一起擴大的徑向遮罩才開得乾淨。</p>
+</div>
+
+<div class="note">
+<h3>花費</h3>
+<p>這一輪：自爆影片 $0.32 ＋ 大法陣生圖 $0.2 ≈ <strong>$0.52</strong>；累計約 <strong>$7.4</strong>。沒有遇到 Grok 額度不足。</p>
+</div>
+</div>
