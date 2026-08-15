@@ -1,0 +1,129 @@
+<title>HUD 字級與靈動島</title>
+<style>
+:root{
+  --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6; --line-soft:#EAE4E8;
+  --ink:#241A22; --ink-soft:#6E6270;
+  --gold:#8A6A1F; --canvas:#0D0206;
+  --ok-bg:#E7F0E4; --ok-ink:#33612B;
+  --warn-bg:#F3EBDC; --warn-ink:#7A5A17;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.w{background:var(--warn-bg);color:var(--warn-ink)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:520px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul,.note ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Vampire Revenge · UI</div>
+    <h1>字再放大一階，暫停面板也讓開靈動島</h1>
+    <p class="lede">先講一件重要的事：你上次測的那個版本，其實根本沒有包含前一輪的 HUD 修正——Xcode 專案是更早的 commit 匯出的。所以「文字還是太小」有一部分是那個原因。這一輪除了再放大一階，也把真正沒修到的地方修掉，而且這次是有實際畫面可以看的。</p>
+  </div>
+
+  <h2 class="sec">這次的畫面</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>模擬 iPhone 靈動島拍的</h3><span class="tag">已驗證</span></div>
+    <div class="pair">
+      <figure><img alt="遊戲中 HUD" src="hud/hud_play.png"><figcaption>遊戲中：上緣保留區已讓開</figcaption></figure>
+      <figure><img alt="暫停面板" src="hud/hud_pause.png"><figcaption>暫停：標題不再被切到</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>怎麼拍的</dt><dd>Mac 上跑真的遊戲，用 540×1170 的視窗，並且照 iPhone 14 Pro 的比例（上緣內縮 6.92%）模擬靈動島＝81px。截圖裡最上面的時間落在 y≈55、暫停標題落在 y≈132，都在那條線下面</dd>
+      <dt>暫停怎麼按的</dt><dd>走跟你手指按下去同一條程式路徑，不是另外開一個捷徑直接把面板叫出來——不然驗到的就不是你會遇到的狀態</dd>
+    </dl>
+  </article>
+
+  <h2 class="sec">真正沒修到的是暫停「面板」</h2>
+
+  <div class="note">
+    <p>上一輪我只讓右上角那顆暫停<strong>鈕</strong>吃到安全區位移，面板自己的內容沒有。面板標題是寫死「距離畫面頂端 90」，打開來就正好在靈動島底下。你回報的「按下暫停一樣靈動島切到字」就是這個，跟字級無關。</p>
+    <p>現在面板裡的標題、四格數值、關卡/職業那兩行、下面的武器與被動區塊，全部一起吃同一個位移。</p>
+  </div>
+
+  <h2 class="sec">字級對照</h2>
+  <div class="tbl-scroll"><table>
+    <thead><tr><th>項目</th><th>改前</th><th>改後</th><th>iPhone 14 Pro 實際大小</th></tr></thead>
+    <tbody>
+      <tr><td>時間</td><td>52</td><td>64</td><td>18.9pt → 23.3pt</td></tr>
+      <tr><td>關卡名</td><td>32</td><td>42</td><td>11.6pt → 15.3pt</td></tr>
+      <tr><td>等級／擊殺</td><td>38</td><td>50</td><td>13.8pt → 18.2pt</td></tr>
+      <tr><td>機制提示</td><td>34</td><td>44</td><td>12.4pt → 16.0pt</td></tr>
+      <tr><td>轉職任務</td><td>30</td><td>36</td><td>10.9pt → 13.1pt</td></tr>
+      <tr><td>魔王名</td><td>30</td><td>40</td><td>10.9pt → 14.6pt</td></tr>
+      <tr><td>暫停標題</td><td>52</td><td>64</td><td>18.9pt → 23.3pt</td></tr>
+      <tr><td>暫停面板數值</td><td>40</td><td>48</td><td>14.6pt → 17.5pt</td></tr>
+      <tr><td>武器／被動名稱</td><td>19</td><td>30</td><td>6.9pt → 10.9pt</td></tr>
+    </tbody>
+  </table></div>
+  <p class="lede">（左邊那兩欄是遊戲內部的單位，換算成 iPhone 上實際看到的大小才是右邊那欄。系統內文的標準大小是 17pt，可以拿來比對。）</p>
+
+  <h2 class="sec">順手修掉的三個問題</h2>
+
+  <div class="note">
+    <ol>
+      <li><strong>暫停面板的標題本來是空白的。</strong>標題寫死了 ⏸ 這個符號，但遊戲用的內建字型沒有這個字，畫出來就是空的。諷刺的是同一個檔案上面的註解就寫著「不要用 ⏸，用文字」，那是之前做暫停鈕時踩過的坑，我自己在標題又踩了一次。現在是純文字「暫停」。</li>
+      <li><strong>面板底色不夠黑，底下的 HUD 會透出來</strong>，暫停時兩層字疊在一起（上一版截圖看得很明顯）。暫停畫面本來就是要好好看配裝的，底下不需要留任何東西，改成完全不透明。</li>
+      <li><strong>轉職任務那行字放大後右邊被切掉</strong>——「元素使 8/1」直接斷在畫面外。這是我這次放大字級造成的，第一輪截圖就抓到了。改成排不下會折行，不會有看不到的字。</li>
+    </ol>
+  </div>
+
+  <h2 class="sec">另外修掉一個讓 Mac 建置失敗的舊問題</h2>
+
+  <div class="note">
+    <p>這一輪一開始建置直接失敗（36 個 error）。原因跟畫面無關：驗證版才存在的那些除錯欄位被引擎當成「需要存檔的欄位」，編輯器跟遊戲兩邊對不起來就判定建置失敗。這些欄位都是跑的時候才塞值進去的，全部標成不需要存檔就解決了。</p>
+    <p>順帶一提，先前 Mac 端一直跑不起來（程式卡在系統的事件迴圈、一幀都不畫）現在也正常了——所以這次才有真的畫面可以給你看，不是只有「編譯過了」。</p>
+  </div>
+
+  <div class="note">
+    <h3>你要做的事</h3>
+    <ul>
+      <li>iOS 專案我正在重新匯出（這次會確實包含上面所有改動）。匯出完成後在 Xcode 重新 build 到手機就會看到。</li>
+      <li>看完之後如果覺得<strong>還是偏小</strong>，直接跟我說哪一行——現在有 <code>VR_ONLY=hud</code> 這條驗證路徑，調完可以馬上拍給你看，不用再靠猜的。</li>
+    </ul>
+  </div>
+</div>
