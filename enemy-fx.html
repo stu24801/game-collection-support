@@ -1,0 +1,74 @@
+<title>敵人特效試樣</title>
+<style>
+:root{--ground:#EDE9EC;--card:#FFF;--line:#D8D0D6;--line-soft:#EAE4E8;--ink:#241A22;--ink-soft:#6E6270;--gold:#8A6A1F;--canvas:#0D0206;--warn-bg:#F3EBDC;--warn-ink:#7A5A17;--ok-bg:#E7F0E4;--ok-ink:#33612B}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A}}
+:root[data-theme="dark"]{--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;line-height:1.65}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--warn-bg);color:var(--warn-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow-x:auto}
+.shot img{display:block;width:100%;min-width:640px;height:auto}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}.meta dd{margin:0}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+<div class="wrap">
+<div class="masthead">
+<div class="eyebrow">Vampire Revenge · 敵人特效</div>
+<h1>試樣：敵方彈幕與地面法陣</h1>
+<p class="lede">五項裡先出這兩項——一個是最小最快的元素，一個是最大最靜態的，兩端都看過再決定要不要往下做。還沒進遊戲。</p>
+</div>
+
+<h2 class="sec">① 敵方彈幕：六種分開設計</h2>
+<article class="card">
+<div class="card-head"><h3>六種去背後的樣子</h3><span class="tag">等你確認</span></div>
+<div class="shot"><img alt="六種彈幕" src="vfx2/enemy_bolts_sheet.png"></div>
+<dl class="meta">
+<dt>為什麼分開做</dt><dd>六隻遠程敵人的flavour差很多（冰、咒火、亡靈、毒、火箭、混沌）。共用一顆會讓玩家分不出哪一發比較痛——混沌魔炮 50 傷跟咒術南瓜 16 傷長一樣就是誤導</dd>
+<dt>成本</dt><dd>六種畫在同一張彙整圖裡一次生成，$0.2 而不是六支影片的 $1.92。彈幕在畫面上只有 30 像素大，做成 14 幀動畫看不出差別</dd>
+<dt>朝向</dt><dd>全部朝右畫，程式轉到飛行方向（跟玩家武器同一套約定）</dd>
+</dl>
+</article>
+
+<h2 class="sec">② 擺進遊戲的樣子</h2>
+<article class="card">
+<div class="card-head"><h3>真實比例合成</h3></div>
+<div class="shot"><img alt="實戰模擬" src="vfx2/enemy_fx_mock.png"></div>
+<dl class="meta">
+<dt>上排</dt><dd>六種彈幕的遊戲實際大小</dd>
+<dt>中段</dt><dd>冰女巫朝玩家散射（牠的 spread=2，實際會是兩發扇開）</dd>
+<dt>下段</dt><dd>法陣的真實半徑：薩滿 1.58 世界單位、混沌術士 2.17。玩家與薩滿站在裡面</dd>
+</dl>
+</article>
+
+<div class="note">
+<h3>兩件要你決定的事</h3>
+<ul>
+<li><strong>法陣的密度。</strong>生成出來的內圈尖刺填得很滿，玩家站進去會看不到自己跟腳邊的敵人——這是預警用的東西，重點是「邊界在哪」而不是把地板塗滿。我已經把內圈往中心淡出（不透明像素從 100% 降到 57%），但還是偏滿。要不要再開一點？</li>
+<li><strong>術士的法陣真的很大。</strong>半徑 2.17 世界單位，畫面可視寬度才 6.5——這是資料上的傷害半徑，不是我畫大的。看起來壓迫感很強，但也代表那一下幾乎躲不掉，你可能會想順便調數值。</li>
+</ul>
+</div>
+
+<div class="note">
+<h3>順帶第四次踩到同一個坑</h3>
+<p>法陣是環狀的，去背的「邊界連通」判定切不到被圍起來的中心，圓心又留成不透明近黑（alpha 255）。大蒜光環、迷霧光環、血月獠牙都中過同一招，這是第四次。<strong>凡是環狀素材，去背後第一件事就是量中心的 alpha。</strong></p>
+</div>
+
+<div class="note">
+<h3>花費</h3>
+<p>這一輪 2 張生圖 ≈ <strong>$0.4</strong>（含 OpenAI 去背）；累計約 <strong>$6.4</strong>。沒有遇到 Grok 額度不足。</p>
+<p>剩下三項（自爆引信與爆炸、衝刺殘影、召喚法陣）還沒動，等這兩項過了再做。</p>
+</div>
+</div>
