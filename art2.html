@@ -1,0 +1,138 @@
+<title>夜巫、商人、衝鋒預告</title>
+<style>
+:root{
+  --ground:#EDE9EC; --card:#FFFFFF; --line:#D8D0D6; --line-soft:#EAE4E8;
+  --ink:#241A22; --ink-soft:#6E6270;
+  --gold:#8A6A1F; --canvas:#0D0206;
+  --ok-bg:#E7F0E4; --ok-ink:#33612B;
+  --warn-bg:#F3EBDC; --warn-ink:#7A5A17;
+  --bad-bg:#F0E6E8; --bad-ink:#8A2B3C;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+  --bad-bg:#331119; --bad-ink:#F09AAB;
+}}
+:root[data-theme="dark"]{
+  --ground:#0D0206; --card:#170C12; --line:#2E1F28; --line-soft:#21131B;
+  --ink:#F2ECD8; --ink-soft:#9C8FA0;
+  --gold:#E8C46A; --canvas:#0D0206;
+  --ok-bg:#16301A; --ok-ink:#8FD69A;
+  --warn-bg:#33280F; --warn-ink:#E8C46A;
+  --bad-bg:#331119; --bad-ink:#F09AAB;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.w{background:var(--warn-bg);color:var(--warn-ink)}
+.tag.b{background:var(--bad-bg);color:var(--bad-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:flex;justify-content:center;padding:12px}
+.shot img{display:block;max-width:100%;height:auto;image-rendering:auto}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul,.note ol{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:460px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Vampire Revenge · 素材產製</div>
+    <h1>三支試樣出來了</h1>
+    <p class="lede">夜巫、神秘商人、魔王衝鋒預告都做出來了，全部還在暫存路徑、<strong>沒有進遊戲</strong>，等你點頭才套用。下面的圖是會動的，直接看。</p>
+  </div>
+
+  <h2 class="sec">神秘商人</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>待機動畫</h3><span class="tag">可以用</span></div>
+    <div class="shot"><img alt="神秘商人待機動畫" src="art2/merchant.gif"></div>
+    <dl class="meta">
+      <dt>動作</dt><dd>提燈搖晃並一明一暗地脈動、袍子飄動、單手招手示意。這幾個動作正好解決你說的「太融入背景」——會動的燈火在暗色場景裡非常搶眼</dd>
+      <dt>一致性</dt><dd>照現有那張商人立繪的設定生成（深紅袍＋金色紋飾＋寬簷黑帽＋提燈＋腰間藥瓶），不是另一個人</dd>
+      <dt>去背</dt><dd>綠幕生成，去背乾淨，角落 alpha = 0</dd>
+      <dt>畫面佔比</dt><dd>角色高度 142 / 192 px，細節足夠</dd>
+    </dl>
+  </article>
+
+  <h2 class="sec">魔王衝鋒預告</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>試樣：龍族衝鋒</h3><span class="tag">可以用</span></div>
+    <div class="shot"><img alt="衝鋒預告動畫" src="art2/dash.gif"></div>
+    <dl class="meta">
+      <dt>讀得懂嗎</dt><dd>火焰沿著地面往前竄、爪痕焦灼、末端越燒越亮像倒數——方向與「即將衝過來」這件事一眼看得出來</dd>
+      <dt>怎麼接</dt><dd>現有的預告是一條會閃的紅色矩形，從魔王指向玩家、0.45 秒後衝出。把矩形換成這支動畫、沿長度拉伸就好，時序邏輯完全不用動</dd>
+      <dt>誰會用到</dt><dd>有衝鋒的魔王只有 <strong>5 隻</strong>：滅世魔龍、碎骨暴龍、冰霜魔龍、混沌龍王、滅世之神</dd>
+    </dl>
+  </article>
+
+  <div class="note">
+    <h3>要你決定：剩下 4 支要做成什麼樣</h3>
+    <p>這支是「龍族／火焰」的調性。剩下四隻要各自有辨識度的話，我建議照牠們的屬性分開做：碎骨暴龍走骨白＋碎裂衝擊波、冰霜魔龍走冰藍＋碎冰、混沌龍王走紫黑＋虛空裂縫、滅世之神走金白＋神聖灼燒。四支約 <strong>$1.28</strong>。</p>
+    <p>或者只做這一支、五隻共用，那就 <strong>$0</strong>，但五隻魔王的衝鋒看起來會一模一樣。</p>
+  </div>
+
+  <h2 class="sec">夜巫</h2>
+
+  <article class="card">
+    <div class="card-head"><h3>v2：重生成後可以用了</h3><span class="tag">可以用</span></div>
+    <div class="shot"><img alt="夜巫走路動畫 v2" src="art2/witch_v2.gif"></div>
+    <dl class="meta">
+      <dt>原本壞在哪</dt><dd>舊素材 12 張幀每張都帶紫色方形背景，而且是推近後的半身特寫。綠幕重生成把這兩件事一次解決</dd>
+      <dt>v1 為什麼不用</dt><dd>去背是乾淨的，但角色只佔畫面高度 <strong>72 / 192 px</strong>，而且各幀在 61~84 之間跳動，播起來人會忽大忽小</dd>
+      <dt>v2</dt><dd>角色高度平均 <strong>128 / 192 px</strong>，細節足夠，去背一樣乾淨（角落 alpha = 0），朝向也對（面向畫面右邊，遊戲靠鏡像做左右）</dd>
+    </dl>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><h3>對照：v1</h3><span class="tag b">不採用</span></div>
+    <div class="shot"><img alt="夜巫走路動畫 v1" src="art2/witch.gif"></div>
+  </article>
+
+  <h2 class="sec">花費</h2>
+  <div class="tbl-scroll"><table>
+    <thead><tr><th>項目</th><th>參數</th><th>估算</th></tr></thead>
+    <tbody>
+      <tr><td>夜巫走路 v1</td><td>6 秒 720p</td><td>$0.48</td></tr>
+      <tr><td>夜巫走路 v2（重生成）</td><td>6 秒 720p</td><td>$0.48</td></tr>
+      <tr><td>神秘商人待機</td><td>4 秒 720p</td><td>$0.32</td></tr>
+      <tr><td>衝鋒預告試樣</td><td>4 秒 720p</td><td>$0.32</td></tr>
+      <tr><td>合計</td><td></td><td><strong>~$1.60</strong></td></tr>
+    </tbody>
+  </table></div>
+  <p class="lede">沒有遇到額度不足。去背走的是本地工具（ffmpeg + 邊界連通），這幾支沒有花到 OpenAI 的錢。</p>
+
+  <div class="note">
+    <h3>等你回覆</h3>
+    <ol>
+      <li>商人跟衝鋒預告可以套用了嗎？</li>
+      <li>剩下 4 支衝鋒預告要各做各的（$1.28），還是五隻共用一支（$0）？</li>
+      <li>夜巫 v2 可以套用了嗎？</li>
+    </ol>
+  </div>
+</div>
