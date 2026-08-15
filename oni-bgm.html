@@ -1,0 +1,71 @@
+<title>鬼面武者配樂試聽</title>
+<style>
+:root{--ground:#EDE9EC;--card:#FFF;--line:#D8D0D6;--line-soft:#EAE4E8;--ink:#241A22;--ink-soft:#6E6270;--gold:#8A6A1F;--warn-bg:#F3EBDC;--warn-ink:#7A5A17}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A}}
+:root[data-theme="dark"]{--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--warn-bg:#33280F;--warn-ink:#E8C46A}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;line-height:1.65}
+.wrap{max-width:820px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
+.card h3{margin:0 0 4px;font-size:17px;font-weight:600;color:var(--gold)}
+.card p{margin:0 0 10px;font-size:13.5px;color:var(--ink-soft)}
+audio{width:100%}
+.tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card)}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:13.5px;font-variant-numeric:tabular-nums}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line-soft)}
+thead th{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--ground)}
+tbody tr:last-child td{border-bottom:none}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+<div class="wrap">
+<div class="masthead">
+<div class="eyebrow">Vampire Revenge · 配樂</div>
+<h1>鬼面武者：8-bit 惡魔城風兩版試聽</h1>
+<p class="lede">兩版都還沒進遊戲。先確認一件事：這隻魔王在資料裡叫「鬼面<strong>武者</strong>」不是武士，而且目前<strong>沒有專屬配樂</strong>。</p>
+</div>
+
+<h2 class="sec">先回答：現況是什麼</h2>
+<div class="tbl-scroll"><table>
+<thead><tr><th>問題</th><th>答案</th></tr></thead>
+<tbody>
+<tr><td>實際名稱</td><td>資料裡是 <code>鬼面武者</code>（第 0 隻魔王，60 秒出場，HP 800，無特殊技能）</td></tr>
+<tr><td>有沒有專屬音樂</td><td><strong>沒有。</strong>目前跟滅世魔龍共用第一關的魔王曲 <code>boss1_鬼面武者_滅世魔龍.mp3</code></td></tr>
+<tr><td>配樂是怎麼選的</td><td>照「第幾關」決定，不是照「哪隻魔王」——每關兩隻魔王共用一首</td></tr>
+</tbody>
+</table></div>
+
+<h2 class="sec">兩版試聽</h2>
+<div class="card">
+<h3>A 版 · 2 分 51 秒</h3>
+<p>華麗悲愴的小調主旋律，中段轉進更緊迫的副歌。比較「交響化」的 chiptune。</p>
+<audio controls preload="none" src="bgm_oni_a.mp3"></audio>
+</div>
+<div class="card">
+<h3>B 版 · 2 分 37 秒</h3>
+<p>更純粹的 NES 音源，方波主奏＋疾走琶音低音，日式妖怪的邪氣重一些。要求不要淡出結尾，方便循環。</p>
+<audio controls preload="none" src="bgm_oni_b.mp3"></audio>
+</div>
+
+<div class="note">
+<h3>要套用的話，需要動一個結構</h3>
+<p>現在的配樂邏輯是<strong>照關卡</strong>選曲（<code>VrBgmPlayer</code> 只用「第幾關 + 有沒有魔王活著」兩個條件）。要讓鬼面武者有自己的曲子，就得加一層「這隻魔王有沒有指定曲目」的覆寫，沒指定的才退回關卡曲。</p>
+<p>這是小改動，但會改變一條既有規則，所以先講。另外滅世魔龍會繼續用原本那首 <code>boss1</code>，檔名裡的「鬼面武者」要一併從名字拿掉，不然會誤導。</p>
+</div>
+
+<div class="note">
+<h3>產製紀錄</h3>
+<ul>
+<li>這是 Suno 管線<strong>第一次真的拿來產東西</strong>（之前只驗過憑證與回應格式）。兩首都是真的 MP3、48kHz、時長正常，不是快取或假回應。</li>
+<li>兩首都是純配樂（instrumental），沒有人聲。</li>
+<li>沒有遇到額度不足。</li>
+</ul>
+</div>
+</div>
