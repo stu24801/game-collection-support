@@ -1,0 +1,94 @@
+<title>雪牆翻騰版與城堡試樣</title>
+<style>
+:root{--ground:#EDE9EC;--card:#FFF;--line:#D8D0D6;--line-soft:#EAE4E8;--ink:#241A22;--ink-soft:#6E6270;--gold:#8A6A1F;--canvas:#0D0206;--ok-bg:#E7F0E4;--ok-ink:#33612B;--warn-bg:#F3EBDC;--warn-ink:#7A5A17}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A;--warn-bg:#33280F;--warn-ink:#E8C46A}}
+:root[data-theme="dark"]{--ground:#0D0206;--card:#170C12;--line:#2E1F28;--line-soft:#21131B;--ink:#F2ECD8;--ink-soft:#9C8FA0;--gold:#E8C46A;--ok-bg:#16301A;--ok-ink:#8FD69A;--warn-bg:#33280F;--warn-ink:#E8C46A}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;line-height:1.65}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--gold)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.w{background:var(--warn-bg);color:var(--warn-ink)}
+.shot{background:var(--canvas);border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow-x:auto}
+.shot img{display:block;width:100%;min-width:640px;height:auto}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}.meta dd{margin:0}
+.note{border-left:2px solid var(--gold);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+pre{margin:0;padding:10px 12px;background:var(--ground);border-radius:8px;overflow-x:auto;font-size:12px;font-family:ui-monospace,Menlo,monospace}
+</style>
+<div class="wrap">
+<div class="masthead">
+<div class="eyebrow">Vampire Revenge · 場地</div>
+<h1>雪牆換成翻騰質感、城堡試樣</h1>
+<p class="lede">暴風雪牆已經換好並套用；魔王城堡是試樣，等你確認再進遊戲。</p>
+</div>
+
+<h2 class="sec">① 暴風雪牆（已套用）</h2>
+<article class="card">
+<div class="card-head"><h3>換之前</h3><span class="tag w">舊版</span></div>
+<div class="shot"><img alt="舊版雪牆" src="stage/bliz_old.png"></div>
+<dl class="meta"><dt>問題</dt><dd>邊界是一條乾淨的直線；素材上的金色與緋紅捲飾重複掃過，讀起來像裝飾壁紙不像雪</dd></dl>
+</article>
+<article class="card">
+<div class="card-head"><h3>換之後</h3><span class="tag">已進遊戲</span></div>
+<div class="shot"><img alt="新版雪牆" src="stage/bliz_new.png"></div>
+<dl class="meta">
+<dt>做法</dt><dd>翻騰的雪重新生成；左右緣用低頻雜訊擾動出破碎邊界，雜訊沿 Y 慢慢飄，牆緣會像被風吹著動；疊 22 片、重疊 45%，靠上下羽化的 alpha 交疊融合</dd>
+<dt>那條細線</dt><dd>外緣的淡實邊，卡在扣血線上。翻騰的雪沒有明確邊界，玩家會不知道自己什麼時候開始扣血——這比大蒜光環嚴重，那邊讀不出邊界只是打不到敵人</dd>
+</dl>
+</article>
+
+<div class="note">
+<h3>實機量測（第一次量就抓到一個看畫面看不出來的錯）</h3>
+<pre>修正前  扣血線=-1.164  實邊=-1.164  雪的最右緣= 0.463（差 1.627）
+修正後  扣血線=-1.468  實邊=-1.468  雪的最右緣=-1.468（差 0.000）</pre>
+<p>差 1.627 的原因：這張貼圖不是正方形（256×166），PPU 取貼圖高度，所以 <code>bounds.size=(1.54,1.0)</code>。<code>localScale</code> 直接設成想要的世界寬度，實際會寬 1.54 倍，整面牆的右緣就跑到扣血線右邊 1.6 個單位去。畫面上完全看不出來差這麼多，靠量才發現。</p>
+</div>
+
+<h2 class="sec">② 魔王城堡（試樣，未套用）</h2>
+<article class="card">
+<div class="card-head"><h3>照領域結界的鏡頭比例合成</h3><span class="tag w">等你確認</span></div>
+<div class="shot"><img alt="城堡模擬" src="stage/castle_mock.png"></div>
+<dl class="meta">
+<dt>圖裡的角色</dt><dd>真的伯爵、真的混沌龍王（Arena 魔王）、真的骷髏騎士</dd>
+<dt>鏡頭</dt><dd>已照領域結界的 1.22 倍拉遠算過，所以看到的範圍比其他關大、每件東西也比較小</dd>
+</dl>
+</article>
+<article class="card">
+<div class="card-head"><h3>素材</h3></div>
+<div class="shot"><img alt="城堡裝飾物" src="stage/castle_props.png"></div>
+<div class="shot"><img alt="城堡群聚變體" src="stage/castle_cluster.png"></div>
+<dl class="meta"><dt>內容</dt><dd>王座殘骸、柱基、斷柱塊、拱門殘塊、金色蝠形紋章、燭台、石甕，加上四款不同的斷柱與碎磚瓦礫</dd></dl>
+</article>
+
+<div class="note">
+<h3>為了 1.22 倍鏡頭調的兩件事</h3>
+<ul>
+<li><strong>密度給 0.5</strong>（其他關 0.45–0.75）。世界密度本身跟鏡頭無關，但拉遠後可視面積是 1.49 倍，同樣密度畫面上會多一半的東西——最終決戰不該被雜物淹沒。</li>
+<li><strong>尺寸不加大。</strong>我原本想放大 15% 讓它拉遠後還讀得出來，做出來發現是反效果：寬扁的斷柱塊、石甕、紋章被撐到兩個單位以上，整個畫面像巨大家具、玩家反而變成小點。改成一件一件定高度就對了。</li>
+</ul>
+</div>
+
+<div class="note">
+<h3>兩個我想聽你意見的地方</h3>
+<ul>
+<li><strong>地面的金色邊框格線很明顯</strong>，而且是規律的 4 單位重複。大理石地磚本來就該有格線，所以我傾向保留；但你如果覺得太規律，我可以重生成一張沒有邊框、只有裂紋與血絲的版本。</li>
+<li><strong>密度 0.5 是我拍的。</strong>模擬圖是那個密度，你覺得太空或太滿都可以直接說數字。</li>
+</ul>
+</div>
+
+<div class="note">
+<h3>花費</h3>
+<p>這一輪：雪牆影片 $0.32 ＋ 城堡 3 張生圖 $0.6 ≈ <strong>$0.92</strong>；場地與特效累計約 <strong>$5</strong>。沒有遇到 Grok 額度不足。</p>
+</div>
+</div>
