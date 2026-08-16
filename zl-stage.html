@@ -66,8 +66,27 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
   <header>
     <p class="eyebrow">殭屍防禦 · 場景</p>
     <h1>街道背景與日夜循環</h1>
-    <p class="lede">正上方俯視的賽博龐克貧民窟街道，240 秒走完一輪日夜。素材兩張 $0.40，日夜與粒子全部是程式做的。</p>
+    <p class="lede">正上方俯視的賽博龐克貧民窟街道，240 秒走完一輪日夜。日夜與粒子全部是程式做的。底圖已改版到 v2——見下方「補給箱腳下是什麼」。</p>
   </header>
+
+  <h2 class="sec">補給箱腳下是什麼（v1 vs v2）</h2>
+  <figure>
+    <img src="zl-stage/crate-ground-compare.png" alt="兩版底圖在七個補給箱位置的原尺寸切片對照">
+    <figcaption><b>把 7 個補給箱會出現的位置，從底圖上原尺寸切出來。</b>上排 v1、下排 v2。
+      v1 有 5 個落在帆布棚頂或貨櫃頂上，v2 全部是柏油地面。</figcaption>
+  </figure>
+
+  <div class="card">
+    <h2>我先前答錯了一次</h2>
+    <p style="margin:0 0 10px">使用者回報「補給箱像貼在別人家屋頂上」，我回覆「防線固定之後一併解決」。<b>那是錯的</b>——防線固定只解決了箱子會漂移，沒有解決箱子腳下是什麼。上面那張切片圖是實際量測的結果。</p>
+    <p style="margin:0 0 10px">根因不只是箱子。這遊戲有三條車道、小隊可以站到任何一條，而 v1 的 prompt 寫「兩側＝補給區、可以很雜亂」，結果左右兩條整條被貨櫃鋪滿——<b>槍手站過去一樣是站在貨櫃上</b>。v2 改成要求三條同樣寬的通道全部是可走地面，雜物只能放在最外緣與通道之間，而且只能低矮。</p>
+    <p style="margin:0;color:var(--ink-soft);font-size:13.5px">過程中我寫了三種啟發式想自動判斷「腳下是不是高起物」，三種互相矛盾：亮度＋平坦度會把馬路誤判成貨櫃頂，彩度＋暖色抓不到灰綠色的貨櫃。最後放棄分類器，直接把兩版的同一批位置切出來並排看——像素本身就是答案。</p>
+  </div>
+
+  <figure>
+    <img src="zl-stage/lanes-v2.png" alt="遊戲畫面，三條車道都是乾淨的地面，雜物在外緣">
+    <figcaption><b>v2 實機</b>　三條車道都是可走的地面，雜物退到最外緣。</figcaption>
+  </figure>
 
   <h2 class="sec">同一張底圖，三個時間點</h2>
   <div class="grid3">
@@ -123,5 +142,5 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
     <p style="margin:0">有真背景時，車道染色降到 35%、分隔線降到 40%。原本的濃度是為了在純色底上做區分，疊在街道照片上會變成一條蓋住路面的色帶。但不能完全拿掉——「怪從中間那條來」是這款最重要的閱讀線索。</p>
   </div>
 
-  <p class="foot">commit 8b49e02 · 素材 $0.40（兩張都一次過）· 日夜與粒子 $0</p>
+  <p class="foot">commit dbedd2c · 素材 $0.60（白天 v1／v2＋夜間發光層）· 日夜與粒子 $0</p>
 </div>
