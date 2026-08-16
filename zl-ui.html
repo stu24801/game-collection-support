@@ -63,10 +63,25 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
   <header>
     <p class="eyebrow">殭屍防禦 · UI · 第一批</p>
     <h1>介面外框試樣</h1>
-    <p class="lede">賽博龐克貧民窟風格的面板框與按鈕。三次生成共 $0.60，第一次作廢。尚未寫進 Assets/。</p>
+    <p class="lede">賽博龐克貧民窟風格的面板框、按鈕與 27 個圖示，已套進遊戲。14 次生成共 $2.80，其中 4 次作廢。</p>
   </header>
 
-  <h2 class="sec">最終可用的素材</h2>
+  <h2 class="sec">套進遊戲之後</h2>
+
+  <div class="shots" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+    <figure><img src="zl-ui/game-pause.png" class="solid" alt="暫停畫面，四周有賽博龐克外框，配裝清單每列前面有圖示">
+      <figcaption><b>暫停</b>　外框、按鈕、配裝清單的列首圖示。原本 emoji 前綴在 Unity 內建字型是空白的。</figcaption></figure>
+    <figure><img src="zl-ui/game-end.png" class="solid" alt="結算畫面，名字輸入框與三顆按鈕都是賽博龐克樣式">
+      <figcaption><b>結算</b>　名字輸入框也換掉了——第一版漏了，截圖裡是金色雕花才發現。</figcaption></figure>
+  </div>
+
+  <h2 class="sec">27 個圖示</h2>
+  <figure>
+    <img src="zl-ui/icons-all.png" alt="27 個賽博龐克風格圖示，分武器、駐守、被動、通用四列">
+    <figcaption>由上到下：武器 8、駐守 6、被動 8、通用 5。棋盤格處為透明。</figcaption>
+  </figure>
+
+  <h2 class="sec">素材本體</h2>
 
   <figure>
     <img src="zl-ui/slices-v2.png" alt="四個切開後的外框零件，其中 part01 中央被管線填滿">
@@ -120,9 +135,25 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;back
       <tr><td>面板框 v1（6 元件）</td><td><span class="bad">作廢</span>　4 個元件出血被切</td><td class="num" style="text-align:right">$0.20</td></tr>
       <tr><td>面板框 v2（4 元件）</td><td><span class="ok">採用 2 個</span>　1 備用、1 作廢</td><td class="num" style="text-align:right">$0.20</td></tr>
       <tr><td>按鈕（2 元件）</td><td><span class="ok">全部採用</span></td><td class="num" style="text-align:right">$0.20</td></tr>
-      <tr><td><b>小計</b></td><td></td><td class="num" style="text-align:right"><b>$0.60</b></td></tr>
+      <tr><td>圖示 A／A2（14 個一張）</td><td><span class="bad">作廢</span>　漫畫描線風、出血、重複</td><td class="num" style="text-align:right">$0.40</td></tr>
+      <tr><td>圖示 s1–s4（每張 5–6 個）</td><td><span class="ok">採用 18 個</span>　4 個左緣被切</td><td class="num" style="text-align:right">$0.80</td></tr>
+      <tr><td>圖示 s5</td><td><span class="bad">作廢</span>　畫成寫實彈殼，去背被 moderation 擋</td><td class="num" style="text-align:right">$0.20</td></tr>
+      <tr><td>圖示 s5b（改寫措辭）</td><td><span class="ok">全採用</span></td><td class="num" style="text-align:right">$0.20</td></tr>
+      <tr><td>圖示 fix1（補 4 個）</td><td><span class="ok">採用 3</span></td><td class="num" style="text-align:right">$0.20</td></tr>
+      <tr><td>圖示 fix2（斜放）</td><td><span class="bad">作廢</span>　改成放大特寫，兩個都被切</td><td class="num" style="text-align:right">$0.20</td></tr>
+      <tr><td>圖示 fix3（冷凍砲單張）</td><td><span class="ok">採用</span></td><td class="num" style="text-align:right">$0.20</td></tr>
+      <tr><td><b>小計　14 次呼叫</b></td><td><b>27 圖示 + 3 框飾全數到位</b></td><td class="num" style="text-align:right"><b>$2.80</b></td></tr>
     </table>
   </div>
 
-  <p class="foot">等你 OK 才寫進 Assets/　·　下一批：UI 圖示 27 個（$0.40）</p>
+  <div class="card">
+    <h2>學到的兩件事（已寫進 prompt 基底）</h2>
+    <ul>
+      <li><b>風格要明講。</b><code>zl_style_base.txt</code> 原本只描述材質、沒描述渲染風格。影片生成天生就是寫實的，所以槍手、Boss、護欄都沒暴露問題；換成圖片生成 UI 圖示，模型自己選了漫畫描線風，跟遊戲裡已有的素材完全不搭。</li>
+      <li><b>一張彙整圖不能塞太多。</b>框與按鈕（2–4 個大元件）成功，圖示 14 個一張就失控：欄數、邊距、不重複三件事都控制不住。改成每張 5–6 個之後，25/27 一次到位。</li>
+      <li>另外，被切的永遠是<b>左欄的橫躺長條物件</b>（槍）。直立或方形的物件一個都沒被切——最後兩個補漏就是靠這個規律改成直立構圖才過的。</li>
+    </ul>
+  </div>
+
+  <p class="foot">commit 9dedcf5 · 驗證：框飾 3/3、圖示 27/27 載入成功、例外 0</p>
 </div>
