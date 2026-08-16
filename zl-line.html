@@ -1,0 +1,104 @@
+<title>防線護欄試樣</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+  --warn-bg:#F6E9DF; --warn-ink:#8A4F1B;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--neon);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--neon)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.stack{display:flex;flex-direction:column;gap:1px;background:var(--line)}
+.stack figure{margin:0;background:var(--canvas)}
+.stack img{display:block;width:100%;height:auto}
+.stack figcaption{padding:7px 12px;font-size:12px;color:var(--ink-soft);background:var(--card)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.note{border-left:2px solid var(--neon);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Zombie Lane · 已套用進遊戲</div>
+    <h1>防線護欄與破壞粒子</h1>
+    <p class="lede">v3 素材已切成三段套進遊戲，改成只畫在中央車道以維持原比例；受損時由既有的 ZlFx 層噴出碎片，表現「正在被打壞」的過程。這一輪沒有花任何生成費用。</p>
+  </div>
+
+  <h2 class="sec">實機畫面</h2>
+  <div class="card">
+    <div class="stack">
+      <figure><img src="zl-line/states.jpg" alt="三種狀態">
+        <figcaption>① 完好　② 被打時碎片噴出　③ 破防瞬間（護欄消失、大量碎片與爆光）</figcaption></figure>
+      <figure><img src="zl-line/zoom.jpg" alt="護欄放大">
+        <figcaption>護欄放大：霓虹燈管、塗鴉、貼紙、雜物堆在遊戲裡讀得出來</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>顯示比例</dt><dd>4.46:1，對素材原始 4.46:1 —— <b>誤差 0.1%</b>，沒有被拉伸壓扁</dd>
+      <dt>碎片</dt><dd>被打一下（18 傷害）噴 11 個；打到破防累計 101 個</dd>
+      <dt>本輪花費</dt><dd><b>$0</b>（沿用 v3 素材 + 既有特效層）</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">切出來的三段素材</h2>
+  <div class="card">
+    <div class="stack">
+      <figure><img src="zl-line/art_intact.jpg" alt="完好"><figcaption>完好 976×219（4.46:1）</figcaption></figure>
+      <figure><img src="zl-line/art_damaged.jpg" alt="半毀"><figcaption>半毀 1014×253（4.01:1）</figcaption></figure>
+      <figure><img src="zl-line/art_critical.jpg" alt="將破"><figcaption>將破 978×212（4.61:1）</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>切換門檻</dt><dd>HP 100~60% 完好、60~25% 半毀、25~0% 將破、0 隱藏（已被突破）</dd>
+      <dt>高度</dt><dd>由素材自己的長寬比推導，不另外訂數字——訂了就會跟素材脫鉤，換一版就被壓扁</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">要你決定的</h2>
+  <div class="card">
+    <div class="note" style="padding:14px 16px 16px;border-left:none">
+      <ul>
+        <li>目前碎片是<b>程序化色塊</b>（隨機大小、旋轉、拋物線、青藍與暗金屬混色）。手感參數——噴散角度、初速、重力、存活時間、數量隨傷害縮放——都已經調好了。</li>
+        <li>要不要花 <b>$0.4</b> 生一張碎片素材（金屬碎塊／玻璃／電路板殘片）換掉色塊？<b>換的只是 Sr.sprite，上面那些參數完全不用重調。</b></li>
+        <li>這張碎片素材可重用在：駐守物被打爛、封印箱被打開、殭屍死亡。</li>
+      </ul>
+    </div>
+  </div>
+</div>
