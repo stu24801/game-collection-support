@@ -1,0 +1,140 @@
+<title>防線護欄試樣</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+  --warn-bg:#F6E9DF; --warn-ink:#8A4F1B;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--neon);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--neon)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.stack{display:flex;flex-direction:column;gap:1px;background:var(--line)}
+.stack figure{margin:0;background:var(--canvas)}
+.stack img{display:block;width:100%;height:auto}
+.stack figcaption{padding:7px 12px;font-size:12px;color:var(--ink-soft);background:var(--card)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.note{border-left:2px solid var(--neon);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Zombie Lane · 賽博龐克美術 · 試樣</div>
+    <h1>防線護欄</h1>
+    <p class="lede">殭屍防線的第一張賽博龐克素材。防線是玩家全程盯著的東西——它會主動前推、被殭屍推退、破損、被突破，所以三段受損狀態一次生在同一張，才看得出漸進過渡對不對。</p>
+  </div>
+
+  <h2 class="sec">三段受損</h2>
+
+  <div class="card">
+    <div class="stack">
+      <figure>
+        <img src="zl-barricade/intact.jpg" alt="完好狀態的護欄">
+        <figcaption>① 完好 — 燈條完整明亮、裝甲平整、青藍能量帶貫穿</figcaption>
+      </figure>
+      <figure>
+        <img src="zl-barricade/damaged.jpg" alt="半毀狀態的護欄">
+        <figcaption>② 半毀 — 裂痕與凹陷、部分燈熄、橘色電火花、開始冒白煙</figcaption>
+      </figure>
+      <figure>
+        <img src="zl-barricade/critical.jpg" alt="將破狀態的護欄">
+        <figcaption>③ 將破 — 裝甲板脫落懸掛、霓虹只剩暗紅殘光、藍白電弧與大量黑煙</figcaption>
+      </figure>
+    </div>
+    <dl class="meta">
+      <dt>風格</dt><dd>賽博龐克：青藍霓虹能量帶 × 深色金屬 × 洋紅點綴 × 橘色危險警示</dd>
+      <dt>產製</dt><dd>Grok 生圖 → OpenAI 去背一次到位（彙整大圖，三段同一張）</dd>
+      <dt>花費</dt><dd>約 $0.40</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">去背檢查</h2>
+
+  <div class="card">
+    <div class="card-head">
+      <h3>合成到洋紅背景</h3>
+      <span class="tag">邊緣乾淨</span>
+    </div>
+    <div class="pair">
+      <figure>
+        <img src="zl-barricade/barricade_flat.jpg" alt="原圖">
+        <figcaption>原圖 — 看起來背景有灰霧</figcaption>
+      </figure>
+      <figure>
+        <img src="zl-barricade/barricade_alpha.jpg" alt="合成到洋紅">
+        <figcaption>合成後 — 灰霧其實是低透明度的煙，正確保留</figcaption>
+      </figure>
+    </div>
+    <dl class="meta">
+      <dt>透明像素</dt><dd>72.9%（三根細長橫條，合理）</dd>
+      <dt>邊緣</dt><dd>無 halo、無殘留色圈</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">已知問題</h2>
+
+  <div class="card">
+    <div class="card-head">
+      <h3>三件事</h3>
+      <span class="tag warn">待處理</span>
+    </div>
+    <div class="note" style="padding:14px 16px 16px;border-left:none">
+      <ul>
+        <li><b>圖中有亂碼漢字</b>（「牛吴」「早昌」）。prompt 明確寫了不要文字還是出現。不算阻礙——它們落在三根護欄之間的空隙，切割時用連通元件分析會當成獨立區塊，不輸出就好。</li>
+        <li><b>能量護盾光膜沒做出來。</b>要求的「上方浮一層淡青色護盾光膜」變成頂部一道玻璃質感的唇邊。可接受，或之後用程式端的 <code>ZlFx</code> 層加一層半透明光膜（$0）。</li>
+        <li><b>比例已修正。</b>素材每根約 4.5:1，但遊戲裡防線原本只有 14 單位高（約 60:1），直接貼會壓扁成一條線。已將防線加高到 60 單位，讓護欄照原比例顯示。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sec">下一批</h2>
+
+  <div class="card">
+    <div class="note" style="padding:14px 16px 16px;border-left:none">
+      <ul>
+        <li>三種殭屍走路動畫（walker 重做配合賽博龐克、runner、brute）</li>
+        <li>3 支影片 × $0.32 = <b>$0.96</b></li>
+        <li>累計美術花費：吸血鬼 $2.88 + 殭屍 $0.40 = <b>$3.28</b></li>
+      </ul>
+    </div>
+  </div>
+</div>
