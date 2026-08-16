@@ -1,0 +1,120 @@
+<title>殭屍防禦音效與配樂</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+  --warn-bg:#F6E9DF; --warn-ink:#8A4F1B;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);font-weight:700;margin:0}
+h1{font-size:28px;margin:6px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:8px 0 0;color:var(--ink-soft);font-size:15px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h2{margin:0 0 12px;font-size:17px}
+audio{width:100%;margin-top:6px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:460px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-soft)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+tr:last-child td{border-bottom:none}
+.ok{background:var(--ok-bg);color:var(--ok-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+.warn{background:var(--warn-bg);color:var(--warn-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+ul{margin:0;padding-left:1.15em} li{margin:6px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--line-soft);padding:1px 5px;border-radius:4px}
+.foot{color:var(--ink-soft);font-size:12.5px;text-align:center;margin:0}
+.seq{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px}
+.seq span{font-size:12px;background:var(--line-soft);color:var(--ink-soft);border-radius:5px;padding:2px 8px;font-variant-numeric:tabular-nums}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">殭屍防禦 · 音訊</p>
+    <h1>音效與配樂試樣</h1>
+    <p class="lede">18 種音效是程式合成的（$0），配樂 1 首走 Suno。兩者都還沒收進專案。</p>
+  </header>
+
+  <div class="card">
+    <h2>配樂：戰鬥（200 秒）</h2>
+    <audio controls preload="none" src="zl-audio/battle.mp3"></audio>
+    <p style="margin:10px 0 0;color:var(--ink-soft);font-size:13.5px">
+      風格標籤：cyberpunk / dark synthwave / industrial / driving / instrumental / loopable。
+      192kbps 48kHz 立體聲。生成耗時 152.9 秒。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>音效：18 種（依序播放，每個間隔 0.25 秒）</h2>
+    <audio controls preload="none" src="zl-audio/sfx-all.wav"></audio>
+    <div class="seq">
+      <span>1 步槍</span><span>2 火焰</span><span>3 電弧</span><span>4 榴彈</span>
+      <span>5 散彈</span><span>6 狙擊</span><span>7 冰凍</span><span>8 火箭</span>
+      <span>9 殭屍死亡</span><span>10 槍手陣亡</span><span>11 防線受創</span><span>12 拾取</span>
+      <span>13 開箱</span><span>14 波次完成</span><span>15 魔王出場</span><span>16 魔王技能</span>
+      <span>17 魔王死亡</span><span>18 爆炸</span>
+    </div>
+    <p style="margin:10px 0 0;color:var(--ink-soft);font-size:13.5px">
+      這份預覽是用<b>跟遊戲端同一組參數</b>離線合成的，不是另外錄的——聽到的就是遊戲裡會響的。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>為什麼音效用合成而不是生成音檔</h2>
+    <ul>
+      <li>這一款的音色本來就適合合成：賽博龐克的雷射、電弧、爆破全是合成器音色。</li>
+      <li>參數化之後 <b>8 種武器共用同一支合成器換參數</b>，改音效就是改一張表，不用重新生成、不用重新裁切。</li>
+      <li>成本 <b>$0</b>。</li>
+    </ul>
+    <p style="margin:10px 0 0;color:var(--ink-soft);font-size:13.5px">
+      一個音 = 波形 × 音高包絡 × 音量包絡，外加白噪音混入量與過載量。過載是關鍵——賽博龐克的槍聲靠的就是削波失真。
+    </p>
+  </div>
+
+  <div class="card scroll">
+    <h2>驗證</h2>
+    <table>
+      <tr><th>項目</th><th>結果</th></tr>
+      <tr><td>音效數量</td><td><span class="ok">18 個</span></td></tr>
+      <tr><td>靜音的 clip</td><td><span class="ok">0 個</span>　合成器參數打錯會產出全靜音，而「有 18 個 AudioSource」照樣是綠的</td></tr>
+      <tr><td>RMS 範圍</td><td class="num">0.238 ~ 0.476</td></tr>
+      <tr><td>配樂檔案</td><td><span class="ok">真的 MP3</span>　ID3v2.4 / MPEG layer III / 192kbps / 48kHz / 立體聲</td></tr>
+      <tr><td>執行期例外</td><td><span class="ok">0</span></td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>順帶修掉的一件事</h2>
+    <p style="margin:0">殭屍防禦原本有 12 處直接呼叫吸血鬼的 <code>VrSfx</code>——哥德風的音效放在賽博龐克遊戲裡。全部換成對應的 <code>ZlSfx</code>，開火音還改成跟著武器走，換武器聽得出來。</p>
+  </div>
+
+  <div class="card">
+    <h2>Suno 單價</h2>
+    <p style="margin:0 0 8px">生成後查到餘額 <b>832 credits</b>。<span class="warn">單次扣多少還不知道</span>——我沒有在生成前先查，所以拿不到差值。</p>
+    <p style="margin:0;color:var(--ink-soft);font-size:13.5px">832 已經記進 <code>SPEND.md</code> 當基準，下一次生成就能量出精確單價。</p>
+  </div>
+
+  <p class="foot">尚未收進 Assets/</p>
+</div>
