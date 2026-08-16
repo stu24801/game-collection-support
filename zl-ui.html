@@ -1,0 +1,101 @@
+<title>殭屍防禦 UI 外框試樣</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+  --warn-bg:#F6E9DF; --warn-ink:#8A4F1B;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);font-weight:700;margin:0}
+h1{font-size:28px;margin:6px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:8px 0 0;color:var(--ink-soft);font-size:15px}
+figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+figure img{
+  display:block;width:100%;height:auto;
+  /* 棋盤格：透明的地方才看得出來是真的透明 */
+  background-color:#8b8b8b;
+  background-image:
+    linear-gradient(45deg,#6e6e6e 25%,transparent 25%,transparent 75%,#6e6e6e 75%),
+    linear-gradient(45deg,#6e6e6e 25%,transparent 25%,transparent 75%,#6e6e6e 75%);
+  background-size:24px 24px;
+  background-position:0 0,12px 12px;
+}
+figcaption{padding:12px 14px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h2{margin:0 0 12px;font-size:17px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-soft)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+td.num{font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:none}
+.ok{background:var(--ok-bg);color:var(--ok-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+.bad{background:var(--warn-bg);color:var(--warn-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+ul{margin:0;padding-left:1.15em} li{margin:5px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--line-soft);padding:1px 5px;border-radius:4px}
+.foot{color:var(--ink-soft);font-size:12.5px;text-align:center;margin:0}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">殭屍防禦 · UI · 試樣 v1</p>
+    <h1>介面外框試樣</h1>
+    <p class="lede">賽博龐克貧民窟風格的六個介面零件。這是第一張試樣，尚未套用進遊戲。</p>
+  </header>
+
+  <figure>
+    <img src="zl-ui/frames-v1.png" alt="六個賽博龐克風格的介面外框零件，畫在透明背景上">
+    <figcaption><b>v1 原圖</b>　棋盤格處為透明。含大面板框、頂部狀態列框、按鈕兩態、血條槽、徽章底座。</figcaption>
+  </figure>
+
+  <div class="card">
+    <h2>量測</h2>
+    <table>
+      <tr><th>項目</th><th>結果</th></tr>
+      <tr><td>去背</td><td>透明像素 <span class="ok">54.6%</span>，上下邊全透明</td></tr>
+      <tr><td>風格</td><td><span class="ok">符合</span>　鏽蝕、焊補、裸露電纜、鏽水垂痕、青藍／洋紅霓虹</td></tr>
+      <tr><td>不含文字</td><td><span class="ok">通過</span>　沒有畫上假的中文或數字</td></tr>
+      <tr><td>元件完整入鏡</td><td><span class="bad">失敗</span>　左邊 606 個、右邊 534 個不透明像素貼在畫布邊緣</td></tr>
+    </table>
+  </div>
+
+  <figure>
+    <img src="zl-ui/frames-v1-marked.png" alt="同一張圖，左右邊緣被切到的位置以紅色標出">
+    <figcaption><b>紅色 = 被畫布邊緣切掉的地方</b>　大面板左緣、頂部狀態列右緣、兩顆按鈕右緣、血條槽左緣。</figcaption>
+  </figure>
+
+  <div class="card">
+    <h2>問題與修法</h2>
+    <p style="margin:0 0 10px">四個元件出血到畫布左右邊緣被切斷。九宮格外框靠「四角完整、四邊可重複延伸」才能被程式拉伸，缺一角就沒辦法做九宮格——這張不能直接用。</p>
+    <ul>
+      <li>在 <code>zl_style_ui.txt</code> 加死規則：所有元件必須完整入鏡，四周至少留 8% 邊距，任何一邊都不可以碰到畫布邊緣。</li>
+      <li>元件數從 6 降到 4（大面板、按鈕兩態、徽章底座），單格空間變大，被切的機率降低。狀態列框與血條槽用大面板的九宮格拉伸出來就好，不必另外畫。</li>
+    </ul>
+    <p style="margin:10px 0 0;color:var(--ink-soft);font-size:13.5px">重生一次 $0.20，等你同意再跑。</p>
+  </div>
+
+  <p class="foot">尚未寫入 Assets/</p>
+</div>
