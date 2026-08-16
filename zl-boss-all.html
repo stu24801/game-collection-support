@@ -1,0 +1,121 @@
+<title>防線護欄試樣</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+  --warn-bg:#F6E9DF; --warn-ink:#8A4F1B;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:24px}
+.masthead{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--neon);font-weight:600}
+h1{margin:4px 0 8px;font-size:clamp(21px,5vw,30px);font-weight:600;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:0;color:var(--ink-soft);font-size:14px;max-width:64ch}
+h2.sec{margin:8px 0 -8px;font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.card-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px 10px}
+.card-head h3{margin:0;font-size:17px;font-weight:600;color:var(--neon)}
+.tag{margin-left:auto;padding:1px 9px;border-radius:999px;font-size:12px;font-weight:600;white-space:nowrap;background:var(--ok-bg);color:var(--ok-ink)}
+.tag.warn{background:var(--warn-bg);color:var(--warn-ink)}
+.stack{display:flex;flex-direction:column;gap:1px;background:var(--line)}
+.stack figure{margin:0;background:var(--canvas)}
+.stack img{display:block;width:100%;height:auto}
+.stack figcaption{padding:7px 12px;font-size:12px;color:var(--ink-soft);background:var(--card)}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--line)}
+.pair figure{margin:0;background:var(--canvas)}
+.pair img{display:block;width:100%;height:auto}
+.pair figcaption{padding:6px 10px;font-size:11.5px;color:var(--ink-soft);background:var(--card)}
+.meta{display:grid;grid-template-columns:auto 1fr;gap:3px 12px;margin:0;padding:12px 16px 14px;font-size:13px}
+.meta dt{color:var(--ink-soft);white-space:nowrap}
+.meta dd{margin:0}
+.note{border-left:2px solid var(--neon);padding:10px 0 10px 14px;font-size:13.5px;display:flex;flex-direction:column;gap:10px;color:var(--ink-soft)}
+.note h3{margin:0;font-size:15px;font-weight:600;color:var(--ink)}
+.note ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
+</style>
+
+<div class="wrap">
+  <div class="masthead">
+    <div class="eyebrow">Zombie Lane · Boss 完成</div>
+    <h1>八隻魔王 · 35 組動畫</h1>
+    <p class="lede">走路 8、衝鋒 7、召喚 6、震地 6、死亡 8，共 372 幀。彈幕改用能量彈粒子而不是逐隻整隻動畫。</p>
+  </div>
+
+  <h2 class="sec">全貌</h2>
+  <div class="card">
+    <div class="stack">
+      <figure><img src="zl-boss-all/grid.jpg" alt="八隻魔王">
+        <figcaption>八隻 × 五種動作。空格是該隻沒有那個技能（技能分配照 BOSS_DEFS，不是每隻都有全部）</figcaption></figure>
+      <figure><img src="zl-boss-all/bullets.jpg" alt="能量彈">
+        <figcaption>彈幕用的 8 顆能量彈粒子：亮核心 + 洋紅／青藍光暈，尾巴朝上（往下飛）</figcaption></figure>
+      <figure><img src="zl-boss-all/ingame.jpg" alt="實機">
+        <figcaption>實機：彈幕 15 顆能量彈同時飛下（左）／魔王死亡演出（右）</figcaption></figure>
+    </div>
+  </div>
+
+  <h2 class="sec">彈幕改成粒子（使用者指正）</h2>
+  <div class="card">
+    <div class="note" style="padding:14px 16px 16px;border-left:none">
+      <ul>
+        <li>原本排了 8 支「魔王揮臂」的整隻動畫，方向是錯的——一支影片只換到「揮了一下手」，而且素材會跟 <code>BOSS_BARRAGE_*</code> 那組參數脫鉤（之後調排數／速度，寫死的動畫不會跟著變）。</li>
+        <li>取消剩下 6 支（<b>省 $1.92</b>），改做一張能量彈素材（$0.40）。<code>ZlBossBullet</code> 隨機挑一顆並帶隨機大小，十幾顆同時出現才不會像複製貼上。</li>
+        <li>第一版生出金屬飛彈（有外殼與尾翼），重生一次寫死「純能量、無實體外殼」才對。遊戲裡只有 36px，金屬細節讀不出來。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sec">補完漏移植的死亡演出</h2>
+  <div class="card">
+    <div class="note" style="padding:14px 16px 16px;border-left:none">
+      <ul>
+        <li><code>BOSS_DEATH_SLOWMO_S</code> / <code>_SCALE</code> / <code>_FLASH_S</code> / <code>BOSS_ENTRANCE_SHAKE_S</code> 這四個常數搬過來之後在 Unity 端<b>引用次數一直是 0</b>。現在補上：0.5 秒慢動作、0.5 秒白閃、0.4 秒震動、出場 0.8 秒震動。</li>
+        <li>死亡用獨立的 <code>ZlBossCorpse</code> 播，不留在 <code>Zombies</code> 清單裡——留著的話每個走訪該清單的地方都要多一個「死了嗎」判斷，漏一個就會「對屍體開槍」。</li>
+        <li>過波延到演出播完（1.1 秒），不然「WAVE N」橫幅會蓋在死亡動畫上、第 8 波會在魔王倒下前就跳勝利畫面。</li>
+      </ul>
+    </div>
+  </div>
+
+  <h2 class="sec">驗證（零例外）</h2>
+  <div class="card">
+    <dl class="meta">
+      <dt>A/B 對照</dt><dd>關動畫推進 60.0 / 開動畫推進 60.5 px，<b>差 0.84%</b>（動畫不影響位移）</dd>
+      <dt>三個階段</dt><dd>1 / 2 / 3 全部走到</dd>
+      <dt>四種模式</dt><dd>entering / midfield / dashing / lastStand 全部進到</dd>
+      <dt>攻擊動作</dt><dd>dash / slam / summon 都播放過</dd>
+      <dt>彈幕</dt><dd>強制觸發後能量彈 <b>15 顆</b>（= 3 排 × 5 發）</dd>
+      <dt>死亡</dt><dd>擊殺後 timeScale=0.20（慢動作生效），演出結束回 1 並過波</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">花費</h2>
+  <div class="card">
+    <div class="note" style="padding:14px 16px 16px;border-left:none">
+      <ul>
+        <li>Boss 動畫 35 支 $11.20　｜　能量彈 $0.80（含重生一次）　｜　試樣 $0.64</li>
+        <li>累計美術 <b>$27.20</b>（比原估省下彈幕那 6 支的 $1.92）</li>
+      </ul>
+    </div>
+  </div>
+</div>
