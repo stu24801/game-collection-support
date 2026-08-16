@@ -58,70 +58,62 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
 
 <div class="wrap">
   <div class="masthead">
-    <div class="eyebrow">Zombie Lane · 賽博龐克美術 · 試樣</div>
+    <div class="eyebrow">Zombie Lane · 賽博龐克貧民窟 · 試樣 v3</div>
     <h1>防線護欄</h1>
-    <p class="lede">殭屍防線的第一張賽博龐克素材。防線是玩家全程盯著的東西——它會主動前推、被殭屍推退、破損、被突破，所以三段受損狀態一次生在同一張，才看得出漸進過渡對不對。</p>
+    <p class="lede">殭屍防線的第一張素材，做了三版才對。防線是玩家全程盯著的東西——會主動前推、被推退、破損、被突破——所以三段受損狀態一次生在同一張，才看得出漸進過渡。</p>
   </div>
 
-  <h2 class="sec">三段受損</h2>
+  <h2 class="sec">v3 · 三段受損</h2>
 
   <div class="card">
     <div class="stack">
-      <figure>
-        <img src="zl-barricade/intact.jpg" alt="完好狀態的護欄">
-        <figcaption>① 完好 — 燈條完整明亮、裝甲平整、青藍能量帶貫穿</figcaption>
-      </figure>
-      <figure>
-        <img src="zl-barricade/damaged.jpg" alt="半毀狀態的護欄">
-        <figcaption>② 半毀 — 裂痕與凹陷、部分燈熄、橘色電火花、開始冒白煙</figcaption>
-      </figure>
-      <figure>
-        <img src="zl-barricade/critical.jpg" alt="將破狀態的護欄">
-        <figcaption>③ 將破 — 裝甲板脫落懸掛、霓虹只剩暗紅殘光、藍白電弧與大量黑煙</figcaption>
-      </figure>
+      <figure><img src="zl-barricade/v3_intact.jpg" alt="完好">
+        <figcaption>① 完好 — 霓虹燈管全段亮著、塗鴉與貼紙完整、管線滴水</figcaption></figure>
+      <figure><img src="zl-barricade/v3_damaged.jpg" alt="半毀">
+        <figcaption>② 半毀 — 板材錯位鬆脫、燈管中段爆裂、黃色電火花、白色蒸氣</figcaption></figure>
+      <figure><img src="zl-barricade/v3_critical.jpg" alt="將破">
+        <figcaption>③ 將破 — 結構散開、霓虹幾乎全滅只剩紅點殘光、電纜裸露</figcaption></figure>
     </div>
     <dl class="meta">
-      <dt>風格</dt><dd>賽博龐克：青藍霓虹能量帶 × 深色金屬 × 洋紅點綴 × 橘色危險警示</dd>
-      <dt>產製</dt><dd>Grok 生圖 → OpenAI 去背一次到位（彙整大圖，三段同一張）</dd>
-      <dt>花費</dt><dd>約 $0.40</dd>
+      <dt>風格</dt><dd>賽博龐克貧民窟：撿來的鐵板拼焊、塗鴉、撕爛的貼紙、私接電線、外露管線、雜物堆</dd>
+      <dt>去背</dt><dd>透明 69.3%，邊緣乾淨</dd>
+      <dt>本版花費</dt><dd>$0.40（三版累計 $1.20）</dd>
+    </dl>
+  </div>
+
+  <h2 class="sec">三版怎麼調過來的</h2>
+
+  <div class="card">
+    <div class="grid">
+      <figure><img src="zl-barricade/cmp_v1.jpg" alt="v1">
+        <figcaption><b>v1 乾淨科技風</b> — 造型與受損分段都對，但太乾淨，不是貧民窟</figcaption></figure>
+      <figure><img src="zl-barricade/cmp_v2.jpg" alt="v2">
+        <figcaption><b>v2 髒污夠了但壞掉</b> — 變成街邊牆面不是獨立路障；調性反而變亮成灰白；背景非純黑導致去背失敗（透明只有 38.9%）</figcaption></figure>
+      <figure><img src="zl-barricade/cmp_v3.jpg" alt="v3">
+        <figcaption><b>v3 採用</b> — 獨立路障有明確左右端點、三段差異一眼分得出、去背乾淨</figcaption></figure>
+    </div>
+    <dl class="meta">
+      <dt>學到的</dt><dd>「深夜、霓虹是唯一光源」與「背景必須純黑」這兩件事沒明講就會出事，已寫進共用風格基底</dd>
     </dl>
   </div>
 
   <h2 class="sec">去背檢查</h2>
 
   <div class="card">
-    <div class="card-head">
-      <h3>合成到洋紅背景</h3>
-      <span class="tag">邊緣乾淨</span>
+    <div class="stack">
+      <figure><img src="zl-barricade/v3_alpha.jpg" alt="合成到洋紅">
+        <figcaption>合成到洋紅：邊緣無 halo、無殘留色圈，三段之間乾淨分離可直接切割</figcaption></figure>
     </div>
-    <div class="pair">
-      <figure>
-        <img src="zl-barricade/barricade_flat.jpg" alt="原圖">
-        <figcaption>原圖 — 看起來背景有灰霧</figcaption>
-      </figure>
-      <figure>
-        <img src="zl-barricade/barricade_alpha.jpg" alt="合成到洋紅">
-        <figcaption>合成後 — 灰霧其實是低透明度的煙，正確保留</figcaption>
-      </figure>
-    </div>
-    <dl class="meta">
-      <dt>透明像素</dt><dd>72.9%（三根細長橫條，合理）</dd>
-      <dt>邊緣</dt><dd>無 halo、無殘留色圈</dd>
-    </dl>
   </div>
 
-  <h2 class="sec">已知問題</h2>
+  <h2 class="sec">共用風格基底</h2>
 
   <div class="card">
-    <div class="card-head">
-      <h3>三件事</h3>
-      <span class="tag warn">待處理</span>
-    </div>
     <div class="note" style="padding:14px 16px 16px;border-left:none">
       <ul>
-        <li><b>圖中有亂碼漢字</b>（「牛吴」「早昌」）。prompt 明確寫了不要文字還是出現。不算阻礙——它們落在三根護欄之間的空隙，切割時用連通元件分析會當成獨立區塊，不輸出就好。</li>
-        <li><b>能量護盾光膜沒做出來。</b>要求的「上方浮一層淡青色護盾光膜」變成頂部一道玻璃質感的唇邊。可接受，或之後用程式端的 <code>ZlFx</code> 層加一層半透明光膜（$0）。</li>
-        <li><b>比例已修正。</b>素材每根約 4.5:1，但遊戲裡防線原本只有 14 單位高（約 60:1），直接貼會壓扁成一條線。已將防線加高到 60 單位，讓護欄照原比例顯示。</li>
+        <li>已建立 <code>tools/ai_pipeline/prompts/zl_style_base.txt</code>，槍手／殭屍／Boss／駐守物／場地／特效／UI <b>全部共用</b>，不再每批重講一次風格（重講必然漂移，而漂移要花錢才會發現）。</li>
+        <li>裡面明確寫死了三件這次踩到的事：<b>深夜暗調、霓虹是唯一光源</b>、<b>背景必須純黑 #000000</b>、<b>主體不可畫成建築立面</b>。</li>
+        <li>風格若要再調，改那一個檔案就好。</li>
       </ul>
     </div>
   </div>
@@ -131,9 +123,9 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:12px;color:var(--ink)}
   <div class="card">
     <div class="note" style="padding:14px 16px 16px;border-left:none">
       <ul>
-        <li>三種殭屍走路動畫（walker 重做配合賽博龐克、runner、brute）</li>
+        <li>三種殭屍走路動畫（walker 重做、runner、brute）</li>
         <li>3 支影片 × $0.32 = <b>$0.96</b></li>
-        <li>累計美術花費：吸血鬼 $2.88 + 殭屍 $0.40 = <b>$3.28</b></li>
+        <li>累計美術花費：吸血鬼 $2.88 + 殭屍 $1.20 = <b>$4.08</b></li>
       </ul>
     </div>
   </div>
