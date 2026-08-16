@@ -1,0 +1,130 @@
+<title>駐守物與補給箱動畫試樣</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+  --warn-bg:#F6E9DF; --warn-ink:#8A4F1B;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0;
+  --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+  --warn-bg:#33240F; --warn-ink:#F0B060;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:24px 16px 64px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:900px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);font-weight:700;margin:0}
+h1{font-size:28px;margin:6px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:8px 0 0;color:var(--ink-soft);font-size:15px}
+h2.sec{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:8px 0 -12px;font-weight:700}
+figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+figure img,figure video{display:block;width:100%;height:auto;
+  background-color:#8b8b8b;
+  background-image:
+    linear-gradient(45deg,#6e6e6e 25%,transparent 25%,transparent 75%,#6e6e6e 75%),
+    linear-gradient(45deg,#6e6e6e 25%,transparent 25%,transparent 75%,#6e6e6e 75%);
+  background-size:24px 24px; background-position:0 0,12px 12px;}
+figcaption{padding:12px 14px;font-size:13px;color:var(--ink-soft);border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink);font-weight:600}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h2{margin:0 0 12px;font-size:17px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-soft)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+tr:last-child td{border-bottom:none}
+.ok{background:var(--ok-bg);color:var(--ok-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+.bad{background:var(--warn-bg);color:var(--warn-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+ul{margin:0;padding-left:1.15em} li{margin:6px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--line-soft);padding:1px 5px;border-radius:4px}
+.foot{color:var(--ink-soft);font-size:12.5px;text-align:center;margin:0}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">殭屍防禦 · 駐守物與補給箱</p>
+    <h1>動畫試樣</h1>
+    <p class="lede">13 支動畫的前兩支試樣。確認方向之後再生剩下 11 支。</p>
+  </header>
+
+  <h2 class="sec">試樣</h2>
+
+  <figure>
+    <video src="zl-blocker/minigun-motion.mp4" controls loop muted playsinline></video>
+    <figcaption><b>機砲塔 · 射擊</b>　10 幀循環。多管旋轉、槍口火光、硝煙累積，三腳底座完整。</figcaption>
+  </figure>
+  <figure>
+    <img src="zl-blocker/minigun-frames.png" alt="機砲塔射擊動畫的十個影格，棋盤格為透明">
+    <figcaption>逐幀：棋盤格處為透明。</figcaption>
+  </figure>
+
+  <figure>
+    <video src="zl-blocker/crate-motion.mp4" controls loop muted playsinline></video>
+    <figcaption><b>補給箱 · 被破壞</b>　12 幀，播一次。封條爆火花 → 箱體裂開 → 面板掀飛 → 冒煙塌陷。</figcaption>
+  </figure>
+  <figure>
+    <img src="zl-blocker/crate-frames.png" alt="補給箱破壞動畫的十二個影格">
+    <figcaption>逐幀。遊戲裡會再疊上既有的碎片粒子層，變成兩層動作。</figcaption>
+  </figure>
+
+  <h2 class="sec">第一次的兩支報廢了</h2>
+
+  <figure>
+    <img src="zl-blocker/failed-v1.png" alt="第一版兩支失敗的抽幀結果">
+    <figcaption><b>上：機砲塔</b>　三腳底座整個不見，變成浮空的槍。<b>下：補給箱</b>　鏡頭推到箱子表面，畫面被填滿。</figcaption>
+  </figure>
+
+  <div class="card">
+    <h2>根因在參考圖，不在 prompt</h2>
+    <p style="margin:0 0 10px">兩個問題都是 image-to-video 的參考圖造成的，跟 prompt 寫得夠不夠清楚無關：</p>
+    <ul>
+      <li><b>透明底被渲染成暗色。</b>參考圖是去背過的 PNG，模型把透明區當成暗色來延續，生出來的綠幕是 <code>(0,93,0)→(0,151,0)</code> 的暗色漸層。去背門檻要拉到 130 才清得掉，而那個門檻連砲塔的深色三腳底座也一起吃掉。</li>
+      <li><b>緊貼裁切導致推近。</b>參考圖緊貼物件邊緣，模型照著那個構圖繼續往前推，整個畫面被箱子填滿——連背景都沒有，透明比例 0%。</li>
+    </ul>
+    <p style="margin:10px 0 0">修法是先把參考圖<b>墊到純綠底上並留白</b>（物件佔 50~55%）。重生後背景變成均勻的 <code>(0,253,0)</code>，整支影片都維持住。這一步不花錢。</p>
+  </div>
+
+  <div class="card scroll">
+    <h2>量測</h2>
+    <table>
+      <tr><th>項目</th><th>第一版</th><th>第二版</th></tr>
+      <tr><td>背景色</td><td><span class="bad">(0,93,0)→(0,151,0) 暗色漸層</span></td><td><span class="ok">(0,253,0) 均勻</span></td></tr>
+      <tr><td>機砲塔 透明比例</td><td class="num">0%~32%</td><td class="num">55%~90%</td></tr>
+      <tr><td>機砲塔 三腳底座</td><td><span class="bad">被去背吃掉</span></td><td><span class="ok">完整</span></td></tr>
+      <tr><td>補給箱 透明比例</td><td class="num"><span class="bad">0%~26%</span></td><td class="num">51%~54%</td></tr>
+      <tr><td>補給箱 構圖</td><td><span class="bad">推近到表面</span></td><td><span class="ok">整個箱子在畫面內</span></td></tr>
+    </table>
+    <p style="margin:12px 0 0;color:var(--ink-soft);font-size:13.5px">抽幀參數也定案了：駐守物 <code>--zoom-tolerance 2.0</code>（1.0 只出 4 幀，火光會撐大包圍盒），補給箱 <code>1.5</code>，都加 <code>--largest-only</code>。</p>
+  </div>
+
+  <div class="card scroll">
+    <h2>花費</h2>
+    <table>
+      <tr><th>項目</th><th>結果</th><th class="num">金額</th></tr>
+      <tr><td>試樣 v1（2 支）</td><td><span class="bad">作廢</span></td><td class="num">$0.64</td></tr>
+      <tr><td>試樣 v2（2 支）</td><td><span class="ok">通過</span></td><td class="num">$0.64</td></tr>
+      <tr><td>剩餘 11 支（待確認後生）</td><td>—</td><td class="num">$3.52</td></tr>
+      <tr><td><b>這批預計合計</b></td><td></td><td class="num"><b>$4.80</b></td></tr>
+    </table>
+    <p style="margin:12px 0 0;color:var(--ink-soft);font-size:13.5px">原估 $4.16，多出的 $0.64 是作廢的第一版。</p>
+  </div>
+
+  <p class="foot">尚未寫入 Assets/</p>
+</div>
