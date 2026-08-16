@@ -1,0 +1,99 @@
+<title>Build 7 送審截圖</title>
+<style>
+:root{
+  --ground:#ECEFF2; --card:#FFFFFF; --line:#D3D9DF; --line-soft:#E6EAEE;
+  --ink:#161C22; --ink-soft:#5F6B76;
+  --neon:#0E7C86; --canvas:#0A0812;
+  --ok-bg:#DFF0F1; --ok-ink:#12626A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0; --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+}}
+:root[data-theme="dark"]{
+  --ground:#0A0812; --card:#12101E; --line:#26223A; --line-soft:#1A1729;
+  --ink:#E8EDF2; --ink-soft:#94A0B0; --neon:#3DE0F0; --canvas:#0A0812;
+  --ok-bg:#0F2E33; --ok-ink:#6FE3EE;
+}
+*{box-sizing:border-box}
+body{margin:0;padding:24px 16px 64px;background:var(--ground);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;display:flex;flex-direction:column;gap:26px}
+.eyebrow{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--neon);font-weight:700;margin:0}
+h1{font-size:28px;margin:6px 0 0;letter-spacing:-.01em}
+.lede{margin:8px 0 0;color:var(--ink-soft);font-size:15px}
+h2.sec{font-size:13px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-soft);margin:8px 0 -12px;font-weight:700}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+@media (max-width:720px){.grid{grid-template-columns:repeat(2,1fr)}}
+figure{margin:0;background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:var(--canvas)}
+figcaption{padding:8px 10px;font-size:12px;color:var(--ink-soft)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+.card h2{margin:0 0 12px;font-size:17px}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line-soft)}
+th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600}
+td.num{font-variant-numeric:tabular-nums;text-align:right}
+tr:last-child td{border-bottom:none}
+.ok{background:var(--ok-bg);color:var(--ok-ink);border-radius:5px;padding:1px 7px;font-weight:600}
+ul{margin:0;padding-left:1.15em} li{margin:6px 0}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:.9em;background:var(--line-soft);padding:1px 5px;border-radius:4px}
+.foot{color:var(--ink-soft);font-size:12.5px;text-align:center;margin:0}
+</style>
+
+<div class="wrap">
+  <header>
+    <p class="eyebrow">手搓廣告遊戲選集 · 2.0 (7)</p>
+    <h1>Build 7 送審截圖</h1>
+    <p class="lede">兩款遊戲各 4 張，iPhone 與 iPad 兩個尺寸。這裡是縮圖，原圖在 repo 的 <code>docs/screenshots/v2.0-build7/</code>。</p>
+  </header>
+
+  <h2 class="sec">iPhone　1284 × 2778</h2>
+  <div class="grid">
+    <figure><img src="store7/iphone_01_1_魔法飛彈.jpg" alt="吸血鬼復仇：魔法飛彈追蹤敵群"><figcaption>吸血鬼 · 魔法飛彈</figcaption></figure>
+    <figure><img src="store7/iphone_02_2_隕石.jpg" alt="吸血鬼復仇：隕石下墜爆破"><figcaption>吸血鬼 · 隕石</figcaption></figure>
+    <figure><img src="store7/iphone_03_3_冰霜十字.jpg" alt="吸血鬼復仇：寒冰新星與十字斬"><figcaption>吸血鬼 · 冰霜十字</figcaption></figure>
+    <figure><img src="store7/iphone_04_4_魔王戰.jpg" alt="吸血鬼復仇：魔王戰"><figcaption>吸血鬼 · 魔王戰</figcaption></figure>
+    <figure><img src="store7/iphone_05_ZL_1_火線.jpg" alt="殭屍防禦：滿編小隊排成火線"><figcaption>殭屍 · 滿編火線</figcaption></figure>
+    <figure><img src="store7/iphone_06_ZL_2_駐守砲塔.jpg" alt="殭屍防禦：駐守砲塔開火"><figcaption>殭屍 · 駐守砲塔</figcaption></figure>
+    <figure><img src="store7/iphone_07_ZL_3_夜戰魔王.jpg" alt="殭屍防禦：夜間魔王戰"><figcaption>殭屍 · 夜戰魔王</figcaption></figure>
+    <figure><img src="store7/iphone_08_ZL_4_配裝.jpg" alt="殭屍防禦：配裝面板"><figcaption>殭屍 · 配裝面板</figcaption></figure>
+  </div>
+
+  <h2 class="sec">iPad　2064 × 2752</h2>
+  <div class="grid">
+    <figure><img src="store7/ipad_01_1_魔法飛彈.jpg" alt="iPad 版：魔法飛彈"><figcaption>吸血鬼 · 魔法飛彈</figcaption></figure>
+    <figure><img src="store7/ipad_02_2_隕石.jpg" alt="iPad 版：隕石"><figcaption>吸血鬼 · 隕石</figcaption></figure>
+    <figure><img src="store7/ipad_03_3_冰霜十字.jpg" alt="iPad 版：冰霜十字"><figcaption>吸血鬼 · 冰霜十字</figcaption></figure>
+    <figure><img src="store7/ipad_04_4_魔王戰.jpg" alt="iPad 版：魔王戰"><figcaption>吸血鬼 · 魔王戰</figcaption></figure>
+    <figure><img src="store7/ipad_05_ZL_1_火線.jpg" alt="iPad 版：滿編火線"><figcaption>殭屍 · 滿編火線</figcaption></figure>
+    <figure><img src="store7/ipad_06_ZL_2_駐守砲塔.jpg" alt="iPad 版：駐守砲塔"><figcaption>殭屍 · 駐守砲塔</figcaption></figure>
+    <figure><img src="store7/ipad_07_ZL_3_夜戰魔王.jpg" alt="iPad 版：夜戰魔王"><figcaption>殭屍 · 夜戰魔王</figcaption></figure>
+    <figure><img src="store7/ipad_08_ZL_4_配裝.jpg" alt="iPad 版：配裝面板"><figcaption>殭屍 · 配裝面板</figcaption></figure>
+  </div>
+
+  <div class="card scroll">
+    <h2>驗證</h2>
+    <table>
+      <tr><th>項目</th><th>結果</th></tr>
+      <tr><td>尺寸</td><td><span class="ok">108 張全部相符</span>　iPhone 1284×2778、iPad 2064×2752</td></tr>
+      <tr><td>Development Build 浮水印</td><td><span class="ok">無</span>　右下角切出來放大確認過</td></tr>
+      <tr><td>開發用診斷數字</td><td><span class="ok">已關閉</span></td></tr>
+      <tr><td>結算面板遮擋</td><td><span class="ok">已排除</span>　拍照前先 DebugHide()</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h2>兩個做法上的細節</h2>
+    <ul>
+      <li><b>尺寸用超採樣不是事後拉伸。</b>Mac 開不出 2778 高的視窗，所以跑在 428×926 並用 <code>ScreenCapture.CaptureScreenshot(path, 3)</code> 讓 Unity 原生渲染放大，比例完全一致（428:926 = 1284:2778）。iPad 是 516×688 ×4。</li>
+      <li><b>吸血鬼那 4 張是從連拍序列挑的。</b>特效都是幾幀就過去的東西，定點拍很容易拍到空檔。挑選用「亮度變異＋亮部佔比」當指標，是量的不是憑感覺挑的（10~16 幀裡挑 1 張）。</li>
+    </ul>
+    <p style="margin:10px 0 0;color:var(--ink-soft);font-size:13.5px">跑截圖時卡死過一次：配裝面板那張要先開暫停，而暫停會把 <code>timeScale</code> 設成 0，於是所有 <code>WaitForSeconds</code> 永遠等不到。改用 <code>WaitForSecondsRealtime</code>。</p>
+  </div>
+
+  <p class="foot">commit 036f4e2 · ASC 版本紀錄由使用者自行建立</p>
+</div>
