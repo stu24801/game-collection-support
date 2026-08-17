@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>地城迴響 Demo</title>
+<title>地城迴響 地城美術</title>
 <style>
 :root{
   --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
@@ -69,104 +69,93 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">地城迴響 · Demo 第一版</p>
-  <h1>一個房間、一個誓約劍士、五隻亡靈</h1>
-  <p class="lede">等距視角、縱長房間、火把光源、自動攻擊、虛擬搖桿、換裝。
-     全部程序化生成，零美術素材，$0。</p>
+  <p class="eyebrow">地城迴響 · Demo + 地城美術</p>
+  <h1>一間房間、程序化石材、六盞火光</h1>
+  <p class="lede">石磚牆與石板地都帶法線貼圖，火把與火盆有柔光、餘燼與晃動，
+     空氣裡有浮塵。全部執行期算出來，零美術素材，<b>$0</b>。</p>
 
   <div class="note warn">
     <p><b>這是「看得出雛形」的切片，不是可玩的遊戲。</b>沒有技能樹、裝備掉落、
-       詞綴、存檔、程序生成的樓層、音效與配樂。這些都在規劃稿裡，但不在這一版。</p>
+       詞綴、存檔、程序生成的樓層、音效與配樂。</p>
   </div>
 
   <h2>畫面</h2>
 
   <figure>
-    <img src="dnd-shots/demo/room_entry.jpg" alt="房間入口">
-    <figcaption><b>入口。</b>房間是 8 寬 × 16 深的<b>縱長</b>矩形——直式螢幕的長邊
-      對應玩家的推進方向，這樣左右來敵不會從螢幕外冒出來。北端有門洞通往下一層。</figcaption>
-  </figure>
-
-  <figure>
-    <img src="dnd-shots/demo/engage.jpg" alt="接敵">
-    <figcaption><b>接敵。</b>玩家是<b>亮鋼板甲＋腳下青環</b>，亡靈是<b>鏽蝕暗甲</b>。
-      這個區分是被迫加上去的——見下方「踩到的坑」。</figcaption>
+    <img src="dnd-shots/art/melee2.jpg" alt="混戰">
+    <figcaption><b>混戰。</b>玩家是亮鋼板甲＋腳下青環，亡靈是鏽蝕暗甲。
+      右下是立地火盆——柔光、餘燼與火光晃動都在。</figcaption>
   </figure>
 
   <div class="grid">
-    <figure><img src="dnd-shots/demo/melee.jpg" alt="混戰"><figcaption><b>混戰。</b>攻擊是正面 ±50° 的半圓範圍，站位好可以一次掃兩三隻。</figcaption></figure>
-    <figure><img src="dnd-shots/demo/melee2.jpg" alt="混戰中段"><figcaption>屍體會停留幾秒再沉入地板，比瞬間消失有份量。</figcaption></figure>
-    <figure><img src="dnd-shots/demo/deeper.jpg" alt="推進"><figcaption><b>清空後往深處推進。</b>走廊補了一盞冷色暗光。</figcaption></figure>
-    <figure><img src="dnd-shots/demo/aftermath.jpg" alt="門口"><figcaption><b>門洞口。</b>正式版這裡會是下一層的入口。</figcaption></figure>
+    <figure><img src="dnd-shots/art/room_entry.jpg" alt="入口"><figcaption><b>入口。</b>8 寬 × 16 深的縱長房間，直式螢幕的長邊對應推進方向。</figcaption></figure>
+    <figure><img src="dnd-shots/art/engage.jpg" alt="接敵"><figcaption><b>接敵。</b>光只照到火源附近，其餘沉在暗處。</figcaption></figure>
+    <figure><img src="dnd-shots/art/melee.jpg" alt="揮劍"><figcaption>攻擊是正面 ±50° 的半圓範圍，站位好可一次掃兩三隻。</figcaption></figure>
+    <figure><img src="dnd-shots/art/deeper.jpg" alt="推進"><figcaption><b>清空後往深處推進</b>，門洞通往下一層。</figcaption></figure>
   </div>
 
   <figure>
-    <img src="dnd-shots/demo/with_hud.jpg" alt="含 HUD 的畫面">
-    <figcaption><b>HUD。</b>上方生命條、亡靈計數與擊殺數、清空提示、右下換裝與翻滾鍵。
-      這張是螢幕截圖而不是相機截圖——OnGUI 畫在螢幕上，相機的 RenderTexture 拍不到。
-      畫面裡玩家已經換成遊俠皮甲（換裝鍵驗證）。</figcaption>
+    <img src="dnd-shots/art/with_hud.jpg" alt="含 HUD">
+    <figcaption><b>HUD。</b>生命條、亡靈計數、擊殺數、清空提示、換裝與翻滾鍵。
+      這張是螢幕截圖——OnGUI 畫在螢幕上，相機的 RenderTexture 拍不到。</figcaption>
   </figure>
 
+  <h2>材質怎麼做的</h2>
+  <p><b>重點是法線貼圖。</b>只有顏色貼圖的話，石牆仍然是一片平的色塊——
+     磚縫、坑洞都要靠光影才看得出來，那是法線的工作。所以牆與地板都從
+     <b>同一張高度場同時產出顏色與法線</b>，兩者天生對齊。</p>
+  <ul>
+    <li><b>牆</b>：橫向錯縫砌的石磚，每塊磚有自己的隨機色偏，三層 Perlin 疊出表面起伏</li>
+    <li><b>地板</b>：大塊石板 + 溝縫</li>
+    <li>Sobel 取梯度時<b>取樣要環繞</b>，不然貼圖接縫處法線會翻掉，每一塊邊緣都有一條假的亮線</li>
+    <li>地板 mesh 一定要 <code>RecalculateTangents()</code>——<b>法線貼圖沒有切線等於白做</b></li>
+    <li>立方體每個面的 UV 都是 0～1，直接縮放會拉長貼圖，所以每面牆依實際尺寸各自算 tiling</li>
+  </ul>
+
+  <h2>光效</h2>
+  <ul>
+    <li>東牆三支<b>壁掛火把</b>、西側三座<b>立地火盆</b>（西側是矮牆，沒有牆面可掛）</li>
+    <li>每個火源都有<b>柔光、餘燼粒子、光強度晃動</b>；晃動同時驅動光強度、火焰高度與柔光大小</li>
+    <li>晃動用<b>兩個不同頻率的 sin 疊加，不用 Random</b>——每幀取亂數會變成高頻雜訊，看起來是壞掉不是搖曳</li>
+    <li>整個房間 90 顆極淡的<b>空氣浮塵</b>。這是最便宜的「空間有深度」暗示</li>
+    <li>主光只有 0.35 強度負責立體感，亮度主要來自火源，加線性霧讓深處暗下去</li>
+    <li><b>六盞點光源全部關閉陰影</b>——點光源陰影在手機上很貴，六盞全開會直接吃掉幀數</li>
+  </ul>
+
+  <h2>三個踩出來的坑</h2>
+
+  <h3>柔光不是形狀，是螢幕空間的現象</h3>
+  <p>柔光團的形狀我改了三次才對：<b>立方體</b>（六個 1.5 公尺的發光方塊漂在半空）→
+     <b>球體</b>（邊緣銳利的圓盤，因為球的 UV 是經緯展開不是徑向）→
+     <b>面向鏡頭的四邊形 + 徑向衰減貼圖</b>。前兩次都在調整幾何，方向從一開始就錯了。</p>
+
+  <h3>近端的牆擋住遊戲畫面</h3>
+  <p>相機在西南方俯視，南牆與西牆正好夾在鏡頭與玩家之間，玩家有一半被牆吃掉。
+     <b>這不是美觀問題，是看不看得到自己角色的問題。</b>解法是等距遊戲的通用做法：
+     近端的南牆與西牆改成 0.55m 矮牆、西側柱子拿掉，遠端的北牆與東牆維持全高當背景。</p>
+
+  <h3>地板裂痕：手法本身就是錯的</h3>
+  <p>原本用「高頻 Perlin 的等值線」當裂縫。那行不通——<b>等值線是封閉的圈</b>，
+     畫出來滿地都是像等高線一樣的蠕蟲。調門檻只會讓蠕蟲變細，不會變成裂縫。整層拿掉。</p>
+
   <h2>驗證數字</h2>
-  <p>驗證流程走真實的遊戲路徑：模擬輸入灌進搖桿的方向向量再經過同一套移動邏輯，
-     <b>不是直接推 transform</b>；攻擊完全不碰，讓自動攻擊自己觸發。</p>
+  <p>每一輪美術改動之後都重跑同一套玩法驗證，確認沒有把邏輯弄壞：</p>
   <div class="scroll">
   <table>
-    <tr><th>時間</th><th>玩家 Z</th><th>生命</th><th>存活亡靈</th><th>擊殺</th></tr>
-    <tr><td>0.4s 入口</td><td class="num">−6.0</td><td class="num">100</td><td class="num">5</td><td class="num">0</td></tr>
-    <tr><td>3.6s 接敵</td><td class="num">−0.9</td><td class="num">82</td><td class="num">5</td><td class="num">0</td></tr>
-    <tr><td>5.0s 混戰</td><td class="num">−0.9</td><td class="num">73</td><td class="num">3</td><td class="num">2</td></tr>
-    <tr><td>7.6s 尾聲</td><td class="num">−0.9</td><td class="num">64</td><td class="num">1</td><td class="num">4</td></tr>
-    <tr><td>9.4s 清空</td><td class="num">1.8</td><td class="num">64</td><td class="num">0</td><td class="num">5</td></tr>
+    <tr><th>項目</th><th>結果</th></tr>
+    <tr><td>擊殺數</td><td><b>5</b>（自動攻擊有觸發，傷害有落地）</td></tr>
+    <tr><td>玩家生命</td><td>100 → <b>64</b>（敵人打得到人，不是站樁）</td></tr>
+    <tr><td>邊界</td><td>玩家 Z = 6.47 < 走廊上限 11.60，<b>沒有穿牆</b></td></tr>
   </table>
   </div>
-  <ul>
-    <li><b>擊殺 5</b> → 自動攻擊有觸發，而且傷害真的落地</li>
-    <li><b>生命 100 → 64</b> → 敵人真的打得到人，不是站樁</li>
-    <li><b>玩家 Z = 6.47，走廊上限 11.60</b> → 邊界擋得住，沒有穿牆</li>
-  </ul>
-  <p>推進到清場約 <b>9 秒</b>，比規劃稿設想的「每個房間 40～60 秒」快很多。
-     那是因為 Demo 只放 5 隻、玩家傷害調得高——正式版靠敵人數量與血量拉長，
-     不是靠削弱玩家。</p>
-
-  <h2>踩到的坑</h2>
-
-  <h3>玩家跟敵人長得一模一樣</h3>
-  <p>第一版讓玩家穿全套戰士板甲＋兜帽，亡靈也是戰士板甲＋兜帽。這是「共用同一套
-     模組件」的直接後果——那正是紙娃娃系統的優點，也是它的陷阱。截圖出來我自己
-     都分不出哪個是玩家。</p>
-  <p>修法是兩層：亡靈改<b>鏽蝕暗甲</b>（低金屬度 0.15、低光澤 0.12，對比玩家的
-     0.45/0.55）。這不只是配色——<b>亮鋼會反光搶眼，鏽甲才會沉進背景讓玩家跳出來</b>。
-     再加玩家腳下的<b>青色指示環</b>，混戰中不會看丟。</p>
-
-  <h3>地板是 128 次 draw call</h3>
-  <p>8×16 的格狀地板原本每格一個 GameObject。在手機上那是白白丟掉的效能，
-     而且正式版接程序生成之後每層好幾個房間，這個數字會爆掉。
-     改成把同色格子合併成一個 mesh，<b>128 → 2 次 draw call</b>。</p>
-
-  <h3>門洞後面是一團純黑</h3>
-  <p>讀起來像畫面破洞，不像「還有路可以往下走」。補了一盞冷色暗光。</p>
-
-  <h2>技術選擇</h2>
-  <ul>
-    <li><b>沒有物理引擎。</b>地城是矩形，碰撞用手動夾座標，<code>CreatePrimitive</code>
-        帶的 collider 全部刪掉。開物理引擎只是白白吃記憶體與初始化時間。</li>
-    <li><b>沒有導航網格。</b>空矩形房間直線追人就夠，另外加同伴間的推開力
-        避免全部疊成一坨。</li>
-    <li><b>光從火把來，不是從環境光來。</b>主光只有 0.35 強度負責立體感，
-        亮度主要來自四個點光源，加線性霧讓深處暗下去。</li>
-    <li><b>火光晃動用兩個不同頻率的 sin 疊加，不用 Random。</b>
-        每幀取亂數會變成高頻雜訊，看起來是壞掉不是搖曳。</li>
-    <li><b>傷害在動作播到 0.22 秒才落下</b>，不是觸發當幀——這樣揮劍才有重量。</li>
-  </ul>
 
   <h2>還沒解決的</h2>
   <ul>
-    <li><b>實機效能數字仍然沒有。</b>iPhone 目前是 <code>unavailable</code> 狀態。
-        Xcode 專案已經產得出來（batchmode 14 秒），接上手機就能跑。</li>
-    <li><b>生成 20 隻亡靈要 456ms。</b>每隻都要跑一次骨權重分區與 mesh 重建。
-        解法是共用切好的 mesh，或把生成分攤到多幀。</li>
+    <li><b>實機效能數字仍然沒有。</b>iPhone 目前 <code>unavailable</code>。
+        Xcode 專案 batchmode 14 秒就產得出來，接上手機就能跑。</li>
+    <li><b>生成 20 隻亡靈要 456ms。</b>解法是共用切好的 mesh 或分攤到多幀。</li>
     <li>敵人攻擊目前是「貼身即扣血」，沒有做攻擊判定幀。</li>
+    <li>火盆的造型還是很抽象（一個發光多邊形擺在鐵盆上）。</li>
   </ul>
 
   <footer>地城迴響 · 手搓廣告遊戲選集第三款 · Demo 第一版</footer>
