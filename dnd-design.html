@@ -71,7 +71,7 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 .toc summary{cursor:pointer;font-weight:700;color:var(--gold)}
 .toc ul{margin:10px 0 0;padding-left:20px}
 .toc li{font-size:14px;margin:3px 0}
-pre.scroll{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px}
+pre.scroll{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px 14px;font-size:13px;overflow-x:auto}
 pre.scroll code{background:none;border:none;padding:0;color:var(--ink)}
 h4{font-size:15px;margin:18px 0 4px;color:var(--ink)}
 </style>
@@ -133,7 +133,7 @@ h4{font-size:15px;margin:18px 0 4px;color:var(--ink)}
 <tr><td>Quaternius – Ultimate Monsters</td><td>50 隻全動畫怪物，同作者 → 骨架可能相容</td><td>CC0</td><td>官方頁面沒列出清單，<b>沒有確認裡面有沒有骷髏</b></td></tr>
 </table></div>
 <p><b>建議走 KayKit</b>，而且那個「骨架命名不同」的風險比想像中小很多，理由是：</p>
-<div class="note"><p><b>敵人根本不需要跟玩家共用骨架。</b> 骨架相容性之所以要緊，是因為<b>模組化裝備要綁到素體骨架上</b>——那是玩家角色的需求。骷髏敵人不穿玩家的裝備，<br>它只要自己的模型配自己的動畫能動就好。KayKit 自己就有配套的動畫包。</p></div>
+<div class="note"><p><b>敵人根本不需要跟玩家共用骨架。</b> 骨架相容性之所以要緊，是因為<b>模組化<br>裝備要綁到素體骨架上</b>——那是玩家角色的需求。骷髏敵人不穿玩家的裝備，<br>它只要自己的模型配自己的動畫能動就好。KayKit 自己就有配套的動畫包。</p></div>
 <p>也就是說，技能文件裡記的那個血淋淋教訓（動畫庫抓錯版本、Rigify 命名 vs UE 命名，整個對不上）<b>只會發生在玩家角色那條線上，敵人這條線繞得開</b>。</p>
 <p>而且 KayKit 免費版的四隻剛好對應到我們要的敵人配置，見第 5 節。</p>
 <h2 id="s1核心概述">1. 核心概述</h2>
@@ -404,6 +404,10 @@ h4{font-size:15px;margin:18px 0 4px;color:var(--ink)}
 <li><b>出口必須可達。這是硬條件，不是檢查。</b> 走不到出口的樓層等於壞掉的樓層。</li>
 </ul>
 <p>最後一條的實作分三段，最後一段是無條件的：先拆最靠近走廊的障礙物（那裡 最可能是瓶頸，房間中央的擺設保留得越多畫面越不空），不夠就從尾端逐一拆， 再不行就全清空——<b>全清空必定退回純幾何，而純幾何的連通率是 100%</b>。 第一版只做了第一段就宣稱「一定救得回來」，實測 200 層有 5 層失敗、 <b>0 層被救回</b>：宣稱的保證和實際的保證是兩回事。</p>
+<h3>7.2.1.5 牆上的門洞</h3>
+<p>未接到走廊的接口砌牆、接到走廊的地方留門洞——後者的判定是 「哪個區塊<b>跨過</b>這道牆線」，不是「哪個區塊的邊緣<b>貼齊</b>這道牆線」。</p>
+<p>走廊刻意咬進房間 0.9 公尺，邊緣落在房內、不在牆線上。用貼齊去判的話門洞一個 都挖不出來，走廊兩端全被牆封死（使用者實際回報過這個畫面）。</p>
+<p><b>而 200 層的 BFS 對這種壞法完全盲眼</b>：可走判定（<code>Floor.Clamp</code>）與畫出來的牆是 兩套獨立的系統，資料上通、視覺上封死，測試照樣全綠。所以另外量一個 「走廊接口被牆堵住幾個」，而且這個指標本身有做反向對照——把修正退回舊邏輯重跑， 每一個接口都被判定為堵住，同時出口可達仍全是 True。</p>
 <h3>7.2.2 連通性回歸測試</h3>
 <p><code>DND_MODE=floor</code> 會生成 200 層，在可走區域鋪 0.35 公尺格點做 BFS， <b>每一步都要通過遊戲實際用的 <code>Floor.Clamp</code></b>——如果 Clamp 會把角色推回去， 那個格點就不算可走。這樣測到的是玩家真的走得到的路徑，不是幾何上「看起來有連」。</p>
 <p>最新結果：不可達 <b>0 / 200</b>，純幾何 200/200 全通，保底規則救回 5 層。</p>
