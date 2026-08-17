@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 素材驗證截圖</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:860px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:420px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 素材驗證</p>
+  <h1>骷髏素材第一輪實際畫面</h1>
+  <p class="lede">KayKit 骷髏包（CC0）匯入 Unity 之後的實際渲染。等角相機、即時光影、即時投影。</p>
+
+  <div class="note warn">
+    <p><b>先講清楚這是什麼、不是什麼。</b></p>
+    <p>這些是<b>素材驗證截圖</b>——確認模型載得進來、動畫綁得上、風格對不對。
+       <b>不是 Demo 畫面。</b>地城房間、玩家跟骷髏的實際戰鬥、虛擬搖桿操作、
+       換裝按鈕，這些都還沒做。</p>
+    <p>畫面裡的格子地板是暫時的除錯用底圖，不是關卡美術。</p>
+  </div>
+
+  <h2>玩家 vs 骷髏：這張是重點</h2>
+  <figure>
+    <img src="dnd-shots/lineup_vs_player.jpg" alt="玩家角色與四隻骷髏並排">
+    <figcaption><b>最左邊綠衣是玩家角色</b>（Quaternius 素體 + 模組化裝備），
+      右邊四隻是骷髏（KayKit）：骷髏兵、盜賊、法師、戰士。</figcaption>
+  </figure>
+
+  <p>兩家素材放在一起，體型與畫風的落差看得出來。我量了數字：</p>
+
+  <div class="scroll">
+  <table>
+    <tr><th></th><th>身高</th><th>頭高</th><th>頭身比</th></tr>
+    <tr><td>玩家（Quaternius）</td><td class="num">2.07 m</td><td class="num">0.46 m</td><td class="num">1 : 4.5</td></tr>
+    <tr><td>骷髏（KayKit）</td><td class="num">1.70 m</td><td class="num">0.67 m</td><td class="num">1 : 2.5</td></tr>
+  </table>
+  </div>
+
+  <p><b>身高差 18% 可以調，頭身比 4.5 對 2.5 調不掉。</b>那是寫實比例對上大頭
+     卡通比例，縮放解決不了。這件事要你決定方向，三個選項在下面。</p>
+
+  <h2>骷髏本身：動畫全部正常</h2>
+
+  <figure>
+    <img src="dnd-shots/idle.jpg" alt="四隻骷髏待機">
+    <figcaption><b>待機</b>（<code>Skeletons_Idle</code>）。左起：骷髏兵、盜賊、法師、戰士。
+      四隻的剪影與體型差異是素材包自帶的，不用另外做。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="dnd-shots/walk.jpg" alt="四隻骷髏行走">
+    <figcaption><b>行走</b>（<code>Skeletons_Walking</code>）。骷髏專屬的走路版本，
+      步態比通用版更蹣跚。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="dnd-shots/attack.jpg" alt="四隻骷髏攻擊">
+    <figcaption><b>近戰攻擊</b>（<code>Melee_1H_Attack_Chop</code>）。
+      骷髏兵的肋骨在這個角度看得很清楚。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="dnd-shots/awaken.jpg" alt="四隻骷髏甦醒">
+    <figcaption><b>甦醒</b>（<code>Skeletons_Awaken_Standing</code>）。
+      素材包還附了「從地上爬起來」的版本（<code>Awaken_Floor</code>、
+      <code>Spawn_Ground</code>）——骷髏躺在地上、玩家靠近才爬起來，
+      這在地城房間裡是免費的氣氛。</figcaption>
+  </figure>
+
+  <figure>
+    <img src="dnd-shots/death.jpg" alt="四隻骷髏死亡倒地">
+    <figcaption><b>死亡</b>（<code>Skeletons_Death</code>）。
+      <b>注意畫面中央那四個立著的小圓柱</b>——四隻都倒下了，卻各留一截在原地。
+      那是我還沒查清楚的東西，不是設計。已列進待辦。</figcaption>
+  </figure>
+
+  <h2>驗證結果</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>項目</th><th>結果</th></tr>
+    <tr><td>四隻骷髏模型</td><td>都載入成功，各綁 <b>83 個動畫 clip</b></td></tr>
+    <tr><td>骨架綁定</td><td>clip 曲線路徑與模型階層<b>逐字相同</b></td></tr>
+    <tr><td>動畫實動</td><td>35 個取樣 transform 有 <b>22 個</b>在位移</td></tr>
+    <tr><td>授權</td><td>CC0，可商用免署名</td></tr>
+    <tr><td>花費</td><td><b>$0</b></td></tr>
+  </table>
+  </div>
+
+  <div class="note">
+    <p><b>順帶修掉一個沒預期到的問題：整個專案的色彩空間是 Gamma，畫面全部洗白。</b></p>
+    <p>地板程式裡設定是深紫灰，畫面上卻是淺紫；骷髏該是骨白卻渲染成粉紅。
+       改成 Linear 並把環境光壓下來之後，才是上面這些截圖的樣子。
+       這只影響 DnD 這個獨立專案，碰不到正在出貨的 App。</p>
+  </div>
+
+  <h2>要你決定：兩家素材的風格差怎麼處理</h2>
+  <ul>
+    <li><b>A. 玩家也換成 KayKit</b> —— 風格立刻統一，一樣 CC0。代價是可能要放棄
+        Quaternius 的模組化紙娃娃，那是「撿到裝備、外觀真的變」這個賣點的技術底子。
+        要先查 KayKit 有沒有等價的模組化裝備件。</li>
+    <li><b>B. 骷髏改用 Quaternius Ultimate Monsters</b> —— 同一家、風格統一、保住紙娃娃。
+        但那包 50 隻怪的清單官方頁面沒列出來，<b>還沒確認裡面有沒有骷髏</b>。</li>
+    <li><b>C. 維持現狀</b> —— 當作刻意的美術決定：玩家是寫實比例的人類，骷髏是變形的怪物。
+        $0、立刻能繼續。</li>
+  </ul>
+  <p>我的建議是<b>先照現狀把 Demo 做完看實機效果再決定</b>——在手機上看跟在截圖上看
+     感受差很多。同時我會去查 B 選項到底有沒有骷髏，那是免費的資訊。</p>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 尚未動工的 Demo 前置驗證</footer>
+</div>
+</body>
+</html>
