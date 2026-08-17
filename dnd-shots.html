@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>地城迴響 素材驗證截圖</title>
+<title>地城迴響 亡靈鎧甲</title>
 <style>
 :root{
   --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
@@ -66,104 +66,96 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">地城迴響 · 素材驗證</p>
-  <h1>骷髏素材第一輪實際畫面</h1>
-  <p class="lede">KayKit 骷髏包（CC0）匯入 Unity 之後的實際渲染。等角相機、即時光影、即時投影。</p>
+  <p class="eyebrow">地城迴響 · 敵人素材驗證</p>
+  <h1>亡靈鎧甲：與玩家同一副素體</h1>
+  <p class="lede">敵人不再是外來素材。用玩家同一副 Quaternius 素體，穿滿板甲加兜帽，
+     臉的位置處理成一片虛空。比例、動畫、骨架全部天生一致。</p>
 
   <div class="note warn">
-    <p><b>先講清楚這是什麼、不是什麼。</b></p>
-    <p>這些是<b>素材驗證截圖</b>——確認模型載得進來、動畫綁得上、風格對不對。
-       <b>不是 Demo 畫面。</b>地城房間、玩家跟骷髏的實際戰鬥、虛擬搖桿操作、
-       換裝按鈕，這些都還沒做。</p>
-    <p>畫面裡的格子地板是暫時的除錯用底圖，不是關卡美術。</p>
+    <p><b>這些是素材驗證截圖，不是 Demo 畫面。</b>地城房間、實際戰鬥、虛擬搖桿、
+       換裝按鈕都還沒做。畫面裡的格子地板是除錯用底圖，不是關卡美術。</p>
   </div>
 
-  <h2>玩家 vs 骷髏：這張是重點</h2>
+  <h2>為什麼換掉原本的骷髏</h2>
+  <p>第一版用的是 KayKit 的 CC0 骷髏包。模型與動畫都沒問題，但跟玩家放在同一個畫面
+     就露餡了——量出來的頭身比是 <b>1 : 2.5</b>（大頭卡通）對上玩家的 <b>1 : 4.5</b>（寫實）。
+     身高可以調，頭身比調不掉。</p>
   <figure>
-    <img src="dnd-shots/lineup_vs_player.jpg" alt="玩家角色與四隻骷髏並排">
-    <figcaption><b>最左邊綠衣是玩家角色</b>（Quaternius 素體 + 模組化裝備），
-      右邊四隻是骷髏（KayKit）：骷髏兵、盜賊、法師、戰士。</figcaption>
+    <img src="dnd-shots/lineup_vs_player.jpg" alt="舊版：玩家與 KayKit 骷髏並排">
+    <figcaption><b>舊版（已廢棄）</b>：最左綠衣是玩家，右邊四隻是 KayKit 骷髏。
+      像兩款不同的遊戲。</figcaption>
   </figure>
+  <p>找過 Quaternius 自家的替代品：<b>Ultimate Monsters 的 45 個模型裡沒有骷髏</b>，
+     全站也沒有骷髏包，他們家的 "Skeleton" 全部是<b>沒有綁骨的靜態裝飾道具</b>。
+     所以改走「同一副素體做成亡靈鎧甲」——代價是做不出裸露的骨頭，這是題材上的讓步。</p>
 
-  <p>兩家素材放在一起，體型與畫風的落差看得出來。我量了數字：</p>
+  <h2>現在的樣子</h2>
+  <figure>
+    <img src="dnd-shots/undead/lineup_vs_player.jpg" alt="玩家與三隻亡靈並排">
+    <figcaption>最左綠衣是玩家，右邊三隻是<b>亡靈兵</b>（小、蒼綠眼）、
+      <b>亡靈騎士</b>（大、有護肩、橙火眼）、<b>亡靈術士</b>（法師長袍、冷藍眼、持杖）。
+      三種變體共用同一副素體與同一套動畫，靠尺寸、配件與眼光顏色區分剪影。</figcaption>
+  </figure>
 
   <div class="scroll">
   <table>
     <tr><th></th><th>身高</th><th>頭高</th><th>頭身比</th></tr>
-    <tr><td>玩家（Quaternius）</td><td class="num">2.07 m</td><td class="num">0.46 m</td><td class="num">1 : 4.5</td></tr>
-    <tr><td>骷髏（KayKit）</td><td class="num">1.70 m</td><td class="num">0.67 m</td><td class="num">1 : 2.5</td></tr>
+    <tr><td>玩家</td><td class="num">2.07 m</td><td class="num">0.46 m</td><td class="num">1 : 4.5</td></tr>
+    <tr><td>亡靈</td><td class="num">1.91 m</td><td class="num">0.42 m</td><td class="num">1 : 4.5</td></tr>
   </table>
   </div>
-
-  <p><b>身高差 18% 可以調，頭身比 4.5 對 2.5 調不掉。</b>那是寫實比例對上大頭
-     卡通比例，縮放解決不了。這件事要你決定方向，三個選項在下面。</p>
-
-  <h2>骷髏本身：動畫全部正常</h2>
+  <p>頭身比從 <b>2.5 對 4.5</b> 變成 <b>4.5 對 4.5</b>。這是同一副素體的必然結果，
+     不是調出來的。</p>
 
   <figure>
-    <img src="dnd-shots/idle.jpg" alt="四隻骷髏待機">
-    <figcaption><b>待機</b>（<code>Skeletons_Idle</code>）。左起：骷髏兵、盜賊、法師、戰士。
-      四隻的剪影與體型差異是素材包自帶的，不用另外做。</figcaption>
+    <img src="dnd-shots/undead/face_closeup.jpg" alt="兜帽底下的虛空特寫">
+    <figcaption><b>兜帽底下是虛空，不是一張臉。</b>兜帽是必要的而不是裝飾——
+      沒有它罩著，那顆全黑的頭會直接曝露成一顆黑球。</figcaption>
   </figure>
 
-  <figure>
-    <img src="dnd-shots/walk.jpg" alt="四隻骷髏行走">
-    <figcaption><b>行走</b>（<code>Skeletons_Walking</code>）。骷髏專屬的走路版本，
-      步態比通用版更蹣跚。</figcaption>
-  </figure>
+  <h2>動作</h2>
+  <figure><img src="dnd-shots/undead/idle.jpg" alt="待機"><figcaption><b>待機</b>（持劍架勢）</figcaption></figure>
+  <figure><img src="dnd-shots/undead/walk.jpg" alt="行走"><figcaption><b>行走</b></figcaption></figure>
+  <figure><img src="dnd-shots/undead/attack.jpg" alt="攻擊"><figcaption><b>攻擊</b>（戰士揮劍、術士施法）</figcaption></figure>
+  <figure><img src="dnd-shots/undead/hit.jpg" alt="受擊"><figcaption><b>受擊</b>——敵人一定會用到，所以一併驗</figcaption></figure>
+  <figure><img src="dnd-shots/undead/death.jpg" alt="死亡"><figcaption><b>死亡</b></figcaption></figure>
 
-  <figure>
-    <img src="dnd-shots/attack.jpg" alt="四隻骷髏攻擊">
-    <figcaption><b>近戰攻擊</b>（<code>Melee_1H_Attack_Chop</code>）。
-      骷髏兵的肋骨在這個角度看得很清楚。</figcaption>
-  </figure>
-
-  <figure>
-    <img src="dnd-shots/awaken.jpg" alt="四隻骷髏甦醒">
-    <figcaption><b>甦醒</b>（<code>Skeletons_Awaken_Standing</code>）。
-      素材包還附了「從地上爬起來」的版本（<code>Awaken_Floor</code>、
-      <code>Spawn_Ground</code>）——骷髏躺在地上、玩家靠近才爬起來，
-      這在地城房間裡是免費的氣氛。</figcaption>
-  </figure>
-
-  <figure>
-    <img src="dnd-shots/death.jpg" alt="四隻骷髏死亡倒地">
-    <figcaption><b>死亡</b>（<code>Skeletons_Death</code>）。
-      <b>注意畫面中央那四個立著的小圓柱</b>——四隻都倒下了，卻各留一截在原地。
-      那是我還沒查清楚的東西，不是設計。已列進待辦。</figcaption>
-  </figure>
-
-  <h2>驗證結果</h2>
+  <h2>驗證數字</h2>
   <div class="scroll">
   <table>
-    <tr><th>項目</th><th>結果</th></tr>
-    <tr><td>四隻骷髏模型</td><td>都載入成功，各綁 <b>83 個動畫 clip</b></td></tr>
-    <tr><td>骨架綁定</td><td>clip 曲線路徑與模型階層<b>逐字相同</b></td></tr>
-    <tr><td>動畫實動</td><td>35 個取樣 transform 有 <b>22 個</b>在位移</td></tr>
-    <tr><td>授權</td><td>CC0，可商用免署名</td></tr>
-    <tr><td>花費</td><td><b>$0</b></td></tr>
+    <tr><th>項目</th><th>數字</th><th>判定</th></tr>
+    <tr><td>動畫實動</td><td>40 個取樣 transform，36 個位移</td><td>通過</td></tr>
+    <tr><td>動畫 clip</td><td>43 個全載入</td><td>通過</td></tr>
+    <tr><td>臉部虛空</td><td>膚色像素 92 / 490,000（0.019%），門檻 0.15%</td><td>通過</td></tr>
+    <tr><td>素體區塊材質</td><td>五塊全部亮度 0.047</td><td>通過</td></tr>
+    <tr><td>花費</td><td>$0（CC0）</td><td>—</td></tr>
   </table>
   </div>
 
   <div class="note">
-    <p><b>順帶修掉一個沒預期到的問題：整個專案的色彩空間是 Gamma，畫面全部洗白。</b></p>
-    <p>地板程式裡設定是深紫灰，畫面上卻是淺紫；骷髏該是骨白卻渲染成粉紅。
-       改成 Linear 並把環境光壓下來之後，才是上面這些截圖的樣子。
-       這只影響 DnD 這個獨立專案，碰不到正在出貨的 App。</p>
+    <p><b>「動畫有沒有真的綁上」不能看靜態截圖。</b>沒綁上的症狀是角色站著不動，
+       跟「idle 正常播放」在截圖上長得一模一樣。所以是比對兩個時間點的骨骼世界座標，
+       而且兩端都要落在動畫播放中——第一次就是取到「還沒開始播」那段，
+       量出 0 並誤判成動畫壞掉。</p>
+    <p><b>「臉夠不夠黑」也不能用平均亮度。</b>那個數字永遠會被亮鋼兜帽拉高，
+       跟兜帽底下看不看得到臉是兩回事。改成直接掃膚色像素——量失敗模式本身，
+       不拿亮度當代理指標。</p>
   </div>
 
-  <h2>要你決定：兩家素材的風格差怎麼處理</h2>
-  <ul>
-    <li><b>A. 玩家也換成 KayKit</b> —— 風格立刻統一，一樣 CC0。代價是可能要放棄
-        Quaternius 的模組化紙娃娃，那是「撿到裝備、外觀真的變」這個賣點的技術底子。
-        要先查 KayKit 有沒有等價的模組化裝備件。</li>
-    <li><b>B. 骷髏改用 Quaternius Ultimate Monsters</b> —— 同一家、風格統一、保住紙娃娃。
-        但那包 50 隻怪的清單官方頁面沒列出來，<b>還沒確認裡面有沒有骷髏</b>。</li>
-    <li><b>C. 維持現狀</b> —— 當作刻意的美術決定：玩家是寫實比例的人類，骷髏是變形的怪物。
-        $0、立刻能繼續。</li>
-  </ul>
-  <p>我的建議是<b>先照現狀把 Demo 做完看實機效果再決定</b>——在手機上看跟在截圖上看
-     感受差很多。同時我會去查 B 選項到底有沒有骷髏，那是免費的資訊。</p>
+  <h2>效能（編輯器基準，不是實機）</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>情境</th><th>平均</th><th>p95</th><th>最差幀</th></tr>
+    <tr><td>20 隻亡靈</td><td class="num">106.0 fps</td><td class="num">90.8 fps</td><td class="num">22.3 fps</td></tr>
+    <tr><td>20 隻亡靈 + 滿場粒子</td><td class="num">107.6 fps</td><td class="num">92.2 fps</td><td class="num">72.2 fps</td></tr>
+  </table>
+  </div>
+  <p><b>這組數字還不能拿來過關。</b>跑在 M1 Pro 的編輯器上、視窗只有 585×768。
+     加了 7200 顆粒子上限幀數卻沒掉，那不是「特效很便宜」，是這個解析度下
+     fill rate 根本沒被壓到——iPhone 是 1284×2778，量級完全不同。實機數字還沒拿到。</p>
+  <p><b>一個真的要處理的數字</b>：20 隻的生成成本是 <b>456 ms</b>（每隻 22.8 ms），
+     一次生成會是看得見的卡頓。每隻都要跑一次骨權重分區與 mesh 重建——
+     解法是共用切好的 mesh，或把生成分攤到多幀。</p>
 
   <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 尚未動工的 Demo 前置驗證</footer>
 </div>
