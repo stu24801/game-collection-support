@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響（暫名 DnD）── 直式操作的暗黑類地下城冒險 設計規劃稿</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:820px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.toc{background:var(--card);border:1px solid var(--line);border-radius:14px;
+     padding:14px 16px;margin:22px 0 8px}
+.toc summary{cursor:pointer;font-weight:700;font-size:14px;color:var(--gold);
+     letter-spacing:.04em}
+.toc nav{display:flex;flex-direction:column;gap:2px;margin-top:10px}
+.toc a{color:var(--ink-soft);text-decoration:none;font-size:14px;padding:3px 0;
+     border-bottom:1px solid var(--line-soft)}
+.toc a:last-child{border-bottom:none}
+.toc a:hover{color:var(--gold)}
+.doc{margin-top:12px}
+.doc h2{font-size:20px;margin:38px 0 12px;padding-top:14px;
+     border-top:2px solid var(--gold);letter-spacing:-.01em}
+.doc h3{font-size:16px;margin:26px 0 8px;color:var(--gold)}
+.doc p{margin:0 0 12px;font-size:15px}
+.doc ul,.doc ol{margin:0 0 14px;padding-left:22px}
+.doc li{margin:4px 0;font-size:15px}
+.doc li>ul,.doc li>ol{margin:4px 0}
+.doc strong{color:var(--ink);font-weight:700}
+.doc hr{border:none;border-top:1px solid var(--line);margin:34px 0}
+.doc blockquote{margin:0 0 20px;padding:14px 16px;background:var(--note-bg);
+     border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+     color:var(--ink-soft);font-size:14.5px}
+.doc blockquote p{margin:0}
+.doc code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+     background:var(--card);border:1px solid var(--line);border-radius:5px;
+     padding:1px 5px;color:var(--ember)}
+.doc pre{background:var(--card);border:1px solid var(--line);border-radius:12px;
+     padding:14px 16px;overflow-x:auto;margin:0 0 16px}
+.doc pre code{background:none;border:none;padding:0;color:var(--ink);
+     font-size:13px;line-height:1.6}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;margin:0 0 18px}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+     background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft);
+     vertical-align:top}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td[align=right],th[align=right]{text-align:right;
+     font-variant-numeric:tabular-nums}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">設計規劃稿 · 尚未動工</p>
+  <h1>地城迴響（暫名 DnD）── 直式操作的暗黑類地下城冒險 設計規劃稿</h1>
+  <p class="lede">給使用者確認細節用。第 10 節列出已定案事項與還需要你拍板的 5 個問題；
+     未經確認前不寫任何程式碼、不生成任何素材。</p>
+
+  <details class="toc" open>
+    <summary>目錄</summary>
+    <nav>
+<a href="#s1">0. 已有的東西</a>
+<a href="#s2">1. 核心概述</a>
+<a href="#s3">2. 核心玩法迴圈</a>
+<a href="#s4">3. 操作與視角：直式怎麼裝下一個地下城</a>
+<a href="#s5">4. 職業（初期 1 個）</a>
+<a href="#s6">5. 敵人</a>
+<a href="#s7">6. 裝備與升級</a>
+<a href="#s8">7. 地下城結構</a>
+<a href="#s9">8. 音效與音樂</a>
+<a href="#s10">9. 美術範圍與成本估算</a>
+<a href="#s11">10. 定案事項與待決問題</a>
+<a href="#s12">11. 建議的執行順序（確認後才開始）</a>
+    </nav>
+  </details>
+
+  <div class="doc">
+<blockquote>
+<p><strong>狀態：規劃稿，尚未動工。</strong> 本文件是給使用者確認用的，第 10 節列出需要
+他拍板的問題，未經確認前不寫任何程式碼、不生成任何素材。</p>
+</blockquote>
+<hr />
+<h2 id="s1">0. 已有的東西</h2>
+<p><code>new-design/DnD/58LNxPd.gif</code> ── 一張 4×4 的角色 sprite sheet，持長矛的女性角色，
+多個朝向的移動幀，典型的《暗黑破壞神 2》等距多方向素材。</p>
+<p>這張圖透露的美術方向很明確：<strong>等距視角、角色有多個朝向</strong>。第 3 節與第 9 節會
+說明這個決定對成本的影響——它是整個企劃裡最貴的一項，而且有便宜很多的替代方案。</p>
+<hr />
+<h2 id="s2">1. 核心概述</h2>
+<ul>
+<li><strong>類型：</strong> 直式操作、即時戰鬥的地下城冒險 ARPG。</li>
+<li><strong>核心：</strong> 下樓 → 打怪 → 撿裝 → 升等點技能 → 打魔王 → 再下一層。</li>
+<li><strong>參照：</strong> 《暗黑破壞神 2》的養成骨架（技能樹、裝備詞綴、稀有度顏色），
+  但關卡尺度大幅縮小，適合手機單手、短時段遊玩。</li>
+<li><strong>與現有兩款的關係（已定案）：</strong> 這款會<strong>放進同一個 App</strong>
+  （<code>com.alexvampire.gamecollection</code>），成為「手搓廣告遊戲選集」的第三款，
+  跟吸血鬼復仇、殭屍防禦共用 Hub、UI factory、音訊層與建置管線。</li>
+<li>同樣是直式、同樣走「一局幾分鐘」的節奏，但這是<strong>第一款有持續存檔的作品</strong>
+  ——另外兩款都是單局結算就歸零，這款的角色等級與裝備要跨局保留。
+  這是最大的架構差異，見第 6 節。</li>
+</ul>
+<hr />
+<h2 id="s3">2. 核心玩法迴圈</h2>
+<p><code>進入樓層
+  ↓
+探索房間（多數房間有敵人，少數是寶箱房／空房）
+  ↓
+清怪 → 掉落經驗與裝備 → 即時比較是否換裝
+  ↓
+升等 → 配點（技能點／屬性點）
+  ↓
+找到下樓梯 → 進入下一層
+  ↓
+第 N 層是魔王房 → 打倒魔王 → 本次探索結束、結算</code></p>
+<p><strong>一局的長度目標：8～12 分鐘。</strong> 跟現有兩款一致（吸血鬼 8 分鐘、殭屍 8 波），
+理由相同：手機遊戲要能在通勤一段路內打完一局。</p>
+<p><strong>死亡的處理</strong>是這一節最需要你決定的事，見第 10 節問題 4。</p>
+<hr />
+<h2 id="s4">3. 操作與視角：直式怎麼裝下一個地下城</h2>
+<p>這是整份規劃裡最需要想清楚的一節。《暗黑破壞神 2》是 4:3 橫向的，等距視角的
+菱形網格本來就「寬」；直式螢幕（約 9:16）橫向能看到的格子很少。</p>
+<h3>3.1 三個可行方案</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>方案</th>
+<th>做法</th>
+<th>優點</th>
+<th>缺點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. 純等距 + 相機跟隨</td>
+<td>照 D2 原樣，相機跟著角色</td>
+<td>最像 D2</td>
+<td>橫向視野窄，左右來敵幾乎沒有預警</td>
+</tr>
+<tr>
+<td>B. <strong>等距 + 縱向關卡布局</strong>（建議）</td>
+<td>保留等距畫面，但<strong>房間與走廊主要往上下延伸</strong></td>
+<td>保住 D2 的畫面感，玩的方向跟螢幕形狀一致</td>
+<td>關卡設計受限，不能像 D2 那樣自由攤開</td>
+</tr>
+<tr>
+<td>C. 正上方俯視</td>
+<td>改成殭屍防禦那種直下視角</td>
+<td>直式最好塞、素材最便宜</td>
+<td>失去 D2 的味道，現有 sprite sheet 用不上</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>建議 B。</strong> 理由：現有素材是等距的，改 C 等於丟掉它；而 A 的橫向視野問題在
+手機上會變成「被螢幕外的東西打到」——那是操作挫折而不是難度。B 的做法是把
+關卡的主軸轉成縱向：房間之間用南北向的走廊連接，戰鬥房做成縱長形，玩家的
+推進方向大致等於螢幕的長邊。</p>
+<h3>3.2 相機</h3>
+<ul>
+<li>跟隨角色，<strong>往移動方向預看</strong>（lead）約 1.5 個身位——直式的上方視野是玩家
+  最需要的資訊。</li>
+<li>進戰鬥房時輕微拉遠，清場後拉回。這是廉價但有效的節奏感。</li>
+</ul>
+<h3>3.3 操作</h3>
+<p>沿用現有兩款已經驗證過的配置，不重新發明：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>元件</th>
+<th>位置</th>
+<th>行為</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>虛擬搖桿</td>
+<td>左下</td>
+<td>八方向移動。吸血鬼那套 <code>BuildJoystick</code> 可以直接沿用</td>
+</tr>
+<tr>
+<td>普通攻擊</td>
+<td>自動</td>
+<td>進入攻擊範圍自動打最近的目標。兩款現有遊戲都是自動攻擊，單手遊玩必要</td>
+</tr>
+<tr>
+<td>技能鍵</td>
+<td>右下，3～4 顆</td>
+<td>各自有冷卻圈，長按顯示說明</td>
+</tr>
+<tr>
+<td>拾取</td>
+<td>自動</td>
+<td>走過去就撿。手機上點小物件很痛苦</td>
+</tr>
+<tr>
+<td>裝備比較</td>
+<td>撿到時彈一張小卡</td>
+<td>顯示「比目前的裝備好／差」，一鍵換裝</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>「自動攻擊 + 手動技能」</strong>是這個配置的核心：移動與時機由玩家決定，
+瞄準交給系統。這跟 D2 的「點擊移動＋點擊攻擊」不同，但那套在觸控上很難用。</p>
+<hr />
+<h2 id="s5">4. 職業（初期 1 個）</h2>
+<p>依現有素材，第一個職業設定為<strong>持矛的近戰／投擲混合型</strong>。</p>
+<h3>4.1 矛衛（暫名）</h3>
+<ul>
+<li><strong>定位：</strong> 中距離近戰。攻擊範圍比劍盾長，但沒有格擋。</li>
+<li><strong>主要屬性：</strong> 敏捷（攻速與命中）、力量（傷害）。</li>
+</ul>
+<h3>4.2 技能樹初版</h3>
+<p>D2 的三系太大，初期收斂成<strong>兩系各 4 個技能</strong>，共 8 個。每升一級給 1 點技能點。</p>
+<p><strong>近戰系「長矛術」</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>前置</th>
+<th>效果</th>
+<th>型態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>刺擊</td>
+<td>—</td>
+<td>單體高傷突刺，短暫前衝</td>
+<td>主動</td>
+</tr>
+<tr>
+<td>橫掃</td>
+<td>刺擊 1</td>
+<td>半圓範圍傷害，擊退</td>
+<td>主動</td>
+</tr>
+<tr>
+<td>矛陣</td>
+<td>橫掃 1</td>
+<td>原地連續突刺，持續 1.5 秒</td>
+<td>主動</td>
+</tr>
+<tr>
+<td>銳利</td>
+<td>—</td>
+<td>被動：攻擊力 +8%/級</td>
+<td>被動</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>投擲系「標槍術」</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>前置</th>
+<th>效果</th>
+<th>型態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>投擲標槍</td>
+<td>—</td>
+<td>直線飛行，穿透 1 個目標</td>
+<td>主動</td>
+</tr>
+<tr>
+<td>雷擊標槍</td>
+<td>投擲 1</td>
+<td>命中後對周圍造成連鎖電擊</td>
+<td>主動</td>
+</tr>
+<tr>
+<td>標槍雨</td>
+<td>雷擊 1</td>
+<td>指定區域落下多支標槍</td>
+<td>主動</td>
+</tr>
+<tr>
+<td>迅捷</td>
+<td>—</td>
+<td>被動：移動速度 +5%/級、投擲速度 +6%/級</td>
+<td>被動</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>設計意圖：</strong> 兩系不是「純近戰 vs 純遠程」，而是「站著輸出 vs 風箏」。玩家
+可以偏一邊，也可以各點一半——D2 的樂趣有一半來自這個選擇。</p>
+<p>初期上限建議每個技能 5 級，最高等級 20 級（給 19 點技能點，不夠點滿兩系，
+<strong>這是刻意的</strong>）。</p>
+<hr />
+<h2 id="s6">5. 敵人</h2>
+<h3>5.1 小怪（初期 3 種）</h3>
+<p>三種的存在意義是<strong>逼出不同的應對</strong>，不是換皮：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>行為</th>
+<th>逼玩家做什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>腐屍</td>
+<td>慢速接近，數量多，近戰</td>
+<td>用範圍技，不要被圍</td>
+</tr>
+<tr>
+<td>骨弓手</td>
+<td>保持距離，射擊，被貼近會後退</td>
+<td>主動貼近或用投擲對射</td>
+</tr>
+<tr>
+<td>石魔</td>
+<td>慢、高血量、高傷，會蓄力後衝撞</td>
+<td>看蓄力動作走位，不能站著硬拼</td>
+</tr>
+</tbody>
+</table></div>
+<h3>5.2 魔王（初期 1 隻）</h3>
+<p><strong>深淵守衛（暫名）</strong> ── 三階段，血量門檻切換。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>階段</th>
+<th>觸發</th>
+<th>行為</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一</td>
+<td>100%～65%</td>
+<td>近身揮擊、偶爾衝撞</td>
+</tr>
+<tr>
+<td>二</td>
+<td>65%～30%</td>
+<td>加入地面震波（有預警圈）、召喚腐屍</td>
+</tr>
+<tr>
+<td>三</td>
+<td>30%～0%</td>
+<td>攻速提升、震波變成連續三發、場地邊緣落石</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>設計原則沿用殭屍防禦那隻的做法</strong>：每個技能都要有<strong>預警動作或預警圈</strong>，
+玩家死掉時要能說出「我剛剛應該閃的」。沒有預警的傷害只會讓人覺得被陰。</p>
+<h3>5.3 可破壞裝飾品（初期 2 種）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>名稱</th>
+<th>打破後</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>木桶</td>
+<td>掉落少量金幣或藥水</td>
+<td>給玩家「順手打一下」的小獎勵，D2 的經典手感</td>
+</tr>
+<tr>
+<td>爆裂罐</td>
+<td>範圍爆炸，同時傷害敵我</td>
+<td>戰術物件：可以引怪過去再引爆，但站太近會自傷</td>
+</tr>
+</tbody>
+</table></div>
+<p>爆裂罐會傷到玩家自己是刻意的——沒有風險的環境互動很快就變成無腦點擊。</p>
+<hr />
+<h2 id="s7">6. 裝備與升級</h2>
+<h3>6.1 等級與屬性</h3>
+<ul>
+<li>每級：<strong>1 點技能點 + 3 點屬性點</strong>（力量／敏捷／體力）。</li>
+<li>經驗曲線：前 10 級快（每 2～3 分鐘一級），之後放緩。</li>
+</ul>
+<h3>6.2 裝備欄位（初期 4 格）</h3>
+<p>武器、護甲、頭盔、飾品。初期不做手套鞋子腰帶——欄位多不會讓遊戲更好玩，
+只會讓每次撿到東西要比較的欄位變多。</p>
+<h3>6.3 稀有度與詞綴</h3>
+<p>沿用 D2 的顏色語彙（玩家一看就懂）：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>稀有度</th>
+<th>顏色</th>
+<th>詞綴數</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>普通</td>
+<td>白</td>
+<td>0</td>
+</tr>
+<tr>
+<td>魔法</td>
+<td>藍</td>
+<td>1～2</td>
+</tr>
+<tr>
+<td>稀有</td>
+<td>黃</td>
+<td>3～4</td>
+</tr>
+<tr>
+<td>傳奇</td>
+<td>金</td>
+<td>固定特效 1 個 + 詞綴 2 個</td>
+</tr>
+</tbody>
+</table></div>
+<p>初期詞綴池建議 12 條左右（傷害、攻速、生命、生命回復、移速、暴擊率、
+暴擊傷害、各元素抗性、拾取範圍、經驗加成）。<strong>傳奇的特效要改變玩法</strong>
+而不只是加數字——例如「標槍命中後分裂成兩支」。</p>
+<h3>6.4 跨局保留（這是新架構）</h3>
+<p>現有兩款都是單局結算歸零。這款要保留角色等級與裝備，需要新的存檔層：</p>
+<ul>
+<li>角色資料（等級、屬性、技能點分配、背包、已裝備）</li>
+<li>存檔格式建議 JSON 存 <code>Application.persistentDataPath</code>，不要用 PlayerPrefs
+  ——PlayerPrefs 適合「難度選擇」那種單一值，不適合結構化的背包資料。</li>
+<li>要處理「存檔損毀」的退路：讀不到就開新角色，不要卡在載入畫面。</li>
+</ul>
+<hr />
+<h2 id="s8">7. 地下城結構</h2>
+<h3>7.1 初期範圍</h3>
+<p><strong>一座地下城，5 層。</strong> 第 1～4 層是探索層，第 5 層是魔王房。</p>
+<h3>7.2 每層的組成</h3>
+<ul>
+<li>每層 6～9 個房間，用南北向走廊串起來（呼應第 3 節的縱向布局）。</li>
+<li>房間類型：戰鬥房（多數）、寶箱房（1～2 個）、空房（過場用，讓節奏喘口氣）。</li>
+<li>下樓梯放在離入口最遠的房間，但<strong>不強制清光所有房間</strong>——想衝就衝，
+  想清乾淨就清，那是玩家的取捨。</li>
+</ul>
+<h3>7.3 生成方式</h3>
+<p>建議<strong>固定房間模板 + 隨機組裝</strong>，不要純程序化生成：</p>
+<ul>
+<li>手工做 8～12 個房間模板（各自有預先擺好的敵人位置與裝飾品位置）。</li>
+<li>每層隨機挑房間、隨機接起來、隨機決定敵人組合。</li>
+<li>這樣每次玩都不同，但每個房間的空間感都是設計過的——純隨機生成很容易
+  產出「一條沒有意義的長廊」。</li>
+</ul>
+<hr />
+<h2 id="s9">8. 音效與音樂</h2>
+<h3>8.1 音效</h3>
+<p>從殭屍防禦學到的：<strong>這類音效用程式合成就夠，$0</strong>。八種武器共用一支合成器
+換參數的做法可以直接搬過來（<code>ZlSfx</code> 是現成的範本）。</p>
+<p>初期需要的音（約 18～22 種）：</p>
+<ul>
+<li>玩家：刺擊、橫掃、矛陣、投擲、雷擊、受傷、死亡、升等、腳步</li>
+<li>敵人：腐屍攻擊／死亡、骨弓手射擊／死亡、石魔蓄力／衝撞／死亡</li>
+<li>魔王：出場咆哮、震波、召喚、死亡</li>
+<li>環境：木桶破裂、爆裂罐爆炸、寶箱開啟、撿裝備、換裝</li>
+</ul>
+<p><strong>但有一個例外</strong>：這款是有氛圍的地下城，<strong>環境氛圍音</strong>（滴水、遠處低吼、
+風聲）合成器做不好，那種要真的音檔。這部分建議走 Suno 或免費音效庫，
+數量不多（3～4 段循環）。</p>
+<h3>8.2 配樂</h3>
+<p>Suno，實測 <strong>12 credits／首</strong>（目前餘額 736，夠用）。初期建議 4 首：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>曲目</th>
+<th>風格方向</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>主選單／角色畫面</td>
+<td>陰鬱的中世紀弦樂，緩慢，帶一點神秘感</td>
+</tr>
+<tr>
+<td>地下城探索</td>
+<td>低限、氛圍為主，鼓點稀疏，長時間循環不膩</td>
+</tr>
+<tr>
+<td>戰鬥</td>
+<td>鼓點密集，弦樂堆疊壓迫感</td>
+</tr>
+<tr>
+<td>魔王戰</td>
+<td>加入合唱與銅管，最壯闊的一首</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>都要剪成 80 秒的無縫循環</strong>（殭屍防禦那套交叉淡化的做法），並用 Streaming
+載入——19 首配樂用 DecompressOnLoad 會吃掉數百 MB 記憶體，那是踩過的坑。</p>
+<hr />
+<h2 id="s10">9. 美術範圍與成本估算</h2>
+<p>用這個專案實測出來的單價估：<strong>圖片彙整圖 $0.20／張</strong>（不管裡面幾個物件）、
+<strong>影片 $0.32／支</strong>（4 秒 720p）、<strong>配樂 12 credits／首</strong>。</p>
+<h3>9.1 最貴的一項：角色的多方向動畫</h3>
+<p>參考素材是 8 方向的。實務上靠水平鏡像只需要 <strong>5 個方向</strong>（正面、正背、側面、
+前斜、後斜），另外三個鏡像出來。但即使如此：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>方案</th>
+<th style="text-align: right;">方向數</th>
+<th style="text-align: right;">主角動畫量</th>
+<th style="text-align: right;">主角成本</th>
+<th style="text-align: right;">三小怪</th>
+<th style="text-align: right;">魔王</th>
+<th style="text-align: right;">合計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A. D2 原味</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">待機/走/攻/受擊/死 ×5 = 25</td>
+<td style="text-align: right;">$8.00</td>
+<td style="text-align: right;">$14.40</td>
+<td style="text-align: right;">$6.40</td>
+<td style="text-align: right;"><strong>約 $28.80</strong></td>
+</tr>
+<tr>
+<td>B. 三方向</td>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">15</td>
+<td style="text-align: right;">$4.80</td>
+<td style="text-align: right;">$8.64</td>
+<td style="text-align: right;">$3.84</td>
+<td style="text-align: right;"><strong>約 $17.28</strong></td>
+</tr>
+<tr>
+<td><strong>C. 單一朝向 + 翻轉</strong>（建議起步）</td>
+<td style="text-align: right;">1(+鏡像)</td>
+<td style="text-align: right;">5</td>
+<td style="text-align: right;">$1.60</td>
+<td style="text-align: right;">$2.88</td>
+<td style="text-align: right;">$2.56</td>
+<td style="text-align: right;"><strong>約 $7.04</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>建議先走 C 起步。</strong> 現有兩款用的就是 C（角色只有面向右邊的素材，往左走靠
+<code>flipX</code>），實機上完全可以接受，而且省下的 $20 可以先花在關卡與裝備圖示上。
+等玩法確定好玩了，再決定要不要補到 B 或 A——<strong>素材可以後補，玩法不行</strong>。</p>
+<p>參考素材那張 sprite sheet 仍然有用：它可以當 image-to-video 的<strong>參考圖</strong>，
+讓生成出來的角色維持那個造型與配色。</p>
+<h3>9.2 其他素材</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>做法</th>
+<th style="text-align: right;">估價</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>地下城地磚與牆面</td>
+<td>彙整圖 2～3 張</td>
+<td style="text-align: right;">$0.60</td>
+</tr>
+<tr>
+<td>房間裝飾（木桶、爆裂罐、寶箱、火盆等）</td>
+<td>彙整圖 1 張</td>
+<td style="text-align: right;">$0.20</td>
+</tr>
+<tr>
+<td>裝備圖示（4 欄位 × 各 5～6 種造型）</td>
+<td>彙整圖 2 張</td>
+<td style="text-align: right;">$0.40</td>
+</tr>
+<tr>
+<td>UI 框飾（沿用做法，暗黑奇幻風）</td>
+<td>彙整圖 2 張</td>
+<td style="text-align: right;">$0.40</td>
+</tr>
+<tr>
+<td>技能圖示 8 個</td>
+<td>彙整圖 1 張</td>
+<td style="text-align: right;">$0.20</td>
+</tr>
+<tr>
+<td>特效形狀</td>
+<td><strong>沿用殭屍防禦那 6 種</strong>，程式染色</td>
+<td style="text-align: right;">$0</td>
+</tr>
+<tr>
+<td>音效</td>
+<td>程式合成</td>
+<td style="text-align: right;">$0</td>
+</tr>
+<tr>
+<td>配樂 4 首</td>
+<td>Suno</td>
+<td style="text-align: right;">48 credits</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>方案 C 的美術總計約 $8.84 + 48 credits。</strong> 方案 A 則約 $30.60 + 48 credits。</p>
+<h3>9.3 一個要先講的風險</h3>
+<p>多方向動畫的<strong>一致性</strong>是 AI 生成最難的部分：同一個角色從五個角度看要像同一個
+人，而 image-to-video 對這件事的控制力有限。方案 C 之所以是建議，一部分也是
+因為它繞開了這個風險——只有一個朝向就沒有一致性問題。</p>
+<hr />
+<h2 id="s11">10. 定案事項與待決問題</h2>
+<h3>已定案：併進「手搓廣告遊戲選集」，當第三款</h3>
+<p><code>com.alexvampire.gamecollection</code>，跟吸血鬼復仇、殭屍防禦同一個 App、同一個
+ASC 紀錄、同一套建置管線。</p>
+<p><strong>沿用得到的東西</strong>（等於省掉一整層基礎建設）：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>現成的</th>
+<th>用在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VrBootstrap</code> 的 Hub 路由</td>
+<td>選集主選單加第三張卡，進去就跑地下城的 Bootstrap</td>
+</tr>
+<tr>
+<td><code>UIFactory</code> + <code>Skin</code> 開關</td>
+<td>已經支援兩套皮膚，加第三套（暗黑奇幻）是同一個機制</td>
+</tr>
+<tr>
+<td><code>ZlSfx</code> 的合成器</td>
+<td>音效直接照抄換參數表</td>
+</tr>
+<tr>
+<td><code>ZlBgmPlayer</code> 的交叉淡入</td>
+<td>探索／戰鬥／魔王曲的切換邏輯一樣</td>
+</tr>
+<tr>
+<td><code>SpriteFactory</code>、FX 形狀 6 種</td>
+<td>特效層不用重做</td>
+</tr>
+<tr>
+<td>建置與上傳腳本、<code>CLAUDE.md</code> 的驗證方法論</td>
+<td>出貨流程零額外設定</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>這個決定帶來一件必須處理的事：App 體積。</strong></p>
+<p>目前 IPA 已經 <strong>275.4 MB</strong>（build 8）。App Store 對行動網路下載會跳提示的
+門檻在 200MB 附近，現在已經超過了；再加一款地下城的角色、地磚、裝備圖示與
+4 首配樂，很容易逼近 400MB。</p>
+<p>所以體積壓縮從「之後有空再說的優化」變成<strong>這款的前置工作</strong>。可做的順序：</p>
+<ol>
+<li><strong>貼圖壓縮格式改 ASTC</strong>——<code>Assets/Resources/Art/</code> 現在 128MB、1799 個 PNG，
+   目前是未壓縮匯入。改 ASTC 6x6 通常能砍到三分之一以下，肉眼幾乎看不出差別。
+   這是投報率最高的一項。</li>
+<li><strong>圖集（Sprite Atlas）</strong>——大量小圖示合併，同時減少 draw call。</li>
+<li><strong>音訊</strong>已經處理過了（19 首配樂改 Streaming、quality 0.6），不用再動。</li>
+</ol>
+<p>建議在 DnD 的美術開始生成<strong>之前</strong>先做第 1 項——不然是先把體積推上去再回頭壓。</p>
+<h3>問題 1：視角採哪一個方案？（第 3.1 節）</h3>
+<p>建議 B（等距 + 縱向布局）。</p>
+<h3>問題 2：多方向動畫先做到哪一層？（第 9.1 節）</h3>
+<p>建議 C（單一朝向 + 翻轉）起步。</p>
+<h3>問題 3：死亡之後怎麼辦？</h3>
+<p>D2 是死了掉裝備、回城再跑回去撿。手機上那很痛苦。三個選項：</p>
+<ul>
+<li><strong>軟懲罰</strong>（建議）：死亡結束本次探索，保留等級與已裝備的東西，
+  <strong>損失這次探索中還沒帶回去的戰利品</strong>。</li>
+<li>無懲罰：死了就重來，什麼都不掉。</li>
+<li>硬派：掉部分金幣或耐久。</li>
+</ul>
+<h3>問題 4：要不要排行榜／Game Center？</h3>
+<p>現有兩款都有（自架 + Game Center）。這款是養成型，「最高分」的意義不同——
+可能要改成「最深樓層」或「最快通關時間」。</p>
+<p>既然是同一個 App，程式端只要在 <code>VrGameCenter.LeaderboardIds</code> 加一組
+（現在已經有 <code>vampire</code> 與 <code>zombie</code> 兩組），<strong>但 ASC 後台的排行榜要你自己建</strong>，
+ID 要跟程式裡寫的一模一樣——打錯不會報錯，只是永遠不會出現在榜上。</p>
+<h3>問題 5：職業名稱與世界觀</h3>
+<p>本稿用的「矛衛」「深淵守衛」「地城迴響」都是暫名。你有想法的話現在定，
+之後素材與音樂的 prompt 都會用到。</p>
+<hr />
+<h2 id="s12">11. 建議的執行順序（確認後才開始）</h2>
+<ol start="0">
+<li><strong>先壓現有 App 的體積</strong>（ASTC）：既然要併進同一個 App，這件事要在新素材
+   進來之前做，不然是先把體積推上去再回頭壓。</li>
+<li><strong>玩法骨架，零素材</strong>：色塊角色、色塊敵人、能走能打能撿能升等。先確認
+   直式操作與縱向布局真的好玩。</li>
+<li><strong>存檔層</strong>：跨局保留是這款的新架構，早點做才知道有沒有坑。</li>
+<li><strong>技能樹與裝備系統</strong>：數值與詞綴，仍然用色塊。</li>
+<li><strong>關卡組裝</strong>：房間模板與隨機串接。</li>
+<li><strong>美術</strong>：方案 C 的角色動畫 → 地磚牆面 → 裝飾與裝備圖示 → UI。</li>
+<li><strong>音訊</strong>：音效合成器 → 配樂 4 首。</li>
+<li><strong>驗證與出貨</strong>：照 <code>CLAUDE.md</code> 那套（建置 gate、四邊量測、實機截圖）。</li>
+</ol>
+<p>第 0～4 步完全不花錢。<strong>如果玩法在第 1 步就不好玩，省下的是整批美術的錢。</strong></p>
+  </div>
+
+  <footer>手搓廣告遊戲選集 · 第三款企劃</footer>
+</div>
+</body>
+</html>
