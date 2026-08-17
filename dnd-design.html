@@ -78,24 +78,23 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </head>
 <body>
 <div class="wrap">
-  <p class="eyebrow">設計規劃稿 · 尚未動工</p>
+  <p class="eyebrow">設計規劃稿 v2 · 尚未動工</p>
   <h1>地城迴響（暫名 DnD）── 直式操作的暗黑類地下城冒險 設計規劃稿</h1>
-  <p class="lede">給使用者確認細節用。第 10 節列出已定案事項與還需要你拍板的 5 個問題；
-     未經確認前不寫任何程式碼、不生成任何素材。</p>
+  <p class="lede">v2：已依你給的 5 個方向改寫，角色改為即時 3D。第 10 節列出 6 項定案與剩下 3 個待你拍板的問題；未經確認前不寫遊戲程式碼、不生成任何素材。</p>
 
   <details class="toc" open>
     <summary>目錄</summary>
     <nav>
-<a href="#s1">0. 已有的東西</a>
+<a href="#s1">0. 已有的東西（v2 大幅改寫）</a>
 <a href="#s2">1. 核心概述</a>
 <a href="#s3">2. 核心玩法迴圈</a>
-<a href="#s4">3. 操作與視角：直式怎麼裝下一個地下城</a>
-<a href="#s5">4. 職業（初期 1 個）</a>
+<a href="#s4">3. 操作與視角</a>
+<a href="#s5">4. 職業（初期 1 個）── v2 有重大修正</a>
 <a href="#s6">5. 敵人</a>
 <a href="#s7">6. 裝備與升級</a>
-<a href="#s8">7. 地下城結構</a>
+<a href="#s8">7. 地下城結構 ── v2 改成程序生成</a>
 <a href="#s9">8. 音效與音樂</a>
-<a href="#s10">9. 美術範圍與成本估算</a>
+<a href="#s10">9. 美術範圍與成本 ── v2 整章重算</a>
 <a href="#s11">10. 定案事項與待決問題</a>
 <a href="#s12">11. 建議的執行順序（確認後才開始）</a>
     </nav>
@@ -103,89 +102,163 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 
   <div class="doc">
 <blockquote>
-<p><strong>狀態：規劃稿，尚未動工。</strong> 本文件是給使用者確認用的，第 10 節列出需要
-他拍板的問題，未經確認前不寫任何程式碼、不生成任何素材。</p>
+<p><strong>狀態：規劃稿 v2，尚未動工。</strong> 你對 5 個問題給的方向都已經寫進來了。
+第 10 節列出 6 項定案與剩下 3 個需要你拍板的問題；未經確認前不寫遊戲
+程式碼、不生成任何素材。</p>
 </blockquote>
 <hr />
-<h2 id="s1">0. 已有的東西</h2>
-<p><code>new-design/DnD/58LNxPd.gif</code> ── 一張 4×4 的角色 sprite sheet，持長矛的女性角色，
-多個朝向的移動幀，典型的《暗黑破壞神 2》等距多方向素材。</p>
-<p>這張圖透露的美術方向很明確：<strong>等距視角、角色有多個朝向</strong>。第 3 節與第 9 節會
-說明這個決定對成本的影響——它是整個企劃裡最貴的一項，而且有便宜很多的替代方案。</p>
-<hr />
-<h2 id="s2">1. 核心概述</h2>
-<ul>
-<li><strong>類型：</strong> 直式操作、即時戰鬥的地下城冒險 ARPG。</li>
-<li><strong>核心：</strong> 下樓 → 打怪 → 撿裝 → 升等點技能 → 打魔王 → 再下一層。</li>
-<li><strong>參照：</strong> 《暗黑破壞神 2》的養成骨架（技能樹、裝備詞綴、稀有度顏色），
-  但關卡尺度大幅縮小，適合手機單手、短時段遊玩。</li>
-<li><strong>與現有兩款的關係（已定案）：</strong> 這款會<strong>放進同一個 App</strong>
-  （<code>com.alexvampire.gamecollection</code>），成為「手搓廣告遊戲選集」的第三款，
-  跟吸血鬼復仇、殭屍防禦共用 Hub、UI factory、音訊層與建置管線。</li>
-<li>同樣是直式、同樣走「一局幾分鐘」的節奏，但這是<strong>第一款有持續存檔的作品</strong>
-  ——另外兩款都是單局結算就歸零，這款的角色等級與裝備要跨局保留。
-  這是最大的架構差異，見第 6 節。</li>
-</ul>
-<hr />
-<h2 id="s3">2. 核心玩法迴圈</h2>
-<p><code>進入樓層
-  ↓
-探索房間（多數房間有敵人，少數是寶箱房／空房）
-  ↓
-清怪 → 掉落經驗與裝備 → 即時比較是否換裝
-  ↓
-升等 → 配點（技能點／屬性點）
-  ↓
-找到下樓梯 → 進入下一層
-  ↓
-第 N 層是魔王房 → 打倒魔王 → 本次探索結束、結算</code></p>
-<p><strong>一局的長度目標：8～12 分鐘。</strong> 跟現有兩款一致（吸血鬼 8 分鐘、殭屍 8 波），
-理由相同：手機遊戲要能在通勤一段路內打完一局。</p>
-<p><strong>死亡的處理</strong>是這一節最需要你決定的事，見第 10 節問題 4。</p>
-<hr />
-<h2 id="s4">3. 操作與視角：直式怎麼裝下一個地下城</h2>
-<p>這是整份規劃裡最需要想清楚的一節。《暗黑破壞神 2》是 4:3 橫向的，等距視角的
-菱形網格本來就「寬」；直式螢幕（約 9:16）橫向能看到的格子很少。</p>
-<h3>3.1 三個可行方案</h3>
+<h2 id="s1">0. 已有的東西（v2 大幅改寫）</h2>
+<p>第一版規劃稿是照著 <code>58LNxPd.gif</code>（一張 4×4 的 2D 等距 sprite sheet）寫的，
+整個美術章節都建立在「用 AI 生 2D 精靈圖」的假設上。<strong>你說「角色要用我新建
+技能來建立模型，不是用 2D 精靈圖呈現」之後我去查了，那個假設整個作廢。</strong></p>
+<p>以下都是實際存在於你電腦上、我讀過內容的東西：</p>
+<h3>0.1 <code>paperdoll-sprite</code> 技能（2026-08-16 建立）</h3>
+<p><code>.claude/skills/paperdoll-sprite/SKILL.md</code>。它的說明裡寫得很清楚，首次實作
+就是在 DnD 專案上。裡面記錄了四條路線，其中兩條是 3D：</p>
 <div class="scroll"><table>
 <thead>
 <tr>
-<th>方案</th>
+<th>路線</th>
 <th>做法</th>
-<th>優點</th>
-<th>缺點</th>
+<th>產出</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>A. 純等距 + 相機跟隨</td>
-<td>照 D2 原樣，相機跟著角色</td>
-<td>最像 D2</td>
-<td>橫向視野窄，左右來敵幾乎沒有預警</td>
+<td>A 錨點貼圖</td>
+<td>AI 生 2D 素體影片 + 裝備圖層貼錨點</td>
+<td>2D，貼合度差</td>
 </tr>
 <tr>
-<td>B. <strong>等距 + 縱向關卡布局</strong>（建議）</td>
-<td>保留等距畫面，但<strong>房間與走廊主要往上下延伸</strong></td>
-<td>保住 D2 的畫面感，玩的方向跟螢幕形狀一致</td>
-<td>關卡設計受限，不能像 D2 那樣自由攤開</td>
+<td>B 切件綁骨</td>
+<td>2D 素體切 10 件綁 11 根骨頭</td>
+<td>2D，貼合度好但缺立體感</td>
 </tr>
 <tr>
-<td>C. 正上方俯視</td>
-<td>改成殭屍防禦那種直下視角</td>
-<td>直式最好塞、素材最便宜</td>
-<td>失去 D2 的味道，現有 sprite sheet 用不上</td>
+<td>C 3D→Sprite</td>
+<td>Blender 低模骨骼動畫，等角相機逐幀烘成 sprite</td>
+<td><strong>2D sprite</strong>（暗黑2 原始製程）</td>
+</tr>
+<tr>
+<td><strong>D 即時 3D</strong></td>
+<td>同一套 3D 素材直接在 Unity 即時渲染</td>
+<td><strong>即時 3D</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>建議 B。</strong> 理由：現有素材是等距的，改 C 等於丟掉它；而 A 的橫向視野問題在
-手機上會變成「被螢幕外的東西打到」——那是操作挫折而不是難度。B 的做法是把
-關卡的主軸轉成縱向：房間之間用南北向的走廊連接，戰鬥房做成縱長形，玩家的
-推進方向大致等於螢幕的長邊。</p>
+<p><strong>你說的「不是用 2D 精靈圖呈現」直接排除了 C</strong>——C 的產出就是 2D 精靈圖。
+所以是 <strong>D 路線：即時 3D</strong>。這一版按 D 寫。</p>
+<h3>0.2 <code>unity/DnDPaperdoll/</code> — 已經跑起來的 Unity 專案</h3>
+<p>不是計畫，是<strong>已經能跑的東西</strong>（最後修改 2026-08-16 23:39）：</p>
+<ul>
+<li><code>Assets/Resources/Models/</code> 有 12 個 FBX、<code>Tex/</code> 有 5 張貼圖，共 47MB。</li>
+<li><code>Paperdoll.cs</code>：素體依頂點主導骨權重拆成 head / torso / arms / legs / feet
+  五塊，穿上該部位裝備就隱藏對應素體區塊。三套裝備（peasant / ranger→warrior /
+  mage）＋ 兜帽 ＋ 護肩配件。</li>
+<li><code>ProcWeapons.cs</code>：程序化生成劍、弓、法杖、箭、法術彈——素材包沒附武器，
+  這是用基本幾何體拼的佔位品。</li>
+<li><code>Game.cs</code>：走路 / 待機 / 揮劍 / 射箭 / 施法 / 翻滾，箭與法術彈會實際飛出去。</li>
+<li>等角相機、即時光影、投影。</li>
+</ul>
+<p>我看過渲染出來的截圖（<code>/tmp/dnd_mage_final.png</code>）：法師套裝＋兜帽＋法杖、
+三個動作、等角視角，立體感與投影都在。<strong>這個底子比第一版假設的 2D 精靈圖
+強一個檔次，而且角色美術的錢已經花完了——是 $0。</strong></p>
+<h3>0.3 素材授權與來源</h3>
+<p>CC0（Quaternius）：Universal Base Characters（綁骨素體）、Modular Character
+Outfits - Fantasy（模組化裝備）、Universal Animation Library（動畫）。
+<strong>零授權費、零 AI 生成費。</strong> 技能文件裡記了下載方式與踩過的雷。</p>
+<h3>0.4 動畫庫的實際內容</h3>
+<p>我把 <code>UAL1_Standard.fbx</code> 裡的 clip 名稱全部抽出來數過，共 <strong>51 個動畫</strong>。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>類別</th>
+<th>內容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>移動</td>
+<td>Idle_Loop、Walk_Loop、Jog_Fwd_Loop、Sprint_Loop、Crouch_Fwd_Loop、Swim_Fwd_Loop</td>
+</tr>
+<tr>
+<td>戰鬥</td>
+<td><strong>Sword_Idle、Sword_Attack</strong>、Punch_Jab、Punch_Cross</td>
+</tr>
+<tr>
+<td>法術</td>
+<td>Spell_Simple_Idle_Loop／_Enter／_Exit／<strong>_Shoot</strong></td>
+</tr>
+<tr>
+<td>槍械</td>
+<td>Pistol_Idle_Loop／_Aim_Up／_Aim_Down／<strong>_Shoot</strong>／_Reload</td>
+</tr>
+<tr>
+<td>受擊</td>
+<td>Hit_Head、Hit_Chest、<strong>Death01</strong></td>
+</tr>
+<tr>
+<td>機動</td>
+<td><strong>Roll</strong>、Jump_Start／_Loop／_Land</td>
+</tr>
+<tr>
+<td>互動</td>
+<td>Interact、PickUp_Table、Fixing_Kneeling</td>
+</tr>
+<tr>
+<td>其他</td>
+<td>坐、談話、跳舞、駕駛、推等生活動作</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>沒有的</strong>：長矛／長柄武器動畫（spear、polearm、lance、halberd 一個都沒有），
+以及弓箭動畫（bow、arrow、throw 一個都沒有——現在 <code>Game.cs</code> 的射箭是拿
+<code>Pistol_Shoot</code> 佔位的）。</p>
+<p>這件事直接推翻第一版的職業設計，見第 4 節。</p>
+<hr />
+<h2 id="s2">1. 核心概述</h2>
+<ul>
+<li><strong>類型：</strong> 直式操作、即時戰鬥的地下城冒險 ARPG。</li>
+<li><strong>呈現：已定案，即時 3D</strong>（非 2D 精靈圖）。等角相機、3D 紙娃娃換裝。</li>
+<li><strong>核心：</strong> 下樓 → 打怪 → 撿裝 → 升等點技能 → 打守關者 → 再往下。</li>
+<li><strong>參照：</strong>《暗黑破壞神 2》的養成骨架（技能樹、裝備詞綴、稀有度顏色），
+  關卡尺度大幅縮小，適合手機單手、短時段遊玩。</li>
+<li><strong>App 歸屬：已定案。</strong> 放進 <code>com.alexvampire.gamecollection</code>，是「手搓廣告
+  遊戲選集」的第三款，跟吸血鬼復仇、殭屍防禦共用 Hub、UI factory、音訊層與
+  建置管線。</li>
+<li><strong>這是第一款有持續存檔的作品，也是第一款 3D 的作品。</strong> 兩件都是新架構，
+  見第 6 節與第 9 節。</li>
+</ul>
+<hr />
+<h2 id="s3">2. 核心玩法迴圈</h2>
+<p><code>進入樓層（2～4 個房間，程序生成）
+  ↓
+探索房間 → 清怪 → 掉落經驗與裝備 → 即時比較是否換裝
+  ↓
+升等 → 配點（技能點／屬性點）
+  ↓
+找到下樓梯 → 進入下一層（層數 +1，這是排行榜的計分依據）
+  ↓
+死亡 → 損失經驗值，本次探索結束</code></p>
+<p><strong>一局的長度目標：8～12 分鐘</strong>，跟現有兩款一致。</p>
+<p><strong>跟第一版最大的差別：沒有「第 5 層打完就結束」的終點。</strong> 你把排行榜定成比
+「探索到第幾層」，那就意味著地下城要能無限往下、難度持續上升——玩家是被
+難度擋下來的，不是被通關擋下來的。這比固定 5 層更適合排行榜，但也代表
+第 5 節的魔王要改成<strong>每隔幾層出現一次的樓層守關者</strong>，不是唯一的最終魔王。</p>
+<hr />
+<h2 id="s4">3. 操作與視角</h2>
+<h3>3.1 視角：已定案</h3>
+<p><strong>等角視角（暗黑破壞神 2 同款），地圖排版配合直式。</strong> 第一版列的三個方案
+不用選了，這就是當時的建議案 B，而且 <code>DnDPaperdoll</code> 的相機已經是等角的。</p>
+<p>具體做法：畫面維持等角投影，但<strong>關卡的主軸轉成縱向</strong>——房間之間用南北向的
+走廊連接、戰鬥房做成縱長形，玩家的推進方向大致等於螢幕的長邊。這樣既保住
+D2 的畫面感，又不會因為直式螢幕橫向太窄而「被螢幕外的東西打到」。</p>
 <h3>3.2 相機</h3>
 <ul>
-<li>跟隨角色，<strong>往移動方向預看</strong>（lead）約 1.5 個身位——直式的上方視野是玩家
-  最需要的資訊。</li>
-<li>進戰鬥房時輕微拉遠，清場後拉回。這是廉價但有效的節奏感。</li>
+<li>跟隨角色，往移動方向預看約 1.5 個身位——直式的上方視野是玩家最需要的資訊。</li>
+<li>進戰鬥房輕微拉遠，清場後拉回。</li>
+<li>即時 3D 多一個第一版沒有的好處：<strong>相機可以真的推近與旋轉</strong>，開寶箱、
+  守關者出場可以給運鏡，不像 2D 只能靠縮放。</li>
 </ul>
 <h3>3.3 操作</h3>
 <p>沿用現有兩款已經驗證過的配置，不重新發明：</p>
@@ -201,17 +274,22 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <tr>
 <td>虛擬搖桿</td>
 <td>左下</td>
-<td>八方向移動。吸血鬼那套 <code>BuildJoystick</code> 可以直接沿用</td>
+<td>八方向移動。吸血鬼那套 <code>BuildJoystick</code> 可直接沿用</td>
 </tr>
 <tr>
 <td>普通攻擊</td>
 <td>自動</td>
-<td>進入攻擊範圍自動打最近的目標。兩款現有遊戲都是自動攻擊，單手遊玩必要</td>
+<td>進入攻擊範圍自動打最近目標</td>
 </tr>
 <tr>
 <td>技能鍵</td>
 <td>右下，3～4 顆</td>
-<td>各自有冷卻圈，長按顯示說明</td>
+<td>各自冷卻圈，長按顯示說明</td>
+</tr>
+<tr>
+<td>翻滾</td>
+<td>右下獨立一顆</td>
+<td><code>Roll</code> 動畫現成，是唯一的主動閃避</td>
 </tr>
 <tr>
 <td>拾取</td>
@@ -220,24 +298,31 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </tr>
 <tr>
 <td>裝備比較</td>
-<td>撿到時彈一張小卡</td>
-<td>顯示「比目前的裝備好／差」，一鍵換裝</td>
+<td>撿到時彈小卡</td>
+<td>顯示比目前好／差，一鍵換裝</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>「自動攻擊 + 手動技能」</strong>是這個配置的核心：移動與時機由玩家決定，
-瞄準交給系統。這跟 D2 的「點擊移動＋點擊攻擊」不同，但那套在觸控上很難用。</p>
 <hr />
-<h2 id="s5">4. 職業（初期 1 個）</h2>
-<p>依現有素材，第一個職業設定為<strong>持矛的近戰／投擲混合型</strong>。</p>
-<h3>4.1 矛衛（暫名）</h3>
+<h2 id="s5">4. 職業（初期 1 個）── v2 有重大修正</h2>
+<h3>4.1 為什麼「矛衛」要換掉</h3>
+<p>第一版設計成持長矛的近戰／投擲混合型，那是照 <code>58LNxPd.gif</code> 那張參考圖寫的。
+<strong>改走 3D 路線之後這個依據不存在了</strong>，而且動畫庫裡：</p>
 <ul>
-<li><strong>定位：</strong> 中距離近戰。攻擊範圍比劍盾長，但沒有格擋。</li>
-<li><strong>主要屬性：</strong> 敏捷（攻速與命中）、力量（傷害）。</li>
+<li><strong>沒有任何長矛／長柄武器動畫</strong></li>
+<li><strong>也沒有弓箭動畫</strong>——現在的射箭是拿 <code>Pistol_Shoot</code> 佔位的</li>
 </ul>
-<h3>4.2 技能樹初版</h3>
-<p>D2 的三系太大，初期收斂成<strong>兩系各 4 個技能</strong>，共 8 個。每升一級給 1 點技能點。</p>
-<p><strong>近戰系「長矛術」</strong></p>
+<p>長矛要做的話得自己 K 動畫，那是純人工成本，也是這個企劃裡最不值得花的力氣。
+這題列進第 10 節等你拍板，我的建議是：</p>
+<h3>4.2 建議：改成「劍士」（暫名）</h3>
+<p><code>Sword_Idle</code> 與 <code>Sword_Attack</code> 是動畫庫裡唯一原生完整的武器組，
+<code>ProcWeapons.BuildSword()</code> 也已經做好了。</p>
+<ul>
+<li><strong>定位：</strong> 近戰為主，法術為輔。</li>
+<li><strong>主要屬性：</strong> 力量（傷害）、敏捷（攻速與閃避）、體力（生命）。</li>
+</ul>
+<h3>4.3 技能樹（兩系各 4 個，共 8 個，每升一級 1 點技能點）</h3>
+<p><strong>劍術系</strong>（全部建立在 <code>Sword_Attack</code> 上，靠特效與判定範圍區分）</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -249,21 +334,21 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </thead>
 <tbody>
 <tr>
-<td>刺擊</td>
+<td>重斬</td>
 <td>—</td>
-<td>單體高傷突刺，短暫前衝</td>
+<td>單體高傷，短暫前衝</td>
 <td>主動</td>
 </tr>
 <tr>
-<td>橫掃</td>
-<td>刺擊 1</td>
+<td>旋斬</td>
+<td>重斬 1</td>
 <td>半圓範圍傷害，擊退</td>
 <td>主動</td>
 </tr>
 <tr>
-<td>矛陣</td>
-<td>橫掃 1</td>
-<td>原地連續突刺，持續 1.5 秒</td>
+<td>連擊</td>
+<td>旋斬 1</td>
+<td>原地連續三段，持續 1.5 秒</td>
 <td>主動</td>
 </tr>
 <tr>
@@ -274,7 +359,7 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </tr>
 </tbody>
 </table></div>
-<p><strong>投擲系「標槍術」</strong></p>
+<p><strong>法術系</strong>（建立在原生的 <code>Spell_Simple_*</code> 上）</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -286,38 +371,51 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </thead>
 <tbody>
 <tr>
-<td>投擲標槍</td>
+<td>奧術彈</td>
 <td>—</td>
 <td>直線飛行，穿透 1 個目標</td>
 <td>主動</td>
 </tr>
 <tr>
-<td>雷擊標槍</td>
-<td>投擲 1</td>
-<td>命中後對周圍造成連鎖電擊</td>
+<td>連鎖電擊</td>
+<td>奧術彈 1</td>
+<td>命中後對周圍連鎖</td>
 <td>主動</td>
 </tr>
 <tr>
-<td>標槍雨</td>
-<td>雷擊 1</td>
-<td>指定區域落下多支標槍</td>
+<td>隕石</td>
+<td>連鎖電擊 1</td>
+<td>指定區域落下多發</td>
 <td>主動</td>
 </tr>
 <tr>
 <td>迅捷</td>
 <td>—</td>
-<td>被動：移動速度 +5%/級、投擲速度 +6%/級</td>
+<td>被動：移速 +5%/級、施法速度 +6%/級</td>
 <td>被動</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>設計意圖：</strong> 兩系不是「純近戰 vs 純遠程」，而是「站著輸出 vs 風箏」。玩家
-可以偏一邊，也可以各點一半——D2 的樂趣有一半來自這個選擇。</p>
-<p>初期上限建議每個技能 5 級，最高等級 20 級（給 19 點技能點，不夠點滿兩系，
-<strong>這是刻意的</strong>）。</p>
+<p><strong>設計意圖跟第一版一樣</strong>：不是「純近戰 vs 純遠程」，而是「站著輸出 vs 風箏」。
+差別在於現在兩系都有原生動畫撐著，不用額外做動作。</p>
+<p>每個技能上限 5 級。等級不設上限（配合無限層數），但技能點在第 19 點之後
+改成每 3 級給 1 點，讓前期的配點仍然是有取捨的選擇。</p>
 <hr />
 <h2 id="s6">5. 敵人</h2>
-<h3>5.1 小怪（初期 3 種）</h3>
+<h3>5.1 一個 3D 帶來的新問題</h3>
+<p>第一版寫「3 種小怪，AI 生 2D 圖，$14.40」。改 3D 之後這筆錢不用花了，
+但<strong>問題換成「3D 怪物模型從哪來」</strong>——這是我還沒驗證過的，列在第 10 節。</p>
+<p>兩個方向：</p>
+<ol>
+<li><strong>同來源的 CC0 怪物包</strong>（Quaternius 有多套）。要實際下載確認<strong>骨架命名
+   跟現有素體相不相容</strong>——技能文件記過一次教訓：動畫庫抓錯版本（Rigify 命名
+   vs UE 命名）就整個對不上。骨架不相容的話動畫全部要重綁。</li>
+<li><strong>拿現有素體改</strong>：同一副素體換裝備、改材質色、調身形比例，做成人型敵人。
+   <strong>成本 $0、骨架 100% 相容、動畫直接共用</strong>，代價是缺少體型變化。</li>
+</ol>
+<p>務實的建議是<strong>兩個都做</strong>：人型敵人走方向 2（保證能動），非人型（史萊姆、
+飛行怪）再去找 CC0 包。</p>
+<h3>5.2 小怪（初期 3 種）</h3>
 <p>三種的存在意義是<strong>逼出不同的應對</strong>，不是換皮：</p>
 <div class="scroll"><table>
 <thead>
@@ -325,6 +423,7 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <th>名稱</th>
 <th>行為</th>
 <th>逼玩家做什麼</th>
+<th>模型來源</th>
 </tr>
 </thead>
 <tbody>
@@ -332,21 +431,26 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <td>腐屍</td>
 <td>慢速接近，數量多，近戰</td>
 <td>用範圍技，不要被圍</td>
+<td>素體改材質（灰綠皮膚、破爛 peasant 裝）</td>
 </tr>
 <tr>
-<td>骨弓手</td>
-<td>保持距離，射擊，被貼近會後退</td>
-<td>主動貼近或用投擲對射</td>
+<td>骷髏弓兵</td>
+<td>保持距離射擊，被貼近會後退</td>
+<td>主動貼近或對射</td>
+<td>素體改材質 + <code>Pistol_Shoot</code> 當射擊</td>
 </tr>
 <tr>
 <td>石魔</td>
-<td>慢、高血量、高傷，會蓄力後衝撞</td>
-<td>看蓄力動作走位，不能站著硬拼</td>
+<td>慢、高血量高傷，蓄力後衝撞</td>
+<td>看蓄力動作走位</td>
+<td>需非人型模型，或素體放大 1.6 倍 + 石材質</td>
 </tr>
 </tbody>
 </table></div>
-<h3>5.2 魔王（初期 1 隻）</h3>
-<p><strong>深淵守衛（暫名）</strong> ── 三階段，血量門檻切換。</p>
+<h3>5.3 樓層守關者（每 5 層一隻）</h3>
+<p>因為排行榜比層數、地城要能無限往下，魔王從「唯一的最終王」改成<strong>每 5 層
+一隻的守關者</strong>。初期先做 1 隻，之後靠換模型與換技能組擴充。</p>
+<p><strong>深淵守衛（暫名）</strong> ── 三階段，血量門檻切換：</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -369,13 +473,15 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <tr>
 <td>三</td>
 <td>30%～0%</td>
-<td>攻速提升、震波變成連續三發、場地邊緣落石</td>
+<td>攻速提升、震波連續三發、場地邊緣落石</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>設計原則沿用殭屍防禦那隻的做法</strong>：每個技能都要有<strong>預警動作或預警圈</strong>，
-玩家死掉時要能說出「我剛剛應該閃的」。沒有預警的傷害只會讓人覺得被陰。</p>
-<h3>5.3 可破壞裝飾品（初期 2 種）</h3>
+<p><strong>設計原則沿用殭屍防禦那隻</strong>：每個技能都要有預警動作或預警圈，玩家死掉時
+要能說出「我剛剛應該閃的」。沒有預警的傷害只會讓人覺得被陰。</p>
+<p>第 10 層以後的守關者：同一隻換材質、加屬性、多一個階段——這是 D2 的做法，
+也是唯一能撐住無限層數的做法。</p>
+<h3>5.4 可破壞裝飾品（初期 2 種）</h3>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -388,16 +494,18 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <tr>
 <td>木桶</td>
 <td>掉落少量金幣或藥水</td>
-<td>給玩家「順手打一下」的小獎勵，D2 的經典手感</td>
+<td>「順手打一下」的小獎勵，D2 的經典手感</td>
 </tr>
 <tr>
 <td>爆裂罐</td>
 <td>範圍爆炸，同時傷害敵我</td>
-<td>戰術物件：可以引怪過去再引爆，但站太近會自傷</td>
+<td>戰術物件：引怪過去再引爆，但站太近會自傷</td>
 </tr>
 </tbody>
 </table></div>
 <p>爆裂罐會傷到玩家自己是刻意的——沒有風險的環境互動很快就變成無腦點擊。</p>
+<p>3D 版可以做真的碎裂（模型換成碎片 + 物理），比 2D 的爆炸貼圖有感。
+兩者都能用程序化幾何體做，<strong>$0</strong>。</p>
 <hr />
 <h2 id="s7">6. 裝備與升級</h2>
 <h3>6.1 等級與屬性</h3>
@@ -405,9 +513,49 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <li>每級：<strong>1 點技能點 + 3 點屬性點</strong>（力量／敏捷／體力）。</li>
 <li>經驗曲線：前 10 級快（每 2～3 分鐘一級），之後放緩。</li>
 </ul>
-<h3>6.2 裝備欄位（初期 4 格）</h3>
-<p>武器、護甲、頭盔、飾品。初期不做手套鞋子腰帶——欄位多不會讓遊戲更好玩，
-只會讓每次撿到東西要比較的欄位變多。</p>
+<h3>6.2 裝備欄位 ── v2 從 4 格擴大到 7 格</h3>
+<p>第一版說「4 格就好，欄位多不會讓遊戲更好玩」。<strong>3D 紙娃娃推翻了這個判斷</strong>：
+<code>Paperdoll.cs</code> 已經支援的槽位，穿上去是<strong>看得見的</strong>，那就不只是數值了。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>槽位</th>
+<th>現成的素材</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>武器</td>
+<td><code>ProcWeapons</code> 的劍／法杖（程序化，佔位品質）</td>
+</tr>
+<tr>
+<td>上身 body</td>
+<td>peasant / ranger / warrior / mage 四套</td>
+</tr>
+<tr>
+<td>手臂 arms</td>
+<td>同上四套</td>
+</tr>
+<tr>
+<td>腿部 legs</td>
+<td>同上四套</td>
+</tr>
+<tr>
+<td>靴子 feet</td>
+<td>同上四套</td>
+</tr>
+<tr>
+<td>兜帽 head</td>
+<td>ranger hood（三套共用）</td>
+</tr>
+<tr>
+<td>護肩 pauldron</td>
+<td>ranger pauldron</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>「撿到裝備 → 穿上去 → 角色外觀真的變了」是這款相對前兩款最大的賣點</strong>，
+而它的技術底子已經做完了。飾品那種看不見的欄位反而可以先不做。</p>
 <h3>6.3 稀有度與詞綴</h3>
 <p>沿用 D2 的顏色語彙（玩家一看就懂）：</p>
 <div class="scroll"><table>
@@ -441,53 +589,63 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </tr>
 </tbody>
 </table></div>
-<p>初期詞綴池建議 12 條左右（傷害、攻速、生命、生命回復、移速、暴擊率、
-暴擊傷害、各元素抗性、拾取範圍、經驗加成）。<strong>傳奇的特效要改變玩法</strong>
-而不只是加數字——例如「標槍命中後分裂成兩支」。</p>
-<h3>6.4 跨局保留（這是新架構）</h3>
-<p>現有兩款都是單局結算歸零。這款要保留角色等級與裝備，需要新的存檔層：</p>
+<p>初期詞綴池 12 條左右（傷害、攻速、生命、生命回復、移速、暴擊率、暴擊傷害、
+元素抗性、拾取範圍、經驗加成）。<strong>傳奇的特效要改變玩法</strong>而不只是加數字
+——例如「奧術彈命中後分裂成兩發」。</p>
+<p>3D 的加分項：同一個模型換材質顏色就能表現稀有度（<code>Paperdoll.cs</code> 已經在做
+程序化轉色），<strong>不同稀有度不用各生一套素材</strong>。</p>
+<h3>6.4 跨局保留（新架構）</h3>
+<p>現有兩款都是單局結算歸零。這款要保留角色等級與裝備：</p>
 <ul>
-<li>角色資料（等級、屬性、技能點分配、背包、已裝備）</li>
-<li>存檔格式建議 JSON 存 <code>Application.persistentDataPath</code>，不要用 PlayerPrefs
+<li>角色資料（等級、經驗、屬性、技能點分配、背包、已裝備的 7 個槽位）</li>
+<li>存 JSON 到 <code>Application.persistentDataPath</code>，<strong>不要用 PlayerPrefs</strong>
   ——PlayerPrefs 適合「難度選擇」那種單一值，不適合結構化的背包資料。</li>
-<li>要處理「存檔損毀」的退路：讀不到就開新角色，不要卡在載入畫面。</li>
+<li>要處理存檔損毀的退路：讀不到就開新角色，不要卡在載入畫面。</li>
 </ul>
 <hr />
-<h2 id="s8">7. 地下城結構</h2>
-<h3>7.1 初期範圍</h3>
-<p><strong>一座地下城，5 層。</strong> 第 1～4 層是探索層，第 5 層是魔王房。</p>
-<h3>7.2 每層的組成</h3>
-<ul>
-<li>每層 6～9 個房間，用南北向走廊串起來（呼應第 3 節的縱向布局）。</li>
-<li>房間類型：戰鬥房（多數）、寶箱房（1～2 個）、空房（過場用，讓節奏喘口氣）。</li>
-<li>下樓梯放在離入口最遠的房間，但<strong>不強制清光所有房間</strong>——想衝就衝，
-  想清乾淨就清，那是玩家的取捨。</li>
-</ul>
-<h3>7.3 生成方式</h3>
-<p>建議<strong>固定房間模板 + 隨機組裝</strong>，不要純程序化生成：</p>
-<ul>
-<li>手工做 8～12 個房間模板（各自有預先擺好的敵人位置與裝飾品位置）。</li>
-<li>每層隨機挑房間、隨機接起來、隨機決定敵人組合。</li>
-<li>這樣每次玩都不同，但每個房間的空間感都是設計過的——純隨機生成很容易
-  產出「一條沒有意義的長廊」。</li>
-</ul>
+<h2 id="s8">7. 地下城結構 ── v2 改成程序生成</h2>
+<h3>7.1 規模：每層 2～4 個房間</h3>
+<p>照你定的。這比第一版的 6～9 間小很多，配上無限層數是合理的：<strong>房間少 →
+下樓快 → 層數增加有感 → 排行榜的數字會動。</strong> 玩家的成就感來自「我到第 27 層」，
+不是「我把這層清乾淨了」。</p>
+<p>粗估節奏：每個房間 40～60 秒 × 3 間 ≈ 2.5 分鐘一層，8～12 分鐘一局大約下到
+4～6 層。要爬到第 20 層以上就得靠養成，這正是這類遊戲該有的曲線。</p>
+<h3>7.2 生成方式</h3>
+<p><strong>程序生成樓層拓樸 + 參數化房間內容</strong>：</p>
+<ol>
+<li><strong>樓層拓樸</strong>：隨機決定 2～4 個房間與它們的連接關係。因為是直式，主鏈往
+   南北延伸、分支房間掛在左右。入口在最上，下樓梯放在離入口最遠的房間。</li>
+<li><strong>房間幾何</strong>：模組化地磚與牆面拼裝，房間尺寸在範圍內隨機（縱長形為主）。</li>
+<li><strong>房間內容</strong>：依<strong>當前層數</strong>決定敵人數量、種類權重、裝飾品數量、是否為
+   寶箱房。這是難度隨層數上升的地方。</li>
+<li><strong>保底規則</strong>（純隨機一定要有的護欄）：
+   * 每層至少 1 個戰鬥房；下樓梯不能跟入口同一間
+   * 每 5 層強制生成守關者房（單一大房間，不含其他內容）
+   * 敵人不生成在玩家入口 3 公尺內
+   * 生成後驗證下樓梯可達，不可達就重擲</li>
+</ol>
+<p>第 4 點是重點：<strong>純程序生成最容易產出的不是「有趣的關卡」而是「壞掉的關卡」</strong>，
+護欄比生成演算法本身重要。</p>
+<h3>7.3 3D 讓這件事變簡單</h3>
+<p>模組化地磚在 3D 是天然做法——一組牆／地／門／樓梯模型可以拼出無限種配置，
+不像 2D 那樣每種房間形狀都要畫一張圖。<strong>這是改走 3D 之後省下最多力氣的地方</strong>，
+而且正好就是你要的程序生成。</p>
 <hr />
 <h2 id="s9">8. 音效與音樂</h2>
 <h3>8.1 音效</h3>
-<p>從殭屍防禦學到的：<strong>這類音效用程式合成就夠，$0</strong>。八種武器共用一支合成器
-換參數的做法可以直接搬過來（<code>ZlSfx</code> 是現成的範本）。</p>
+<p>從殭屍防禦學到的：<strong>這類音效用程式合成就夠，$0</strong>。<code>ZlSfx</code> 那支合成器
+（八種武器共用、換參數表）可以直接搬過來。</p>
 <p>初期需要的音（約 18～22 種）：</p>
 <ul>
-<li>玩家：刺擊、橫掃、矛陣、投擲、雷擊、受傷、死亡、升等、腳步</li>
-<li>敵人：腐屍攻擊／死亡、骨弓手射擊／死亡、石魔蓄力／衝撞／死亡</li>
-<li>魔王：出場咆哮、震波、召喚、死亡</li>
-<li>環境：木桶破裂、爆裂罐爆炸、寶箱開啟、撿裝備、換裝</li>
+<li>玩家：揮劍、旋斬、連擊、施法、電擊、受傷、死亡、升等、腳步</li>
+<li>敵人：腐屍攻擊／死亡、骷髏射擊／死亡、石魔蓄力／衝撞／死亡</li>
+<li>守關者：出場咆哮、震波、召喚、死亡</li>
+<li>環境：木桶破裂、爆裂罐爆炸、寶箱開啟、撿裝備、換裝、下樓梯</li>
 </ul>
-<p><strong>但有一個例外</strong>：這款是有氛圍的地下城，<strong>環境氛圍音</strong>（滴水、遠處低吼、
-風聲）合成器做不好，那種要真的音檔。這部分建議走 Suno 或免費音效庫，
-數量不多（3～4 段循環）。</p>
+<p><strong>一個例外</strong>：地下城的<strong>環境氛圍音</strong>（滴水、遠處低吼、風聲）合成器做不好，
+那種要真的音檔。建議走 Suno 或免費音效庫，3～4 段循環。</p>
 <h3>8.2 配樂</h3>
-<p>Suno，實測 <strong>12 credits／首</strong>（目前餘額 736，夠用）。初期建議 4 首：</p>
+<p>Suno，實測 <strong>12 credits／首</strong>（目前餘額 736）。初期 4 首：</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -498,7 +656,7 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <tbody>
 <tr>
 <td>主選單／角色畫面</td>
-<td>陰鬱的中世紀弦樂，緩慢，帶一點神秘感</td>
+<td>陰鬱的中世紀弦樂，緩慢，帶神秘感</td>
 </tr>
 <tr>
 <td>地下城探索</td>
@@ -509,68 +667,67 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <td>鼓點密集，弦樂堆疊壓迫感</td>
 </tr>
 <tr>
-<td>魔王戰</td>
+<td>守關者戰</td>
 <td>加入合唱與銅管，最壯闊的一首</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>都要剪成 80 秒的無縫循環</strong>（殭屍防禦那套交叉淡化的做法），並用 Streaming
+<p><strong>都要剪成 80 秒的無縫循環</strong>（殭屍防禦那套交叉淡化），並用 <strong>Streaming</strong>
 載入——19 首配樂用 DecompressOnLoad 會吃掉數百 MB 記憶體，那是踩過的坑。</p>
 <hr />
-<h2 id="s10">9. 美術範圍與成本估算</h2>
-<p>用這個專案實測出來的單價估：<strong>圖片彙整圖 $0.20／張</strong>（不管裡面幾個物件）、
-<strong>影片 $0.32／支</strong>（4 秒 720p）、<strong>配樂 12 credits／首</strong>。</p>
-<h3>9.1 最貴的一項：角色的多方向動畫</h3>
-<p>參考素材是 8 方向的。實務上靠水平鏡像只需要 <strong>5 個方向</strong>（正面、正背、側面、
-前斜、後斜），另外三個鏡像出來。但即使如此：</p>
+<h2 id="s10">9. 美術範圍與成本 ── v2 整章重算</h2>
+<h3>9.1 第一版 vs 這一版</h3>
+<p>第一版的成本表整個作廢，因為它算的是「AI 生 2D 精靈圖」：</p>
 <div class="scroll"><table>
 <thead>
 <tr>
-<th>方案</th>
-<th style="text-align: right;">方向數</th>
-<th style="text-align: right;">主角動畫量</th>
-<th style="text-align: right;">主角成本</th>
-<th style="text-align: right;">三小怪</th>
-<th style="text-align: right;">魔王</th>
-<th style="text-align: right;">合計</th>
+<th>項目</th>
+<th style="text-align: right;">v1（2D 精靈圖）</th>
+<th style="text-align: right;">v2（即時 3D）</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>A. D2 原味</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">待機/走/攻/受擊/死 ×5 = 25</td>
-<td style="text-align: right;">$8.00</td>
-<td style="text-align: right;">$14.40</td>
-<td style="text-align: right;">$6.40</td>
-<td style="text-align: right;"><strong>約 $28.80</strong></td>
+<td>主角動畫</td>
+<td style="text-align: right;">$1.60 ～ $8.00</td>
+<td style="text-align: right;"><strong>$0</strong>（CC0 素體 + 51 個動畫）</td>
 </tr>
 <tr>
-<td>B. 三方向</td>
-<td style="text-align: right;">3</td>
-<td style="text-align: right;">15</td>
-<td style="text-align: right;">$4.80</td>
-<td style="text-align: right;">$8.64</td>
-<td style="text-align: right;">$3.84</td>
-<td style="text-align: right;"><strong>約 $17.28</strong></td>
+<td>裝備外觀</td>
+<td style="text-align: right;">含在上面，只有數值</td>
+<td style="text-align: right;"><strong>$0</strong>（4 套模組化裝備，且<strong>看得見</strong>）</td>
 </tr>
 <tr>
-<td><strong>C. 單一朝向 + 翻轉</strong>（建議起步）</td>
-<td style="text-align: right;">1(+鏡像)</td>
-<td style="text-align: right;">5</td>
-<td style="text-align: right;">$1.60</td>
-<td style="text-align: right;">$2.88</td>
-<td style="text-align: right;">$2.56</td>
-<td style="text-align: right;"><strong>約 $7.04</strong></td>
+<td>三種小怪</td>
+<td style="text-align: right;">$2.88 ～ $14.40</td>
+<td style="text-align: right;"><strong>$0</strong>（素體改材質）＋ 非人型待查</td>
+</tr>
+<tr>
+<td>守關者</td>
+<td style="text-align: right;">$2.56 ～ $6.40</td>
+<td style="text-align: right;"><strong>$0</strong>（素體放大改材質）</td>
+</tr>
+<tr>
+<td>地下城地磚牆面</td>
+<td style="text-align: right;">$0.60</td>
+<td style="text-align: right;"><strong>$0</strong>（模組化 3D，程序拼裝）</td>
+</tr>
+<tr>
+<td>裝飾品</td>
+<td style="text-align: right;">$0.20</td>
+<td style="text-align: right;"><strong>$0</strong>（程序化幾何體）</td>
+</tr>
+<tr>
+<td><strong>角色與場景小計</strong></td>
+<td style="text-align: right;"><strong>$7.04 ～ $28.80</strong></td>
+<td style="text-align: right;"><strong>$0</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>建議先走 C 起步。</strong> 現有兩款用的就是 C（角色只有面向右邊的素材，往左走靠
-<code>flipX</code>），實機上完全可以接受，而且省下的 $20 可以先花在關卡與裝備圖示上。
-等玩法確定好玩了，再決定要不要補到 B 或 A——<strong>素材可以後補，玩法不行</strong>。</p>
-<p>參考素材那張 sprite sheet 仍然有用：它可以當 image-to-video 的<strong>參考圖</strong>，
-讓生成出來的角色維持那個造型與配色。</p>
-<h3>9.2 其他素材</h3>
+<p><strong>省下來的不只是錢，是風險。</strong> 第一版第 9.3 節寫的最大風險是「AI 生成的
+多方向動畫一致性很難控制」——3D 路線讓這個風險直接消失：同一個模型從任何
+角度看本來就是同一個人。</p>
+<h3>9.2 還是要花的錢</h3>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -581,33 +738,18 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </thead>
 <tbody>
 <tr>
-<td>地下城地磚與牆面</td>
-<td>彙整圖 2～3 張</td>
-<td style="text-align: right;">$0.60</td>
-</tr>
-<tr>
-<td>房間裝飾（木桶、爆裂罐、寶箱、火盆等）</td>
-<td>彙整圖 1 張</td>
-<td style="text-align: right;">$0.20</td>
-</tr>
-<tr>
-<td>裝備圖示（4 欄位 × 各 5～6 種造型）</td>
+<td>裝備／技能圖示（UI 用的 2D icon）</td>
 <td>彙整圖 2 張</td>
 <td style="text-align: right;">$0.40</td>
 </tr>
 <tr>
-<td>UI 框飾（沿用做法，暗黑奇幻風）</td>
+<td>UI 框飾（暗黑奇幻風）</td>
 <td>彙整圖 2 張</td>
 <td style="text-align: right;">$0.40</td>
 </tr>
 <tr>
-<td>技能圖示 8 個</td>
-<td>彙整圖 1 張</td>
-<td style="text-align: right;">$0.20</td>
-</tr>
-<tr>
-<td>特效形狀</td>
-<td><strong>沿用殭屍防禦那 6 種</strong>，程式染色</td>
+<td>特效</td>
+<td><strong>沿用殭屍防禦那 6 種形狀</strong>，程式染色</td>
 <td style="text-align: right;">$0</td>
 </tr>
 <tr>
@@ -616,23 +758,50 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <td style="text-align: right;">$0</td>
 </tr>
 <tr>
+<td>環境氛圍音 3～4 段</td>
+<td>Suno 或免費音效庫</td>
+<td style="text-align: right;">待估</td>
+</tr>
+<tr>
 <td>配樂 4 首</td>
 <td>Suno</td>
 <td style="text-align: right;">48 credits</td>
 </tr>
 </tbody>
 </table></div>
-<p><strong>方案 C 的美術總計約 $8.84 + 48 credits。</strong> 方案 A 則約 $30.60 + 48 credits。</p>
-<h3>9.3 一個要先講的風險</h3>
-<p>多方向動畫的<strong>一致性</strong>是 AI 生成最難的部分：同一個角色從五個角度看要像同一個
-人，而 image-to-video 對這件事的控制力有限。方案 C 之所以是建議，一部分也是
-因為它繞開了這個風險——只有一個朝向就沒有一致性問題。</p>
+<p><strong>總計約 $0.80 + 48 credits + 環境音</strong>，對比第一版方案 A 的 $30.60。</p>
+<h3>9.3 3D 換來的新風險（要誠實講）</h3>
+<p>省錢是真的，但不是沒有代價：</p>
+<ol>
+<li><strong>效能。</strong> 即時 3D 骨骼動畫在舊 iPhone 上比 2D sprite 重，同畫面十幾隻
+   敵人各自跑 <code>SkinnedMeshRenderer</code> 是真的會掉幀。<strong>這件事要在第 0 步就用
+   真機量</strong>，不能等做完才發現。緩解手段：遠處敵人降 LOD、共用材質合批、
+   限制同屏敵人數。</li>
+<li><strong>武器是程序化幾何體拼的</strong>，<code>ProcWeapons.cs</code> 自己的註解就寫「佔位品質」。
+   要提升得找 CC0 武器包或建模，不是 AI 生成能解決的。</li>
+<li><strong>美術風格統一性。</strong> 現在是 Quaternius 的低多邊形風，跟另外兩款的手繪風
+   不同。放在同一個 App 裡，Hub 的第三張卡要能看出這是不同調性的作品——
+   這其實不算壞事，但要有意識地處理，不要變成「看起來沒做完」。</li>
+<li><strong><code>Paperdoll.cs</code> 目前只有男性素體</strong>。要做女角就得再拆一副。</li>
+</ol>
+<h3>9.4 App 體積</h3>
+<p>build 8 的 IPA 已經 <strong>275.4 MB</strong>，App Store 對行動網路下載跳提示的門檻在
+200MB 附近，早就超過了。</p>
+<p>好消息是 <strong>3D 比 2D 省</strong>：<code>DnDPaperdoll</code> 整包素材 47MB，而同等內容的 2D
+sprite（每個角色 × 每套裝備 × 每個動作 × 每個方向 × 每幀各一張 PNG）會是
+好幾倍。但既有的兩款仍然要壓：</p>
+<ol>
+<li><strong>貼圖壓縮改 ASTC</strong>——<code>VampireRevenge/Assets/Resources/Art/</code> 現在 128MB、
+   1799 個 PNG，未壓縮匯入。改 ASTC 6x6 通常能砍到三分之一以下。投報率最高。</li>
+<li><strong>圖集（Sprite Atlas）</strong>——小圖示合併，同時減少 draw call。</li>
+<li><strong>音訊</strong>已經處理過（19 首改 Streaming、quality 0.6），不用再動。</li>
+</ol>
+<p><strong>建議在 DnD 的素材搬進主專案之前先做第 1 項</strong>——不然是先把體積推上去再回頭壓。</p>
 <hr />
 <h2 id="s11">10. 定案事項與待決問題</h2>
-<h3>已定案：併進「手搓廣告遊戲選集」，當第三款</h3>
-<p><code>com.alexvampire.gamecollection</code>，跟吸血鬼復仇、殭屍防禦同一個 App、同一個
-ASC 紀錄、同一套建置管線。</p>
-<p><strong>沿用得到的東西</strong>（等於省掉一整層基礎建設）：</p>
+<h3>已定案 1：併進「手搓廣告遊戲選集」，當第三款</h3>
+<p><code>com.alexvampire.gamecollection</code>，跟另外兩款同一個 App、同一個 ASC 紀錄、
+同一套建置管線。沿用得到的東西：</p>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -643,11 +812,11 @@ ASC 紀錄、同一套建置管線。</p>
 <tbody>
 <tr>
 <td><code>VrBootstrap</code> 的 Hub 路由</td>
-<td>選集主選單加第三張卡，進去就跑地下城的 Bootstrap</td>
+<td>選集主選單加第三張卡</td>
 </tr>
 <tr>
 <td><code>UIFactory</code> + <code>Skin</code> 開關</td>
-<td>已經支援兩套皮膚，加第三套（暗黑奇幻）是同一個機制</td>
+<td>已支援兩套皮膚，加第三套是同一個機制</td>
 </tr>
 <tr>
 <td><code>ZlSfx</code> 的合成器</td>
@@ -655,11 +824,7 @@ ASC 紀錄、同一套建置管線。</p>
 </tr>
 <tr>
 <td><code>ZlBgmPlayer</code> 的交叉淡入</td>
-<td>探索／戰鬥／魔王曲的切換邏輯一樣</td>
-</tr>
-<tr>
-<td><code>SpriteFactory</code>、FX 形狀 6 種</td>
-<td>特效層不用重做</td>
+<td>探索／戰鬥／守關者曲的切換邏輯一樣</td>
 </tr>
 <tr>
 <td>建置與上傳腳本、<code>CLAUDE.md</code> 的驗證方法論</td>
@@ -667,55 +832,73 @@ ASC 紀錄、同一套建置管線。</p>
 </tr>
 </tbody>
 </table></div>
-<p><strong>這個決定帶來一件必須處理的事：App 體積。</strong></p>
-<p>目前 IPA 已經 <strong>275.4 MB</strong>（build 8）。App Store 對行動網路下載會跳提示的
-門檻在 200MB 附近，現在已經超過了；再加一款地下城的角色、地磚、裝備圖示與
-4 首配樂，很容易逼近 400MB。</p>
-<p>所以體積壓縮從「之後有空再說的優化」變成<strong>這款的前置工作</strong>。可做的順序：</p>
-<ol>
-<li><strong>貼圖壓縮格式改 ASTC</strong>——<code>Assets/Resources/Art/</code> 現在 128MB、1799 個 PNG，
-   目前是未壓縮匯入。改 ASTC 6x6 通常能砍到三分之一以下，肉眼幾乎看不出差別。
-   這是投報率最高的一項。</li>
-<li><strong>圖集（Sprite Atlas）</strong>——大量小圖示合併，同時減少 draw call。</li>
-<li><strong>音訊</strong>已經處理過了（19 首配樂改 Streaming、quality 0.6），不用再動。</li>
-</ol>
-<p>建議在 DnD 的美術開始生成<strong>之前</strong>先做第 1 項——不然是先把體積推上去再回頭壓。</p>
-<h3>問題 1：視角採哪一個方案？（第 3.1 節）</h3>
-<p>建議 B（等距 + 縱向布局）。</p>
-<h3>問題 2：多方向動畫先做到哪一層？（第 9.1 節）</h3>
-<p>建議 C（單一朝向 + 翻轉）起步。</p>
-<h3>問題 3：死亡之後怎麼辦？</h3>
-<p>D2 是死了掉裝備、回城再跑回去撿。手機上那很痛苦。三個選項：</p>
+<h3>已定案 2：角色用 3D 模型即時渲染，不是 2D 精靈圖</h3>
+<p>走 <code>paperdoll-sprite</code> 技能的 <strong>D 路線</strong>，底子是 <code>unity/DnDPaperdoll/</code>。
+理由與現況見第 0 節。角色與場景美術成本因此降到 <strong>$0</strong>。</p>
+<h3>已定案 3：等角視角（D2 同款），地圖排版配合直式</h3>
+<p>畫面等角投影，關卡主軸走縱向（南北向走廊、縱長形戰鬥房）。見第 3.1 節。</p>
+<h3>已定案 4：地城程序生成，每層 2～4 個房間</h3>
+<p>程序生成樓層拓樸 + 參數化房間內容 + 四條保底規則。見第 7 節。</p>
+<h3>已定案 5：排行榜比「探索到第幾層」</h3>
+<p>不是分數也不是時間。這個決定的連鎖影響已經寫進第 2 節與第 5.3 節：
+<strong>地城要能無限往下、難度隨層數上升，魔王從「最終王」改成「每 5 層一隻的
+守關者」。</strong> 沒有這個改動，排行榜的數字會卡在通關層數。</p>
+<p>程式端在 <code>VrGameCenter.LeaderboardIds</code> 加一組（現在已有 <code>vampire</code> 與
+<code>zombie</code>），<strong>但 ASC 後台的排行榜要你自己建</strong>，ID 要跟程式裡一模一樣
+——打錯不會報錯，只是永遠不會出現在榜上。</p>
+<h3>已定案 6：死亡損失經驗值</h3>
+<p>不是 game over 重來，也不是掉裝備。死亡 → 扣一定比例經驗 → 本次探索結束；
+等級、技能點分配、背包與已裝備的東西全部保留。</p>
+<p><strong>但還缺一個數字：扣多少。</strong> 我的建議是<strong>扣掉「當前等級內已累積的經驗」的
+50%，而且不會掉級</strong>。理由是掉級會連帶回收技能點，那會毀掉玩家的配點，
+痛感遠超過「損失經驗」這四個字給人的預期。D2 是會掉級的，但 D2 有回城撿屍
+的補救機制，我們沒有。如果你要更硬派，改成 75% 或允許掉級都可以，
+跟我說一聲就好——這是數值，不影響架構。</p>
+<hr />
+<h3>問題 1：職業的武器改成劍，還是堅持長矛？</h3>
+<p><strong>這是這一版最需要你拍板的。</strong> 動畫庫裡<strong>沒有任何長矛／長柄武器動畫</strong>
+（51 個 clip 我全部列出來數過），也沒有弓箭動畫。</p>
 <ul>
-<li><strong>軟懲罰</strong>（建議）：死亡結束本次探索，保留等級與已裝備的東西，
-  <strong>損失這次探索中還沒帶回去的戰利品</strong>。</li>
-<li>無懲罰：死了就重來，什麼都不掉。</li>
-<li>硬派：掉部分金幣或耐久。</li>
+<li><strong>改劍士（建議）</strong>：<code>Sword_Idle</code> + <code>Sword_Attack</code> 原生完整，
+  <code>ProcWeapons.BuildSword()</code> 已經做好，法術系用原生的 <code>Spell_Simple_*</code>。
+  <strong>零額外工作</strong>，第 4 節就是照這個寫的。</li>
+<li><strong>堅持長矛</strong>：要自己 K 動畫（Blender 或 Unity 手 key 關鍵幀）。技術上做得到
+  ——<code>paperdoll-sprite</code> 的 B 路線就記錄了手 key 動畫的做法——但那是純人工
+  時間，而且矛的「刺擊」跟劍的「揮砍」動作差異大，待機／移動／攻擊／受擊
+  至少要各做一套。</li>
 </ul>
-<h3>問題 4：要不要排行榜／Game Center？</h3>
-<p>現有兩款都有（自架 + Game Center）。這款是養成型，「最高分」的意義不同——
-可能要改成「最深樓層」或「最快通關時間」。</p>
-<p>既然是同一個 App，程式端只要在 <code>VrGameCenter.LeaderboardIds</code> 加一組
-（現在已經有 <code>vampire</code> 與 <code>zombie</code> 兩組），<strong>但 ASC 後台的排行榜要你自己建</strong>，
-ID 要跟程式裡寫的一模一樣——打錯不會報錯，只是永遠不會出現在榜上。</p>
-<h3>問題 5：職業名稱與世界觀</h3>
-<p>本稿用的「矛衛」「深淵守衛」「地城迴響」都是暫名。你有想法的話現在定，
-之後素材與音樂的 prompt 都會用到。</p>
+<p>原本設計成矛衛只是因為那張參考 gif，而那張圖現在已經不是美術依據了。</p>
+<h3>問題 2：非人型敵人的模型要不要另外找？</h3>
+<p>人型敵人（腐屍、骷髏弓兵）用現有素體改材質就能做，$0、骨架 100% 相容。
+但石魔那種非人型的：</p>
+<ul>
+<li><strong>A</strong>：素體放大 1.6 倍 + 石材質。$0、立刻能動，但看得出是「大隻的人」。</li>
+<li><strong>B</strong>：去找 Quaternius 的 CC0 怪物包。<strong>要實際下載驗證骨架命名相不相容</strong>
+  ——技能文件記過一次教訓，動畫庫抓錯版本（Rigify 命名 vs UE 命名）就整個
+  對不上，那次是靠換成 itch 官方 zip 才解決的。不相容的話動畫要重綁。</li>
+</ul>
+<p>我建議先用 A 把玩法做完，B 當後續的美術升級——<strong>素材可以後補，玩法不行。</strong></p>
+<h3>問題 3：職業名稱與世界觀</h3>
+<p>「地城迴響」「深淵守衛」都是暫名，職業名等問題 1 定了武器再取。
+你有想法的話現在定，之後裝備命名、UI 文案、配樂 prompt 都會用到。</p>
 <hr />
 <h2 id="s12">11. 建議的執行順序（確認後才開始）</h2>
 <ol start="0">
-<li><strong>先壓現有 App 的體積</strong>（ASTC）：既然要併進同一個 App，這件事要在新素材
-   進來之前做，不然是先把體積推上去再回頭壓。</li>
-<li><strong>玩法骨架，零素材</strong>：色塊角色、色塊敵人、能走能打能撿能升等。先確認
-   直式操作與縱向布局真的好玩。</li>
-<li><strong>存檔層</strong>：跨局保留是這款的新架構，早點做才知道有沒有坑。</li>
-<li><strong>技能樹與裝備系統</strong>：數值與詞綴，仍然用色塊。</li>
-<li><strong>關卡組裝</strong>：房間模板與隨機串接。</li>
-<li><strong>美術</strong>：方案 C 的角色動畫 → 地磚牆面 → 裝飾與裝備圖示 → UI。</li>
+<li><strong>效能實測</strong>：拿 <code>DnDPaperdoll</code> 現況，在真機上放 15 隻敵人量幀數。
+   這是整個 3D 路線的前提，<strong>要第一個做</strong>——如果舊 iPhone 撐不住，後面全部
+   要重新考慮（退回技能的 C 路線，烘成 sprite）。</li>
+<li><strong>玩法骨架</strong>：用現有的 3D 角色，加敵人 AI、傷害、掉落、升等。關卡先用
+   色塊方塊拼。先確認直式操作真的好玩。</li>
+<li><strong>存檔層</strong>：跨局保留是新架構，早點做才知道有沒有坑。</li>
+<li><strong>程序生成</strong>：樓層拓樸 + 房間拼裝 + 四條保底規則。</li>
+<li><strong>技能樹與裝備系統</strong>：數值、詞綴，7 個槽位的紙娃娃換裝接上去。</li>
+<li><strong>壓現有 App 體積</strong>（ASTC），再把 DnD 併進主專案。</li>
+<li><strong>美術收尾</strong>：UI 框飾與圖示（唯一要花錢的 $0.80）、材質調校、特效。</li>
 <li><strong>音訊</strong>：音效合成器 → 配樂 4 首。</li>
 <li><strong>驗證與出貨</strong>：照 <code>CLAUDE.md</code> 那套（建置 gate、四邊量測、實機截圖）。</li>
 </ol>
-<p>第 0～4 步完全不花錢。<strong>如果玩法在第 1 步就不好玩，省下的是整批美術的錢。</strong></p>
+<p>第 0～5 步完全不花錢。<strong>如果效能在第 0 步就不過關，省下的是整個 3D 方向的
+沉沒成本；如果玩法在第 1 步就不好玩，省下的是後面所有東西。</strong></p>
   </div>
 
   <footer>手搓廣告遊戲選集 · 第三款企劃</footer>
