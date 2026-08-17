@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 樓層拼裝</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 樓層生成</p>
+  <h1>17 層、走廊模組、兩層安全層</h1>
+  <p class="lede">每層由 2～3 間房用固定長度的走廊拼起來，沒接到走廊的接口自動砌牆。
+     第 18 層以後從這 17 層抽版型，但怪物強度照真實層數算。</p>
+
+  <div class="note">
+    <p><b>下面的俯視圖是架構示意圖，不是遊戲的實際亮度。</b>為了看清楚拼裝結構，
+       這幾張刻意關掉了霧、把環境光拉亮。實際遊玩時只看得到自己身邊那一圈
+       ——暗黑風格的照明在最後一節。</p>
+  </div>
+
+  <h2>拼裝規則</h2>
+  <ul>
+    <li><b>房間模板 4 種</b>（3.6×4.4 / 4.8×4.2 / 3.8×6.2 / 5.2×5.6），
+        每種都預留 <b>N/E/S/W 四個接口</b>。</li>
+    <li><b>走廊模組 3 種</b>固定長度（3.0 / 4.5 / 6.0），半寬 1.5。</li>
+    <li>從還沒用掉的接口隨機挑一個接出走廊，走廊另一端接下一間房；
+        位置疊到既有房間就換一個接口重試。</li>
+    <li><b>沒接到走廊的接口一律砌牆。</b>房間不必知道自己會被接在哪。</li>
+    <li>下樓梯接在最後一間房的空接口外，離入口盡量遠。</li>
+  </ul>
+
+  <h2>六個實際生成的樓層</h2>
+
+  <figure>
+    <img src="dnd-shots/floors/layout_L01.jpg" alt="第 1 層">
+    <figcaption><b>第 1 層 — 3 間房、3 段走廊。</b>左上是入口房（玩家在那），
+      往東接一段短走廊到右上大房，往南接一段長走廊到下方房間。
+      左下那截亮藍色的是下樓梯的出口走廊。</figcaption>
+  </figure>
+
+  <div class="grid">
+    <figure><img src="dnd-shots/floors/layout_L03.jpg" alt="第 3 層"><figcaption><b>第 3 層 — 3 間房。</b>同樣的模組，接出來的形狀完全不同。</figcaption></figure>
+    <figure><img src="dnd-shots/floors/layout_L08.jpg" alt="第 8 層"><figcaption><b>第 8 層 — 3 間房、16 個障礙物。</b>越深層擺設越多。</figcaption></figure>
+    <figure><img src="dnd-shots/floors/layout_L15.jpg" alt="第 15 層"><figcaption><b>第 15 層 — 2 間房。</b>2 間或 3 間是隨機的，比例大約各半。</figcaption></figure>
+    <figure><img src="dnd-shots/floors/layout_L06.jpg" alt="第 6 層 安全層"><figcaption><b>第 6 層 — 安全層。</b>單一房間、沒有敵人，綠色那個是商人。</figcaption></figure>
+  </div>
+
+  <figure>
+    <img src="dnd-shots/floors/layout_L12.jpg" alt="第 12 層 安全層">
+    <figcaption><b>第 12 層 — 另一層安全層。</b>17 層之中只有第 6、12 兩層是安全層，
+      位置固定，玩家可以預期什麼時候能喘一口氣、什麼時候能花錢。</figcaption>
+  </figure>
+
+  <h2>連通性測試：200 層</h2>
+
+  <p>「玩家走得到出口」不是檢查，是<b>硬條件</b>——走不到出口的樓層等於壞掉的樓層。
+     測試會生成 200 層，在可走區域鋪 0.35 公尺格點做 BFS，
+     <b>而且每一步都要通過遊戲實際在用的那個位置修正函式</b>：
+     如果它會把角色推回去，那個點就不算走得到。</p>
+
+  <div class="scroll">
+  <table>
+    <tr><th>項目</th><th>結果</th></tr>
+    <tr><td>出口不可達</td><td class="num">0 / 200（0.0%）</td></tr>
+    <tr><td>房間數分布</td><td class="num">2 間 × 103、3 間 × 97</td></tr>
+    <tr><td>平均走廊段數</td><td class="num">2.49</td></tr>
+    <tr><td>出口落在第一間房</td><td class="num">0（0.0%）</td></tr>
+    <tr><td>被保底規則救回來的樓層</td><td class="num">2</td></tr>
+  </table>
+  </div>
+
+  <p>「出口落在第一間房 = 0%」這一列是刻意加的：它保證每一層都真的要走過走廊，
+     而不是原地就能下樓。</p>
+
+  <h2>過程中抓到的兩個問題</h2>
+
+  <div class="note warn">
+    <p><b>一、每層只生成一間房，而連通性測試 100% 通過。</b></p>
+    <p>走廊兩端是<b>故意</b>咬進相鄰房間 0.9 公尺的——不這樣做，兩塊區域剛好相接的
+       接縫會留下一條沒有主人的死帶，角色會被推回去，門口全變成看不見的牆
+       （第一版實測 100% 走不到第二個房間）。但重疊檢查照單全收，於是走廊永遠
+       跟來源房間「重疊」、每次拼接都被駁回，每層只剩一間房。</p>
+    <p><b>而測試照樣全綠</b>——單房樓層的出口本來就在同一間房裡。是後來拍俯視圖時
+       才看到「房間=1、走廊=0」。測試現在會一併回報房間數分布與走廊段數，
+       這種壞法不會再靜悄悄地通過。</p>
+  </div>
+
+  <div class="note warn">
+    <p><b>二、保底規則其實不保底。</b></p>
+    <p>原本的規則是「不通就從最靠近走廊的障礙物開始拆」，但擋路的東西不在走廊附近時
+       就會一直拆錯，最後卡在迴圈上限。實測 200 層有 5 層失敗、<b>0 層被救回</b>。</p>
+    <p>現在分三段，最後一段是無條件的：先拆走廊附近的（保留房間中央的擺設，畫面才不空），
+       不夠就從尾端逐一拆，再不行就全部清空。<b>全部清空必定退回純幾何，
+       而純幾何的連通率是 100%。</b></p>
+  </div>
+
+  <h2>實際遊玩時看到的</h2>
+
+  <figure>
+    <img src="dnd-shots/floors/hud_new.jpg" alt="遊玩畫面">
+    <figcaption><b>同一套地城，玩家視角。</b>只看得到自己身邊那一圈——上面那些俯視圖
+      是把霧和暗度全關掉才拍得出來的。下方三分之一是操作面板，血魔條、能力摘要、
+      補品、裝備、翻滾與攻擊都在拇指構得到的地方。</figcaption>
+  </figure>
+
+  <div class="note warn">
+    <p><b>這裡沒有「玩家走過走廊進入第二間房」的截圖。</b>拍截圖的驅動程式是直線往前走的，
+       撞到北牆就停了，不會自己找門。走廊確實通得過——那是 200 層 BFS 測出來的，
+       每一步都用遊戲實際的位置修正函式——但要拍成畫面得先幫截圖驅動加尋路，
+       那是另一件事。</p>
+  </div>
+
+  <h2>照明：不一次看到整張地圖</h2>
+  <p>環境光壓到 0.035、指數平方霧、主光只有 0.12，玩家自己帶一盞會呼吸的點光源。
+     房間的存在感靠火盆與自己的光圈逐步揭露。上面的俯視圖把這些全關掉了，
+     實際遊玩的畫面在<a href="./dnd-demo.html">Demo 頁</a>。</p>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 樓層生成</footer>
+</div>
+</body>
+</html>
