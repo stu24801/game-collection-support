@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 視野與火焰</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 視野錐與火焰</p>
+  <h1>只看得到自己與正前方</h1>
+  <p class="lede">照明從「以玩家為圓心的圓」改成「貼身微光 + 正前方視錐」。
+     火焰從一團柔光改成有輪廓、會動的程序化火焰。都在 iOS 模擬器上實跑確認。</p>
+
+  <h2>改之前 / 改之後</h2>
+  <div class="grid">
+    <figure><img src="dnd-shots/cone/old.jpg" alt="改之前">
+      <figcaption><b>改之前。</b>一顆半徑 8.5 公尺的點光源，整個房間都看得見，
+        背後跟正前方看到的一樣多——沒有面向的概念。</figcaption></figure>
+    <figure><img src="dnd-shots/cone/cone1.jpg" alt="改之後">
+      <figcaption><b>改之後。</b>正前方一道明確的楔形亮區，錐外幾乎全黑。
+        柱子在光裡投出影子——<b>光不會穿牆</b>，這是視野感成立的關鍵。</figcaption></figure>
+  </div>
+
+  <figure>
+    <img src="dnd-shots/cone/cone2.jpg" alt="另一個房間">
+    <figcaption><b>另一個房間。</b>木桶在錐光下拖出長影，遠處的火把只是幾個亮點，
+      不再照亮整個房間。</figcaption>
+  </figure>
+
+  <h2>怎麼做的</h2>
+  <ul>
+    <li><b>貼身微光</b>（點光源，半徑 3.1）：只照亮自己與腳邊。沒有它的話，
+        轉身的瞬間角色會整個消失。</li>
+    <li><b>視野錐</b>（聚光燈，58°／13.5 公尺，跟著面向）：看得到什麼由它決定。
+        <b>要開陰影</b>——不開的話光會穿牆，隔壁房間跟著亮起來。這是唯一花效能的地方。</li>
+    <li><b>房間火把的照明範圍從 7.6 收到 3.4。</b>火把要看得見（它自己是亮的），
+        但不能照亮整個房間，否則視錐就沒有意義。</li>
+  </ul>
+
+  <div class="note warn">
+    <p><b>調了兩輪暗度完全沒有效果，原因是一行沒寫。</b></p>
+    <p><code>RenderSettings.ambientMode</code> 從來沒設過，預設是 Skybox
+       ——這時 <code>ambientLight</code> 會被<b>整個忽略</b>，環境光其實來自預設天空盒（很亮）。
+       所以把環境光從 0.035 壓到 0.011 再壓到 0.005，全部打在空氣上，畫面幾乎沒變。</p>
+    <p>補上 <code>ambientMode = Flat</code> 之後才是第一次真的在調暗度。
+       諷刺的是這行我在做版型俯視圖時有寫（那裡需要均勻亮光），卻沒發現遊戲本體缺了它。</p>
+  </div>
+
+  <h2>火焰</h2>
+  <p>之前是一團徑向柔光——亮度沒問題，但它是一顆不會動的球。
+     真正讓人讀成「火」的是<b>尖端的舌狀輪廓</b>與<b>輪廓每一幀都在變</b>，不是亮度。</p>
+  <ul>
+    <li>程序化產生 8 幀圖集，每幀是一個淚滴形：底部寬、往上收成尖端</li>
+    <li>左右邊緣用兩個不同相位的正弦擾動做出舌頭甩動</li>
+    <li>顏色由下往上白熱 → 黃 → 橘 → 暗紅，alpha 也往上衰減，尖端才會化開</li>
+    <li>四邊形改成<b>直立</b>朝向相機。原本的做法會整個貼齊 42 度俯角，火焰會躺下去</li>
+    <li>每個火把的相位錯開，整層的火才不會同步跳動</li>
+  </ul>
+  <p>不用粒子系統：一層地城十幾個火把，粒子系統的固定成本不值得付。</p>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 視野錐與火焰</footer>
+</div>
+</body>
+</html>
