@@ -81,8 +81,8 @@ h4{font-size:15px;margin:18px 0 4px;color:var(--ink)}
   <p class="eyebrow">設計規劃稿 v5 · 定案版</p>
   <h1>地城迴響 ── 直式操作的暗黑類地下城冒險</h1>
   <p class="lede">v5：第 7 節改成走廊模組拼裝與 17 層結構，第 10 節的定案增加到 13 項。
-     實作進度見<a href="./dnd-floors.html">樓層生成</a>與<a href="./dnd-combat.html">戰鬥與技能</a>。</p>
-  <details class="toc"><summary>目錄</summary><ul><li><a href="#s0已有的東西">0. 已有的東西</a></li><li><a href="#s1核心概述">1. 核心概述</a></li><li><a href="#s2核心玩法迴圈">2. 核心玩法迴圈</a></li><li><a href="#s3操作與視角">3. 操作與視角</a></li><li><a href="#s4職業2個">4. 職業（2 個）</a></li><li><a href="#s5敵人全部骷髏系">5. 敵人（全部骷髏系）</a></li><li><a href="#s6裝備與升級">6. 裝備與升級</a></li><li><a href="#s7地下城結構程序生成">7. 地下城結構（程序生成）</a></li><li><a href="#s8音效與音樂">8. 音效與音樂</a></li><li><a href="#s9美術範圍與成本">9. 美術範圍與成本</a></li><li><a href="#s10定案事項">10. 定案事項</a></li><li><a href="#s11世界觀與命名定案">11. 世界觀與命名（定案）</a></li><li><a href="#s12執行順序">12. 執行順序</a></li><li><a href="#s13Demo範圍本次要做的東西">13. Demo 範圍（本次要做的東西）</a></li></ul></details>
+     實作進度與連通性測試見<a href="./dnd-floors.html">樓層生成頁</a>。</p>
+  <details class="toc"><summary>目錄</summary><ul><li><a href="#s0已有的東西">0. 已有的東西</a></li><li><a href="#s1核心概述">1. 核心概述</a></li><li><a href="#s2核心玩法迴圈">2. 核心玩法迴圈</a></li><li><a href="#s3操作與視角">3. 操作與視角</a></li><li><a href="#s4職業2個">4. 職業（2 個）</a></li><li><a href="#s5敵人全部骷髏系">5. 敵人（全部骷髏系）</a></li><li><a href="#s6裝備與升級">6. 裝備與升級</a></li><li><a href="#s7地下城結構程序生成">7. 地下城結構（程序生成）</a></li><li><a href="#s8音效與音樂">8. 音效與音樂</a></li><li><a href="#s9美術範圍與成本">9. 美術範圍與成本</a></li><li><a href="#s10定案事項">10. 定案事項</a></li><li><a href="#s11世界觀與命名定案">11. 世界觀與命名（定案）</a></li><li><a href="#s115打包後才會出現的坑實機驗證">11.5 打包後才會出現的坑（實機驗證規則）</a></li><li><a href="#s12執行順序">12. 執行順序</a></li><li><a href="#s13Demo範圍本次要做的東西">13. Demo 範圍（本次要做的東西）</a></li></ul></details>
 <div class="note"><p><b>狀態：v4 定案版。</b> 所有設計問題都已拍板，遊戲定名「地城迴響」。<br>第 10 節是 11 項定案、第 11 節是世界觀與命名、第 12 節是 Demo 範圍。<br>沒有待決問題了。</p></div>
 <h2 id="s0已有的東西">0. 已有的東西</h2>
 <p>第一版規劃稿是照著 <code>58LNxPd.gif</code>（一張 2D 等距 sprite sheet）寫的，整個美術 章節建立在「用 AI 生 2D 精靈圖」的假設上。你指出「角色要用我新建技能來建立 模型」之後，那個假設整個作廢。以下是我實際查過的東西。</p>
@@ -546,6 +546,19 @@ h4{font-size:15px;margin:18px 0 4px;color:var(--ink)}
 <tr><td>地下城</td><td><b>迴響之淵</b></td><td>層數的正式稱呼：第 N 層</td></tr>
 </table></div>
 <p>職業名若覺得太文言，直接改回「戰士／法師」也完全可以——UI 上兩個字更好排， 而且玩家零學習成本。這個換掉不影響任何設計。</p>
+<h2 id="s115打包後才會出現的坑實機驗證">11.5 打包後才會出現的坑（實機驗證規則）</h2>
+<p><b>Editor 正常不代表裝置正常。</b> 這一節每一條都對應一次真的送出去才發現的破圖。</p>
+<h3>11.5.1 執行期組出來的材質，不要依賴會被剝除的 shader 變體</h3>
+<p>打包時 Unity 只保留「專案裡有資產實際用到」的 shader 變體。 執行期 <code>new Material(Shader.Find(&quot;Standard&quot;))</code> 再手動設 <code>_SrcBlend</code> / <code>_DstBlend</code> / <code>_ZWrite</code>，或 <code>EnableKeyword(&quot;_EMISSION&quot;)</code>， 在 Editor 完全正常，裝置上那個變體卻已經被剝掉——<b>退回不透明變體</b>。</p>
+<p>實機的症狀是：火把的柔光片變成兩塊邊緣銳利的不透明橘色方塊。 使用者的回報是「整個畫面就是壞的」。</p>
+<p>規則：所有加法混合的發光物件一律走 <code>GlowMat</code>（shader 放在 <code>Assets/Resources/Shaders/Glow.shader</code>）。<b>Resources 底下的東西不會被剝， 而且那支 shader 沒有任何 keyword，不存在變體問題。</b> 自己組的、沒有 UV 的網格要用 <code>GlowMat.MakeFlat</code>——套上徑向貼圖只會取到 角落那個透明像素，整個東西會看不見。</p>
+<h3>11.5.2 初始化失敗必須看得見</h3>
+<p>實機那次的畫面是：房間有、角色沒有、屬性全是 0、一進去就「房間清空」、 相機停在原點。五個症狀指向同一個原因（<code>BuildScene</code> 中途拋例外）， 但畫面上<b>沒有任何線索</b>。</p>
+<p>規則：初始化包 try/catch，記錄「失敗在哪一步」，失敗時把步驟與完整例外 畫滿整個螢幕。IL2CPP 下的堆疊常常只剩方法名，步驟標記才是有用的那半。</p>
+<h3>11.5.3 模擬器驗證的前置</h3>
+<p>Unity 6000.0.51f1 匯出模擬器專案時只複製 x86_64 的函式庫， 但 Apple Silicon 上的 iOS 26 模擬器是 arm64-only。裝不進去， 而錯誤訊息是「此 App 需要由開發者更新才能在此版本的 iOS 上運作」， 完全看不出是架構問題。<code>PlayerSettings</code> 的架構旗標改成 Universal 也沒有用。</p>
+<p>Unity 自己附了通用版（<code>libiPhone-lib-sim-x64arm64.dylib</code>、 <code>baselib-sim-x64arm64.a</code>），<code>BuildIOS.FixSimulatorLibs</code> 會自動換上。</p>
+<p><b>模擬器量不到效能</b>（軟體渲染，fps 鎖在 30）。效能 gate 只能在實機做。</p>
 <h2 id="s12執行順序">12. 執行順序</h2>
 <ol>
 <li><b>效能實測，兩個職業各測一次。</b> 拿 <code>DnDPaperdoll</code> 現況，在真機上放 15～20 隻骷髏量幀數；法師那次要刻意打最壞情況（滿場骷髏 + 隕石 + 灰燼新星連鎖）。這是整個 3D 路線的前提，<b>要第一個做</b>——如果舊 iPhone 撐不住，後面全部要重新考慮（退回技能的 C 路線，烘成 sprite）。</li>
