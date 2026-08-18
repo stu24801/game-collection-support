@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>髒污墓穴樣品</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 髒污強化樣品（一間房）</p>
+  <h1>從「有人住的房間」變成「被遺棄的墓穴」</h1>
+  <p class="lede">六層一起做：基底材質的低頻污斑、單一 draw call 的污漬場、牆腳積垢、
+     散落骨骸、破爛蜘蛛網、光裡的灰塵。<b>41 件全數成功、0 件失敗。</b></p>
+
+  <figure>
+    <img src="dnd-shots/filth/wreck.jpg" alt="翻倒的桌椅">
+    <figcaption><b>不換素材，把它們弄壞就好。</b>桌子翻倒 74°、椅子側躺 96°、酒瓶滾在地上。
+      上方牆角是破爛的蜘蛛網——垂下來的斷絲是關鍵。</figcaption>
+  </figure>
+
+  <h2>為什麼原本讀起來「乾淨」</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>原因</th><th>原本的數值</th><th>後果</th></tr>
+    <tr><td>噪聲頻率</td><td class="num">0.09 / 0.27 / 0.8</td><td>全是高頻，只有細顆粒，沒有大片髒污</td></tr>
+    <tr><td>每塊磚的色偏</td><td class="num">±7%</td><td>整面牆平均值到處一樣，均勻＝乾淨</td></tr>
+    <tr><td>牆面色相</td><td class="num">(.34,.33,.31)</td><td>中性灰，沒有任何有機色偏</td></tr>
+  </table>
+  </div>
+  <p><b>髒污在視覺上是低頻的</b>——大片不規則暗斑跨過好幾塊磚。
+     原本每一小塊都一樣髒，等於每一塊都不髒。</p>
+
+  <div class="note">
+    <p><b>低頻噪聲用整數頻率的正弦諧波，不是 Perlin。</b>
+       Perlin 在貼圖邊界不會接合，而牆與地都要平鋪（牆 2×1.6），
+       接縫處會出現污漬突然斷掉的直線。整數頻率的正弦本身就是週期函數，天生無縫。</p>
+    <p>污垢還會<b>往磚縫與溝縫裡積</b>（乘上 <code>1 − 高度</code>）——
+       均勻塗一層只會讓牆變暗，不會變髒。</p>
+  </div>
+
+  <figure>
+    <img src="dnd-shots/filth/grime.jpg" alt="牆面霉斑與牆腳積垢">
+    <figcaption>牆面的霉斑與水漬、<b>牆腳的積垢暗帶</b>、地面的污漬。
+      前景是石棺——配比從傢俱改成墓穴本身的東西。</figcaption>
+  </figure>
+
+  <h2>18 張污漬，1 個 draw call</h2>
+  <p>四種變體（裂痕／霉斑／漬痕／水漬）放在一張 2×2 圖集裡，全部併成單一網格。
+     濃淡與色相的差異改由<b>頂點色</b>承載——為此給貼花 shader 加了頂點色支援。
+     沒有這個的話，18 張污漬就是 18 個 draw call。</p>
+  <p><b>牆腳積垢用了一個取巧：</b>水漬那格是上濃下淡，轉 180 度就變成下濃上淡，
+     正好是積垢的樣子，不用另外畫一張。</p>
+
+  <h2>兩個我自己抓到並修掉的缺陷</h2>
+  <div class="note warn">
+    <p><b>灰塵變成飛濺的火星。</b>第一版讓灰塵共用 <code>glowMat</code>，
+       而那是火把的橘色 (1, .62, .28)，加法混合下微粒全變橘色亮點。更嚴重的是
+       <b>它們在黑暗中照樣看得見</b>——正是我在方案裡說要避免的破壞視野錐。
+       已改用近乎無彩的淡灰專用材質、alpha 壓到 0.10、數量 40 → 22、範圍收緊。</p>
+    <p><b>骨頭太亮。</b>骨材質的受光面是 (.84, .80, .69) 的亮骨白，
+       三十幾根散在地上讀起來像散落的木條。已加壓暗到 52% 的髒骨材質，數量 34 → 27。</p>
+  </div>
+
+  <h2>散落，不是堆好</h2>
+  <p>原本的骨堆是集中在 0.45 公尺內的一叢——讀起來是「有人把骨頭堆好」。
+     改成散落場：範圍放大、<b>密度往外圈集中</b>（骨頭會被踢到邊緣，中間反而空）、
+     角度全亂、長骨幾乎全部躺平。27 塊併成單一網格，1 個 draw call。</p>
+
+  <h2>關於整體色調</h2>
+  <p>環境光<b>刻意沒有再壓暗</b>。原本已經是 <code>(.014, .013, .020)</code>，
+     再暗只會讓玩家看不見東西——<b>髒是「不均勻」，不是「暗」</b>。
+     改成連同霧色往濁黃綠偏一點，讓黑暗本身帶陳腐感而不是乾淨的藍黑。</p>
+
+  <h2>還沒解決的</h2>
+  <div class="note warn">
+    <p><b>石材表面的髒仍然偏含蓄。</b>現在的「髒」主要來自殘骸、蜘蛛網、骨骸這些物件，
+       石材本身在明亮的光圈裡還是偏乾淨。強度是一個參數（目前污斑量 0.78／0.82、
+       對比次方 1.9／1.6），可以再往上推，代價是石材會開始糊、磚的結構感變弱。
+       <b>這個取捨我沒有替你決定。</b></p>
+    <p><b>效能仍未實測。</b>每間房的元素從 14 增加到 41。多數可合併，
+       draw call 實際只增加約 5～7，但這是估計不是實測。</p>
+  </div>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 髒污樣品</footer>
+</div>
+</body>
+</html>
