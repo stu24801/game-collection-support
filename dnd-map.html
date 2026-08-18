@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 視野與小地圖</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 視野錐 8 公尺 + 小地圖</p>
+  <h1>摸黑探索，但記得走過的路</h1>
+  <p class="lede">視野錐從 13.5 公尺縮到 8 公尺。小地圖只顯示實際踏過的區塊
+     ——沒去過的地方仍然是未知的。都在 iOS 模擬器上實跑確認。</p>
+
+  <h2>視野錐 8 公尺</h2>
+  <figure>
+    <img src="dnd-shots/map/cone8m.jpg" alt="視野錐 8 公尺">
+    <figcaption><b>亮區收成玩家前方一小塊。</b>8 公尺約是玩家身高的 4.5 倍、
+      鏡頭可視高度的六成——看得到接下來要面對的東西，但看不到房間另一端。
+      13.5 公尺時整個房間幾乎都在錐內，等於沒有限制視野。</figcaption>
+  </figure>
+
+  <h2>小地圖：走過才顯示</h2>
+  <div class="grid">
+    <figure><img src="dnd-shots/map/map_start.jpg" alt="起始">
+      <figcaption><b>剛開始。</b>只有起始房和玩家（黃點），其餘全暗。</figcaption></figure>
+    <figure><img src="dnd-shots/map/map_explored.jpg" alt="探索後">
+      <figcaption><b>探索之後。</b>上方大房 → 中間走廊 → 左下第二間房，
+        玩家在第二間房裡。沒走過的區塊仍然不畫。</figcaption></figure>
+  </div>
+
+  <figure>
+    <img src="dnd-shots/map/full.jpg" alt="完整畫面">
+    <figcaption><b>完整畫面。</b>右上角是小地圖。玩家站在下樓的出口前，
+      擊殺 6、金 94——這一趟是自動走動跑出來的。</figcaption>
+  </figure>
+
+  <h2>幾個設計決定</h2>
+  <ul>
+    <li><b>判定用「玩家在區塊內」，不是距離。</b>用距離的話，玩家站在走廊口就會
+        把整間還沒進去的房間點亮，等於提前劇透。</li>
+    <li><b>出口只在走過的區塊裡才標出來</b>，否則小地圖等於直接把路線告訴玩家。</li>
+    <li><b>換層清空記憶</b>——新的一層要重新摸。</li>
+    <li>走廊畫得比房間暗一階，形狀才讀得出「房—廊—房」的結構。</li>
+  </ul>
+
+  <div class="note warn">
+    <p><b>小地圖第一版完全沒有畫出來。</b>我寫好了繪製函式，卻從來沒有在任何地方
+       呼叫它——而編譯照樣通過。這跟前面 shader 那次是同一類問題：
+       <b>「編譯過」跟「畫面上有」是兩回事。</b></p>
+    <p>所以第二版我不靠眼睛判斷，直接用程式取樣右上角那塊區域的像素，
+       確認它不是背景色。</p>
+  </div>
+
+  <div class="note">
+    <p><b>順帶拿到一個一直缺的證據。</b>模擬器沒有辦法注入觸控，所以我加了一個
+       編譯期開關的自動走動（只在驗證用的建置裡存在，裝置版不會帶），
+       讓角色自己往出口推進。</p>
+    <p>小地圖上那個「房—廊—房」的形狀，是<b>第一次有畫面證明玩家真的走過走廊
+       進到第二間房</b>——之前的「出口不可達 0%」是 BFS 算出來的，不是看出來的。</p>
+  </div>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 視野錐與小地圖</footer>
+</div>
+</body>
+</html>
