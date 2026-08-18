@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城裝飾樣品</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 場景裝飾樣品（一間房）</p>
+  <h1>房間看起來要像有人住過</h1>
+  <p class="lede">混合方案：<b>傢俱與容器用 KayKit（CC0）</b>，<b>氛圍用程序化生成</b>。
+     這是一間房 14 件的樣品，還沒鋪開到整個地城。</p>
+
+  <figure>
+    <img src="dnd-shots/decor/table.jpg" alt="桌椅與點燃的蠟燭">
+    <figcaption>桌、椅、酒瓶、<b>點燃的</b>蠟燭；右側牆上是壁架與垂下的鎖鏈。
+      酒瓶與蠟燭的高度是量桌面 bounds 算出來的，不是寫死的數值。</figcaption>
+  </figure>
+
+  <h2>14 件全部擺放成功</h2>
+  <p>這不是看截圖推測的。房間建好時把每件擺設的名稱與世界座標寫成檔案，
+     再用 <code>simctl get_app_container</code> 從裝置撈回來——
+     <b>光看截圖，看不見的東西分不出是「沒擺成功」還是「擺了但在暗處」。</b></p>
+
+  <div class="scroll">
+  <table>
+    <tr><th>類別</th><th>件數</th><th>內容</th><th>來源</th></tr>
+    <tr><td>牆面</td><td class="num">5</td><td>旗幟、壁架｜蜘蛛網、鎖鏈、牆面裂痕</td><td>KayKit 2｜程序化 3</td></tr>
+    <tr><td>地面貼花</td><td class="num">2</td><td>裂縫地磚、血跡</td><td>程序化 2</td></tr>
+    <tr><td>立體擺設</td><td class="num">7</td><td>桌、椅、酒瓶、蠟燭、酒桶、寶箱、板條箱</td><td>KayKit 7</td></tr>
+    <tr><td><b>合計</b></td><td class="num"><b>14</b></td><td>成功 14、失敗 0</td><td>KayKit 9｜程序化 5</td></tr>
+  </table>
+  </div>
+
+  <h2>體積：比我原本的估計小一個級距</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>項目</th><th>我先前的估計</th><th>實際</th></tr>
+    <tr><td>模型（9 個道具）</td><td class="num">約 3 MB</td><td class="num">296 KB</td></tr>
+    <tr><td>貼圖（共用 atlas）</td><td class="num">—</td><td class="num">14 KB</td></tr>
+  </table>
+  </div>
+  <p>因為樣品只取實際要用的 9 個道具，不是整包 90 個。授權是
+     <b>CC0 1.0 Universal</b>，已從官方倉庫的 LICENSE 原文確認。</p>
+
+  <h2>最大的教訓：裝飾必須跟光源綁在一起</h2>
+  <div class="note warn">
+    <p><b>第一版的 14 件全部拍不到，畫面一片黑。</b>房間半深 4.2～6.2 公尺，
+       玩家生成點在南緣，到北牆有 7～11 公尺，而<b>視野錐只有 8 公尺</b>。
+       我把牆面裝飾集中在北牆，等於全部擺進黑暗裡。</p>
+    <p>這不只是樣品的擺放失誤，是<b>鋪開時必須遵守的設計限制</b>：房間環境光近乎為零，
+       看得見的只有視野錐掃到的地方，加上火把火盆周圍那幾圈。
+       擺在黑暗裡的裝飾玩家永遠看不到，等於沒做。<b>四面牆都要分到，每面牆至少一件，
+       而且要貼著光源擺。</b></p>
+  </div>
+
+  <h2>風格衝突是真的，解法是降飽和</h2>
+  <figure>
+    <img src="dnd-shots/decor/before.jpg" alt="降飽和前">
+    <figcaption><b>之前：</b>KayKit 的木頭是飽和的赤陶色，在灰褐色石材旁邊
+      明顯像另一款遊戲的東西，被暖色火把一打更紅。</figcaption>
+  </figure>
+  <p>只用材質的 <code>_Color</code> 相乘壓暗<b>解決不了</b>——相乘只等比降亮度，
+     色相與飽和度原封不動，赤陶色壓暗之後只是變成「暗一點的赤陶色」。
+     真正要動的是 atlas 本身：往 Rec.709 感知亮度拉 <b>55%</b>，離線烘進 PNG。</p>
+  <div class="note">
+    <p>第一版我寫成執行期用 <code>GetPixels</code> 處理，寫完就發現那需要貼圖開
+       Read/Write，而這專案沒有貼圖匯入設定、預設是關的——<b>在裝置上會直接丟例外</b>。
+       離線做同時避開這個坑，也不必每次啟動重算一次固定變換。</p>
+  </div>
+
+  <h2>三個技術決定</h2>
+  <ul>
+    <li><b>貼花用相乘混合</b>（<code>Blend DstColor Zero</code>）。一般的半透明貼花是自發光的，
+        在視野錐外的黑暗裡照樣亮，那會直接讓視野錐失效。相乘天生沒這問題：
+        黑暗處底色是黑的，乘完還是黑的。<b>不需要任何光照運算。</b>已驗證有效。</li>
+    <li><b>蜘蛛網與鎖鏈用實體幾何，不用半透明貼片。</b>專案裡已有前例：
+        Standard 的半透明變體打包會被剝掉，裝置上變成不透明橘色方塊。</li>
+    <li><b>蜘蛛網 34 條絲、鎖鏈 68 個方塊，各併成單一網格</b>，各只吃一次 draw call。
+        道具一律關閉投射陰影——視野錐是聚光燈，14 件全開會吃掉行動裝置的填充率。</li>
+  </ul>
+
+  <figure>
+    <img src="dnd-shots/decor/chest.jpg" alt="寶箱與板條箱">
+    <figcaption>火盆側的寶箱與板條箱。地面的裂痕貼花濃度已從第一版的
+      alpha 0.90 降到 0.50——原本在亮處讀起來像地上長了一叢黑色枯枝。</figcaption>
+  </figure>
+
+  <h2>還沒解決的</h2>
+  <div class="note warn">
+    <p><b>配色仍未完全融合。</b>降飽和 55% 之後好很多，但桌子的暖度還是比石材高一截。
+       要完全融合得再往上調，代價是道具會開始發灰、失去木頭的識別度。
+       這個取捨我沒有替你決定。</p>
+    <p><b>效能仍未實測。</b>每層道具數會從 10～30 件增加到 28～42 件。
+       KayKit 共用單一材質這點在這裡是加分，但仍需實機量。</p>
+  </div>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 裝飾樣品</footer>
+</div>
+</body>
+</html>
