@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 打擊感</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 打擊感</p>
+  <h1>慢的是硬直，不是動畫</h1>
+  <p class="lede">揮刀「慢」的主因是攻擊期間不能移動的那 0.45 秒，
+     不是動作本身的速度。所以改的不只一個數字。</p>
+
+  <figure>
+    <img src="dnd-shots/hit/spark.jpg" alt="命中火花">
+    <figcaption><b>揮刀中段的命中瞬間。</b>玩家的劍舉起，骷髏身上有一叢小亮點
+      ——那是命中火花，沿著揮擊方向散開。骷髏血條快見底，
+      地上是先前擊殺散落的骨塊。</figcaption>
+  </figure>
+
+  <h2>速度與時機</h2>
+  <div class="scroll">
+  <table>
+    <tr><th>參數</th><th>舊</th><th>新</th><th>為什麼</th></tr>
+    <tr><td>攻擊硬直</td><td class="num">0.45 s</td><td class="num">0.24 s</td><td>戰鬥中六成時間不能動，那個凍結感比動作快慢更明顯</td></tr>
+    <tr><td>傷害落點</td><td class="num">0.22 s</td><td class="num">0.12 s</td><td>按下到見血的延遲＝鈍</td></tr>
+    <tr><td>攻擊冷卻</td><td class="num">0.75 s</td><td class="num">0.50 s</td><td>1.33 刀/秒 → 2.0 刀/秒</td></tr>
+    <tr><td>揮刀播放速度</td><td class="num">1.0×</td><td class="num">1.5×</td><td>硬直縮短但動畫照原速，會像動作被切斷</td></tr>
+    <tr><td>玩家移速</td><td class="num">2.9</td><td class="num">3.7</td><td>舊值要走 4.5 秒才跨過畫面高度</td></tr>
+    <tr><td>敵人移速</td><td class="num">1.5</td><td class="num">1.85</td><td>玩家變快，敵人不跟著提會變成無腦風箏</td></tr>
+  </table>
+  </div>
+  <p>面板上的「速」從 2.55 變成 3.26（基礎值乘上戰士板甲的減速），
+     這是移速確實生效的直接證據。</p>
+
+  <h2>打擊回饋（速度只是一半）</h2>
+  <ul>
+    <li><b>命中定格</b>：被打中的那隻凍住動畫 70 毫秒。<b>只凍那一隻</b>，
+        不動全域時間——同屏十幾隻時全域定格會把畫面卡成幻燈片。</li>
+    <li><b>命中火花</b>：沿揮擊方向散開，不是均勻爆炸。
+        均勻散讀起來像爆炸，沿方向散才讀得出「被劈中」。</li>
+    <li><b>鏡頭回饋</b>：位移 0.12 單位、快速衰減。<b>打空不震</b>
+        ——不然震動變成背景雜訊，玩家反而分不出有沒有打中。</li>
+  </ul>
+
+  <div class="note warn">
+    <p><b>抓這張截圖失敗了兩次，兩次都是驗證方法的問題。</b></p>
+    <p>第一次：連拍 14 張全是空的。後來放大才看到角色<b>早就清完房間、站在出口前</b>
+       ——沒有敵人當然沒有命中。我在戰鬥結束後才開始拍。</p>
+    <p>第二次：偵測器回報「火花像素 121 個」，看起來很成功。
+       但那些暖黃像素是<b>被錐光照亮的骷髏和火把</b>——骨頭是骨白色，
+       正好落在我設的火花色範圍內。指標在量錯的東西。</p>
+    <p>第三次改成「小而孤立的亮點」（四鄰域都暗才算），並且重開遊戲、
+       在戰鬥進行中連拍 24 張，才抓到上面那一幀。</p>
+  </div>
+
+  <div class="note">
+    <p><b>有一半我驗不到，先說清楚。</b>打擊感是連續的體感，靜態截圖能證明的只有
+       「火花有出現」這類離散事件。「變快了」「有沒有比較爽」要上手才知道
+       ——那部分我不打算假裝驗過了。</p>
+  </div>
+
+  <footer>地城迴響 · 手搓廣告遊戲選集第三款 · 打擊感</footer>
+</div>
+</body>
+</html>
