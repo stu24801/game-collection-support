@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 併入選集</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">手搓廣告遊戲選集 · 第三款併入</p>
+  <h1>地城迴響進了選集，光照全部重調</h1>
+  <p class="lede">DnD 原本是獨立專案、用 <b>Linear</b> 色彩空間；選集是 <b>Gamma</b>。
+     兩者的光照數學不同，整套明暗與配色必須重調一輪。</p>
+
+  <figure>
+    <img src="dnd-shots/gamma/final.jpg" alt="重調後的地城">
+    <figcaption>重調後：視野錐的光池、火把各自的暖色範圍、遠處淡出到黑。
+      左上角的「◀ 選集」是回到選集主選單的入口。</figcaption>
+  </figure>
+
+  <h2>最大的教訓：暗處不能補亮</h2>
+  <figure>
+    <img src="dnd-shots/gamma/compare.jpg" alt="第一輪與最終版對照">
+    <figcaption><b>左：第一輪（錯誤）　右：最終版。</b>同一個樓層種子，
+      差異全部來自調校。</figcaption>
+  </figure>
+  <p>Gamma 下同樣的光照會顯得比 Linear 暗，照理論該把環境光補上去。
+     第一輪只補到理論值的三分之一，<b>整個房間就全部看得見了</b>——
+     地板、遠牆、寶箱、酒桶一覽無遺，視野錐完全失去意義。</p>
+  <div class="note warn">
+    <p><b>而視野錐正是這款的核心設計。</b>把暗處補亮等於把遊戲的可見度機制拆掉。
+       正確作法是反過來：<b>環境光壓得比原本更低，改成把光源本身拉高</b>
+       ——要的是對比，不是整體亮度。</p>
+  </div>
+
+  <div class="scroll">
+  <table>
+    <tr><th>項目</th><th>Linear 原版</th><th>第一輪（錯）</th><th>最終</th></tr>
+    <tr><td>環境光</td><td class="num">.016</td><td class="num">.052</td><td class="num">.010</td></tr>
+    <tr><td>視野錐</td><td class="num">3.9</td><td class="num">4.3</td><td class="num">9.5</td></tr>
+    <tr><td>牆上火把</td><td class="num">1.15</td><td class="num">1.55</td><td class="num">3.6</td></tr>
+    <tr><td>火盆</td><td class="num">1.3</td><td class="num">1.75</td><td class="num">3.8</td></tr>
+  </table>
+  </div>
+
+  <h2>另一半問題在材質，不在光源</h2>
+  <p><b>Gamma 不會對材質顏色做伽瑪解碼。</b>同一個 <code>.34</code> 的牆面基底色，
+     在 Linear 下實際參與光照的是 <code>.34<sup>2.2</sup> = .089</code>，
+     在 Gamma 下就是 <code>.34</code>——<b>牆面憑空亮了將近四倍</b>。</p>
+  <p>只調光源救不了中間調偏亮。牆與地的基底色壓成原值的
+     <code>^1.4</code> 之後，暗部才真正沉下去。</p>
+
+  <h2>怎麼判斷「調對了」</h2>
+  <p>不靠肉眼。拿原版的截圖量出亮部的 RGB 與暖度當目標，每輪重調後量同樣的指標：</p>
+  <div class="scroll">
+  <table>
+    <tr><th>指標</th><th>原版（Linear）</th><th>最終（Gamma）</th></tr>
+    <tr><td>亮部 R / G / B</td><td class="num">164 / 118 / 74</td><td class="num">182 / 138 / 86</td></tr>
+    <tr><td>暖度</td><td class="num">0.76</td><td class="num">0.71</td></tr>
+  </table>
+  </div>
+  <div class="note">
+    <p><b>量測方式錯了兩次才對。</b>第一次拿整張截圖的暗部中位當指標，
+       但參考圖是緊貼遊戲畫面裁切的——取樣範圍不同，數字沒有可比性。
+       第二次改量亮部色相，藍色分量卻異常偏高，那是<b>玩家腳環與魔力條的亮藍</b>
+       被算進去了。第三次只取遊戲畫面、排除藍色主導的像素才對等。</p>
+    <p>對等之後的結論很乾淨：<b>亮度從頭到尾都吻合，真正的差距只有光色的暖度。</b>
+       如果一開始就量對，中間那兩輪大幅調整根本不需要。</p>
+  </div>
+
+  <h2>還沒到位的</h2>
+  <div class="note warn">
+    <p>暖度停在 <b>0.71</b>，原版是 0.76。這是成本考量下的停手點，不是達標——
+       實際遊玩時看不出來，但數字上還差一點。</p>
+    <p><b>效能仍未實機實測。</b>現在三款遊戲在同一個 App 裡，
+       包體與記憶體都需要一起量。</p>
+  </div>
+
+  <footer>手搓廣告遊戲選集 · 地城迴響併入 · Gamma 色彩空間重調</footer>
+</div>
+</body>
+</html>
