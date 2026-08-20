@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>地城迴響 範圍評估</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">地城迴響 · 範圍評估</p>
+  <h1>技能、加點、詞綴這批要做多大，以及九件要你拍板的事</h1>
+  <p class="lede">這一批需求疊起來大約 <b>13～19 個工作天</b>。
+     下面拆成每一項的工作量、彼此的依賴，以及我建議調整範圍的地方。
+     <b>還沒有動工</b>，等你決定範圍再開始。</p>
+
+  <div class="note warn">
+    <p><b>先講一個會改變整個排序的發現：現在沒有「角色等級」。</b></p>
+    <p>程式裡的 <code>level</code> 是<b>地城深度</b>，不是角色等級。整個地城迴響
+       沒有經驗值、沒有角色等級、沒有屬性點；角色數值只有
+       <code>攻/防/生命/魔力/移速/照明</code>，沒有力量、敏捷、智力這類屬性。</p>
+    <p>所以「升等加點」不是把被動成長改成主動配點，是<b>從零長出一整條成長軸</b>，
+       而且 <code>level</code> 這個名字已經被深度佔滿整份程式碼。</p>
+  </div>
+
+  <h2>依賴關係</h2>
+  <p>這決定了先後順序，不能照需求列出的順序做：</p>
+  <ul>
+    <li><b>角色等級與屬性</b> → 裝備數值需求（沒有屬性就沒有門檻可設）</li>
+    <li><b>角色等級與屬性</b> → 技能系統（技能點從哪裡來）</li>
+    <li><b>技能系統</b> → 詞綴的「技能等級加成」（沒有技能，「+2 技能等級」沒有意義）</li>
+    <li><b>詞綴</b> → 盲盒裝備才有意義（理由見下）</li>
+  </ul>
+  <p>另外，目前的「技能」只有重斬一顆，是寫死的單一動作，不是系統。</p>
+
+  <h2>逐項工作量</h2>
+  <h3>便宜，可以立刻做</h3>
+  <div class="scroll"><table>
+    <tr><th>項目</th><th>現況</th><th>估時</th></tr>
+    <tr><td>商店「離開」蓋住提示文字</td><td>版面重疊，兩者範圍完全交疊，離開鍵後畫所以蓋住</td><td class="num">15 分</td></tr>
+    <tr><td>「前往下一層」字太小</td><td>寫死 160×40 像素、預設字級，沒跟著螢幕縮放</td><td class="num">15 分</td></tr>
+    <tr><td>走到出口才能下樓</td><td><b>資料早就有</b>：出口座標存在，小地圖已經在畫它</td><td class="num">半天</td></tr>
+    <tr><td>商人賣照明道具</td><td>燈具四階已存在，接進商店表即可</td><td class="num">2 小時</td></tr>
+    <tr><td>動作鍵重新排版（止血）</td><td>見下方「誤觸」</td><td class="num">1 小時</td></tr>
+    <tr><td>跑步速度調整</td><td>見下方「跑速」</td><td class="num">30 分</td></tr>
+  </table></div>
+  <p>「走到出口才能下樓」比想像便宜——出口座標本來就在，小地圖也一直在顯示，
+     只差把按鈕改成靠近才出現，商人的「靠近才能交易」已經有現成寫法可以照抄。</p>
+
+  <h3>中等</h3>
+  <div class="scroll"><table>
+    <tr><th>項目</th><th>說明</th><th>估時</th></tr>
+    <tr><td>初始裝備改灰裝</td><td>本身 2 小時，但要連平衡一起重調</td><td class="num">半天</td></tr>
+    <tr><td>裝備數值需求</td><td>本身不難，但<b>要等角色等級做完</b></td><td class="num">1 天</td></tr>
+    <tr><td>盲盒裝備</td><td>單獨做 1 天，有詞綴後要回頭再調</td><td class="num">1 天</td></tr>
+  </table></div>
+
+  <h3>大的</h3>
+  <div class="scroll"><table>
+    <tr><th>項目</th><th>說明</th><th>估時</th></tr>
+    <tr><td>角色等級 + 加點</td><td>經驗值來源、升級曲線、加點介面、屬性接進數值系統、命名衝突、存檔格式擴充</td><td class="num">2–3 天</td></tr>
+    <tr><td>隨機詞綴</td><td>純數值詞綴 1 天；技能等級加成要等技能系統</td><td class="num">2 天</td></tr>
+    <tr><td>技能系統</td><td>動畫是硬限制，見下</td><td class="num">3–5 天</td></tr>
+    <tr><td>環形技能選單</td><td>操作層重新設計，見下</td><td class="num">2–3 天</td></tr>
+  </table></div>
+
+  <h2>三件我建議調整範圍的事</h2>
+
+  <h3>一、技能系統要縮小</h3>
+  <p>動畫庫只有 43 支動作，<b>近戰攻擊就一支</b>。現在的重斬是靠
+     「把播放速度壓到 0.35 倍再拉到 1.9 倍，加上前衝一個身位」硬做出來的
+     ——<b>每一個技能都要這樣手工疊</b>。</p>
+  <div class="note">
+    <p>技能數量直接等於工作量，不是「做好系統就能無限加技能」。
+       建議先做 <b>4～6 個技能的技能列</b>而不是技能樹，驗證手感再決定要不要長成樹。
+       做成樹狀但每個節點的動作都長一樣，那個樹就是假的。</p>
+  </div>
+
+  <h3>二、盲盒建議排在詞綴之後</h3>
+  <p>盲盒的樂趣來自開出來的東西有變化。現在武器 16 把、防具每個部位 4 件
+     ——沒有詞綴的話，盲盒只是「隨機給你一件既有品項」，開個五六次就開始重複。
+     詞綴做完之後同一把劍會有不同詞綴，盲盒才立得起來。</p>
+
+  <h3>三、開局灰裝有兩個副作用</h3>
+  <p>都不是阻礙，但要先知道：</p>
+  <div class="scroll"><table>
+    <tr><th>副作用</th><th>原因</th></tr>
+    <tr><td><b>兩個職業開局會長得一模一樣</b></td><td>每個部位只有一件普通級，全是農夫套。稀有度是綁在外觀模型上的，改灰裝等於兩個職業都穿農夫裝</td></tr>
+    <tr><td><b>開局防禦從 45 掉到約 10</b></td><td>減傷 39% → 12.5%，第 1 層被摸 9 下就死（現在 14 下）。跟上一輪剛調好的平衡直接相關</td></tr>
+  </table></div>
+  <p>要保留職業辨識度的話，得補幾件普通級的職業風格品項——沿用現有模型，
+     <b>不需要新美術</b>。</p>
+
+  <h2>操作層</h2>
+
+  <h3>誤觸：間距只有 8 像素</h3>
+  <p>實測 iPhone 16 Pro 上三顆動作鍵的座標：</p>
+  <div class="scroll"><table>
+    <tr><th>按鈕</th><th>橫向範圍</th><th>邊長</th></tr>
+    <tr><td>裝備</td><td>613–757</td><td class="num">144px</td></tr>
+    <tr><td>翻滾</td><td>765–933</td><td class="num">168px</td></tr>
+    <tr><td>重斬</td><td>941–1146</td><td class="num">205px</td></tr>
+  </table></div>
+  <p><b>相鄰按鈕之間各只有 8 像素</b>，約 2.7pt。按鈕本身尺寸夠，間距等於沒有
+     ——而且三顆大小不一、垂直基準也不同。誤觸是必然的，不是偶爾。</p>
+  <div class="note">
+    <p><b>而且「裝備」根本不該待在這一排。</b>它不是戰鬥動作，卻跟翻滾、重斬
+       擠在同一個拇指落點上，按錯的代價還特別高——戰鬥中跳出裝備介面。</p>
+  </div>
+
+  <h3>跑速：其中一半是我造成的</h3>
+  <p>改成三段速度之前，所有移動都是固定 3.26：</p>
+  <div class="scroll"><table>
+    <tr><th></th><th>舊</th><th>現在</th></tr>
+    <tr><td>一般推搖桿</td><td class="num">3.26</td><td class="num"><b>1.89</b>（慢 42%）</td></tr>
+    <tr><td>全力推</td><td class="num">3.26</td><td class="num">4.08（只快 25%）</td></tr>
+  </table></div>
+  <div class="note warn">
+    <p>所以感覺到的不只是「衝刺不夠快」，是<b>整體移動都比以前慢</b>，
+       而衝刺只勉強比舊的常速快一點。這是我上一輪加速度分級時倍率訂太保守
+       造成的迴歸，我沒有在真機上跑過就訂了數字。<b>建議優先修</b>——
+       每一秒遊玩都感受得到。</p>
+  </div>
+
+  <h3>環形技能選單：有一個必須先解決的衝突</h3>
+  <p><b>「搖桿方向選技能」和「搖桿方向決定施放方向」是同一個輸入，不能同時成立。</b>
+     如果重擊在北邊那一格，那就只能往北出重擊；想往南打就得選到南邊那一格，
+     但南邊是另一個技能。這不是實作問題，是輸入維度不夠。</p>
+  <div class="scroll"><table>
+    <tr><th>方案</th><th>做法</th><th>取捨</th></tr>
+    <tr><td><b>A</b>（建議）</td><td>方向只用來選技能，施放方向沿用自動瞄準</td><td>最省事，而且<b>跟現況一致</b>——普攻現在就是自動轉向最近的敵人，玩家本來就沒在手動瞄準</td></tr>
+    <tr><td><b>B</b></td><td>右側變成第二支搖桿，用第二根手指選技能</td><td>手機 ARPG 的標準解法，方向控制最完整，但要處理雙指追蹤，複雜度約 A 的兩倍</td></tr>
+  </table></div>
+  <p>兩案差約 <b>兩天</b>。另外，環形選單<b>本身就順帶解決誤觸</b>：右側從三顆
+     不同大小的按鈕變成一顆修飾鍵，間距問題自然消失，裝備鍵也順勢搬走。</p>
+  <div class="note">
+    <p>但排序上：<b>現在只有翻滾和重斬兩個技能，為兩個項目做環形選單是殺雞用牛刀。</b>
+       它的價值要到技能有 5、6 個才出得來，所以建議跟技能系統綁在同一階段做，
+       中間先用一小時把按鈕重新排版止血。</p>
+  </div>
+
+  <h2>建議的階段切法</h2>
+  <div class="scroll"><table>
+    <tr><th>階段</th><th>內容</th><th>估時</th></tr>
+    <tr><td>一</td><td>商店 bug、下一層字級、出口才能下樓、商人賣照明、按鈕重排、跑速調整</td><td class="num">1 天</td></tr>
+    <tr><td>二</td><td>開局灰裝 + 平衡重調</td><td class="num">1 天</td></tr>
+    <tr><td>三</td><td>角色等級與加點（<b>地基</b>）</td><td class="num">2–3 天</td></tr>
+    <tr><td>四</td><td>裝備數值需求</td><td class="num">1 天</td></tr>
+    <tr><td>五</td><td>技能列（4–6 個）＋ 環形選單</td><td class="num">5–8 天</td></tr>
+    <tr><td>六</td><td>詞綴 + 盲盒重調</td><td class="num">2 天</td></tr>
+  </table></div>
+  <p><b>階段一和二不需要等任何答案，隨時可以開工。</b>
+     階段三之後才需要下面這些決定。</p>
+
+  <h2>需要你決定的</h2>
+  <p>第二欄是重點：為什麼這題輪不到我自己決定。</p>
+  <div class="scroll"><table>
+    <tr><th>要決定的</th><th>為什麼不能我自己決定</th></tr>
+    <tr><td><b>經驗值從哪來？</b>擊殺／下樓／兩者</td><td>這決定玩家會怎麼玩：算擊殺就會清怪，算下樓就會衝層。是兩種完全不同的遊戲節奏，沒有對錯</td></tr>
+    <tr><td><b>屬性要哪幾項，各自影響什麼？</b></td><td>例如力量→攻擊與裝備需求、敏捷→移速與攻速、智力→魔力與法傷、體力→生命。項目數與對應關係直接決定裝備需求門檻怎麼設，改起來會牽動整個數值表</td></tr>
+    <tr><td><b>技能是主動還是被動為主？</b></td><td>主動技能要放按鍵。面板上已經有裝備／翻滾／重斬三顆加兩顆藥水，再加就要重排版面——這會回頭影響環形選單的設計</td></tr>
+    <tr><td><b>火把、蠟燭要會燒完嗎？</b></td><td>現在燈具是裝備欄的永久裝備。做成消耗品是另一套機制（耐久或倒數），不是加進商品表就好</td></tr>
+    <tr><td><b>加點過的屬性，死亡後保留嗎？</b></td><td>死亡處罰已定（掉一件裝備＋金幣減半＋回第 1 層）。屬性點算不算在內，決定了死亡到底有多痛</td></tr>
+    <tr><td><b>施放方向要手動控制嗎？</b>（A／B）</td><td>見上方表格。差約兩天，而且 B 會改變整個右側操作區的設計</td></tr>
+  </table></div>
+
+  <h2>其他累積待決的</h2>
+  <p>跟這批需求無關，但一併列出來免得漏掉：</p>
+  <div class="scroll"><table>
+    <tr><th>事項</th><th>狀況</th></tr>
+    <tr><td><b>地城迴響的排行榜</b></td><td>目前<b>沒有</b>。伺服器只認吸血鬼與殭屍兩個遊戲，但選集首頁那張卡寫著「排行榜比的是深度」——那句話現在是空的。要補必須改伺服器並重新部署，而排行榜被列為禁區，需要你明確授權</td></tr>
+    <tr><td><b>動作鍵亮度</b></td><td>修好一個 gamma bug 之後，按鈕第一次照設計值顯示，偏亮。要調暗一階的話跟我說，那是美術取捨不是 bug，我沒有自己改</td></tr>
+    <tr><td><b>各武器的專屬攻擊動畫</b></td><td>現有素材做不到——整個專案只有一組動畫、近戰攻擊只有一支。要做的話得找 CC0 動畫包（外部素材，我不會擅自下載）或自己做動畫</td></tr>
+    <tr><td><b>法師深層太弱</b></td><td>最重只能穿皮甲（你定的），所以減傷永遠卡在 19% 上下，第 20 層之後打一隻要 8～11 下、被摸 2 下就死。要處理的方向是給法師別的存活手段，而不是放寬防具限制——那會把職業差異抹掉</td></tr>
+  </table></div>
+
+  <h2>還沒到位的</h2>
+  <div class="note warn">
+    <p><b>兩項真機才驗得到的東西還沒確認</b>：背包快速滑動放手會不會誤觸裝上／丟棄，
+       以及走跑門檻（0.55 慢跑、0.88 衝刺）順不順手。模擬器注入不了觸控，
+       這兩項我只驗到繪製面。</p>
+    <p><b>上面所有估時都是我的估計，不是報價。</b>技能系統那 3～5 天的區間拉這麼開，
+       是因為工作量取決於要做幾個技能，而每個技能都要手工調動作。</p>
+  </div>
+
+  <footer>手搓廣告遊戲選集 · 地城迴響 · 技能／加點／詞綴批次範圍評估</footer>
+</div>
+</body>
+</html>
