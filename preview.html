@@ -125,10 +125,16 @@ button{background:var(--note-bg);border:1px solid var(--note-line);color:var(--i
   <p class="count" id="stat"></p>
   <div id="list"></div>
 
-  <h2>要移除的清單</h2>
-  <p>勾選上面的項目，這裡會生出檔名清單與對應的刪除指令。
-     <b>我不會自己刪</b>——這是你確認過才會執行的動作。</p>
+  <h2>移除勾選的項目</h2>
+  <div class="note warn">
+    <p><b>網頁本身沒辦法刪檔案。</b>這是純靜態頁面，而且這個 repo 是公開的——
+       要讓網頁真的刪東西，就得把 GitHub 的寫入權杖放進頁面裡，
+       那等於把權杖公開，任何人都能刪光整個站。所以那顆按鈕不能做。</p>
+    <p>下面這行指令是等效的：<b>複製 → 貼進終端機 → Enter</b>，刪完並推上去。
+       或者把清單貼給我，我來執行。</p>
+  </div>
   <div class="tools">
+    <button onclick="copyCmd()" id="cp">複製刪除指令</button>
     <button onclick="clearMarks()">清除所有勾選</button>
     <span class="count" id="mstat"></span>
   </div>
@@ -205,10 +211,26 @@ function out(){
   if(!sel.length){ $('#out').textContent='（還沒有勾選任何項目）'; return; }
   const files=sel.map(r=>r.f);
   const dirs=[...new Set(sel.flatMap(r=>r.assets))];
+  const targets=[...files,...dirs.map(d=>d+'/')];
+  // 一行完成：抓最新、刪、提交、推。**cd 到暫存目錄再 clone**，
+  // 不依賴本機有沒有這個 repo、在哪個分支、有沒有未提交的改動。
+  window.CMD =
+    'cd "$(mktemp -d)" && git clone -q https://github.com/stu24801/game-collection-support.git r'+
+    ' && cd r && git rm -rq '+targets.map(t=>"'"+t+"'").join(' ')+
+    ' && git commit -qm "移除 '+files.length+' 頁確認頁"'+
+    ' && git push -q origin main && echo "已移除 '+files.length+' 頁"';
   $('#out').textContent =
-    '要移除的頁面：\n'+files.map(f=>'  '+f).join('\n')+
+    '要移除的頁面（'+files.length+' 頁，'+fmt(sel.reduce((s,r)=>s+r.kb,0))+'）：\n'+
+    files.map(f=>'  '+f).join('\n')+
     (dirs.length?'\n\n連帶的圖片資料夾：\n'+dirs.map(d=>'  '+d+'/').join('\n'):'')+
-    '\n\ngit rm -r '+[...files,...dirs.map(d=>d+'/')].join(' ');
+    '\n\n─── 複製這行執行 ───\n'+window.CMD;
+}
+function copyCmd(){
+  if(!window.CMD){ $('#cp').textContent='還沒有勾選'; setTimeout(()=>$('#cp').textContent='複製刪除指令',1500); return; }
+  navigator.clipboard.writeText(window.CMD).then(()=>{
+    $('#cp').textContent='已複製 ✓';
+    setTimeout(()=>$('#cp').textContent='複製刪除指令',1800);
+  }).catch(()=>{ $('#cp').textContent='複製失敗，請手動選取'; });
 }
 $('#q').addEventListener('input',render);
 $('#sort').addEventListener('change',render);
