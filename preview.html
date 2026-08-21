@@ -66,94 +66,127 @@ code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
 a{color:var(--gold)}
 footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </style>
+<style>
+.tools{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:18px 0 6px}
+.tools input[type=search],.tools select{
+  background:var(--card);border:1px solid var(--line);border-radius:8px;
+  color:var(--ink);padding:9px 12px;font-size:15px;font-family:inherit}
+.tools input[type=search]{flex:1;min-width:190px}
+.count{color:var(--ink-soft);font-size:13px}
+.item{display:flex;gap:12px;align-items:flex-start;background:var(--card);
+  border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:8px 0}
+.item.marked{border-color:var(--ember);background:var(--warn-bg)}
+.item input[type=checkbox]{margin-top:4px;width:20px;height:20px;flex:none;accent-color:var(--ember)}
+.item .body{flex:1;min-width:0}
+.item .ttl{font-size:15.5px;font-weight:700}
+.item .ttl a{text-decoration:none}
+.item .meta{color:var(--ink-soft);font-size:12.5px;margin-top:3px}
+.item .lede{color:var(--ink-soft);font-size:13px;margin-top:5px}
+.tag{display:inline-block;border:1px solid var(--line);border-radius:999px;
+  padding:1px 8px;font-size:11.5px;color:var(--gold);margin-right:6px}
+.big{color:var(--ember);font-weight:700}
+#out{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:12px 14px;margin-top:14px;white-space:pre-wrap;word-break:break-all;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px}
+button{background:var(--note-bg);border:1px solid var(--note-line);color:var(--ink);
+  border-radius:8px;padding:9px 14px;font-size:14px;font-family:inherit;cursor:pointer}
+</style>
+
 </head>
 <body>
 <div class="wrap">
   <p class="eyebrow">手搓廣告遊戲選集</p>
   <h1>確認頁索引</h1>
-  <p class="lede">開發過程中給你看的每一頁都在這裡，依遊戲分組、新的在上面。
-     這些頁不會互相連結，只能從這裡進去。</p>
-  <p style="color:var(--ink-soft);font-size:14px">共 54 頁</p>
+  <p class="lede">開發過程中給你看的每一頁都在這裡。這些頁彼此不連結，只能從這裡進去。
+     可以搜尋、依大小排序，並勾選要移除的頁面——勾完在最下面會生出一份清單，
+     複製給我就會照著刪。</p>
+  <p class="count">共 54 頁，附帶圖片與音檔合計 <b>380 MB</b></p>
 
-  <h2>地城迴響　<span style="color:var(--ink-soft);font-size:14px;font-weight:400">17 頁</span></h2>
-  <div class="scroll"><table>
-    <tr><th>日期</th><th>內容</th></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-21</td><td><a href="./dnd-contrast.html">場地對比度：九個版本讓你挑</a><br><span style="color:var(--ink-soft);font-size:13px">目標是讓角色與敵人不要跟場地融在一起。先量素材再動手， 結論跟直覺相反——問題不是飽和度，是明度，而且還有紋理太碎這一半。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-20</td><td><a href="./dnd-anim.html">動畫問題解決了，而且不用花錢也不用改架構</a><br><span style="color:var(--ink-soft);font-size:13px">先前的結論是「要用新動畫就得把整個專案遷到 Mecanim，2～3 天」。 那個結論太窄。找到同一副骨架的續作動畫庫，直接放進去就能播—— 免費、CC0、零遷移成本。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-20</td><td><a href="./dnd-scope.html">技能、加點、詞綴這批要做多大，以及九件要你拍板的事</a><br><span style="color:var(--ink-soft);font-size:13px">這一批需求疊起來大約 13～19 個工作天。 下面拆成每一項的工作量、彼此的依賴，以及我建議調整範圍的地方。 還沒有動工，等你決定範圍再開始。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-19</td><td><a href="./dnd-gamma.html">地城迴響進了選集，光照全部重調</a><br><span style="color:var(--ink-soft);font-size:13px">DnD 原本是獨立專案、用 Linear 色彩空間；選集是 Gamma。 兩者的光照數學不同，整套明暗與配色必須重調一輪。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-combat.html">前 17 層只有劍兵，法師會丟火球</a><br><span style="color:var(--ink-soft);font-size:13px">新敵人種類留到第 18 層以後才登場。骷髏法師是遠程單位， 會拉開距離施放火球。玩家的技能各自有對應的動作。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-cone.html">只看得到自己與正前方</a><br><span style="color:var(--ink-soft);font-size:13px">照明從「以玩家為圓心的圓」改成「貼身微光 + 正前方視錐」。 火焰從一團柔光改成有輪廓、會動的程序化火焰。都在 iOS 模擬器上實跑確認。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-decor.html">房間看起來要像有人住過</a><br><span style="color:var(--ink-soft);font-size:13px">混合方案：傢俱與容器用 KayKit（CC0），氛圍用程序化生成。 這是一間房 14 件的樣品，還沒鋪開到整個地城。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-design.html">地城迴響 ── 直式操作的暗黑類地下城冒險</a><br><span style="color:var(--ink-soft);font-size:13px">v5：第 7 節改成走廊模組拼裝與 17 層結構，第 10 節的定案 13 項， 新增第 11.5 節「打包後才會出現的坑」。實作進度見樓層生成、 戰鬥與技能、模擬器驗證。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-filth.html">從「有人住的房間」變成「被遺棄的墓穴」</a><br><span style="color:var(--ink-soft);font-size:13px">六層一起做：基底材質的低頻污斑、單一 draw call 的污漬場、牆腳積垢、 散落骨骸、破爛蜘蛛網、光裡的灰塵。41 件全數成功、0 件失敗。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-hit.html">慢的是硬直，不是動畫</a><br><span style="color:var(--ink-soft);font-size:13px">揮刀「慢」的主因是攻擊期間不能移動的那 0.45 秒， 不是動作本身的速度。所以改的不只一個數字。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-loot.html">東西要掉在地上，稀有度要一眼看得出</a><br><span style="color:var(--ink-soft);font-size:13px">在這之前擊殺只是數值默默變動加一行字。現在金幣與裝備都生成實體， 帶稀有度對應的光柱，走過去才收。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-map.html">摸黑探索，但記得走過的路</a><br><span style="color:var(--ink-soft);font-size:13px">視野錐從 13.5 公尺縮到 8 公尺。小地圖只顯示實際踏過的區塊 ——沒去過的地方仍然是未知的。都在 iOS 模擬器上實跑確認。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-rollout.html">從一間樣品房到整個地城</a><br><span style="color:var(--ink-soft);font-size:13px">座標改成依房間尺寸換算、密度依面積換算、四面牆每面至少一件。 200 層連通性回歸：0% 不可達，保底一次都沒動用。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-18</td><td><a href="./dnd-sim.html">橘色方塊是 shader 被打包剝掉</a><br><span style="color:var(--ink-soft);font-size:13px">Editor 永遠看不到這個問題。修完之後在 iOS 模擬器 （iPhone 17 Pro / iOS 26.4，arm64）實際跑起來確認。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-17</td><td><a href="./dnd-demo.html">一間房間、程序化石材、六盞火光</a><br><span style="color:var(--ink-soft);font-size:13px">石磚牆與石板地都帶法線貼圖，火把與火盆有柔光、餘燼與晃動， 空氣裡有浮塵。全部執行期算出來，零美術素材，$0。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-17</td><td><a href="./dnd-floors.html">17 層、走廊模組、兩層安全層</a><br><span style="color:var(--ink-soft);font-size:13px">每層由 2～3 間房用固定長度的走廊拼起來，沒接到走廊的接口自動砌牆。 第 18 層以後從這 17 層抽版型，但怪物強度照真實層數算。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-17</td><td><a href="./dnd-shots.html">亡靈鎧甲：與玩家同一副素體</a><br><span style="color:var(--ink-soft);font-size:13px">敵人不再是外來素材。用玩家同一副 Quaternius 素體，穿滿板甲加兜帽， 臉的位置處理成一片虛空。比例、動畫、骨架全部天生一致。</span></td></tr>
-  </table></div>
+  <div class="tools">
+    <input type="search" id="q" placeholder="搜尋標題、檔名或內容關鍵字…">
+    <select id="sort">
+      <option value="u">最近更新</option>
+      <option value="c">最早建立</option>
+      <option value="kb">佔用空間</option>
+    </select>
+    <select id="gf">
+      <option value="">全部分組</option>
+      <option>地城迴響</option><option>殭屍防線</option>
+      <option>吸血鬼復仇</option><option>美術與特效</option>
+    </select>
+  </div>
+  <p class="count" id="stat"></p>
+  <div id="list"></div>
 
-  <h2>殭屍防線　<span style="color:var(--ink-soft);font-size:14px;font-weight:400">14 頁</span></h2>
-  <div class="scroll"><table>
-    <tr><th>日期</th><th>內容</th></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-audio.html">音效與配樂試樣</a><br><span style="color:var(--ink-soft);font-size:13px">18 種音效是程式合成的（$0）。配樂 9 首走 Suno：一般戰鬥曲已收錄，8 隻魔王各自的曲子在下面等你確認。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-barricade.html">防線護欄</a><br><span style="color:var(--ink-soft);font-size:13px">殭屍防線的第一張素材，做了三版才對。防線是玩家全程盯著的東西——會主動前推、被推退、破損、被突破——所以三段受損狀態一次生在同一張，才看得出漸進過渡。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-blocker.html">動畫試樣</a><br><span style="color:var(--ink-soft);font-size:13px">13 支動畫的前兩支試樣。確認方向之後再生剩下 11 支。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-boss-all.html">八隻魔王 · 35 組動畫</a><br><span style="color:var(--ink-soft);font-size:13px">走路 8、衝鋒 7、召喚 6、震地 6、死亡 8，共 372 幀。彈幕改用能量彈粒子而不是逐隻整隻動畫。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-boss-slam.html">怒吼者 · 震地</a><br><span style="color:var(--ink-soft);font-size:13px">27 組技能動畫的第一組試樣。挑震地是因為它是四種技能裡唯一有明確時間軸的——1.5 秒預警圈倒數完才造成傷害，動畫必須跟那個倒數同步。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-boss.html">殭屍先鋒</a><br><span style="color:var(--ink-soft);font-size:13px">八隻 Boss 的第一隻試樣（第 1 波，玩家最先遇到的，用來定調）。一次就過，所有客觀檢查都乾淨。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-fx.html">特效、投射物與道具</a><br><span style="color:var(--ink-soft);font-size:13px">把場上剩下的色塊佔位全部換掉。素材四張 $0.80（一張作廢），掉落物 9 種沿用既有圖示、$0。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-gunner-ingame.html">八種兵種 × 三種動畫</a><br><span style="color:var(--ink-soft);font-size:13px">額度恢復後補完 7 支陣亡動畫，24 支全部整合進遊戲：換武器整隊造型跟著換、射擊／移動／陣亡三種狀態自動切換。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-gunner.html">步槍手 · 射擊動畫</a><br><span style="color:var(--ink-soft);font-size:13px">24 支槍手動畫的第一支試樣。風格與動作已經對了，剩一個要你決定的細節——決定完才往下推剩下 23 支。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-gunners.html">槍手動畫（Grok 額度用盡，暫停）</a><br><span style="color:var(--ink-soft);font-size:13px">射擊 8/8、移動 8/8 全部完成並通過品質檢查；陣亡只完成 1/8 就被額度擋住。已完成的 17 支品質都是好的，等額度處理完就能補完剩下 7 支。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-line.html">防線護欄與破壞粒子</a><br><span style="color:var(--ink-soft);font-size:13px">v3 素材已切成三段套進遊戲，改成只畫在中央車道以維持原比例；受損時由既有的 ZlFx 層噴出碎片，表現「正在被打壞」的過程。這一輪沒有花任何生成費用。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-stage.html">街道背景與日夜循環</a><br><span style="color:var(--ink-soft);font-size:13px">正上方俯視的賽博龐克貧民窟街道，240 秒走完一輪日夜。日夜與粒子全部是程式做的。底圖已改版到 v2——見下方「補給箱腳下是什麼」。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-ui.html">介面外框試樣</a><br><span style="color:var(--ink-soft);font-size:13px">賽博龐克貧民窟風格的面板框、按鈕與 27 個圖示，已套進遊戲。14 次生成共 $2.80，其中 4 次作廢。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./zl-zombies.html">碎片素材與三種殭屍</a><br><span style="color:var(--ink-soft);font-size:13px">碎片素材換掉了程序化色塊，三種殭屍走路動畫進遊戲。這一批中間有一次整批報廢，原因與修法都寫在下面。</span></td></tr>
-  </table></div>
-
-  <h2>吸血鬼復仇　<span style="color:var(--ink-soft);font-size:14px;font-weight:400">1 頁</span></h2>
-  <div class="scroll"><table>
-    <tr><th>日期</th><th>內容</th></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./vr-merchant.html">神秘商人介面改版</a><br><span style="color:var(--ink-soft);font-size:13px">回應實機回報：「交易介面文字跟 UI 都太小看不清楚」、「選擇要交易的項目是純文字的」。這階段不動玩法與數值，只放大字級並把第二步做成有美術的卡片。</span></td></tr>
-  </table></div>
-
-  <h2>美術與特效　<span style="color:var(--ink-soft);font-size:14px;font-weight:400">22 頁</span></h2>
-  <div class="scroll"><table>
-    <tr><th>日期</th><th>內容</th></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-16</td><td><a href="./store7.html">Build 7 送審截圖</a><br><span style="color:var(--ink-soft);font-size:13px">兩款遊戲各 4 張，iPhone 與 iPad 兩個尺寸。這裡是縮圖，原圖在 repo 的 docs/screenshots/v2.0-build7/。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./art2.html">三支試樣出來了</a><br><span style="color:var(--ink-soft);font-size:13px">夜巫、神秘商人、魔王衝鋒預告都做出來了，全部還在暫存路徑、沒有進遊戲，等你點頭才套用。下面的圖是會動的，直接看。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./art3.html">三樣都進遊戲了</a><br><span style="color:var(--ink-soft);font-size:13px">下面全部是實機畫面，不是素材預覽。夜巫用你選的 v1、商人加了光暈、五隻魔王各有各的衝鋒預告。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./aura-mist.html">迷霧版可行性與一張試樣</a><br><span style="color:var(--ink-soft);font-size:13px">你給的參考圖是「厚實翻騰的霧環繞著角色」。做得出來，而且比現在這版更接近那個感覺。但過程中先發現了現行版本的一個 bug，那個要先講。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./batch-fixes.html">道具系統補上了，HUD 也照你說的重排</a><br><span style="color:var(--ink-soft);font-size:13px">先回答你的兩個問題，再講改了什麼。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./blizzard-castle.html">雪牆換成翻騰質感、城堡試樣</a><br><span style="color:var(--ink-soft);font-size:13px">暴風雪牆已經換好並套用；魔王城堡是試樣，等你確認再進遊戲。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./castle-floor.html">地板變體：從 4 塊變成 60 塊</a><br><span style="color:var(--ink-soft);font-size:13px">照你說的增加地板變化、保留邊框格線、密度維持 0.5。還沒進遊戲，等你確認。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./castle-floor2.html">地板改成有設計的鋪法</a><br><span style="color:var(--ink-soft);font-size:13px">不是隨機打散，是一個完整的鋪面設計：棋盤式交錯的地磚、外圈金色紋飾邊框、四角金花、正中央的蝠形紋章。還沒進遊戲。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./enemy-attacks.html">盤點結果：不是美術問題</a><br><span style="color:var(--ink-soft);font-size:13px">你要的是「這些敵人的攻擊動畫也要補手繪」。查完程式碼之後結論不一樣了——大部分敵人的攻擊在 Unity 版根本沒有實作，不是視覺陽春的問題。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./enemy-fx.html">試樣：敵方彈幕與地面法陣</a><br><span style="color:var(--ink-soft);font-size:13px">五項裡先出這兩項——一個是最小最快的元素，一個是最大最靜態的，兩端都看過再決定要不要往下做。還沒進遊戲。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./enemy-fx2.html">法陣傷害調好了，自爆與召喚出試樣</a><br><span style="color:var(--ink-soft);font-size:13px">①②已收尾並 commit；剩下三項裡的兩項在下面等你確認，第三項（衝刺殘影）我判斷不需要素材。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./enemy-fx3.html">自爆改成專屬爆炸、召喚改成大法陣</a><br><span style="color:var(--ink-soft);font-size:13px">兩項都照你的方向重做了，還沒進遊戲。衝刺殘影已經用程式做好（沒有新素材，照你說的不用等確認）。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./hud-fix.html">首頁、選角、暫停面板全部放大</a><br><span style="color:var(--ink-soft);font-size:13px">你點名的三個畫面都調過了，而且四張畫面都是在模擬 iPhone 靈動島的情況下實際跑出來拍的。選角那一頁順便解決了兩個「字放大之後才看得出來」的問題。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./oni-bgm.html">鬼面武者：8-bit 惡魔城風兩版試聽</a><br><span style="color:var(--ink-soft);font-size:13px">兩版都還沒進遊戲。先確認一件事：這隻魔王在資料裡叫「鬼面武者」不是武士，而且目前沒有專屬配樂。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./stage-forest-live.html">森林關已進遊戲，荒原關試樣</a><br><span style="color:var(--ink-soft);font-size:13px">森林關的素材、擺放程式、樹幹碰撞、遮擋 shader 都已經接上並用實機驗證過。血月荒原是下一關的試樣，等你確認再往下做。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./stage-forest-v3.html">幽暗森林 v3：更暗、成叢、遮擋透明</a><br><span style="color:var(--ink-soft);font-size:13px">照你的三點調整：地面再壓一階、加上「一叢一叢」的群聚擺放、被擋住時遮擋處局部半透明並帶前後層次。下面的模擬圖是用真的伯爵、小惡魔、幽靈、蝙蝠貼圖，照遊戲真正的比例合成的。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./stage-samples.html">關卡盤點與前兩關試樣</a><br><span style="color:var(--ink-soft);font-size:13px">五個關卡的盤點，加上幽暗森林與冰雪絕地的場地素材試樣。裝飾物走四分之三傾斜視角、有高度有體積；地面走接近俯視的無縫貼圖。地面出了兩版，第一版實測有問題。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./stages-done.html">四關場地上線、大蒜光環換成迷霧</a><br><span style="color:var(--ink-soft);font-size:13px">血月荒原、深淵沼澤、冰雪絕地都接上了，加上先前的幽暗森林共四關。大蒜光環換成迷霧版並保留了傷害半徑的實邊。全部實機驗證過。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./vfx2-preview.html">十把武器的手繪動畫</a><br><span style="color:var(--ink-soft);font-size:13px">總表裡標「程序化視覺」的十把武器，現在每一把都有自己的 14 幀手繪序列。九支新生成、一支沿用遊戲裡現有的蝙蝠素材。全部已去背，襯在遊戲實際的深色地面上。還沒套進遊戲——等你確認。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-15</td><td><a href="./vfx2-samples.html">試樣三支，先看風格對不對</a><br><span style="color:var(--ink-soft);font-size:13px">總表裡還標「程序化視覺」的十把武器要補手繪動畫。先用一支投射物、一支扇形斬、一支法陣試水溫再決定要不要把剩下七支跑完——上一批就是整批跑完才發現風格不對，白花了將近一塊美金。目前已花約 $0.96，剩下七支約 $2.24。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-14</td><td><a href="./skills.html">技能總表</a><br><span style="color:var(--ink-soft);font-size:13px">遊戲裡 17 把武器（含 7 把進化）與 16 個被動道具的視覺狀態盤點。特效素材共 8 支，其中 6 支被多把武器共用——進化型態刻意沿用本體的素材，只是尺寸與數量放大。</span></td></tr>
-    <tr><td style="white-space:nowrap;color:var(--ink-soft)">2026-08-14</td><td><a href="./vfx-preview.html">技能特效樣本</a><br><span style="color:var(--ink-soft);font-size:13px">哥德手繪風，八支特效已去背（連鎖電弧 10 幀寬幅，其餘各 14 幀）。每列橫向抽 8 幀，襯在遊戲實際的深色地面上。</span></td></tr>
-  </table></div>
+  <h2>要移除的清單</h2>
+  <p>勾選上面的項目，這裡會生出檔名清單與對應的刪除指令。
+     <b>我不會自己刪</b>——這是你確認過才會執行的動作。</p>
+  <div class="tools">
+    <button onclick="clearMarks()">清除所有勾選</button>
+    <span class="count" id="mstat"></span>
+  </div>
+  <div id="out">（還沒有勾選任何項目）</div>
 
   <div class="note">
-    <p>這個索引是掃描站上所有頁面自動產生的，新增確認頁時要一起更新，
-       否則新的那頁只能靠連結進去、在這裡找不到。</p>
+    <p>勾選狀態存在這台裝置的瀏覽器裡，關掉頁面再打開還會在。
+       換裝置就要重勾——這是純靜態站台，沒有伺服器可以存。</p>
   </div>
+
   <footer>手搓廣告遊戲選集 · 確認頁索引</footer>
 </div>
+<script>
+const DATA=[{"f": "dnd-contrast.html", "t": "場地對比度：九個版本讓你挑", "l": "目標是讓角色與敵人不要跟場地融在一起。先量素材再動手， 結論跟直覺相反——問題不是飽和度，是明度，而且還有紋理太碎這一半。", "c": "2026-08-21", "u": "2026-08-21", "kb": 1175, "assets": ["dnd-contrast"], "g": "地城迴響"}, {"f": "dnd-scope.html", "t": "技能、加點、詞綴這批要做多大，以及九件要你拍板的事", "l": "這一批需求疊起來大約 13～19 個工作天。 下面拆成每一項的工作量、彼此的依賴，以及我建議調整範圍的地方。 還沒有動工，等你決定範圍再開始。", "c": "2026-08-20", "u": "2026-08-20", "kb": 16, "assets": [], "g": "地城迴響"}, {"f": "dnd-anim.html", "t": "動畫問題解決了，而且不用花錢也不用改架構", "l": "先前的結論是「要用新動畫就得把整個專案遷到 Mecanim，2～3 天」。 那個結論太窄。找到同一副骨架的續作動畫庫，直接放進去就能播—— 免費、CC0、零遷移成本。", "c": "2026-08-20", "u": "2026-08-20", "kb": 89, "assets": ["dnd-anim"], "g": "地城迴響"}, {"f": "dnd-gamma.html", "t": "地城迴響進了選集，光照全部重調", "l": "DnD 原本是獨立專案、用 Linear 色彩空間；選集是 Gamma。 兩者的光照數學不同，整套明暗與配色必須重調一輪。", "c": "2026-08-19", "u": "2026-08-19", "kb": 4923, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-sim.html", "t": "橘色方塊是 shader 被打包剝掉", "l": "Editor 永遠看不到這個問題。修完之後在 iOS 模擬器 （iPhone 17 Pro / iOS 26.4，arm64）實際跑起來確認。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4922, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-rollout.html", "t": "從一間樣品房到整個地城", "l": "座標改成依房間尺寸換算、密度依面積換算、四面牆每面至少一件。 200 層連通性回歸：0% 不可達，保底一次都沒動用。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4922, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-map.html", "t": "摸黑探索，但記得走過的路", "l": "視野錐從 13.5 公尺縮到 8 公尺。小地圖只顯示實際踏過的區塊 ——沒去過的地方仍然是未知的。都在 iOS 模擬器上實跑確認。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4922, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-loot.html", "t": "東西要掉在地上，稀有度要一眼看得出", "l": "在這之前擊殺只是數值默默變動加一行字。現在金幣與裝備都生成實體， 帶稀有度對應的光柱，走過去才收。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4923, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-hit.html", "t": "慢的是硬直，不是動畫", "l": "揮刀「慢」的主因是攻擊期間不能移動的那 0.45 秒， 不是動作本身的速度。所以改的不只一個數字。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4922, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-filth.html", "t": "從「有人住的房間」變成「被遺棄的墓穴」", "l": "六層一起做：基底材質的低頻污斑、單一 draw call 的污漬場、牆腳積垢、 散落骨骸、破爛蜘蛛網、光裡的灰塵。41 件全數成功、0 件失敗。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4924, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-design.html", "t": "地城迴響 ── 直式操作的暗黑類地下城冒險", "l": "v5：第 7 節改成走廊模組拼裝與 17 層結構，第 10 節的定案 13 項， 新增第 11.5 節「打包後才會出現的坑」。實作進度見樓層生成、 戰鬥與技能、模擬器驗證。", "c": "2026-08-17", "u": "2026-08-18", "kb": 58, "assets": [], "g": "地城迴響"}, {"f": "dnd-decor.html", "t": "房間看起來要像有人住過", "l": "混合方案：傢俱與容器用 KayKit（CC0），氛圍用程序化生成。 這是一間房 14 件的樣品，還沒鋪開到整個地城。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4924, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-cone.html", "t": "只看得到自己與正前方", "l": "照明從「以玩家為圓心的圓」改成「貼身微光 + 正前方視錐」。 火焰從一團柔光改成有輪廓、會動的程序化火焰。都在 iOS 模擬器上實跑確認。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4922, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-combat.html", "t": "前 17 層只有劍兵，法師會丟火球", "l": "新敵人種類留到第 18 層以後才登場。骷髏法師是遠程單位， 會拉開距離施放火球。玩家的技能各自有對應的動作。", "c": "2026-08-18", "u": "2026-08-18", "kb": 4924, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-shots.html", "t": "亡靈鎧甲：與玩家同一副素體", "l": "敵人不再是外來素材。用玩家同一副 Quaternius 素體，穿滿板甲加兜帽， 臉的位置處理成一片虛空。比例、動畫、骨架全部天生一致。", "c": "2026-08-17", "u": "2026-08-17", "kb": 4925, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-floors.html", "t": "17 層、走廊模組、兩層安全層", "l": "每層由 2～3 間房用固定長度的走廊拼起來，沒接到走廊的接口自動砌牆。 第 18 層以後從這 17 層抽版型，但怪物強度照真實層數算。", "c": "2026-08-17", "u": "2026-08-17", "kb": 4926, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "dnd-demo.html", "t": "一間房間、程序化石材、六盞火光", "l": "石磚牆與石板地都帶法線貼圖，火把與火盆有柔光、餘燼與晃動， 空氣裡有浮塵。全部執行期算出來，零美術素材，$0。", "c": "2026-08-17", "u": "2026-08-17", "kb": 4925, "assets": ["dnd-shots"], "g": "地城迴響"}, {"f": "zl-zombies.html", "t": "碎片素材與三種殭屍", "l": "碎片素材換掉了程序化色塊，三種殭屍走路動畫進遊戲。這一批中間有一次整批報廢，原因與修法都寫在下面。", "c": "2026-08-16", "u": "2026-08-16", "kb": 263, "assets": ["zl-zombies"], "g": "殭屍防線"}, {"f": "zl-ui.html", "t": "介面外框試樣", "l": "賽博龐克貧民窟風格的面板框、按鈕與 27 個圖示，已套進遊戲。14 次生成共 $2.80，其中 4 次作廢。", "c": "2026-08-16", "u": "2026-08-16", "kb": 10017, "assets": ["zl-ui"], "g": "殭屍防線"}, {"f": "zl-stage.html", "t": "街道背景與日夜循環", "l": "正上方俯視的賽博龐克貧民窟街道，240 秒走完一輪日夜。日夜與粒子全部是程式做的。底圖已改版到 v2——見下方「補給箱腳下是什麼」。", "c": "2026-08-16", "u": "2026-08-16", "kb": 5819, "assets": ["zl-stage"], "g": "殭屍防線"}, {"f": "zl-line.html", "t": "防線護欄與破壞粒子", "l": "v3 素材已切成三段套進遊戲，改成只畫在中央車道以維持原比例；受損時由既有的 ZlFx 層噴出碎片，表現「正在被打壞」的過程。這一輪沒有花任何生成費用。", "c": "2026-08-16", "u": "2026-08-16", "kb": 144, "assets": ["zl-line"], "g": "殭屍防線"}, {"f": "zl-gunners.html", "t": "槍手動畫（Grok 額度用盡，暫停）", "l": "射擊 8/8、移動 8/8 全部完成並通過品質檢查；陣亡只完成 1/8 就被額度擋住。已完成的 17 支品質都是好的，等額度處理完就能補完剩下 7 支。", "c": "2026-08-16", "u": "2026-08-16", "kb": 158, "assets": ["zl-gunners"], "g": "殭屍防線"}, {"f": "zl-gunner.html", "t": "步槍手 · 射擊動畫", "l": "24 支槍手動畫的第一支試樣。風格與動作已經對了，剩一個要你決定的細節——決定完才往下推剩下 23 支。", "c": "2026-08-16", "u": "2026-08-16", "kb": 157, "assets": ["zl-gunner"], "g": "殭屍防線"}, {"f": "zl-gunner-ingame.html", "t": "八種兵種 × 三種動畫", "l": "額度恢復後補完 7 支陣亡動畫，24 支全部整合進遊戲：換武器整隊造型跟著換、射擊／移動／陣亡三種狀態自動切換。", "c": "2026-08-16", "u": "2026-08-16", "kb": 133, "assets": ["zl-gunner-ingame"], "g": "殭屍防線"}, {"f": "zl-fx.html", "t": "特效、投射物與道具", "l": "把場上剩下的色塊佔位全部換掉。素材四張 $0.80（一張作廢），掉落物 9 種沿用既有圖示、$0。", "c": "2026-08-16", "u": "2026-08-16", "kb": 1565, "assets": ["zl-fx"], "g": "殭屍防線"}, {"f": "zl-boss.html", "t": "殭屍先鋒", "l": "八隻 Boss 的第一隻試樣（第 1 波，玩家最先遇到的，用來定調）。一次就過，所有客觀檢查都乾淨。", "c": "2026-08-16", "u": "2026-08-16", "kb": 120, "assets": ["zl-boss"], "g": "殭屍防線"}, {"f": "zl-boss-slam.html", "t": "怒吼者 · 震地", "l": "27 組技能動畫的第一組試樣。挑震地是因為它是四種技能裡唯一有明確時間軸的——1.5 秒預警圈倒數完才造成傷害，動畫必須跟那個倒數同步。", "c": "2026-08-16", "u": "2026-08-16", "kb": 120, "assets": ["zl-boss"], "g": "殭屍防線"}, {"f": "zl-boss-all.html", "t": "八隻魔王 · 35 組動畫", "l": "走路 8、衝鋒 7、召喚 6、震地 6、死亡 8，共 372 幀。彈幕改用能量彈粒子而不是逐隻整隻動畫。", "c": "2026-08-16", "u": "2026-08-16", "kb": 252, "assets": ["zl-boss-all"], "g": "殭屍防線"}, {"f": "zl-blocker.html", "t": "動畫試樣", "l": "13 支動畫的前兩支試樣。確認方向之後再生剩下 11 支。", "c": "2026-08-16", "u": "2026-08-16", "kb": 1561, "assets": ["zl-blocker"], "g": "殭屍防線"}, {"f": "zl-barricade.html", "t": "防線護欄", "l": "殭屍防線的第一張素材，做了三版才對。防線是玩家全程盯著的東西——會主動前推、被推退、破損、被突破——所以三段受損狀態一次生在同一張，才看得出漸進過渡。", "c": "2026-08-16", "u": "2026-08-16", "kb": 619, "assets": ["zl-barricade"], "g": "殭屍防線"}, {"f": "zl-audio.html", "t": "音效與配樂試樣", "l": "18 種音效是程式合成的（$0）。配樂 9 首走 Suno：一般戰鬥曲已收錄，8 隻魔王各自的曲子在下面等你確認。", "c": "2026-08-16", "u": "2026-08-16", "kb": 40668, "assets": ["zl-audio"], "g": "殭屍防線"}, {"f": "vr-merchant.html", "t": "神秘商人介面改版", "l": "回應實機回報：「交易介面文字跟 UI 都太小看不清楚」、「選擇要交易的項目是純文字的」。這階段不動玩法與數值，只放大字級並把第二步做成有美術的卡片。", "c": "2026-08-16", "u": "2026-08-16", "kb": 1113, "assets": ["vr-merchant"], "g": "吸血鬼復仇"}, {"f": "store7.html", "t": "Build 7 送審截圖", "l": "兩款遊戲各 4 張，iPhone 與 iPad 兩個尺寸。這裡是縮圖，原圖在 repo 的 docs/screenshots/v2.0-build7/。", "c": "2026-08-16", "u": "2026-08-16", "kb": 893, "assets": ["store7"], "g": "美術與特效"}, {"f": "vfx2-samples.html", "t": "試樣三支，先看風格對不對", "l": "總表裡還標「程序化視覺」的十把武器要補手繪動畫。先用一支投射物、一支扇形斬、一支法陣試水溫再決定要不要把剩下七支跑完——上一批就是整批跑完才發現風格不對，白花了將近一塊美金。目前已花約 $0.96，剩下七支約 $2.24。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5901, "assets": ["vfx2"], "g": "美術與特效"}, {"f": "vfx2-preview.html", "t": "十把武器的手繪動畫", "l": "總表裡標「程序化視覺」的十把武器，現在每一把都有自己的 14 幀手繪序列。九支新生成、一支沿用遊戲裡現有的蝙蝠素材。全部已去背，襯在遊戲實際的深色地面上。還沒套進遊戲——等你確認。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5904, "assets": ["vfx2"], "g": "美術與特效"}, {"f": "stages-done.html", "t": "四關場地上線、大蒜光環換成迷霧", "l": "血月荒原、深淵沼澤、冰雪絕地都接上了，加上先前的幽暗森林共四關。大蒜光環換成迷霧版並保留了傷害半徑的實邊。全部實機驗證過。", "c": "2026-08-15", "u": "2026-08-15", "kb": 31810, "assets": ["stage", "vfx2"], "g": "美術與特效"}, {"f": "stage-samples.html", "t": "關卡盤點與前兩關試樣", "l": "五個關卡的盤點，加上幽暗森林與冰雪絕地的場地素材試樣。裝飾物走四分之三傾斜視角、有高度有體積；地面走接近俯視的無縫貼圖。地面出了兩版，第一版實測有問題。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25919, "assets": ["stage"], "g": "美術與特效"}, {"f": "stage-forest-v3.html", "t": "幽暗森林 v3：更暗、成叢、遮擋透明", "l": "照你的三點調整：地面再壓一階、加上「一叢一叢」的群聚擺放、被擋住時遮擋處局部半透明並帶前後層次。下面的模擬圖是用真的伯爵、小惡魔、幽靈、蝙蝠貼圖，照遊戲真正的比例合成的。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25920, "assets": ["stage"], "g": "美術與特效"}, {"f": "stage-forest-live.html", "t": "森林關已進遊戲，荒原關試樣", "l": "森林關的素材、擺放程式、樹幹碰撞、遮擋 shader 都已經接上並用實機驗證過。血月荒原是下一關的試樣，等你確認再往下做。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25917, "assets": ["stage"], "g": "美術與特效"}, {"f": "oni-bgm.html", "t": "鬼面武者：8-bit 惡魔城風兩版試聽", "l": "兩版都還沒進遊戲。先確認一件事：這隻魔王在資料裡叫「鬼面武者」不是武士，而且目前沒有專屬配樂。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5, "assets": [], "g": "美術與特效"}, {"f": "hud-fix.html", "t": "首頁、選角、暫停面板全部放大", "l": "你點名的三個畫面都調過了，而且四張畫面都是在模擬 iPhone 靈動島的情況下實際跑出來拍的。選角那一頁順便解決了兩個「字放大之後才看得出來」的問題。", "c": "2026-08-15", "u": "2026-08-15", "kb": 1482, "assets": ["hud"], "g": "美術與特效"}, {"f": "enemy-fx3.html", "t": "自爆改成專屬爆炸、召喚改成大法陣", "l": "兩項都照你的方向重做了，還沒進遊戲。衝刺殘影已經用程式做好（沒有新素材，照你說的不用等確認）。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5901, "assets": ["vfx2"], "g": "美術與特效"}, {"f": "enemy-fx2.html", "t": "法陣傷害調好了，自爆與召喚出試樣", "l": "①②已收尾並 commit；剩下三項裡的兩項在下面等你確認，第三項（衝刺殘影）我判斷不需要素材。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5902, "assets": ["vfx2"], "g": "美術與特效"}, {"f": "enemy-fx.html", "t": "試樣：敵方彈幕與地面法陣", "l": "五項裡先出這兩項——一個是最小最快的元素，一個是最大最靜態的，兩端都看過再決定要不要往下做。還沒進遊戲。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5901, "assets": ["vfx2"], "g": "美術與特效"}, {"f": "enemy-attacks.html", "t": "盤點結果：不是美術問題", "l": "你要的是「這些敵人的攻擊動畫也要補手繪」。查完程式碼之後結論不一樣了——大部分敵人的攻擊在 Unity 版根本沒有實作，不是視覺陽春的問題。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25916, "assets": ["stage"], "g": "美術與特效"}, {"f": "castle-floor2.html", "t": "地板改成有設計的鋪法", "l": "不是隨機打散，是一個完整的鋪面設計：棋盤式交錯的地磚、外圈金色紋飾邊框、四角金花、正中央的蝠形紋章。還沒進遊戲。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25914, "assets": ["stage"], "g": "美術與特效"}, {"f": "castle-floor.html", "t": "地板變體：從 4 塊變成 60 塊", "l": "照你說的增加地板變化、保留邊框格線、密度維持 0.5。還沒進遊戲，等你確認。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25913, "assets": ["stage"], "g": "美術與特效"}, {"f": "blizzard-castle.html", "t": "雪牆換成翻騰質感、城堡試樣", "l": "暴風雪牆已經換好並套用；魔王城堡是試樣，等你確認再進遊戲。", "c": "2026-08-15", "u": "2026-08-15", "kb": 25915, "assets": ["stage"], "g": "美術與特效"}, {"f": "batch-fixes.html", "t": "道具系統補上了，HUD 也照你說的重排", "l": "先回答你的兩個問題，再講改了什麼。", "c": "2026-08-15", "u": "2026-08-15", "kb": 1486, "assets": ["hud"], "g": "美術與特效"}, {"f": "aura-mist.html", "t": "迷霧版可行性與一張試樣", "l": "你給的參考圖是「厚實翻騰的霧環繞著角色」。做得出來，而且比現在這版更接近那個感覺。但過程中先發現了現行版本的一個 bug，那個要先講。", "c": "2026-08-15", "u": "2026-08-15", "kb": 5903, "assets": ["vfx2"], "g": "美術與特效"}, {"f": "art3.html", "t": "三樣都進遊戲了", "l": "下面全部是實機畫面，不是素材預覽。夜巫用你選的 v1、商人加了光暈、五隻魔王各有各的衝鋒預告。", "c": "2026-08-15", "u": "2026-08-15", "kb": 6389, "assets": ["art3"], "g": "美術與特效"}, {"f": "art2.html", "t": "三支試樣出來了", "l": "夜巫、神秘商人、魔王衝鋒預告都做出來了，全部還在暫存路徑、沒有進遊戲，等你點頭才套用。下面的圖是會動的，直接看。", "c": "2026-08-15", "u": "2026-08-15", "kb": 337, "assets": ["art2"], "g": "美術與特效"}, {"f": "vfx-preview.html", "t": "技能特效樣本", "l": "哥德手繪風，八支特效已去背（連鎖電弧 10 幀寬幅，其餘各 14 幀）。每列橫向抽 8 幀，襯在遊戲實際的深色地面上。", "c": "2026-08-14", "u": "2026-08-14", "kb": 1962, "assets": ["vfx"], "g": "美術與特效"}, {"f": "skills.html", "t": "技能總表", "l": "遊戲裡 17 把武器（含 7 把進化）與 16 個被動道具的視覺狀態盤點。特效素材共 8 支，其中 6 支被多把武器共用——進化型態刻意沿用本體的素材，只是尺寸與數量放大。", "c": "2026-08-14", "u": "2026-08-14", "kb": 14, "assets": [], "g": "美術與特效"}];
+
+const KEY='gc_preview_marks';
+let marks=new Set(JSON.parse(localStorage.getItem(KEY)||'[]'));
+const $=s=>document.querySelector(s);
+
+function save(){localStorage.setItem(KEY,JSON.stringify([...marks]));}
+function fmt(kb){return kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB';}
+function days(d){return Math.round((Date.now()-new Date(d))/86400000);}
+
+function render(){
+  const q=$('#q').value.trim().toLowerCase();
+  const sort=$('#sort').value, gf=$('#gf').value;
+  let rs=DATA.filter(r=>{
+    if(gf&&r.g!==gf)return false;
+    if(!q)return true;
+    return (r.t+' '+r.f+' '+r.l+' '+r.g).toLowerCase().includes(q);
+  });
+  rs.sort((a,b)=> sort==='kb' ? b.kb-a.kb : sort==='c' ? a.c.localeCompare(b.c) : b.u.localeCompare(a.u));
+  $('#stat').textContent=`顯示 ${rs.length} / ${DATA.length} 頁，合計 ${fmt(rs.reduce((s,r)=>s+r.kb,0))}`;
+  $('#list').innerHTML=rs.map(r=>{
+    const on=marks.has(r.f);
+    const age=days(r.u);
+    return `<label class="item ${on?'marked':''}" data-f="${r.f}">
+      <input type="checkbox" ${on?'checked':''} onchange="toggle('${r.f}',this)">
+      <span class="body">
+        <span class="ttl"><a href="./${r.f}">${r.t||r.f}</a></span>
+        <span class="meta"><span class="tag">${r.g}</span>
+          ${r.f}　建立 ${r.c}　更新 ${r.u}（${age} 天前）　
+          <span class="${r.kb>5120?'big':''}">${fmt(r.kb)}</span></span>
+        ${r.l?`<span class="lede">${r.l}</span>`:''}
+      </span></label>`;
+  }).join('');
+  out();
+}
+function toggle(f,el){ el.checked?marks.add(f):marks.delete(f); save(); render(); }
+function clearMarks(){ marks.clear(); save(); render(); }
+function out(){
+  const sel=DATA.filter(r=>marks.has(r.f));
+  $('#mstat').textContent = sel.length?`已勾選 ${sel.length} 頁，可釋出 ${fmt(sel.reduce((s,r)=>s+r.kb,0))}`:'';
+  if(!sel.length){ $('#out').textContent='（還沒有勾選任何項目）'; return; }
+  const files=sel.map(r=>r.f);
+  const dirs=[...new Set(sel.flatMap(r=>r.assets))];
+  $('#out').textContent =
+    '要移除的頁面：\n'+files.map(f=>'  '+f).join('\n')+
+    (dirs.length?'\n\n連帶的圖片資料夾：\n'+dirs.map(d=>'  '+d+'/').join('\n'):'')+
+    '\n\ngit rm -r '+[...files,...dirs.map(d=>d+'/')].join(' ');
+}
+$('#q').addEventListener('input',render);
+$('#sort').addEventListener('change',render);
+$('#gf').addEventListener('change',render);
+render();
+</script>
 </body>
 </html>
