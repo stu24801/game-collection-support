@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>場地對比度比較</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <p class="eyebrow">吸血鬼復仇 · 殭屍防線</p>
+  <h1>場地對比度：九個版本讓你挑</h1>
+  <p class="lede">目標是讓角色與敵人不要跟場地融在一起。先量素材再動手，
+     結論跟直覺相反——<b>問題不是飽和度，是明度，而且還有紋理太碎這一半。</b></p>
+
+  <h2>量出來的問題</h2>
+  <div class="scroll"><table>
+    <tr><th>吸血鬼</th><th>平均明度</th></tr>
+    <tr><td>地面</td><td class="num">0.042–0.083</td></tr>
+    <tr><td><b>裝飾物</b></td><td class="num"><b>0.131–0.261</b></td></tr>
+    <tr><td>角色</td><td class="num">0.185</td></tr>
+    <tr><td>敵人</td><td class="num">0.241</td></tr>
+  </table></div>
+  <p>地面其實分得很開，<b>問題在裝飾物</b>——它們的亮度幾乎整段落在角色區間裡：
+     魔王城堡 15/15 件、冰雪絕地 12/12 件、深淵沼澤 13/13 件全部重疊，
+     只有血月荒原（3/12）是好的。</p>
+  <div class="scroll"><table>
+    <tr><th>殭屍防線</th><th>平均明度</th></tr>
+    <tr><td><b>街道底圖</b></td><td class="num"><b>0.303</b></td></tr>
+    <tr><td>殭屍</td><td class="num">0.282</td></tr>
+    <tr><td>槍手</td><td class="num">0.266</td></tr>
+    <tr><td>魔王</td><td class="num">0.291</td></tr>
+    <tr><td>路障</td><td class="num">0.339</td></tr>
+  </table></div>
+  <p>街道底圖<b>正落在所有單位的正中央</b>。那是整面背景不是零星裝飾，
+     所以比吸血鬼更嚴重。</p>
+
+  <div class="note">
+    <p><b>飽和度不要動。</b>角色 0.36、敵人 0.45，裝飾物 0.11–0.31——
+       那一項本來就分開了。再拉開只會讓場地變灰、失去氣氛。</p>
+  </div>
+
+  <h2>兩個不同的旋鈕</h2>
+  <p><b>壓暗</b>降低整體亮度。<b>收斂</b>把地面往它自己的平均色收，讓紋理變平。
+     這兩件事不一樣：你回饋「地面還是很花」時，畫面已經壓暗過了——
+     碎花是高頻亮點，壓暗降不掉它。</p>
+  <p>量到的地面局部對比：冰雪 σ=14.4、城堡 10.7、森林 8.7，
+     而唯一沒有重疊問題的血月荒原只有 4.7。</p>
+  <div class="note">
+    <p>收斂用的是<b>該關地面自己的平均色</b>，不是灰色——往自己的平均收，
+       紋理變平但色調不變，森林不會被洗成灰的。</p>
+  </div>
+
+  <h2>吸血鬼復仇</h2>
+  <figure>
+    <img src="dnd-contrast/vr_a_orig.jpg" alt="原始">
+    <figcaption><b>原始</b>　—　
+      明度 0.079　局部對比 σ 15.5<br>現在的樣子。地面滿佈白花與落葉，角色主要靠身上的光暈才看得出來。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/vr_b_dim.jpg" alt="只壓暗">
+    <figcaption><b>只壓暗</b>　地面 ×0.70、裝飾 ×0.72　
+      明度 0.057　局部對比 σ 11.9<br>整體暗下去，角色浮起來——但<b>紋理的碎花還在</b>。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/vr_c_flat1.jpg" alt="壓暗＋收斂 50%">
+    <figcaption><b>壓暗＋收斂 50%</b>　再往地面平均色收一半　
+      明度 0.056　局部對比 σ <b>10.0</b><br>白花碎點消失，地面變成大致均勻的暗底，樹與灌木仍看得出形體。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/vr_d_flat2.jpg" alt="壓暗＋收斂 78%">
+    <figcaption><b>壓暗＋收斂 78%</b>　幾乎收成單色　
+      明度 0.055　局部對比 σ 9.7<br>更平，但地面開始失去質感。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/vr_e_full.jpg" alt="全開">
+    <figcaption><b>全開</b>　重壓暗＋收斂＋外框光　
+      明度 <b>0.041</b>　局部對比 σ <b>8.2</b><br>對比最強。外框光讓角色不管背景怎樣都站得出來。</figcaption>
+  </figure>
+
+  <h2>殭屍防線</h2>
+  <figure>
+    <img src="dnd-contrast/zl_a_orig.jpg" alt="原始">
+    <figcaption><b>原始</b>　—　
+      明度 0.261　局部對比 σ 33.5<br>街道路面 0.303 正落在所有單位（0.18–0.53）的正中央。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/zl_b_dim.jpg" alt="小幅壓暗">
+    <figcaption><b>小幅壓暗</b>　街道 ×0.75　
+      明度 0.204　局部對比 σ 25.8<br>單位開始浮出來。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/zl_c_dim2.jpg" alt="大幅壓暗">
+    <figcaption><b>大幅壓暗</b>　街道 ×0.55　
+      明度 <b>0.156</b>　局部對比 σ <b>20.3</b><br>分離最明顯。</figcaption>
+  </figure>
+  <figure>
+    <img src="dnd-contrast/zl_d_full.jpg" alt="大幅壓暗＋外框光">
+    <figcaption><b>大幅壓暗＋外框光</b>　
+      明度 0.157　局部對比 σ 20.5<br>外框光讓殭屍、槍手、魔王各自有不同顏色的邊。</figcaption>
+  </figure>
+
+  <h2>需要你決定的</h2>
+  <div class="scroll"><table>
+    <tr><th>要決定的</th><th>為什麼不能我自己決定</th></tr>
+    <tr><td><b>吸血鬼要選哪一版</b></td><td>c（收斂 50%）到 e（全開）之間是「看得清楚」與「保留氣氛」的取捨。這款的賣點就是暗，壓過頭會變成另一個遊戲</td></tr>
+    <tr><td><b>殭屍要選哪一版</b></td><td>同上。大幅壓暗分離最好，但日間街道會變得偏夜晚——那會影響晝夜循環的意義</td></tr>
+    <tr><td><b>外框光要不要留</b></td><td>它最有效，但會讓畫面更「遊戲感」、少一點寫實。這是美術方向不是技術問題</td></tr>
+  </table></div>
+
+  <h2>還沒到位的</h2>
+  <div class="note warn">
+    <p><b>只拍了第一關（幽暗森林）與殭屍的日間街道。</b>冰雪絕地 σ=14.4 是五關裡
+       最花的，魔王城堡 10.7 次之——那兩關的實際效果還沒看過，
+       同一組數值不保證同樣合適。</p>
+    <p><b>外框光的顏色還沒調過。</b>目前是玩家暖白、吸血鬼敵人暗紅、
+       殭屍冷綠、魔王偏紅，這組配色只驗了「分得開」，沒驗好不好看。</p>
+  </div>
+
+  <footer>手搓廣告遊戲選集 · 場地對比度比較</footer>
+</div>
+</body>
+</html>
