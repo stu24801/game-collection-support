@@ -98,7 +98,7 @@ button{background:var(--note-bg);border:1px solid var(--note-line);color:var(--i
   <p class="eyebrow">手搓廣告遊戲選集</p>
   <h1>確認頁索引</h1>
   <p class="lede">開發過程中給你看的每一頁都在這裡。這些頁彼此不連結，只能從這裡進去。
-     可以搜尋、依大小排序，並勾選要移除的頁面——勾完在最下面會生出一份清單，
+     可以搜尋、依大小排序，批次全選，並勾選要移除的頁面——勾完在最下面會生出一份清單，
      複製給我就會照著刪。</p>
   <p class="count">共 54 頁，附帶圖片與音檔合計 <b>380 MB</b></p>
 
@@ -114,6 +114,13 @@ button{background:var(--note-bg);border:1px solid var(--note-line);color:var(--i
       <option>地城迴響</option><option>殭屍防線</option>
       <option>吸血鬼復仇</option><option>美術與特效</option>
     </select>
+  </div>
+  <div class="tools">
+    <button onclick="selAll(true)">全選目前顯示</button>
+    <button onclick="selAll(false)">取消目前顯示</button>
+    <button onclick="invert()">反選</button>
+    <button onclick="quick('big')">選 &gt; 5 MB</button>
+    <button onclick="quick('old')">選 30 天以上沒更新</button>
   </div>
   <p class="count" id="stat"></p>
   <div id="list"></div>
@@ -172,6 +179,26 @@ function render(){
 }
 function toggle(f,el){ el.checked?marks.add(f):marks.delete(f); save(); render(); }
 function clearMarks(){ marks.clear(); save(); render(); }
+
+/// 目前篩選結果。**批次操作一律只作用在這裡，不是全部 54 頁**——
+/// 搜尋「stage」再全選才有意義；不分青紅皂白全選是誤刪的來源。
+function visible(){
+  const q=$('#q').value.trim().toLowerCase(), gf=$('#gf').value;
+  return DATA.filter(r=>{
+    if(gf&&r.g!==gf)return false;
+    if(!q)return true;
+    return (r.t+' '+r.f+' '+r.l+' '+r.g).toLowerCase().includes(q);
+  });
+}
+function selAll(on){ visible().forEach(r=> on?marks.add(r.f):marks.delete(r.f)); save(); render(); }
+function invert(){ visible().forEach(r=> marks.has(r.f)?marks.delete(r.f):marks.add(r.f)); save(); render(); }
+function quick(kind){
+  visible().forEach(r=>{
+    const hit = kind==='big' ? r.kb>5120 : days(r.u)>=30;
+    if(hit) marks.add(r.f);
+  });
+  save(); render();
+}
 function out(){
   const sel=DATA.filter(r=>marks.has(r.f));
   $('#mstat').textContent = sel.length?`已勾選 ${sel.length} 頁，可釋出 ${fmt(sel.reduce((s,r)=>s+r.kb,0))}`:'';
