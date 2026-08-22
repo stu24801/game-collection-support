@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>血魔條美術素材：候選版本待確認</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 素材確認</p>
+<h1>血魔條的美術素材生出來了，等你點頭才會套進遊戲</h1>
+<p class="lede">目前的血條與魔力條是純色矩形。這一版改成 AI 生成的靜態外框與底座，動態效果（脈動、流動、掉血殘影）仍然由程式畫。以下是候選素材，還沒有套進遊戲。</p>
+
+<div class="note">
+<p><b>圖上的深色是網頁的底色，不是素材的一部分。</b>素材本身背景是全透明的，框的內部也是真的挖空，填色會畫在下面。</p>
+</div>
+
+<h2>主要素材</h2>
+<figure>
+  <img src="dnd-bars/sheet.jpg" alt="血魔條素材彙整圖">
+  <figcaption>五排由上而下：<b>外框</b>（左帽／中段／右帽，中段刻意做成均勻的，才能橫向平鋪不變形）、<b>內槽</b>（沒血時看到的凹槽）、中間排的圓形徽記、<b>細版外框</b>（給體力條）、鉚釘與角飾。</figcaption>
+</figure>
+
+<h2>徽記補生了一張</h2>
+<p>第一張大圖裡的徽記只給了水晶跟菱形，<b>沒有生命要用的心形</b>，所以補生了一張。這張的四枚共用同一套邊框，看起來才像一組的。</p>
+<figure>
+  <img src="dnd-bars/emblems.jpg" alt="徽記候選">
+  <figcaption>要用的是<b>左邊兩枚</b>：心形加血滴給生命、藍水晶給魔力。右邊兩枚是備用。</figcaption>
+</figure>
+
+<h2>縮到遊戲裡的實際大小長這樣</h2>
+<p>素材在 1024 像素的畫布上都很好看，問題是遊戲裡的血條只有約 31 點高。所以先確認過縮小之後還讀得出來，才拿來給你看。</p>
+<figure>
+  <img src="dnd-bars/realsize.jpg" alt="縮到真實尺寸的血條">
+  <figcaption>上：iPhone 上的實際尺寸（約 166×31 點）。下：更小的情況。捲草紋還在，亮度也壓得夠低，不會蓋過遊戲畫面。</figcaption>
+</figure>
+
+<h2>還沒到位的</h2>
+<div class="note warn">
+<p><b>中段有兩道接縫線。</b>直接平鋪的話那兩道線會週期性重複，看起來像血條上有裂痕。切圖時我會避開接縫取樣，這是切圖階段解決的事，不用重生素材。</p>
+<p><b>動態效果還沒做。</b>這一頁只有靜態的框與槽。流動感、低血脈動、掉血後追上來的白色殘影、回復時的掃光，都是套用之後才會加的程式效果。</p>
+<p><b>只驗過「縮小後讀得出來」，沒驗過「放進 HUD 好不好看」。</b>要等真的套進去、旁邊擺上藥水鍵與搖桿才知道，那一步要你先點頭。</p>
+</div>
+
+<h2>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
+<tr><td>這套素材採不採用</td><td>流程規定：沒有你的明確同意，我不會把生成的素材切檔套進遊戲專案。這是美感取捨，不是對錯。</td></tr>
+<tr><td>血條與魔力條要不要用同一副框</td><td>共用比較整齊、也省素材；各給一套顏色差異更明顯，代價是畫面變花。<b>我的建議是共用同一副框，靠填色與徽記區分</b>——HUD 上元件已經很多了。</td></tr>
+<tr><td>體力條要不要一起換</td><td>它就在血魔條正下方。不換的話它會是那一區唯一還是純色矩形的東西，對比之下更明顯。<b>建議一起換</b>，素材已經生好了，不用多花錢。</td></tr>
+</table></div>
+
+<h2>花了多少</h2>
+<div class="scroll"><table>
+<tr><th>項目</th><th>方式</th><th>費用</th></tr>
+<tr><td>素材彙整大圖</td><td>gpt-image-1 原生透明</td><td class="num">$0.20</td></tr>
+<tr><td>徽記補生（心形沒生對）</td><td>gpt-image-1 原生透明</td><td class="num">$0.20</td></tr>
+<tr><td><b>合計</b></td><td></td><td class="num"><b>$0.40</b></td></tr>
+</table></div>
+<p>沒有走去背那條流程。UI 元素用 gpt-image-1 直接生透明背景，比「生成再去背」乾淨——去背是把外圍背景挖掉，挖不到框的內部，那個洞才是這批素材的關鍵。</p>
+
+<footer>地城迴響 · 血魔條美術素材確認</footer>
+</div>
+</body>
+</html>
