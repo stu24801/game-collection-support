@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>血魔改成左右兩顆球</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 改版第一版</p>
+<h1>橫條改成球了，液體會晃</h1>
+<p class="lede">照你說的改成左右各一顆球，液面高度表示血量與魔力，液體有波動。下面是 iOS 模擬器的實機畫面，還沒出 TestFlight。</p>
+
+<h2>三種水位</h2>
+<figure>
+  <img src="dnd-orb/states.jpg" alt="滿、63%、28% 三種水位">
+  <figcaption>由上而下：<b>滿</b>、<b>63%</b>、<b>28%</b>。液面是真的圓弧裁切，不是方形擋一半——注意中間那張，液面的波浪在球的兩側跟著圓形收窄。</figcaption>
+</figure>
+
+<h2>近看</h2>
+<figure>
+  <img src="dnd-orb/closeup.jpg" alt="生命球近拍">
+  <figcaption>心形徽記鑲在上緣、底座在下方。液體越深越濃，液面有一條亮線。數字放在球的下半部裡面——液面看得出「大概剩多少」，但看不出「剩幾點」，而低血時差 5 點跟差 15 點的決策完全不同。</figcaption>
+</figure>
+
+<h2>怎麼做的：沒有用 shader</h2>
+<p>球的填充是「圓的一段」，不是矩形。直覺會用 shader 或 RenderTexture 做遮罩，但<b>這個專案踩過 shader 被打包剝掉的坑</b>（真機變成橘色方塊，Editor 完全看不出來），為了一個血條再引入同類風險不划算。</p>
+<p>改用<b>垂直細條</b>：把球切成最多 64 道窄長條，每道自己算圓的半高 <code>√(1−x²)·R</code> 與波浪高度，取交集就是要畫的那一段。圓形裁切因此是<b>精確的</b>，不是近似，而且全程只用 <code>GUI.DrawTexture</code>。</p>
+
+<h2>花了多少</h2>
+<p>素材 <b>$0.20</b>（一張圖出鑲框、球腔、底座）。玻璃反光那塊生失敗了，改用程式產生——而且這樣更好，反光本來就該跟著液面移動，做成固定素材反而綁死。橫條版的徽記直接沿用，沒有重生。</p>
+
+<h2>中間改了三輪，前兩輪長這樣</h2>
+<figure>
+  <img src="dnd-orb/first_pass.jpg" alt="第一版：補品鍵壓在球上">
+  <figcaption>第一版：<b>補品鍵直接壓在球上</b>（原本貼在畫面兩側，那是橫條時代的版面，兩側現在被球佔滿），而且數字被面板邊緣切掉、完全看不見。第二版修掉這兩項之後，中間欄又窄到塞不下能力摘要，兩行疊在一起。第三版才是上面那個。</figcaption>
+</figure>
+
+<h2>還沒到位的</h2>
+<div class="note warn">
+<p><b>能力摘要的字變小了。</b>球佔掉兩側之後中間欄比以前窄，字級改成跟著欄寬自動收。截圖上讀得到，但手機上會不會太小要你實際看。</p>
+<p><b>波動是靜態截圖。</b>晃動、液面亮線、低血脈動都會動，截圖只能證明畫在對的位置，證明不了看起來順不順。</p>
+<p><b>只在 iPhone 比例上看過。</b>iPad 的長寬比還沒拍。</p>
+<p><b>玻璃反光還很弱。</b>調亮過一次仍然不明顯，可能要再加強，或者你覺得不需要也可以拿掉。</p>
+</div>
+
+<h2>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
+<tr><td>球的大小</td><td>現在是螢幕寬的 24%。放大比較有份量，但中間欄會再變窄——那是取捨，不是對錯。</td></tr>
+<tr><td>液體的飽和度</td><td>紅與藍現在偏鮮豔，跟周圍沉穩的金屬對比強。醒目有醒目的用處（血量要一眼看到），要不要壓下去是你的偏好。</td></tr>
+<tr><td>要不要出 TestFlight 看動態</td><td>波動的手感沒辦法用截圖判斷。<b>我的建議是出一版</b>，看完再一起調參數，比來回猜快。</td></tr>
+</table></div>
+
+<footer>地城迴響 · 血魔球型顯示第一版</footer>
+</div>
+</body>
+</html>
