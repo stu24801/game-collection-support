@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>血魔條進遊戲了</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:880px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold)}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+figure{margin:22px 0 0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto}
+figcaption{padding:12px 16px 14px;font-size:14px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft)}
+figcaption b{color:var(--ink)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-top:20px}
+.grid figure{margin:0}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 已套用</p>
+<h1>血魔條換上美術了，動的部分還是程式畫的</h1>
+<p class="lede">素材切成三段套進遊戲，血魔共用同一副外框、體力條一起換。下面全部是 iOS 模擬器的實機畫面，不是素材預覽。</p>
+
+<h2>三種狀態</h2>
+<figure>
+  <img src="dnd-bars2/states.jpg" alt="滿血、中量、低血三種狀態">
+  <figcaption>由上而下：<b>滿</b>、<b>67%</b>、<b>28%</b>。生命與魔力用的是同一副框，靠填色與左端徽記（心形／水晶）區分。最下面那條綠色的是體力條，換上了同一套的細版框。</figcaption>
+</figure>
+
+<h2>做了什麼</h2>
+<div class="scroll"><table>
+<tr><th>部分</th><th>怎麼做的</th><th>為什麼</th></tr>
+<tr><td>外框、內槽、徽記、細框</td><td>AI 生成的素材，切成左帽／中段／右帽</td><td>雕刻質感程序化畫不出來</td></tr>
+<tr><td>中段</td><td><b>平鋪</b>，不是拉伸</td><td>條子的長寬比會隨機型改變，拉伸的話 iPad 上兩端的捲草紋會被壓扁</td></tr>
+<tr><td>液面流動</td><td>兩層不同速度的亮帶疊加</td><td>單層看得出週期</td></tr>
+<tr><td>低血脈動</td><td>程式，只在生命條上</td><td>魔力見底不會死，兩條都閃會分不出哪條急</td></tr>
+<tr><td>掉血殘影</td><td>程式，只往下追</td><td>回血是好事，不需要慢動作重播</td></tr>
+<tr><td>數字</td><td>加了深色描邊，往右讓開徽記</td><td>底下比原本的純色底花很多，白字有些位置讀不出來</td></tr>
+</table></div>
+
+<h2>拍完之後抓到一個缺陷，已經修掉</h2>
+<p>第一版的低血脈動我畫在整個內框上，結果<b>空掉的槽也跟著變紅</b>。跟旁邊魔力條的黑色空槽一比就露餡——看起來像「血還有一大半」，正好跟這個效果要傳達的訊息相反。</p>
+<figure>
+  <img src="dnd-bars2/pulse_fix.jpg" alt="低血脈動修正前後">
+  <figcaption>左邊是修正前：生命只剩 21，但整條都是紅的。右邊是修正後：空的部分回到黑色，只有有血的那 28% 在脈動，另外沿框內緣描了一圈光，讓餘光也看得到。</figcaption>
+</figure>
+
+<h2>放在整個 HUD 裡</h2>
+<figure>
+  <img src="dnd-bars2/context.jpg" alt="HUD 全貌">
+  <figcaption>旁邊就是藥水鍵、搖桿與動作鍵。確認過新的框沒有搶掉遊戲畫面——素材本身刻意壓得很暗。</figcaption>
+</figure>
+
+<h2>還沒到位的</h2>
+<div class="note warn">
+<p><b>只在 iPhone 的比例上看過。</b>三段式就是為了 iPad 做的，但我還沒真的在 iPad 的長寬比下拍過。</p>
+<p><b>動態效果是靜態截圖。</b>流動、脈動、殘影都會動，截圖只能證明它畫在對的位置、對的範圍，證明不了看起來順不順。那要你在 TestFlight 上實際看。</p>
+<p><b>經驗條還沒換。</b>它在體力條下面、更細一條。細版框在那個高度可能已經看不清雕花，我想先看你對現在這版的反應再決定要不要一起換。</p>
+</div>
+
+<h2>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
+<tr><td>徽記蓋住了左帽的雕花，要不要縮小或移位</td><td>現在徽記壓在左端、把那朵捲草紋整個蓋掉。看起來像「鑲上去的」也說得通，但那是美感判斷。</td></tr>
+<tr><td>體力條的綠色要不要調暗</td><td>旁邊的金屬框很沉，那條綠相對鮮豔。搶眼有搶眼的用處（跑不動是即時資訊），要不要壓下去是取捨。</td></tr>
+<tr><td>經驗條要不要一起換</td><td>見上。<b>我的建議是換</b>——不換的話它會變成這一區唯一的純色矩形，就跟先前體力條的處境一樣。</td></tr>
+</table></div>
+
+<footer>地城迴響 · 血魔條美術套用結果</footer>
+</div>
+</body>
+</html>
