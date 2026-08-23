@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>地板矩形亮塊與武器握姿</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 地板異常與武器握姿</p>
+<h1>地板那塊矩形是「走廊沒有被裝飾過」，不是貼圖壞掉</h1>
+<p class="lede">這一頁是三件事的結果：①地板矩形亮塊找到真正原因並修好 ②六把武器握姿修正後的驗收 ③（順帶）實機閃退的根因。<b>①②已經 commit，還沒出 TestFlight</b>，等你看完確認再決定。</p>
+
+<h2><span class="num">1</span>地板矩形亮塊</h2>
+
+<p>你描述的是：石造走廊／門口附近，火把在地面照出的暖色亮斑裡，疊著一塊<b>邊緣銳利、偏冷灰白、矩形帶一個斜切角</b>的圖案。下面這張是我在模擬器重現到的同一塊東西。</p>
+
+<figure><img src="dnd-fixes/artifact-closeup.jpg" alt="地板上邊緣銳利的淺色矩形">
+<figcaption>放大 4 倍。<b>注意邊緣的鋸齒是筆直的、右上角被斜切掉一塊</b>——這是幾何邊界，不是柔和的光暈衰減。地板的石板格線從它裡面穿過去，代表它就是地板本身，不是疊在上面的東西。</figcaption></figure>
+
+<h3>真正的原因</h3>
+<p>不是貼圖錯位、不是誤植的 debug 圖形、也不是特效殘留。是這一行：</p>
+<p><code>foreach (var r in Floor.Rooms) Furnish(r);</code></p>
+<p>裝飾流程<b>只對「房間」呼叫，走廊從來沒有被裝飾過</b>。房間地板鋪了污漬貼花（裂痕、霉斑、水漬，用相乘混合把地板壓暗），走廊維持乾淨的原色。於是走廊在畫面上就是一塊比周圍亮、邊緣完全筆直的矩形；而等角視角讓矩形的角看起來像被斜切掉一塊，也就是你說的「像旗幟或箭頭的一角」。</p>
+<p>它<b>只在門口／走廊附近出現、只在被火把照到時看得見</b>——跟你描述的位置與條件完全吻合。</p>
+
+<div class="note">
+<p><b>前三輪我都猜錯了，寫下來提醒自己：</b>猜過「貼花 shader 載不到退回不透明白色」（log 證實 shader 正常）、猜過蜘蛛網（那是 0.018 公尺粗的細絲，不是實心塊）、用「冷色像素」自動找（判準太寬，抓到的是整片冷色調的牆）。三次都是<b>從畫面回推它可能是什麼</b>。最後改成反過來問畫面：加一支不受光的純色 shader，同一個機位拍兩張，一張是遊戲畫面、一張把每個物件塗成獨一無二的顏色，直接讀那塊像素查出它是誰——一次就中。</p>
+</div>
+
+<h3>修法與前後對照</h3>
+<p>補上走廊的污漬，而不是把房間的拿掉：接縫之所以顯眼是因為兩邊的髒污密度不一樣，補齊才會連成一片。走廊密度刻意比房間低（它本來就是通道），牆腳積垢也一起補。</p>
+
+<figure><img src="dnd-fixes/corridor-fix.jpg" alt="走廊污漬修正前後對照">
+<figcaption><b>同一個亂數種子、同一個機位、同一份建置</b>跑出來的前後對照（靠一個驗證用開關切換，才能排除「換了張地圖」造成的差異）。上：走廊是一片完全沒有細節的平板。下：同一條走廊有了裂痕與污斑，跟房間連成一片。</figcaption></figure>
+
+<h2><span class="num">2</span>武器握姿驗收</h2>
+
+<p>根因是<b>一個系統性偏差，不是六把武器各自的問題</b>：<code>hand_r</code> 這根骨頭的原點在<b>手腕</b>而不是掌心，差了 12 公分。所以六把武器都是「拳頭落在護手上方、真正的握把整段露在拳頭外面」，看起來就像反手拿。修法是一個常數，六把一起套用。</p>
+
+<figure><img src="dnd-fixes/grips.jpg" alt="六把武器握姿">
+<figcaption>修正後，六把武器在<b>遊戲實際的鏡頭與光照</b>下的待機姿勢。挑值時用的是「關掉房間、繞到側面」的特寫機位（那樣才看得清握把在不在拳頭裡），但驗收一定要回到玩家真正看到的視角——旗標對不代表畫面對。</figcaption></figure>
+
+<div class="note warn">
+<p><b>法杖是六把裡我最沒把握的一把。</b>它在修正前看起來就還可以，套上同一個補償值之後握點偏高了一點。目前看起來仍然自然，但如果你覺得法杖握太上面，這一把可以單獨退回原值——其餘五把不受影響。</p>
+</div>
+
+<h2><span class="num">3</span>順帶：實機閃退的根因</h2>
+<p>你回報的閃退<b>不是</b>地上掉落物太多。換樓層時掉落物本來就會被清掉，實測連下 26 層，地上物件全程 0～4 個。真正的原因是<b>換樓層時貼圖、網格、材質沒有被回收</b>——銷毀場景物件不會回收它引用的資產。</p>
+
+<div class="scroll"><table>
+<tr><th>項目</th><th>修正前（第 26 層）</th><th>修正後（第 26 層）</th></tr>
+<tr><td>貼圖</td><td class="num2">1571 張 / 904 MB</td><td class="num2">123 張 / 143 MB</td></tr>
+<tr><td>網格</td><td class="num2">8818 個 / 5686 MB</td><td class="num2">1429 個 / 517 MB</td></tr>
+<tr><td>材質</td><td class="num2">4564 個</td><td class="num2">1358 個</td></tr>
+<tr><td><b>總配置記憶體</b></td><td class="num2"><b>3430 MB</b></td><td class="num2"><b>758 MB</b></td></tr>
+</table></div>
+
+<p>iPhone 大約 2GB 上限：修正前約第 16～18 層撞牆（跟「打到一定深度就閃退」吻合），修正後同樣的量要到第 70 層左右。</p>
+
+<div class="note warn">
+<p><b>還有殘留約 19MB/層沒清乾淨。</b>來源是每隻骷髏烘出來的骨架網格，以及走廊／房間裝飾的合併網格。沒有一起處理，是因為骨架網格的綁定姿勢跟該實例當下的骨頭矩陣有關，快取的風險比前面三項高，我不想在修閃退的同一輪順手改。無盡模式跑很深仍可能中——要處理的話我再單獨做一輪。</p>
+<p><b>另外我沒有拿到這次的 crash log。</b>上面的結論是量出來的，不是從 log 讀的（兩者一致，但不是同一份證據）。要 100% 確認終止原因是記憶體不足，麻煩接上 iPhone，Xcode → Window → Devices and Simulators → View Device Logs，撈最新那筆 ProductName 給我。</p>
+</div>
+
+<h2><span class="num">4</span>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼不能我自己決定</th></tr>
+<tr><td>法杖握點要不要退回原值</td><td>其餘五把是「明顯錯 → 明顯對」，法杖是「本來就還行 → 換個位置也還行」。這是美術偏好不是對錯，看你要法杖握中段還是握上段</td></tr>
+<tr><td>走廊污漬的濃度</td><td>目前設得比房間低（走廊是通道不是墓室）。調高會更連貫但走廊會變得跟房間一樣髒，失去「這裡只是過道」的區別</td></tr>
+<tr><td>殘留 19MB/層 現在處理還是之後</td><td>取決於你預期玩家會在無盡模式跑多深。到第 70 層才會撞牆，如果實際沒人跑那麼深就不值得冒風險動骨架網格</td></tr>
+<tr><td>要不要出 TestFlight</td><td>閃退是你回報的，最終要在真機上才算數——但你說先看截圖，所以我沒有出</td></tr>
+</table></div>
+
+<footer>地城迴響 · 地板異常與武器握姿</footer>
+</div>
+</body>
+</html>
