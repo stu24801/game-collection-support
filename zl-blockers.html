@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>炮台與輔助前鋒動畫總覽</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">殭屍防線 · 駐守物動畫總覽</p>
+<h1>6 種炮台／輔助前鋒，各自的待機／開火／陣亡</h1>
+<p class="lede">照你要求整理的總覽，純看不改。遊戲裡的「駐守物」一共 6 種，前 4 種是固定砲台（用射程打遠處目標），後 2 種是近戰輔助前鋒（貼身擋在防線前面）。每一種都有 3 個狀態：<b>待機</b>（沒在打的時候停在第 0 幀，不會空轉）、<b>開火</b>（10 幀，動畫一輪的長度剛好等於這座的開火間隔）、<b>陣亡</b>（12 幀，固定播 0.75 秒，6 種共用同一個時長）。編號 1～6 對照下面小節，跟我說要調第幾號的哪個狀態就好。</p>
+
+<div class="note">
+<p>下面的開火／陣亡動畫是<b>直接把遊戲用的原始序列幀組成 GIF</b>，背景是透明棋盤格（不是遊戲畫面截圖）——這樣看單一素材本身乾不乾淨、有沒有破圖比較準，但不包含遊戲裡的車道背景、光影、其他單位同時在場的樣子。開火動畫的播放速度照各自在遊戲裡的實際開火間隔換算；陣亡動畫 6 種都是 0.75 秒。部分瀏覽器對很快的 GIF（例如① 機砲塔 0.18 秒一輪）不一定能精準跑到那個速度，但看得出動作本身在做什麼。</p>
+</div>
+
+<h2><span class="num">1</span>機砲塔 <span class="unit-sub">minigun · 🔫 · 射程 260 · 開火間隔 0.18 秒</span></h2>
+<div class="grid3">
+<figure><img src="zl-blockers/minigun_idle.png" alt="機砲塔待機"><figcaption><b>待機</b></figcaption></figure>
+<figure><img src="zl-blockers/minigun_fire.gif" alt="機砲塔開火動畫"><figcaption><b>開火</b>　10 幀 / 0.18s</figcaption></figure>
+<figure><img src="zl-blockers/minigun_die.gif" alt="機砲塔陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<h2><span class="num">2</span>迫擊砲塔 <span class="unit-sub">mortar · 💣 · 射程 320 · 開火間隔 1.4 秒</span></h2>
+<div class="grid3">
+<figure><img src="zl-blockers/mortar_idle.png" alt="迫擊砲塔待機"><figcaption><b>待機</b></figcaption></figure>
+<figure><img src="zl-blockers/mortar_fire.gif" alt="迫擊砲塔開火動畫"><figcaption><b>開火</b>　10 幀 / 1.4s</figcaption></figure>
+<figure><img src="zl-blockers/mortar_die.gif" alt="迫擊砲塔陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<h2><span class="num">3</span>狙擊塔 <span class="unit-sub">sniper · 🔭 · 射程 420 · 開火間隔 1.8 秒</span></h2>
+<div class="grid3">
+<figure><img src="zl-blockers/sniper_idle.png" alt="狙擊塔待機"><figcaption><b>待機</b></figcaption></figure>
+<figure><img src="zl-blockers/sniper_fire.gif" alt="狙擊塔開火動畫"><figcaption><b>開火</b>　10 幀 / 1.8s</figcaption></figure>
+<figure><img src="zl-blockers/sniper_die.gif" alt="狙擊塔陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<h2><span class="num">4</span>雷射塔 <span class="unit-sub">laser · 🔴 · 射程 300 · 開火間隔 0.3 秒</span></h2>
+<div class="grid3">
+<figure><img src="zl-blockers/laser_idle.png" alt="雷射塔待機"><figcaption><b>待機</b></figcaption></figure>
+<figure><img src="zl-blockers/laser_fire.gif" alt="雷射塔開火動畫"><figcaption><b>開火</b>　10 幀 / 0.3s</figcaption></figure>
+<figure><img src="zl-blockers/laser_die.gif" alt="雷射塔陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<h2><span class="num">5</span>駐守衛兵 <span class="unit-sub">guard · 🛡️ · 射程 60（近戰）· 開火間隔 0.6 秒</span></h2>
+<p class="unit-sub" style="margin-top:-8px">輔助前鋒——貼身擋在防線前面，不是遠程砲台。</p>
+<div class="grid3">
+<figure><img src="zl-blockers/guard_idle.png" alt="駐守衛兵待機"><figcaption><b>待機</b></figcaption></figure>
+<figure><img src="zl-blockers/guard_fire.gif" alt="駐守衛兵攻擊動畫"><figcaption><b>攻擊</b>　10 幀 / 0.6s</figcaption></figure>
+<figure><img src="zl-blockers/guard_die.gif" alt="駐守衛兵陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<h2><span class="num">6</span>突擊兵 <span class="unit-sub">charger · 🏃 · 射程 140（近戰）· 開火間隔 1.1 秒</span></h2>
+<p class="unit-sub" style="margin-top:-8px">輔助前鋒——貼身擋在防線前面，不是遠程砲台。</p>
+<div class="grid3">
+<figure><img src="zl-blockers/charger_idle.png" alt="突擊兵待機"><figcaption><b>待機</b></figcaption></figure>
+<figure><img src="zl-blockers/charger_fire.gif" alt="突擊兵攻擊動畫"><figcaption><b>攻擊</b>　10 幀 / 1.1s</figcaption></figure>
+<figure><img src="zl-blockers/charger_die.gif" alt="突擊兵陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<h2>快速對照表</h2>
+<div class="scroll"><table>
+<tr><th>#</th><th>名稱</th><th>類別</th><th>圖示</th><th>HP</th><th>傷害</th><th class="num2">射程</th><th class="num2">開火間隔</th></tr>
+<tr><td>1</td><td>機砲塔</td><td>砲台</td><td>🔫</td><td class="num2">90</td><td class="num2">10</td><td class="num2">260</td><td class="num2">0.18s</td></tr>
+<tr><td>2</td><td>迫擊砲塔</td><td>砲台</td><td>💣</td><td class="num2">110</td><td class="num2">55</td><td class="num2">320</td><td class="num2">1.4s</td></tr>
+<tr><td>3</td><td>狙擊塔</td><td>砲台</td><td>🔭</td><td class="num2">70</td><td class="num2">90</td><td class="num2">420</td><td class="num2">1.8s</td></tr>
+<tr><td>4</td><td>雷射塔</td><td>砲台</td><td>🔴</td><td class="num2">100</td><td class="num2">18</td><td class="num2">300</td><td class="num2">0.3s</td></tr>
+<tr><td>5</td><td>駐守衛兵</td><td>輔助前鋒</td><td>🛡️</td><td class="num2">220</td><td class="num2">14</td><td class="num2">60</td><td class="num2">0.6s</td></tr>
+<tr><td>6</td><td>突擊兵</td><td>輔助前鋒</td><td>🏃</td><td class="num2">130</td><td class="num2">45</td><td class="num2">140</td><td class="num2">1.1s</td></tr>
+</table></div>
+
+<h2>還沒到位的</h2>
+<div class="note warn">
+<p><b>沒有在遊戲場景裡的實拍截圖／錄影。</b>這頁全部是素材本身（透明底），不是「戰鬥中畫面長怎樣」——同一個素材放進場景後，光影、縮放、跟殭屍的相對大小都會影響觀感。如果你挑中的項目要調，正式調整後我會照場景實拍再給你確認一次。</p>
+<p><b>沒有涵蓋玩家小隊自己的槍手動畫。</b>那是另一組素材（8 種武器各自的造型與開火動作），這頁只整理「駐守物」6 種——如果你也想連小隊槍手一起看過一輪，跟我說一聲另外整理。</p>
+</div>
+
+<div class="pillrow">
+<span class="pill">純檢視，未改動任何程式碼或素材</span>
+<span class="pill">素材路徑：Assets/Resources/Art/Zombie/Blocker/&lt;kind&gt;/&lt;fire|die&gt;/</span>
+</div>
+
+<footer>殭屍防線 · 駐守物動畫總覽</footer>
+</div>
+</body>
+</html>
