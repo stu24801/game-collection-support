@@ -73,14 +73,23 @@ a{color:var(--gold)}
 .pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
 .pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
   color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
 footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </style>
 </head>
 <body>
 <div class="wrap">
 <p class="eyebrow">殭屍防線 · 駐守物動畫總覽</p>
-<h1>6 種炮台／輔助前鋒，各自的待機／開火／陣亡</h1>
-<p class="lede">照你要求整理的總覽，純看不改。遊戲裡的「駐守物」一共 6 種，前 4 種是固定砲台（用射程打遠處目標），後 2 種是近戰輔助前鋒（貼身擋在防線前面）。每一種都有 3 個狀態：<b>待機</b>（沒在打的時候停在第 0 幀，不會空轉）、<b>開火</b>（10 幀，動畫一輪的長度剛好等於這座的開火間隔）、<b>陣亡</b>（12 幀，固定播 0.75 秒，6 種共用同一個時長）。編號 1～6 對照下面小節，跟我說要調第幾號的哪個狀態就好。</p>
+<h1>駐守衛兵／突擊兵重新設計，等你比對確認</h1>
+<p class="lede">你看完①～⑥總覽後回饋⑤駐守衛兵、⑥突擊兵「看起來很怪，不像士兵」——診斷後兩個問題都找到了，也各自生了一版新設計，這頁下面⑤⑥兩節已經改成新舊並排對照，其他 4 種砲台沒有問題所以維持原樣沒動。</p>
 
 <div class="note">
 <p>下面的開火／陣亡動畫是<b>直接把遊戲用的原始序列幀組成 GIF</b>，背景是透明棋盤格（不是遊戲畫面截圖）——這樣看單一素材本身乾不乾淨、有沒有破圖比較準，但不包含遊戲裡的車道背景、光影、其他單位同時在場的樣子。開火動畫的播放速度照各自在遊戲裡的實際開火間隔換算；陣亡動畫 6 種都是 0.75 秒。部分瀏覽器對很快的 GIF（例如① 機砲塔 0.18 秒一輪）不一定能精準跑到那個速度，但看得出動作本身在做什麼。</p>
@@ -116,18 +125,46 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 
 <h2><span class="num">5</span>駐守衛兵 <span class="unit-sub">guard · 🛡️ · 射程 60（近戰）· 開火間隔 0.6 秒</span></h2>
 <p class="unit-sub" style="margin-top:-8px">輔助前鋒——貼身擋在防線前面，不是遠程砲台。</p>
+
+<div class="redo">
+<p><b>你的回饋是對的，問題不是錯覺。</b>角色本身其實是個士兵沒錯（動畫播到一半可以看到頭盔、肩膀、雙腿），<b>但「待機」畫面用的是動畫第 0 幀</b>——玩家沒在攻擊的時候幾乎全程看到的就是這一幀，而這一幀剛好是士兵把大盾牌整片朝向鏡頭舉起、把整個人完全擋住的姿勢。結果就是玩家實際看到的只有一塊會發光的鐵板，看不到任何人形輪廓——這就是「不像士兵」的根本原因。</p>
+<p>新版把盾牌角度轉斜，讓頭盔／臉部／肩膀／雙腿在待機姿勢下就清楚露出來，攻擊與陣亡動畫也一併重做成同一套設計，確保三個狀態look起來是同一個角色。</p>
+</div>
+
+<p class="rowlabel"><span class="tag old">舊版</span>現況（就是你截圖看到的樣子）</p>
 <div class="grid3">
-<figure><img src="zl-blockers/guard_idle.png" alt="駐守衛兵待機"><figcaption><b>待機</b></figcaption></figure>
-<figure><img src="zl-blockers/guard_fire.gif" alt="駐守衛兵攻擊動畫"><figcaption><b>攻擊</b>　10 幀 / 0.6s</figcaption></figure>
-<figure><img src="zl-blockers/guard_die.gif" alt="駐守衛兵陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+<figure><img src="zl-blockers/guard_idle.png" alt="駐守衛兵舊版待機"><figcaption><b>待機</b>　盾牌正面完全遮住身體</figcaption></figure>
+<figure><img src="zl-blockers/guard_fire.gif" alt="駐守衛兵舊版攻擊動畫"><figcaption><b>攻擊</b>　10 幀 / 0.6s</figcaption></figure>
+<figure><img src="zl-blockers/guard_die.gif" alt="駐守衛兵舊版陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<p class="rowlabel isnew"><span class="tag new">新版候選</span>重新生成，尚未套用進遊戲</p>
+<div class="grid3">
+<figure><img src="zl-blockers/guard_idle_new.png" alt="駐守衛兵新版待機"><figcaption><b>待機</b>　頭盔／肩膀／雙腿清楚可見</figcaption></figure>
+<figure><img src="zl-blockers/guard_fire_new.gif" alt="駐守衛兵新版攻擊動畫"><figcaption><b>攻擊</b>　盾牌撲擊，10 幀</figcaption></figure>
+<figure><img src="zl-blockers/guard_die_new.gif" alt="駐守衛兵新版陣亡動畫"><figcaption><b>陣亡</b>　踉蹌、盾牌脫手、倒地，12 幀</figcaption></figure>
 </div>
 
 <h2><span class="num">6</span>突擊兵 <span class="unit-sub">charger · 🏃 · 射程 140（近戰）· 開火間隔 1.1 秒</span></h2>
 <p class="unit-sub" style="margin-top:-8px">輔助前鋒——貼身擋在防線前面，不是遠程砲台。</p>
+
+<div class="redo">
+<p><b>這個比駐守衛兵更嚴重：不是姿勢問題，是角色設計本身就不像士兵。</b>整套動畫（不只待機幀）畫的都是一台機器人／機甲——圓形機械頭、單一發光眼睛、沒有任何看得出來是人臉的部位，跟遊戲裡「突擊兵」這個身分完全對不上。待機幀又是貼臉特寫軀甲的裁切構圖，連頭跟四肢都看不到，比機器人本體還更難辨識。</p>
+<p>新版整個重畫：戰術頭盔配透明護目鏡（護目鏡下看得到人類下巴輪廓）、雙手戰斧、正常人形比例站姿，明確是穿裝甲的人類士兵，不是機甲。</p>
+</div>
+
+<p class="rowlabel"><span class="tag old">舊版</span>現況（就是你截圖看到的樣子）</p>
 <div class="grid3">
-<figure><img src="zl-blockers/charger_idle.png" alt="突擊兵待機"><figcaption><b>待機</b></figcaption></figure>
-<figure><img src="zl-blockers/charger_fire.gif" alt="突擊兵攻擊動畫"><figcaption><b>攻擊</b>　10 幀 / 1.1s</figcaption></figure>
-<figure><img src="zl-blockers/charger_die.gif" alt="突擊兵陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+<figure><img src="zl-blockers/charger_idle.png" alt="突擊兵舊版待機"><figcaption><b>待機</b>　貼臉裁切，看不到頭或四肢</figcaption></figure>
+<figure><img src="zl-blockers/charger_fire.gif" alt="突擊兵舊版攻擊動畫"><figcaption><b>攻擊</b>　機械頭、單一發光眼睛</figcaption></figure>
+<figure><img src="zl-blockers/charger_die.gif" alt="突擊兵舊版陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
+</div>
+
+<p class="rowlabel isnew"><span class="tag new">新版候選</span>重新生成，尚未套用進遊戲</p>
+<div class="grid3">
+<figure><img src="zl-blockers/charger_idle_new.png" alt="突擊兵新版待機"><figcaption><b>待機</b>　人類士兵頭盔＋護目鏡下的下巴</figcaption></figure>
+<figure><img src="zl-blockers/charger_fire_new.gif" alt="突擊兵新版攻擊動畫"><figcaption><b>攻擊</b>　雙斧衝鋒揮砍，10 幀</figcaption></figure>
+<figure><img src="zl-blockers/charger_die_new.gif" alt="突擊兵新版陣亡動畫"><figcaption><b>陣亡</b>　踉蹌、雙斧脫手、倒地，12 幀</figcaption></figure>
 </div>
 
 <h2>快速對照表</h2>
@@ -141,15 +178,37 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <tr><td>6</td><td>突擊兵</td><td>輔助前鋒</td><td>🏃</td><td class="num2">130</td><td class="num2">45</td><td class="num2">140</td><td class="num2">1.1s</td></tr>
 </table></div>
 
+<h2>怎麼做的：診斷 → 參考稿 → 動作影片 → 去背抽幀</h2>
+<p>照 <code>tools/ai_pipeline</code> 既有流程：先生一張兩格並排的參考稿確認新造型方向（Grok 圖 ×1，不去背），OK 之後用這張參考稿做 image-to-video 錨定風格，各生一支「攻擊」跟「陣亡」的動作影片（Grok 影片 ×4，4 秒 720p，純綠幕背景），再用 <code>video-sprite-extract</code> 去背抽幀成遊戲用的透明 PNG 序列。過程中踩到一個坑：影片開頭第 0 幀殘留參考圖本身的黑色背景（大約 0.2 秒），去背工具的自動取樣一抓到那幀就整批算錯背景色，把角色本體也一起挖空——修法是先裁掉那一小段黑底再丟去背，兩支「陣亡」動畫另外手動指定顏色門檻（自動算出來的偏高，會把深色盔甲當背景吃掉）。</p>
+
+<h2>花了多少</h2>
+<div class="scroll"><table>
+<tr><th>項目</th><th>內容</th><th class="num2">金額</th></tr>
+<tr><td>參考稿</td><td>Grok 圖 ×1（兩角色併一張，不去背）</td><td class="num2">$0.20</td></tr>
+<tr><td>駐守衛兵動作影片</td><td>Grok 影片 ×2（攻擊＋陣亡，各 4s 720p）</td><td class="num2">$0.64</td></tr>
+<tr><td>突擊兵動作影片</td><td>Grok 影片 ×2（攻擊＋陣亡，各 4s 720p）</td><td class="num2">$0.64</td></tr>
+<tr><td><b>小計</b></td><td>去背抽幀是本地運算，不額外收費</td><td class="num2"><b>$1.48</b></td></tr>
+</table></div>
+<p>每一筆都記在 <code>tools/ai_pipeline/SPEND.md</code>。第一版就一次過，沒有作廢重生的嘗試。</p>
+
+<h2>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
+<tr><td>新版設計 OK 的話，要不要正式套用進遊戲（複製進 <code>Assets/</code>、接上 Unity 動畫播放、實機截圖再驗一次）</td><td>這頁的新版是候選稿，照這個專案的規矩，AI 生成的美術一定要你看過明確 OK 才會寫進遊戲專案——這是規則不是我自己保守，你也可能想先看看實際放進場景、跟殭屍打起來時的樣子再拍板。</td></tr>
+<tr><td>如果 OK，要不要順便處理舊版素材檔案（刪掉或保留備份）</td><td>舊版目前還在 <code>Assets/Resources/Art/Zombie/Blocker/guard／charger</code> 底下，換新版之後舊檔案要不要留著備用是你的偏好，不是技術問題。</td></tr>
+</table></div>
+
 <h2>還沒到位的</h2>
 <div class="note warn">
-<p><b>沒有在遊戲場景裡的實拍截圖／錄影。</b>這頁全部是素材本身（透明底），不是「戰鬥中畫面長怎樣」——同一個素材放進場景後，光影、縮放、跟殭屍的相對大小都會影響觀感。如果你挑中的項目要調，正式調整後我會照場景實拍再給你確認一次。</p>
+<p><b>沒有在遊戲場景裡的實拍截圖／錄影，新舊版都是。</b>這頁全部是素材本身（透明底），不是「戰鬥中畫面長怎樣」——同一個素材放進場景後，光影、縮放、跟殭屍的相對大小都會影響觀感。你確認新版方向 OK 之後，正式套用進 Assets/ 時我會照場景實拍再給你確認一次。</p>
+<p><b>新版的「陣亡」動畫幀數不是均勻抽樣。</b>因為去背抽幀時關掉了運鏡穩定（角色倒地過程本身尺寸變化很大，穩定演算法會誤判成鏡頭在動，硬用的話只會抽到最開始站著的幾幀），改成整支影片平均分佈抽幀，動作看起來比舊版稍微跳一點，不是逐幀等間隔的絲滑程度——如果你覺得不夠順，可以再抽多一點幀或换更長的來源影片。</p>
 <p><b>沒有涵蓋玩家小隊自己的槍手動畫。</b>那是另一組素材（8 種武器各自的造型與開火動作），這頁只整理「駐守物」6 種——如果你也想連小隊槍手一起看過一輪，跟我說一聲另外整理。</p>
 </div>
 
 <div class="pillrow">
-<span class="pill">純檢視，未改動任何程式碼或素材</span>
-<span class="pill">素材路徑：Assets/Resources/Art/Zombie/Blocker/&lt;kind&gt;/&lt;fire|die&gt;/</span>
+<span class="pill">①②③④砲台維持原樣未動</span>
+<span class="pill">⑤⑥新版尚未套用進 Assets/</span>
+<span class="pill">本次花費 $1.48，已記入 SPEND.md</span>
 </div>
 
 <footer>殭屍防線 · 駐守物動畫總覽</footer>
