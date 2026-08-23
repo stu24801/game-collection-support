@@ -11,6 +11,7 @@
   --gold:#8A6A22; --ember:#A8412A;
   --note-bg:#F6EEDC; --note-line:#C9A94E;
   --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
   --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
@@ -18,6 +19,7 @@
   --gold:#D9AE55; --ember:#E0765A;
   --note-bg:#241C10; --note-line:#8A6A22;
   --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
 }}
 :root[data-theme="dark"]{
   --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
@@ -25,6 +27,7 @@
   --gold:#D9AE55; --ember:#E0765A;
   --note-bg:#241C10; --note-line:#8A6A22;
   --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
 }
 *{box-sizing:border-box}
 body{
@@ -82,14 +85,15 @@ a{color:var(--gold)}
 .tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
 .tag.old{background:var(--warn-bg);color:var(--ember)}
 .tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
 footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </style>
 </head>
 <body>
 <div class="wrap">
 <p class="eyebrow">殭屍防線 · 駐守物動畫總覽</p>
-<h1>駐守衛兵／突擊兵重新設計，等你比對確認</h1>
-<p class="lede">你看完①～⑥總覽後回饋⑤駐守衛兵、⑥突擊兵「看起來很怪，不像士兵」——診斷後兩個問題都找到了，也各自生了一版新設計，這頁下面⑤⑥兩節已經改成新舊並排對照，其他 4 種砲台沒有問題所以維持原樣沒動。</p>
+<h1>駐守衛兵／突擊兵重新設計，已套用進遊戲</h1>
+<p class="lede">你看完①～⑥總覽後回饋⑤駐守衛兵、⑥突擊兵「看起來很怪，不像士兵」——診斷、重新生成、你確認新版之後，已經正式換掉 <code>Assets/</code> 底下的舊素材，並用實機場景截圖驗證過套進去之後的光影／縮放沒問題。⑤⑥兩節現在是「舊版／新版素材／已套用實機截圖」三排對照，其他 4 種砲台沒問題維持原樣沒動。</p>
 
 <div class="note">
 <p>下面的開火／陣亡動畫是<b>直接把遊戲用的原始序列幀組成 GIF</b>，背景是透明棋盤格（不是遊戲畫面截圖）——這樣看單一素材本身乾不乾淨、有沒有破圖比較準，但不包含遊戲裡的車道背景、光影、其他單位同時在場的樣子。開火動畫的播放速度照各自在遊戲裡的實際開火間隔換算；陣亡動畫 6 種都是 0.75 秒。部分瀏覽器對很快的 GIF（例如① 機砲塔 0.18 秒一輪）不一定能精準跑到那個速度，但看得出動作本身在做什麼。</p>
@@ -138,11 +142,17 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <figure><img src="zl-blockers/guard_die.gif" alt="駐守衛兵舊版陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
 </div>
 
-<p class="rowlabel isnew"><span class="tag new">新版候選</span>重新生成，尚未套用進遊戲</p>
+<p class="rowlabel isnew"><span class="tag new">新版</span>素材本身（透明底對照）</p>
 <div class="grid3">
 <figure><img src="zl-blockers/guard_idle_new.png" alt="駐守衛兵新版待機"><figcaption><b>待機</b>　頭盔／肩膀／雙腿清楚可見</figcaption></figure>
 <figure><img src="zl-blockers/guard_fire_new.gif" alt="駐守衛兵新版攻擊動畫"><figcaption><b>攻擊</b>　盾牌撲擊，10 幀</figcaption></figure>
 <figure><img src="zl-blockers/guard_die_new.gif" alt="駐守衛兵新版陣亡動畫"><figcaption><b>陣亡</b>　踉蹌、盾牌脫手、倒地，12 幀</figcaption></figure>
+</div>
+
+<p class="rowlabel isnew"><span class="tag live">已套用</span>實機場景截圖——白天光照、跟殭屍實際大小比例</p>
+<div class="grid3">
+<figure><img src="zl-blockers/guard_scene_fire.jpg" alt="駐守衛兵套進場景，正在攻擊殭屍"><figcaption><b>場景內攻擊</b>　對戰殭屍時的實際大小</figcaption></figure>
+<figure><img src="zl-blockers/guard_scene_die.jpg" alt="駐守衛兵套進場景，陣亡演出中"><figcaption><b>場景內陣亡</b>　演出播到一半</figcaption></figure>
 </div>
 
 <h2><span class="num">6</span>突擊兵 <span class="unit-sub">charger · 🏃 · 射程 140（近戰）· 開火間隔 1.1 秒</span></h2>
@@ -160,11 +170,17 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <figure><img src="zl-blockers/charger_die.gif" alt="突擊兵舊版陣亡動畫"><figcaption><b>陣亡</b>　12 幀 / 0.75s</figcaption></figure>
 </div>
 
-<p class="rowlabel isnew"><span class="tag new">新版候選</span>重新生成，尚未套用進遊戲</p>
+<p class="rowlabel isnew"><span class="tag new">新版</span>素材本身（透明底對照）</p>
 <div class="grid3">
 <figure><img src="zl-blockers/charger_idle_new.png" alt="突擊兵新版待機"><figcaption><b>待機</b>　人類士兵頭盔＋護目鏡下的下巴</figcaption></figure>
 <figure><img src="zl-blockers/charger_fire_new.gif" alt="突擊兵新版攻擊動畫"><figcaption><b>攻擊</b>　雙斧衝鋒揮砍，10 幀</figcaption></figure>
 <figure><img src="zl-blockers/charger_die_new.gif" alt="突擊兵新版陣亡動畫"><figcaption><b>陣亡</b>　踉蹌、雙斧脫手、倒地，12 幀</figcaption></figure>
+</div>
+
+<p class="rowlabel isnew"><span class="tag live">已套用</span>實機場景截圖——白天光照、跟殭屍實際大小比例</p>
+<div class="grid3">
+<figure><img src="zl-blockers/charger_scene_fire.jpg" alt="突擊兵套進場景，正在攻擊殭屍"><figcaption><b>場景內攻擊</b>　對戰殭屍時的實際大小</figcaption></figure>
+<figure><img src="zl-blockers/charger_scene_die.jpg" alt="突擊兵套進場景，陣亡演出中"><figcaption><b>場景內陣亡</b>　演出播到一半</figcaption></figure>
 </div>
 
 <h2>快速對照表</h2>
@@ -191,24 +207,27 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 </table></div>
 <p>每一筆都記在 <code>tools/ai_pipeline/SPEND.md</code>。第一版就一次過，沒有作廢重生的嘗試。</p>
 
+<div class="note">
+<p><b>已套用，你確認之後就正式換掉了。</b>⑤⑥兩節「已套用」那排是實機場景截圖，跟①②③④砲台維持原樣（沒有問題，沒有動）。改動已經 <code>commit</code> 進版控（<code>2b182f3</code>），還沒出下一版 TestFlight——等你這邊要出的東西一起處理。</p>
+</div>
+
 <h2>需要你決定的</h2>
 <div class="scroll"><table>
 <tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
-<tr><td>新版設計 OK 的話，要不要正式套用進遊戲（複製進 <code>Assets/</code>、接上 Unity 動畫播放、實機截圖再驗一次）</td><td>這頁的新版是候選稿，照這個專案的規矩，AI 生成的美術一定要你看過明確 OK 才會寫進遊戲專案——這是規則不是我自己保守，你也可能想先看看實際放進場景、跟殭屍打起來時的樣子再拍板。</td></tr>
-<tr><td>如果 OK，要不要順便處理舊版素材檔案（刪掉或保留備份）</td><td>舊版目前還在 <code>Assets/Resources/Art/Zombie/Blocker/guard／charger</code> 底下，換新版之後舊檔案要不要留著備用是你的偏好，不是技術問題。</td></tr>
+<tr><td>舊版素材檔案要不要清掉</td><td>舊的 44 張序列幀已經被新檔案「同名覆蓋」，git 歷史裡還留著（<code>8ab13e7</code> 之前的版本），不佔用目前工作目錄空間，所以沒有主動處理——如果你想連 git 歷史一併清乾淨，那是比較少見的需求，跟我說一聲再做。</td></tr>
 </table></div>
 
 <h2>還沒到位的</h2>
 <div class="note warn">
-<p><b>沒有在遊戲場景裡的實拍截圖／錄影，新舊版都是。</b>這頁全部是素材本身（透明底），不是「戰鬥中畫面長怎樣」——同一個素材放進場景後，光影、縮放、跟殭屍的相對大小都會影響觀感。你確認新版方向 OK 之後，正式套用進 Assets/ 時我會照場景實拍再給你確認一次。</p>
-<p><b>新版的「陣亡」動畫幀數不是均勻抽樣。</b>因為去背抽幀時關掉了運鏡穩定（角色倒地過程本身尺寸變化很大，穩定演算法會誤判成鏡頭在動，硬用的話只會抽到最開始站著的幾幀），改成整支影片平均分佈抽幀，動作看起來比舊版稍微跳一點，不是逐幀等間隔的絲滑程度——如果你覺得不夠順，可以再抽多一點幀或换更長的來源影片。</p>
+<p><b>新版的「陣亡」動畫幀數不是均勻抽樣。</b>因為去背抽幀時關掉了運鏡穩定（角色倒地過程本身尺寸變化很大，穩定演算法會誤判成鏡頭在動，硬用的話只會抽到最開始站著的幾幀），改成整支影片平均分佈抽幀，動作看起來比舊版稍微跳一點，不是逐幀等間隔的絲滑程度——如果你實機玩起來覺得不夠順，可以再抽多一點幀或换更長的來源影片。</p>
 <p><b>沒有涵蓋玩家小隊自己的槍手動畫。</b>那是另一組素材（8 種武器各自的造型與開火動作），這頁只整理「駐守物」6 種——如果你也想連小隊槍手一起看過一輪，跟我說一聲另外整理。</p>
 </div>
 
 <div class="pillrow">
 <span class="pill">①②③④砲台維持原樣未動</span>
-<span class="pill">⑤⑥新版尚未套用進 Assets/</span>
+<span class="pill">⑤⑥新版已套用進 Assets/，commit 2b182f3</span>
 <span class="pill">本次花費 $1.48，已記入 SPEND.md</span>
+<span class="pill">尚未出下一版 TestFlight</span>
 </div>
 
 <footer>殭屍防線 · 駐守物動畫總覽</footer>
