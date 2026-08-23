@@ -92,8 +92,8 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <body>
 <div class="wrap">
 <p class="eyebrow">地城迴響 · 地板異常與武器握姿</p>
-<h1>地板那塊矩形是「走廊沒有被裝飾過」，不是貼圖壞掉</h1>
-<p class="lede">這一頁是三件事的結果：①地板矩形亮塊找到真正原因並修好 ②六把武器握姿修正後的驗收 ③（順帶）實機閃退的根因。<b>①②已經 commit，還沒出 TestFlight</b>，等你看完確認再決定。</p>
+<h1>地板矩形已修好；武器握姿改成每把各自的偏移量</h1>
+<p class="lede">這一頁是三件事的結果：①地板矩形亮塊找到真正原因並修好（你已確認 OK）②武器握姿——<b>第一版六把共用同一個補償值是錯的，已改成每把各自的值</b>，最新的驗收在第 2 節 ③（順帶）實機閃退的根因。地板與閃退已經 commit；<b>這一輪的握姿改動還沒 commit、也還沒出 TestFlight</b>，等你確認握姿。</p>
 
 <h2><span class="num">1</span>地板矩形亮塊</h2>
 
@@ -122,11 +122,32 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 
 <p>根因是<b>一個系統性偏差，不是六把武器各自的問題</b>：<code>hand_r</code> 這根骨頭的原點在<b>手腕</b>而不是掌心，差了 12 公分。所以六把武器都是「拳頭落在護手上方、真正的握把整段露在拳頭外面」，看起來就像反手拿。修法是一個常數，六把一起套用。</p>
 
-<figure><img src="dnd-fixes/grips.jpg" alt="六把武器握姿">
-<figcaption>修正後，六把武器在<b>遊戲實際的鏡頭與光照</b>下的待機姿勢。挑值時用的是「關掉房間、繞到側面」的特寫機位（那樣才看得清握把在不在拳頭裡），但驗收一定要回到玩家真正看到的視角——旗標對不代表畫面對。</figcaption></figure>
+<h3>第一版（六把共用 0.12）——已作廢</h3>
+<figure><img src="dnd-fixes/grips.jpg" alt="六把武器握姿：第一版">
+<figcaption>第一版的驗收圖。當時判定六把都可以，只對法杖標了「沒把握」。<b>這個判斷不夠嚴謹</b>——見下面量出來的數字。</figcaption></figure>
 
-<div class="note warn">
-<p><b>法杖是六把裡我最沒把握的一把。</b>它在修正前看起來就還可以，套上同一個補償值之後握點偏高了一點。目前看起來仍然自然，但如果你覺得法杖握太上面，這一把可以單獨退回原值——其餘五把不受影響。</p>
+<h3>第二版：每把武器各自的偏移量</h3>
+<p>你說握姿還要再調之後，我沒有再用眼睛看，而是把六把武器 × 五個偏移量全部掃一遍，量兩個客觀數字：<code>t</code>＝拳頭落在武器長軸上的比例（0＝柄尾端，理想約 0.11～0.14），以及 <code>minY</code>＝武器網格的最低點（小於 0 就是插進地板）。</p>
+
+<p>結果推翻了「六把共用一個常數」：</p>
+
+<div class="scroll"><table>
+<tr><th>武器</th><th>長度</th><th>舊值 0.12 的 t</th><th>新值</th><th>新的 t</th></tr>
+<tr><td>匕首</td><td class="num2">0.36 m</td><td class="num2"><b>-0.07</b>　拳頭跑到柄尾外面</td><td class="num2">0.04</td><td class="num2">0.11</td></tr>
+<tr><td>魔杖</td><td class="num2">0.40 m</td><td class="num2">0.04　貼在柄尾邊緣</td><td class="num2">0.08</td><td class="num2">0.12</td></tr>
+<tr><td>單手劍</td><td class="num2">0.77 m</td><td class="num2">0.09</td><td class="num2">0.08</td><td class="num2">0.13</td></tr>
+<tr><td>戰斧</td><td class="num2">0.68 m</td><td class="num2">0.08</td><td class="num2">0.08</td><td class="num2">0.13</td></tr>
+<tr><td>大刀</td><td class="num2">0.99 m</td><td class="num2">0.08</td><td class="num2">0.04</td><td class="num2">0.14</td></tr>
+<tr><td>法杖</td><td class="num2">1.36 m</td><td class="num2">0.48　位移對握點幾乎沒作用</td><td class="num2">0.00</td><td class="num2">0.45</td></tr>
+</table></div>
+
+<p><b>匕首在舊值下的 t 是負的</b>——意思是拳頭已經跑到刀柄末端外面去了，短刀等於浮在手掌旁邊沒被真正握住。魔杖也貼在邊緣。武器長度差了四倍（匕首 0.36 m、法杖 1.36 m），同一個絕對位移在短武器上就是過頭；法杖則相反，它握的是杖身中段，那個位移對握點幾乎沒作用，只是把整支杖往下推，於是杖頭頂在肩膀旁邊——<b>你和我都覺得法杖怪，原因就是這個</b>，現在退回 0。</p>
+
+<figure><img src="dnd-fixes/grips-v2.jpg" alt="六把武器握姿：第二版">
+<figcaption>第二版，每把用自己的偏移量，在<b>遊戲實際的鏡頭與光照</b>下的待機（上排）與行走（下排）。這一輪也把拍攝本身修好了：先前有幾張角色走到柱子後面被擋住，現在固定站在最大房間的中心、行走只走 0.3 秒。</figcaption></figure>
+
+<div class="note">
+<p><b>順帶確認沒有插進地板。</b>我原本看第一版的行走截圖，判斷「戰斧和大刀的刀尖掃到地面」，量了才發現是誤判——待機時最低的是大刀 0.243 m、法杖 0.257 m，都在地面之上，沒有穿模。大刀仍然選了較小的 0.04，因為它離地最近，少推一點多 2.3 公分餘裕。</p>
 </div>
 
 <h2><span class="num">3</span>順帶：實機閃退的根因</h2>
@@ -150,9 +171,9 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <h2><span class="num">4</span>需要你決定的</h2>
 <div class="scroll"><table>
 <tr><th>要決定的</th><th>為什麼不能我自己決定</th></tr>
-<tr><td>法杖握點要不要退回原值</td><td>其餘五把是「明顯錯 → 明顯對」，法杖是「本來就還行 → 換個位置也還行」。這是美術偏好不是對錯，看你要法杖握中段還是握上段</td></tr>
-<tr><td>走廊污漬的濃度</td><td>目前設得比房間低（走廊是通道不是墓室）。調高會更連貫但走廊會變得跟房間一樣髒，失去「這裡只是過道」的區別</td></tr>
-<tr><td>殘留 19MB/層 現在處理還是之後</td><td>取決於你預期玩家會在無盡模式跑多深。到第 70 層才會撞牆，如果實際沒人跑那麼深就不值得冒風險動骨架網格</td></tr>
+<tr><td>第二版六把握姿是否過關</td><td>t 這個數字只能保證「拳頭確實握在握把上」，保證不了「看起來帥不帥」。姿態好不好看是美術判斷，得你看畫面才算數</td></tr>
+
+
 <tr><td>要不要出 TestFlight</td><td>閃退是你回報的，最終要在真機上才算數——但你說先看截圖，所以我沒有出</td></tr>
 </table></div>
 
