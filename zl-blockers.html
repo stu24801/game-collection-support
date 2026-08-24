@@ -198,11 +198,20 @@ footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
 <p>你要的是「炮台跟突擊兵、駐守衛兵呈現成一整排，而且可以同時擁有多個，一層一層排列堵住車道」——四項規格照你拍板的決定做完了：<b>最多 4 層</b>、<b>後排可以隔著前排打到更遠</b>、<b>每層有血條</b>、<b>沒到上限前掉落權重維持原樣</b>。</p>
 
 <div class="grid3">
-<figure><img src="zl-blockers/layers_full4.jpg" alt="四層駐守物疊滿，每層一整排橫跨車道"><figcaption><b>疊滿 4 層</b>　每層 3 台橫向鋪滿車道，各自一條血條</figcaption></figure>
+<figure><img src="zl-blockers/layers_bar_after.jpg" alt="四層駐守物疊滿，每層一整排橫跨車道"><figcaption><b>疊滿 4 層</b>　每層 3 台橫向鋪滿車道，共 12 台</figcaption></figure>
 <figure><img src="zl-blockers/layers_volley.jpg" alt="四層同時開火，彈藥往上飛"><figcaption><b>四層齊射</b>　後排隔著前排照樣打得到，上方殭屍正在被打</figcaption></figure>
 <figure><img src="zl-blockers/layers_frontdie.jpg" alt="最前層被打爆，後面三層還在"><figcaption><b>最前層陣亡</b>　一次只掉一層，後面整批往前遞補</figcaption></figure>
 <figure><img src="zl-blockers/layers_guardrow.jpg" alt="駐守衛兵也是一整排三個"><figcaption><b>衛兵／突擊兵同樣成排</b>　不只砲台，近戰兩種也是一整排</figcaption></figure>
 </div>
+
+<h3>血條改成只畫最前線那一層</h3>
+<p>你回報「血量顯示太突兀，都看不到美術了」——實機截圖確認屬實：四層各一條橫跨車道的亮綠色血條疊起來，把 12 台駐守物的美術幾乎整個蓋掉。你從四個方案裡選了「只畫最前線那一層」，已經改好：</p>
+<div class="grid3">
+<figure><img src="zl-blockers/layers_full4.jpg" alt="改之前：四條血條蓋住整排美術"><figcaption><span class="tag old">改之前</span>　四條血條，美術幾乎看不到</figcaption></figure>
+<figure><img src="zl-blockers/layers_bar_after.jpg" alt="改之後：只有最前線一條血條，四層美術完整露出"><figcaption><span class="tag live">改之後</span>　只剩最前線一條，12 台美術完整露出</figcaption></figure>
+<figure><img src="zl-blockers/layers_bar_handoff.jpg" alt="最前層陣亡時血條交棒給後面遞補的那層"><figcaption><b>交棒</b>　最前層爆掉的同時，血條即時交給遞補上來的那層</figcaption></figure>
+</div>
+<p>後排的血條本來就沒什麼資訊量——挨打的永遠只有最前線那層，後排的條在戰鬥中根本不會變動，畫出來只是佔位。想逐層查血量的話，<b>暫停畫面的配裝清單已經一層一層列出來了</b>（第 1 層 / 第 2 層…各自的 HP），需求還在。</p>
 
 <h3>平衡：一排不等於三倍強</h3>
 <p>這裡有個很容易做錯的地方，我特別處理了：<b>「一層畫成一整排」純粹是畫面，不是把一個單位變成三個</b>。一層的 HP／傷害／開火間隔完全照原本的單一份數值走；開火時三台都會射，但<b>每一發只帶原本傷害的三分之一</b>，三發都命中同一隻時加起來剛好等於改版前的一發（跟火焰噴射器把傷害預算平分給三顆粒子同一個作法）。所以視覺上變成一道牆，但單層的火力跟改版前一模一樣——真正的強度變化來自「可以疊 4 層」這件事本身，那是你要的功能，不是偷偷灌水。</p>
