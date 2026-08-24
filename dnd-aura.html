@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>橘裝外觀特效提案</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 設計提案（還沒動工）</p>
+<h1>穿滿橘裝要看得出來：三階外觀特效提案</h1>
+<p class="lede">你說「角色穿超過兩件橘色裝備，要開始有角色外觀特效像是光暈等等」。這一頁是<b>提案</b>不是成品——我還沒寫任何一行，先讓你挑方向再動工。下面每一階都寫了「為什麼是這個做法」與「代價」，最後一節是需要你拍板的四件事。</p>
+
+<div class="note">
+<p><b>先講一個前提：橘裝現在很稀有。</b>掉率已經照你的要求壓到 <code>0.15%</code>，也就是大約每 670 件掉落才出一件橘裝。所以「穿兩件」對玩家來說是很遠的里程碑——這個特效一旦做出來，<b>絕大多數玩家在很長時間內看不到它</b>。這反而是好事（它是炫耀的東西），但也意味著：特效值得做得明顯一點，不然玩家達成了卻沒感覺。</p>
+</div>
+
+<h2><span class="num">1</span>為什麼用「件數」分階，而不是一開就給滿</h2>
+<p>裝備欄有九個（武器、副手、燈具、上身、手臂、腿部、靴子、頭部、護肩），而其中<b>只有四個欄位存在橘裝</b>（燈具、武器、上身、頭部）。所以現實中的上限就是四件，分階要落在這個範圍內：</p>
+
+<div class="scroll"><table>
+<tr><th>階</th><th>條件</th><th>視覺</th><th>意圖</th></tr>
+<tr><td>—</td><td>0～1 件</td><td>沒有特效</td><td>維持現狀。有一件就發光的話，稀有度的層次會被壓平</td></tr>
+<tr><td>Ⅰ</td><td><b>2 件</b></td><td>腳邊一圈暖金色微光（貼地光環），隨呼吸緩慢明暗</td><td>你指定的門檻。貼地而不是包住全身——地城很暗，全身光暈會蓋掉角色本身的輪廓與裝備外觀，那正是玩家想看的東西</td></tr>
+<tr><td>Ⅱ</td><td><b>3 件</b></td><td>加上零星上升的金色餘燼粒子（沿身體輪廓向上飄）</td><td>從「地上有光」變成「身上在散發」。用粒子而不是加亮，因為粒子在小螢幕上動起來才看得見</td></tr>
+<tr><td>Ⅲ</td><td><b>4 件</b>（滿）</td><td>再加上披風狀的拖尾光痕：移動時身後留一段淡金殘影，靜止時收斂</td><td>只有滿裝才有的「動起來才看得到」的獎勵，讓走路本身變成炫耀</td></tr>
+</table></div>
+
+<h2><span class="num">2</span>三個關鍵取捨</h2>
+
+<h3>顏色要跟掉落光柱一致</h3>
+<p>橘裝掉在地上時的光柱已經有一個既定顏色（<code>Loot.cs</code> 裡傳說級的參數）。角色特效<b>要用同一個色</b>——不同的金色會讓玩家以為是兩套系統。這是「照抄既有值」而不是「重新選一個好看的顏色」。</p>
+
+<h3>不能影響可見度設計</h3>
+<p>這款的核心是「看不到就是看不到」：視野錐只有幾公尺，照明是要爭取的資源。所以角色特效<b>不能真的照亮環境</b>——如果光暈變成一個光源，穿滿橘裝等於免費拿到最強的燈具，整個照明系統就失效了。做法是用<b>自發光的貼片與粒子</b>（不是 Light 元件），亮度只影響角色自己周圍那一小圈。</p>
+
+<h3>效能與記憶體</h3>
+<p>剛修完換樓層的資產洩漏（總配置從 3.4 GB 壓到 758 MB），所以這個特效<b>不能每次重建材質或貼圖</b>。實作上會用共用的靜態材質與單一粒子系統，掛在角色身上、隨階數開關子物件，不隨樓層生成新資產。</p>
+
+<div class="note warn">
+<p><b>我不會順手加在敵人身上。</b>亡靈也走同一套紙娃娃，如果特效綁在「穿了幾件橘裝」這個條件上，未來給精英怪穿橘裝時就會自動發光。那可能是你想要的（精英怪有辨識度），也可能不是（玩家會誤認成掉落物）。我會先只做玩家，這件事列在下面等你決定。</p>
+</div>
+
+<h2><span class="num">3</span>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼不能我自己決定</th></tr>
+<tr><td>分三階（2/3/4 件）還是只做一階（≥2 件就固定一種）</td><td>三階的層次感比較好，但工作量與可能出錯的地方是三倍，而且玩家要湊到 3～4 件橘裝極為罕見（掉率 0.15%）——可能做了幾乎沒人看到</td></tr>
+<tr><td>強度：低調（隱約可見）還是明顯（一眼認出）</td><td>這是美術偏好。地城很暗，明顯的光暈會很搶眼、也會稍微削弱「摸黑探索」的氛圍；低調則可能玩家湊滿了卻沒感覺</td></tr>
+<tr><td>要不要也套用在敵人／精英怪身上</td><td>取決於你要不要用它當「這隻很強」的辨識訊號，還是保留給玩家當炫耀專屬</td></tr>
+<tr><td>燈具算不算一件</td><td>四個有橘裝的欄位裡包含燈具，而燈具是消耗品（會燒完）。算的話玩家可能因為燈燒完而特效忽然消失，那個體驗有點怪；不算的話門檻會變高（只剩三個欄位）</td></tr>
+</table></div>
+
+<div class="note">
+<p>挑好之後我再動工，並且照慣例用實機截圖驗證（含「穿 1 件不該有特效」的反向驗證——只驗「有特效」不算驗完）。</p>
+</div>
+
+<footer>地城迴響 · 橘裝外觀特效提案</footer>
+</div>
+</body>
+</html>
