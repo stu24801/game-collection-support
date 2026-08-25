@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>技能光源第四版</title>
+<title>技能光源與擊退</title>
 <style>
 :root{
   --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
@@ -99,10 +99,66 @@ code{font-size:.92em;padding:1px 5px;border-radius:4px;background:rgba(255,255,2
 </head>
 <body>
 <div class="wrap">
-<p class="eyebrow">地城迴響 · 技能演出第四版</p>
-<h1>技能真的會照亮地城了</h1>
-<p class="lede">你同意技能可以例外使用真正的光源。做之前先量了一件事，
-結果那件事直接決定了整個做法——照一般寫法加的光，在 iPhone 上會被引擎丟掉大半。</p>
+<p class="eyebrow">地城迴響 · 技能演出第四版（含擊退更新）</p>
+<h1>灰燼僕從與奧術飛彈的實際狀況，加上三個技能的擊退</h1>
+<p class="lede">這一頁有兩輪內容：最上面是你剛回報的三件事（僕從攻擊、飛彈特效、擊退），
+第 1 節開始是上一輪的技能光源。</p>
+
+<h2><span class="num">0</span>你回報的三件事</h2>
+<p class="lede">兩個「特效沒做出來」我先各查了一次實際狀況，結果一個是真的沒做、
+一個是做了但來不及被看見——原因不同，改法也不同。</p>
+
+<div class="note">
+<p><b>① 灰燼僕從的攻擊：你是對的，那是真的沒做。</b><br>
+程式裡就是 <code>target.TakeDamage()</code> 直接扣血，然後在敵人身上灑 9 顆小火星，
+<b>中間沒有任何飛行物</b>。提案裡寫的「射出可見小火球」從來沒被實作，
+所以你看不到不是漏看。</p>
+<p>現在補上了真的火球，並且傷害改在<b>命中時</b>才結算——不然畫面上火球還在飛、
+血條已經先掉了。同時做了三件配套：加了 0.22 秒的<b>前搖</b>（本體先縮再脹，
+不然火球會憑空出現，像 bug 不像攻擊）、僕從<b>會轉向面對目標</b>了
+（原本完全不轉，「它在打誰」沒有任何線索）、射程從 1.5 拉到 4.2 公尺
+——貼著敵人 1.5 公尺放火球，飛行時間只有零點幾秒，等於又做了一個看不見的效果。</p>
+
+<p><b>② 奧術飛彈：特效是有的，但每一發只存在 0.2 秒。</b><br>
+光暈、核心、拖尾、命中爆閃全都在程式裡。問題是飛行速度 9.5、目標距離約 2 公尺，
+<b>算下來每一發在空中只有 0.2 秒</b>——大概是 GIF 裡的兩格。
+不是沒做，是根本來不及被看見。</p>
+<p>所以這次不是補特效，是讓它慢到看得見：速度 9.5 → 5.2（飛行時間拉到約 0.4 秒）、
+光暈與核心放大 1.35 倍、拖尾間隔減半連成一條光帶、五發的發射間隔 0.09 → 0.13 秒
+（才分得出是五發）。<b>這些參數都只加在奧術飛彈與僕從身上</b>，
+法師普攻與骷髏法師的火球維持原樣，沒有被改動。</p>
+
+<p><b>③ 擊退：旋風斬與奧術飛彈原本完全沒有，衝鋒有但做法不對。</b><br>
+衝鋒原本是直接改座標瞬移 1.2 公尺，畫面上讀起來是「敵人跳了一格」不是「被撞開」。
+現在三個共用同一支 <code>Enemy.Knockback</code>：初速隨時間衰減的滑行，
+一開始快、後面慢下來才像被撞飛，撞到牆會停在牆邊而不是被推穿。</p>
+</div>
+
+<h3>擊退不是只有視覺——量的是世界座標</h3>
+<p>你特別要求要確認「真的有把敵人位置推開」，所以量的是敵人的實際座標，
+而且每個技能都跑<b>對照組（不放技能）與實驗組</b>兩次：敵人自己會朝玩家走，
+不減掉那段的話會把擊退低估。</p>
+<table>
+<tr><th>技能</th><th>對照組</th><th>實驗組</th><th>淨擊退</th><th>設定值</th></tr>
+<tr><td>旋風斬</td><td>+0.000</td><td>+1.641</td><td><b>+1.641 m</b></td><td>0.35／次，持續累積</td></tr>
+<tr><td>衝鋒</td><td>+0.000</td><td>+1.476</td><td><b>+1.476 m</b></td><td>1.60</td></tr>
+<tr><td>奧術飛彈</td><td>+0.000</td><td>+0.725</td><td><b>+0.725 m</b></td><td>0.70／發</td></tr>
+</table>
+<p class="small">數字是沿「遠離玩家」方向的位移分量，取整段期間的<b>最大值</b>。
+<b>敵人被推開之後會走回來</b>——受擊硬直只有 0.35 秒，之後它就繼續朝你走，
+所以觀察窗結束時量到的殘留只剩 +0.43～+1.83。這是設計上正常的，
+但我把它一起列出來，因為只報峰值會讓擊退看起來比實際更持久。</p>
+
+<div class="note warn">
+<p><b>這裡差點被自己的量測騙過去。</b>第一版只量「等待結束時」的位移，
+奧術飛彈量到 <code>-0.005</code>，看起來就是擊退沒生效。
+加了計數器才發現擊退其實跑得好好的——<b>呼叫 5 次、搬動 35 幀、累計推了 2.13 公尺</b>
+——只是敵人在我的 1.6 秒觀察窗裡早就走回原位了。
+差一點就要去「修」一個根本沒壞的東西。</p>
+</div>
+
+<figure><img src="dnd-skills4/knock.jpg" alt="擊退瞬間">
+<figcaption>擊退發生當下：旋風斬／衝鋒／奧術飛彈。</figcaption></figure>
 
 <h2><span class="num">1</span>先量：加了 Light 到底有沒有用</h2>
 <p>這個專案用的是 Built-in 管線，而 Built-in 的每個物件同時只有
@@ -190,15 +246,15 @@ code{font-size:.92em;padding:1px 5px;border-radius:4px;background:rgba(255,255,2
 <div class="grid3">
 <figure><img src="dnd-skills4/warcry.gif" alt="戰吼" loading="lazy"><figcaption><b>戰吼</b><br>金色爆閃照亮整個範圍，配合三道音波與吼聲</figcaption></figure>
 <figure><img src="dnd-skills4/bloodrage.gif" alt="血怒" loading="lazy"><figcaption><b>血怒</b><br>發動一記強閃，之後整段期間跟著角色的紅光，像心跳一樣緩慢明暗</figcaption></figure>
-<figure><img src="dnd-skills4/charge.gif" alt="衝鋒" loading="lazy"><figcaption><b>衝鋒</b><br><b>只在真的撞到人時才閃</b>——沿路一直亮的話就分不出這次到底撞到沒有</figcaption></figure>
-<figure><img src="dnd-skills4/whirlwind.gif" alt="旋風斬" loading="lazy"><figcaption><b>旋風斬</b><br><b>刻意不加光。</b>持續技，常亮會把整個房間洗白</figcaption></figure>
+<figure><img src="dnd-skills4/charge.gif" alt="衝鋒" loading="lazy"><figcaption><b>衝鋒</b><br><b>只在真的撞到人時才閃</b>；撞飛 1.6 公尺，改成滑行不再是瞬移</figcaption></figure>
+<figure><img src="dnd-skills4/whirlwind.gif" alt="旋風斬" loading="lazy"><figcaption><b>旋風斬</b><br><b>刻意不加光</b>（持續技，常亮會洗白房間）；每次判定推 0.35 公尺</figcaption></figure>
 </div>
 <h2><span class="num">6</span>法師</h2>
 <div class="grid3">
 <figure><img src="dnd-skills4/frostnova.gif" alt="冰霜新星" loading="lazy"><figcaption><b>冰霜新星</b><br>照亮的半徑刻意對齊技能實際的 6.5 公尺——亮區就是打到的區域</figcaption></figure>
-<figure><img src="dnd-skills4/arcanemissiles.gif" alt="奧術飛彈" loading="lazy"><figcaption><b>奧術飛彈</b><br>五發各自命中、各自照亮一個不同的位置，用光比用粒子好讀</figcaption></figure>
+<figure><img src="dnd-skills4/arcanemissiles.gif" alt="奧術飛彈" loading="lazy"><figcaption><b>奧術飛彈</b><br>速度放慢、光暈放大、拖尾連成光帶；每發推 0.7 公尺</figcaption></figure>
 <figure><img src="dnd-skills4/blink.gif" alt="閃現" loading="lazy"><figcaption><b>閃現</b><br>出發與抵達兩端同時亮起，把「從哪到哪」講清楚</figcaption></figure>
-<figure><img src="dnd-skills4/emberservant.gif" alt="灰燼僕從" loading="lazy"><figcaption><b>灰燼僕從</b><br>它本體就是一團火，是這批裡最該發光的一個</figcaption></figure>
+<figure><img src="dnd-skills4/emberservant.gif" alt="灰燼僕從" loading="lazy"><figcaption><b>灰燼僕從</b><br>補上了真的火球攻擊、前搖與轉向；它本體就是一團火，也是這批裡最該發光的一個</figcaption></figure>
 </div>
 <h2><span class="num">7</span>生存</h2>
 <div class="grid3">
