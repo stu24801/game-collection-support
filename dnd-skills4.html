@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>技能光源第四版</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px}
+table th,table td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.10);text-align:right}
+table th:first-child,table td:first-child{text-align:left}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.92em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 技能演出第四版</p>
+<h1>技能真的會照亮地城了</h1>
+<p class="lede">你同意技能可以例外使用真正的光源。做之前先量了一件事，
+結果那件事直接決定了整個做法——照一般寫法加的光，在 iPhone 上會被引擎丟掉大半。</p>
+
+<h2><span class="num">1</span>先量：加了 Light 到底有沒有用</h2>
+<p>這個專案用的是 Built-in 管線，而 Built-in 的每個物件同時只有
+<code>pixelLightCount</code> 盞逐像素光，超出的會被<b>默默降級</b>成逐頂點——
+不會報錯，只是看起來沒效果。專案設定裡 <b>iPhone 的預設品質等級是 Medium，
+而 Medium 的 pixelLightCount 是 1</b>，那一盞早就被玩家的火把佔滿了。</p>
+<p>所以我先放一盞測試光，量畫面平均亮度「開 vs 關」差多少（開關交錯取樣六輪，抵銷火把自己的閃爍）：</p>
+
+<div class="grid3">
+<figure><img src="dnd-skills4/pixellight.jpg" alt="逐像素光額度比較">
+<figcaption>同一盞測試光。<b>左：關掉。中：一般寫法（Auto）。右：標成 ForcePixel。</b>
+中間那張幾乎看不出有加燈——那就是被引擎降級的樣子。</figcaption></figure>
+</div>
+
+<table>
+<tr><th>寫法</th><th>畫面平均亮度增量</th></tr>
+<tr><td><code>renderMode = Auto</code>（一般寫法）</td><td>+0.50</td></tr>
+<tr><td><code>renderMode = ForcePixel</code></td><td><b>+1.60</b></td></tr>
+<tr><td>Auto ＋ 全域 pixelLightCount 拉到 4</td><td>+1.74</td></tr>
+</table>
+
+<p>結論：<b>技能光一律標成 ForcePixel</b>。
+另一條路是全域把 pixelLightCount 拉高，但那會讓場上十幾盞火把全部變成逐像素
+（手機上很貴），而且會連帶把整座地城照亮——正好是你交代不要做的事。
+所以只有技能是例外，其他一切照舊。</p>
+
+<h2><span class="num">2</span>哪些給光、哪些不給</h2>
+<p>你說「不是所有技能都需要，你自己判斷」，並舉了「烈焰該亮、劇毒融化可能不需要」。
+我照同一個標準把每一個判了一次，<b>刻意不給的比給的更需要理由</b>：</p>
+<div class="note">
+<p><b>給光：</b>燃燒（火本來就是光源，也正是你兩度回報看不出來的那一個）、
+麻痺（做成爆閃而非常亮，電的特徵是不連續）、戰吼、血怒、冰霜新星、閃現、
+衝鋒撞擊、奧術飛彈命中、灰燼僕從、石膚成形的那一瞬間。</p>
+<p><b>不給光：</b><br>
+· <b>劇毒融化</b>——你自己舉的例子，我同意。<br>
+· <b>冰凍</b>——冰不發光。藍色本體染色已經足以一眼分辨，硬加冷光只會變成
+「會發光的藍色雕像」，讀起來更不像結冰。<br>
+· <b>旋風斬</b>——持續技，常亮會把整個房間洗白。<br>
+· <b>石膚的持續期間</b>——只給成形那一下。給持續光等於「石膚順便當照明」，
+既不合理，也會侵蝕摸黑探索。</p>
+</div>
+
+<h2><span class="num">3</span>驗證：亮得夠、不洗場景、不留殘留</h2>
+<p>你提的三個條件我分開量，因為它們會互相打架——把光放大到能撼動整張畫面的平均亮度，
+正好就是「把整體環境照亮」。所以<b>局部要夠亮、全域要夠小</b>：</p>
+<table>
+<tr><th>技能</th><th>局部基準</th><th>局部增量</th><th>比原本亮</th><th>全域峰值</th><th>全域持續</th><th>結束後殘留</th><th>到期殘燈</th></tr>
+<tr><td>燃燒(敵人)</td><td>24.12</td><td><b>+5.99</b></td><td><b>24.8%</b></td><td>+0.63</td><td>+0.47</td><td>-0.11</td><td>0</td></tr>
+<tr><td>麻痺(敵人)</td><td>24.01</td><td><b>+4.98</b></td><td><b>20.7%</b></td><td>+0.57</td><td>+0.09</td><td>0.00</td><td>0</td></tr>
+<tr><td>戰吼</td><td>23.47</td><td><b>+45.81</b></td><td><b>195.2%</b></td><td>+7.48</td><td>+2.12</td><td>+0.03</td><td>0</td></tr>
+<tr><td>血怒</td><td>23.17</td><td><b>+9.25</b></td><td><b>39.9%</b></td><td>+1.06</td><td>+0.19</td><td>-0.01</td><td>0</td></tr>
+<tr><td>冰霜新星</td><td>22.93</td><td><b>+38.61</b></td><td><b>168.4%</b></td><td>+6.08</td><td>+1.51</td><td>-0.06</td><td>0</td></tr>
+<tr><td>閃現</td><td>22.97</td><td><b>+10.84</b></td><td><b>47.2%</b></td><td>+2.37</td><td>+1.02</td><td>+0.22</td><td>0</td></tr>
+<tr><td>石膚</td><td>22.85</td><td><b>+6.82</b></td><td><b>29.8%</b></td><td>+0.66</td><td>+0.02</td><td>-0.11</td><td>0</td></tr>
+<tr><td>衝鋒</td><td>24.40</td><td><b>+21.97</b></td><td><b>90.0%</b></td><td>+2.73</td><td>+0.64</td><td>-1.02</td><td>0</td></tr>
+<tr><td>奧術飛彈</td><td>24.49</td><td><b>+8.08</b></td><td><b>33.0%</b></td><td>+0.91</td><td>+0.25</td><td>-0.07</td><td>0</td></tr>
+<tr><td>灰燼僕從</td><td>23.34</td><td><b>+5.70</b></td><td><b>24.4%</b></td><td>+0.69</td><td>+0.56</td><td>-0.10</td><td>0</td></tr>
+</table>
+<p class="small">局部 = 效果位置周圍 88×88 的視窗。<b>全域峰值不設限</b>——爆發技那半秒就是要亮，
+你也明說發動當下沒問題；真正守門的是「全域持續」（整段期間的平均，上限 3.0）
+與「結束後殘留」（上限 +0.35）。衝鋒的 −1.02 是負的：它把敵人擊退了 1.2 公尺，
+固定視窗裡已經沒有敵人——場景變了，不是燈沒收。漏光只會讓畫面變亮，不會變暗。</p>
+
+<div class="note">
+<p><b>「到期殘燈」這一欄是這次特別補的。</b>第一版的檢查是先呼叫「全部清掉」再量，
+那等於拿測試自己的動作去證明產品沒問題——遊戲跑的時候根本不會在半局中間呼叫它。
+改成<b>先量自然到期後還剩幾盞</b>，再做清除。十項全部是 0。</p>
+<p>另外三道防線都在：每盞燈自己有壽命、跟隨目標消失就跟著銷毀、換樓層／回 Hub／
+重新開局整批清空。build 31 那次就是一盞沒釋放的燈把整座地城照亮，
+所以這裡不敢只靠一道。</p>
+</div>
+
+<figure><img src="dnd-skills4/residual.jpg" alt="發動中與結束後對照">
+<figcaption><b>上排：發動中。下排：效果結束後的同一個地方。</b>
+由左至右：戰吼／冰霜新星／燃燒／灰燼僕從。下排跟沒放過技能時一樣暗。</figcaption></figure>
+
+<h2><span class="num">4</span>附魔｜四種狀態，只有一種該發光</h2>
+<div class="grid3">
+<figure><img src="dnd-skills4/enchant_fire.gif" alt="烈焰 → 燃燒" loading="lazy"><figcaption><b>烈焰 → 燃燒</b><br><b>加了光。</b>火是四種裡唯一物理上本來就會發光的。現在敵人腳下的地板、旁邊的木桶與牆面都被照亮</figcaption></figure>
+<figure><img src="dnd-skills4/enchant_storm.gif" alt="雷擊 → 麻痺" loading="lazy"><figcaption><b>雷擊 → 麻痺</b><br><b>加了爆閃。</b>用一連串極短命的強光而不是一盞常亮的燈——電的特徵就是不連續</figcaption></figure>
+<figure><img src="dnd-skills4/enchant_frost.gif" alt="霜寒 → 冰凍" loading="lazy"><figcaption><b>霜寒 → 冰凍</b><br><b>刻意不加光。</b>冰不發光；藍色本體染色已經一眼可辨，硬加冷光會變成「會發光的藍色雕像」</figcaption></figure>
+<figure><img src="dnd-skills4/enchant_venom.gif" alt="劇毒 → 融化" loading="lazy"><figcaption><b>劇毒 → 融化</b><br><b>刻意不加光。</b>你自己舉的例子，我也找不到反對的理由</figcaption></figure>
+</div>
+<h2><span class="num">5</span>戰士</h2>
+<div class="grid3">
+<figure><img src="dnd-skills4/warcry.gif" alt="戰吼" loading="lazy"><figcaption><b>戰吼</b><br>金色爆閃照亮整個範圍，配合三道音波與吼聲</figcaption></figure>
+<figure><img src="dnd-skills4/bloodrage.gif" alt="血怒" loading="lazy"><figcaption><b>血怒</b><br>發動一記強閃，之後整段期間跟著角色的紅光，像心跳一樣緩慢明暗</figcaption></figure>
+<figure><img src="dnd-skills4/charge.gif" alt="衝鋒" loading="lazy"><figcaption><b>衝鋒</b><br><b>只在真的撞到人時才閃</b>——沿路一直亮的話就分不出這次到底撞到沒有</figcaption></figure>
+<figure><img src="dnd-skills4/whirlwind.gif" alt="旋風斬" loading="lazy"><figcaption><b>旋風斬</b><br><b>刻意不加光。</b>持續技，常亮會把整個房間洗白</figcaption></figure>
+</div>
+<h2><span class="num">6</span>法師</h2>
+<div class="grid3">
+<figure><img src="dnd-skills4/frostnova.gif" alt="冰霜新星" loading="lazy"><figcaption><b>冰霜新星</b><br>照亮的半徑刻意對齊技能實際的 6.5 公尺——亮區就是打到的區域</figcaption></figure>
+<figure><img src="dnd-skills4/arcanemissiles.gif" alt="奧術飛彈" loading="lazy"><figcaption><b>奧術飛彈</b><br>五發各自命中、各自照亮一個不同的位置，用光比用粒子好讀</figcaption></figure>
+<figure><img src="dnd-skills4/blink.gif" alt="閃現" loading="lazy"><figcaption><b>閃現</b><br>出發與抵達兩端同時亮起，把「從哪到哪」講清楚</figcaption></figure>
+<figure><img src="dnd-skills4/emberservant.gif" alt="灰燼僕從" loading="lazy"><figcaption><b>灰燼僕從</b><br>它本體就是一團火，是這批裡最該發光的一個</figcaption></figure>
+</div>
+<h2><span class="num">7</span>生存</h2>
+<div class="grid3">
+<figure><img src="dnd-skills4/stoneskin.gif" alt="石膚" loading="lazy"><figcaption><b>石膚</b><br><b>只有成形那一下</b>有短促悶白閃，持續期間不留光——石頭不發光</figcaption></figure>
+<figure><img src="dnd-skills4/lantern.gif" alt="提燈術" loading="lazy"><figcaption><b>提燈術</b><br>本來就是照明技能，這一輪沒有改動</figcaption></figure>
+</div>
+
+<h2><span class="num">8</span>順帶發現的一件事（沒有動）</h2>
+<div class="note warn">
+<p>火球（法師普攻）本來就掛了一盞 Light，但它是一般寫法，
+所以在實機上<b>同樣被降級、亮度大半是浪費的</b>。
+把它改成 ForcePixel 會讓它明顯變亮——但那是普攻，會一直放，
+改了等於改動整場的基礎亮度與效能，已經超出「技能特效」的範圍。
+所以這次<b>沒有動它</b>，先跟你講一聲，你要的話再處理。</p>
+</div>
+
+<footer>地城迴響 · 技能演出第四版</footer>
+</div>
+</body>
+</html>
