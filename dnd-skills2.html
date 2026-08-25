@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>技能演出重製</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 技能演出重製</p>
+<h1>技能演出重新設計後的第二版</h1>
+<p class="lede">上一版你回報「附魔效果期間太不明顯」「其他技能還是太不明顯」。
+這一版不是把數值再調大，而是<b>換掉視覺元件本身</b>，並依你的規格改了三個技能的機制。
+每個技能一段 GIF，內容是「還沒開 → 發動 → 生效中」的完整一輪。</p>
+
+<div class="note">
+<p><b>為什麼前兩輪「加強」沒有用。</b>14 個技能的演出從頭到尾只用了一種元件——
+往外噴然後淡掉的小光點。所以每個技能看起來都是「某個顏色的點噴出來」，
+加大、加多、拉長壽命都還是同一件事。問題不在量，在<b>視覺語彙只有一種</b>；
+而且效果全掛在玩家身上，敵人被打完看不出中了什麼。</p>
+<p>這一版新增兩種元件：<b>貼在敵人身上、持續存在會動的狀態形體</b>，
+以及<b>向外擴散的環狀衝擊波</b>（連續的形體，不是一堆點）。</p>
+</div>
+
+<h2><span class="num">1</span>附魔｜敵人身上的異常狀態</h2>
+<div class="grid3">
+<figure><img src="dnd-skills2/enchant_fire.gif" alt="烈焰附魔 → 燃燒" loading="lazy"><figcaption><b>烈焰附魔 → 燃燒</b><br>命中後持續燒 4 秒。敵人身上三團火焰各自閃動、往上竄</figcaption></figure>
+<figure><img src="dnd-skills2/enchant_frost.gif" alt="霜寒附魔 → 冰凍" loading="lazy"><figcaption><b>霜寒附魔 → 冰凍</b><br>敵人被一層淡藍冰殼包住，外圍冰晶，動作停住</figcaption></figure>
+<figure><img src="dnd-skills2/enchant_storm.gif" alt="雷擊附魔 → 麻痺" loading="lazy"><figcaption><b>雷擊附魔 → 麻痺</b><br>電弧在身上不斷換位置閃動，定住 0.8 秒並連鎖到附近敵人</figcaption></figure>
+<figure><img src="dnd-skills2/enchant_venom.gif" alt="劇毒附魔 → 融化" loading="lazy"><figcaption><b>劇毒附魔 → 融化</b><br>綠色黏液從身上往下滴，滴到腳邊再從上面來</figcaption></figure>
+</div>
+<h2><span class="num">2</span>戰士</h2>
+<div class="grid3">
+<figure><img src="dnd-skills2/whirlwind.gif" alt="旋風斬（改成持續施法）" loading="lazy"><figcaption><b>旋風斬（改成持續施法）</b><br>1080°/秒高速旋轉、<b>可以邊走邊轉邊打</b>、360 度判定，刀光是跟著朝向的連續弧線</figcaption></figure>
+<figure><img src="dnd-skills2/charge.gif" alt="衝鋒（撞擊半徑 ×2）" loading="lazy"><figcaption><b>衝鋒（撞擊半徑 ×2）</b><br>撞擊判定 3.8 公尺＝普攻的兩倍，路徑上的敵人都會被撞到並擊退</figcaption></figure>
+<figure><img src="dnd-skills2/warcry.gif" alt="戰吼（音效＋音波）" loading="lazy"><figcaption><b>戰吼（音效＋音波）</b><br>三道錯開的金色音波往外推，搭配吼聲音效</figcaption></figure>
+<figure><img src="dnd-skills2/bloodrage.gif" alt="血怒（紅色光暈）" loading="lazy"><figcaption><b>血怒（紅色光暈）</b><br>紅色衝擊波，攻速大幅提升，<b>發動期間可正常移動</b></figcaption></figure>
+</div>
+<h2><span class="num">3</span>法師</h2>
+<div class="grid3">
+<figure><img src="dnd-skills2/frostnova.gif" alt="冰霜新星（範圍加大＋冰波）" loading="lazy"><figcaption><b>冰霜新星（範圍加大＋冰波）</b><br>範圍 4.2 → 6.5 公尺，三道冰波，最後一道推到範圍邊界</figcaption></figure>
+<figure><img src="dnd-skills2/arcanemissiles.gif" alt="奧術飛彈（分散索敵）" loading="lazy"><figcaption><b>奧術飛彈（分散索敵）</b><br>五發<b>輪流分配給不同目標</b>；附近只有一隻時才集中打它</figcaption></figure>
+<figure><img src="dnd-skills2/blink.gif" alt="閃現" loading="lazy"><figcaption><b>閃現</b><br>瞬移到前方 4 公尺</figcaption></figure>
+<figure><img src="dnd-skills2/emberservant.gif" alt="灰燼僕從" loading="lazy"><figcaption><b>灰燼僕從</b><br>召喚火元素僕從協同作戰 15 秒</figcaption></figure>
+</div>
+<h2><span class="num">4</span>生存</h2>
+<div class="grid3">
+<figure><img src="dnd-skills2/stoneskin.gif" alt="石膚（角色石化）" loading="lazy"><figcaption><b>石膚（角色石化）</b><br><b>角色本身變成石灰色</b>，不只是周圍飄碎片；減傷 50%</figcaption></figure>
+<figure><img src="dnd-skills2/lantern.gif" alt="提燈術" loading="lazy"><figcaption><b>提燈術</b><br>20 秒內視野大幅擴大</figcaption></figure>
+</div>
+
+<h2><span class="num">5</span>機制改動的實測數據</h2>
+<p>這輪有三項是機制不只是視覺，所以用程式量過，不是看畫面判斷：</p>
+<div class="scroll"><table>
+<tr><th>項目</th><th>改動前</th><th>實測結果</th></tr>
+<tr><td>旋風斬 旋轉</td><td>720°/秒，移動會蓋掉朝向</td><td>累計轉 <b>1681 度</b></td></tr>
+<tr><td>旋風斬 移動</td><td>形同原地</td><td>施法期間移動 <b>1.30 公尺</b></td></tr>
+<tr><td>旋風斬 360 度</td><td>—</td><td>四面各一隻，<b>全部 4 隻受傷</b></td></tr>
+<tr><td>衝鋒 撞擊半徑</td><td>1.5 公尺（比普攻 1.9 還小）</td><td>半徑 3.80：最近 3.58 的受傷、4.94 的沒受傷</td></tr>
+<tr><td>奧術飛彈 索敵</td><td>五發全打同一隻</td><td>三隻目標<b>全部打到</b>；只有一隻時仍集中打它</td></tr>
+</table></div>
+
+<div class="note warn">
+<p><b>衝鋒那項第一次判成失敗，追下去是我的測試擺錯位置，不是程式錯。</b>
+衝刺距離會被牆壁截短（實測只衝 2.81 公尺而不是 4.2），第二隻沙包的最近距離
+是 4.92 公尺、本來就在半徑外。判準已改成對著規格（進入半徑的一定受傷、
+沒進入的一定不受傷），而不是對著我預設的站位。</p>
+<p><b>瞬發技能的 GIF 仍有一段空景</b>（衝鋒、閃現、冰霜新星、奧術飛彈是瞬發），
+效果結束後還有幾秒沒東西。這是錄製節奏不是技能問題。</p>
+</div>
+
+<h2><span class="num">6</span>需要你確認的</h2>
+<div class="scroll"><table>
+<tr><th>要確認的</th><th>說明</th></tr>
+<tr><td>四種異常狀態夠不夠明顯</td><td>這是這輪最主要的改動：狀態改成掛在敵人身上而不是玩家武器上</td></tr>
+<tr><td>石膚的石化程度</td><td>角色整體染成石灰色。要更誇張（例如加裂紋、變更暗）還是這樣剛好</td></tr>
+<tr><td>戰吼的音波與音效</td><td>用的是既有的 roar 音效；三道波的間隔與大小可調</td></tr>
+<tr><td>旋風斬的轉速</td><td>1080°/秒（一秒三圈）。太快會頭暈、太慢沒有旋風感</td></tr>
+</table></div>
+
+<footer>地城迴響 · 技能演出重製（第二版）</footer>
+</div>
+</body>
+</html>
