@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>全技能稽核</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px}
+table th,table td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08)}
+pre{background:rgba(255,255,255,.05);padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.6}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+.ok{color:#7fd48c;font-weight:600}.bad{color:#ff8a7a;font-weight:600}.warn2{color:#ffc46b;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 全技能稽核</p>
+<h1>血怒那個病，另外三個技能也有</h1>
+<p class="lede">你問其他技能是不是也一樣。做了全面稽核而不是抽查：
+先用腳本掃出所有「效果修正屬性」逐一比對有沒有被讀取，
+再把每個技能敘述宣稱的效果對回實際的消費點。<b>又抓到三個。</b></p>
+
+<h2><span class="num">1</span>又抓到的三個</h2>
+
+<h3>① 重斬的「傷害隨劍術精通提升」沒有生效</h3>
+<pre>// LandHeavy 原本
+e.TakeDamage(stats.atk * 2.2f, player.position);</pre>
+<p>沒有 <code>MeleeBonus</code>（劍術精通），也沒有 <code>SkillAtkMul</code>（戰吼）。
+普攻、旋風斬、衝鋒三個地方都乘了，<b>只有重斬漏掉</b>——
+所以劍術精通練再高，重斬的傷害都一樣，而技能敘述寫的正是「傷害隨劍術精通提升」。
+已補上，並順手讓重斬也吃附魔（把武器點著之後，沒理由只有普攻會燒、重斬不會）。</p>
+
+<h3>② 法師學了附魔完全沒有效果</h3>
+<p>四種附魔在技能表裡是 <code>anyClass = true</code>，那裡的註解還特地寫了
+「法師也有普攻，把武器點著對兩個職業都說得通」。
+但 <code>ApplyEnchant</code> 只掛在<b>近戰</b>的 <code>LandHit</code> 與旋風斬上，
+而法師的普攻是火球、走 <code>ReleasePlayerFireball</code> 那條路——
+<b>命中之後從來沒有呼叫過附魔結算</b>。已在火球命中時補上。</p>
+
+<h3>③ 法力護盾的「隨秘能提升」沒有實作</h3>
+<p>吸收永遠是 1 點魔力擋 1 點傷害，秘能練再高都一樣。
+改成<b>轉換效率</b>吃秘能（同樣的魔力擋得更多），而不是改吸收上限——
+上限本來就被魔力總量限制住了，改上限沒有意義。</p>
+
+<h2><span class="num">2</span>完整稽核表（14 個技能書技能＋既有主動）</h2>
+<table>
+<tr><th>技能</th><th>宣稱的效果</th><th>實際消費點</th><th>判定</th><th>驗證量到什麼</th></tr>
+<tr><td><b>烈焰附魔</b></td><td>普攻附加火焰傷害</td><td><code>ApplyBurn</code>（ApplyEnchant）</td><td><span class="ok">正常</span></td><td>敵人真的中燃燒、血量下降</td></tr>
+<tr><td><b>霜寒附魔</b></td><td>附加冰霜並減速</td><td><code>ApplySlow(.55, 2.5)</code></td><td><span class="ok">正常</span></td><td><code>Slowed=True</code>＋掉血</td></tr>
+<tr><td><b>雷擊附魔</b></td><td>有機率連鎖到附近敵人</td><td><code>ApplyParalyze(.8)</code>＋45% 連鎖</td><td><span class="ok">正常</span></td><td>第二隻敵人掉血</td></tr>
+<tr><td><b>劇毒附魔</b></td><td>附加持續毒傷</td><td><code>ApplyPoison</code></td><td><span class="ok">正常</span></td><td><code>Poisoned=True</code>＋持續掉血</td></tr>
+<tr><td><b>衝鋒</b></td><td>向前衝刺、擊退並受傷</td><td>位移迴圈＋<code>Knockback</code></td><td><span class="ok">正常</span></td><td>位移 4.36m、目標掉血</td></tr>
+<tr><td><b>旋風斬</b></td><td>持續打擊周圍所有敵人</td><td><code>TickWhirlwind</code></td><td><span class="ok">正常</span></td><td>三隻中三隻受傷</td></tr>
+<tr><td><b>戰吼</b></td><td>攻擊提升、受傷降低</td><td><code>SkillAtkMul</code>／<code>SkillDmgTakenMul</code></td><td><span class="warn2">機制正常／測試有問題</span></td><td><b>測試驗錯東西</b>（已改）</td></tr>
+<tr><td><b>血怒</b></td><td>消耗生命換大幅攻速</td><td><b>沒有任何消費點</b></td><td><span class="bad">有缺陷</span></td><td><b>完全沒生效</b>（已修）</td></tr>
+<tr><td><b>石膚</b></td><td>減傷 50%、移動變慢</td><td><code>SkillDmgTakenMul</code>／<code>SkillMoveMul</code></td><td><span class="warn2">機制正常／測試有問題</span></td><td><b>測試驗錯東西</b>（已改）</td></tr>
+<tr><td><b>提燈術</b></td><td>視野大幅擴大</td><td><code>viewCone.range</code></td><td><span class="ok">正常</span></td><td>視野 4.8→10.3 公尺</td></tr>
+<tr><td><b>閃現</b></td><td>瞬移到前方 4 公尺</td><td><code>player.position</code></td><td><span class="ok">正常</span></td><td>位移 4.00m</td></tr>
+<tr><td><b>寒冰新星</b></td><td>凍結周圍敵人</td><td><code>ApplyFreeze</code></td><td><span class="ok">正常</span></td><td><code>Frozen=True</code></td></tr>
+<tr><td><b>奧術飛彈</b></td><td>射出 5 發追蹤飛彈</td><td><code>Fireball.Launch</code> ×5</td><td><span class="ok">正常</span></td><td>射出 5 發</td></tr>
+<tr><td><b>灰燼僕從</b></td><td>召喚僕從協同作戰</td><td><code>EmberServant</code></td><td><span class="ok">正常</span></td><td>存在且目標掉血</td></tr>
+<tr><td><b>重斬</b></td><td>傷害隨劍術精通提升</td><td><b>沒有乘 MeleeBonus</b></td><td><span class="bad">有缺陷</span></td><td><b>加成沒生效</b>（已修）</td></tr>
+<tr><td><b>盾牆</b></td><td>減傷隨堅甲提升</td><td><code>wardCut</code></td><td><span class="ok">正常</span></td><td>有消費點</td></tr>
+<tr><td><b>法力護盾</b></td><td>傷害改由魔力承受，隨秘能提升</td><td>承受有、<b>「隨秘能」沒有</b></td><td><span class="bad">有缺陷</span></td><td><b>部分沒實作</b>（已修）</td></tr>
+<tr><td><b>烈焰（法師普攻技）</b></td><td>傷害隨秘能提升</td><td><code>SpellBonus</code></td><td><span class="ok">正常</span></td><td>有消費點</td></tr>
+</table>
+<p class="small">被動也一起查了，六個全部有消費點：劍術精通（<code>MeleeBonus</code>）、
+堅甲（<code>DefBonus</code>，在受傷計算裡）、蠻力（<code>StrBonus</code>）、
+秘能（<code>SpellBonus</code>）、法力迴流（<code>MpRegenBonus</code>）、
+靈巧（<code>FinesseCd</code>）。</p>
+
+<h2><span class="num">3</span>測試方式的問題：戰吼與石膚跟血怒是同一種寫法</h2>
+<pre>Check("石膚", Demo.SkillDmgTakenMulForVerify &lt; .60f)</pre>
+<p>問的是<b>屬性回傳多少</b>，不是效果有沒有生效。屬性永遠回傳正確的數字，
+所以就算它沒被乘進任何地方，測試照樣是綠的——血怒就是這樣過了好幾版。</p>
+<p>這兩個的加成<b>實際上是有生效的</b>，但那是運氣，測試並沒有守住它。
+現在全部改成走真實路徑量實際數字：</p>
+<table>
+<tr><th>項目</th><th>量到的</th></tr>
+<tr><td>戰吼減傷</td><td>同樣 100 點打進來：平常掉 <b>89.8</b> → 戰吼中掉 <b>76.3</b>（×0.85）</td></tr>
+<tr><td>石膚減傷</td><td>同樣 100 點打進來：平常掉 <b>89.8</b> → 石膚中掉 <b>44.9</b>（×0.50）</td></tr>
+<tr><td>戰吼攻擊提升</td><td>同一隻沙包：平常打掉 <b>21.2</b> → 戰吼中打掉 <b>26.5</b>（×1.25）</td></tr>
+<tr><td>重斬吃加成</td><td>重斬傷害：平常 <b>46.6</b> → 戰吼中 <b>58.3</b>（原本兩者相同）</td></tr>
+<tr><td>法師普攻吃附魔</td><td>火球命中後 <code>Poisoned=True</code>（原本永遠是 False）</td></tr>
+<tr><td>法力護盾吃秘能</td><td>擋下 40 點只花了 <b>33.2</b> 點魔力（沒吃秘能會是等量）</td></tr>
+</table>
+<p class="small">新增的驗證掛鉤刻意<b>呼叫真正的函式而不是抄公式</b>：
+<code>HurtSelfForVerify</code> 呼叫 <code>ApplyPlayerDamage</code> 本人，
+<code>ForceHeavyForVerify</code> 呼叫 <code>LandHeavy</code> 本人。
+抄一份的話，哪天真實公式又漏掉某個加成，測試會照自己那份正確的算然後回報通過——
+那正是這次要抓的病，測試自己更不能犯。</p>
+
+<h2><span class="num">4</span>驗證過程自己修的三個坑</h2>
+<div class="note warn">
+<p><b>①</b> <code>HurtSelfForVerify</code> 第一版只還原血量，但那一下觸發了死亡分支：
+<code>dead</code> 旗標留著，而且那條路會呼叫 <code>SubmitScore()</code> 往排行榜送成績。
+實測是驗到一半玩家死了、後面 8 項全部標成「不可信」。改成先把血拉高到打不死再量。</p>
+<p><b>②</b> 戰吼攻擊提升第一次量到「戰吼中<b>反而比較低</b>」（42.4 → 26.5）。
+原因是沙包擺在 1.4 公尺，玩家的普攻自己打上去混進量測。
+改成擺 5 公尺外，而且打完不要 yield（<code>TakeDamage</code> 是同步扣血的）。</p>
+<p><b>③</b> 學習流程寫死 <code>"charge"</code>（戰士專屬），用法師跑永遠失敗。
+這支探針在此之前<b>只用戰士跑過</b>，所以沒人發現。改成依職業選書。</p>
+</div>
+
+<p class="lede">兩個職業各跑一輪，<b>各 23 項全過</b>。</p>
+
+<footer>地城迴響 · 全技能稽核</footer>
+</div>
+</body>
+</html>
