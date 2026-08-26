@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>上架文案與截圖草稿</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 正式上架準備</p>
+<h1>上架文案與截圖草稿，等你批准</h1>
+<p class="lede">全部都是草稿。<b>我沒有動 App Store Connect 上任何東西，也沒有送審。</b>
+下面每一項你可以直接改，或跟我說要改哪裡。</p>
+
+<div class="note warn">
+<p><b>有兩件事會擋住送審，先講：</b></p>
+<p><b>① 版本號對不上。</b>ASC 上的版本紀錄是 <code>1.3</code>（今天建立、還沒掛 build），
+但已上傳的 build 全部是 <code>2.1</code> 這條線。<b>2.1 的 build 掛不上 1.3 的版本紀錄。</b></p>
+<p><b>② 版本說明（新功能）是空白的</b>，這一欄送審必填。</p>
+</div>
+
+<h2><span class="num">1</span>版本號要怎麼解<span class="pick">建議：改成 2.1</span></h2>
+<div class="scroll"><table>
+<tr><th>做法</th><th>代價</th></tr>
+<tr><td><b>把 ASC 的版本紀錄改成 2.1</b>　← 建議</td>
+<td>幾乎沒有。那筆是今天才建、沒掛 build，改一個欄位就好</td></tr>
+<tr><td>把 App 改成 1.3、重出一版</td>
+<td>2.1 這條線上的 12 個 build（29–40）全部作廢，要重出 build 41；<br>
+已安裝的測試者會看到版號從 2.1 掉到 1.3，像降版</td></tr>
+</table></div>
+<p class="small">語意上 2.1 也比較對：這一版加了一整款遊戲＋技能系統，是大功能更新，不是 1.2 的小修。
+2.1 大於已上架的最高版 1.2，符合遞增規則。</p>
+
+<h2><span class="num">2</span>版本說明（新功能）<span class="small">200 / 4000 字元</span></h2>
+<pre class="copy">第三款遊戲【地城迴響】迎來完整的技能系統。
+
+• 技能書：地城裡會掉落技能書，撿到才學得會，共 14 種主動技能
+• 元素附魔：火燒、冰凍、麻痺、劇毒——中了什麼狀態，從怪物身上就看得出來
+• 技能會照亮地城：戰吼的音波、寒冰新星的冰浪、燃燒的火光，都是真的光源
+• 旋風斬、衝鋒、奧術飛彈現在會把敵人擊退
+• 地下城開始出現寶箱，值得繞路
+
+另外修正了幾個技能的加成沒有正確生效的問題，並新增 Game Center 排行榜，
+比比看誰下得更深。</pre>
+
+<h2><span class="num">3</span>App 描述<span class="small">826 / 4000 字元</span></h2>
+<p class="small">在現有文字上<b>新增【地城迴響】整段</b>，並更新「共通特色」與結尾那句
+——原本的描述只寫了兩款遊戲，但 App 裡已經有三款。</p>
+<pre class="copy">你一定在某個廣告裡看過這種遊戲——點進去卻發現根本不是那回事。
+所以我們手搓了真的版本：廣告裡長怎樣，玩起來就怎樣。
+
+【吸血鬼復仇】
+你是諾克特恩家族最後的吸血鬼，在怪物狂潮中撐過 40 分鐘、征服五大關卡！
+• 五大關卡：幽暗森林、血月荒原、深淵沼澤、冰雪絕地、魔王城堡
+• 30 種怪物、10 隻獨立技能 Boss：環形彈幕、衝刺、召喚、追蹤射擊
+• 7 種全自動武器 + 4 種隱藏進化組合，15 種被動道具自由搭配
+• 撿寶石升級三選一、擊敗 Boss 開寶箱、精英怪掉落強力道具
+• 浮動搖桿操作，單手就能玩
+
+【殭屍防線】
+指揮你的小隊在三線戰場死守防線，抵擋一波波神機錯亂狂潮！
+• 左右切換車道，站上通道自動開火
+• 打擊封印箱解鎖裝備：人數、火力、射速、射程
+• 四種武器徹底改變打法：步槍、火焰噴射器、電弧槍、榴彈砲——換裝連兵種造型一起變！
+• 8 波狂潮、每波尾聲的厚血魔王，緊張感直線上升
+
+【地城迴響】
+帶著一支火把走進地下城，照得到的地方才是你看得見的地方。
+• 每一層都重新生成：房間、走廊、寶箱、商人，沒有兩次一樣
+• 光是要爭取的資源——離開火光就是全黑，燈具跟武器一樣重要
+• 戰士與法師兩種職業，力量／敏捷／智力／體力自由配點
+• 九個裝備欄位、隨機詞綴，橘色傳奇裝備稀有掉落
+• 技能書系統：14 種主動技能要撿到書才學得會。把武器點著讓敵人整隻燒起來、
+  寒冰新星凍住整圈、旋風斬邊走邊轉、召喚灰燼僕從替你打
+• 死亡不是重來：角色等級、學會的技能、身上的裝備都留著，下一次走得更深
+
+【共通特色】
+• 三款遊戲，一次下載，全部免費
+• 三種難度：簡單、普通、困難（困難計分 ×3，敢不敢挑戰？）
+• 全站排行榜 + Game Center：上傳你的暱稱與成績，跟所有玩家一較高下
+• 8-bit 風格合成音效與每關專屬背景音樂
+• 免費遊玩、無廣告、無內購
+
+今晚，你要當獵人、守軍，還是提著燈走進地城的那個人？</pre>
+
+<h2><span class="num">4</span>關鍵字<span class="small">80 / 100 字元</span></h2>
+<pre class="copy">殭屍,吸血鬼,地城,地下城,生存,塔防,探險,角色扮演,倖存者,街機,zombie,vampire,dungeon,survivor,roguelike,RPG</pre>
+<p class="small">原本 59 字元。拿掉重複性高的「防禦」「動作」，換進地城相關字。</p>
+
+<h2><span class="num">5</span>截圖草稿</h2>
+<p>模擬器實拍，已裁成 App Store 6.5 吋規格 1284×2778（原生 1206×2622，
+等比放大後從中間裁，沒有變形）。這裡顯示的是壓過的版本，原檔是全解析度。</p>
+<div class="grid2">
+<figure><img src="dnd-release/01-select.jpg" alt="選角" loading="lazy"><figcaption><b>選角</b><br>三個存檔槽、左右滑動切換，立繪可拖曳轉動</figcaption></figure>
+<figure><img src="dnd-release/02-combat.jpg" alt="火把視野" loading="lazy"><figcaption><b>火把視野</b><br>照得到的地方才看得見——這是這款的核心</figcaption></figure>
+<figure><img src="dnd-release/03-fire.jpg" alt="烈焰附魔" loading="lazy"><figcaption><b>烈焰附魔</b><br>中了火的怪物整隻轉橘色，還會照亮腳下地板</figcaption></figure>
+<figure><img src="dnd-release/04-frost.jpg" alt="寒冰新星" loading="lazy"><figcaption><b>寒冰新星</b><br>三道冰浪推到技能實際範圍的邊界</figcaption></figure>
+<figure><img src="dnd-release/05-warcry.jpg" alt="戰吼" loading="lazy"><figcaption><b>戰吼</b><br>金色音波與瞬間照亮，配合吼聲音效</figcaption></figure>
+<figure><img src="dnd-release/06-gear.jpg" alt="裝備" loading="lazy"><figcaption><b>裝備</b><br>九個欄位、隨機詞綴，換裝立刻反映在立繪上</figcaption></figure>
+<figure><img src="dnd-release/07-skills.jpg" alt="技能" loading="lazy"><figcaption><b>技能</b><br>被動隨等級成長，主動要撿到技能書才學得會</figcaption></figure>
+</div>
+<div class="note warn">
+<p><b>截圖總數有上限，要取捨。</b>現有截圖組是 8 張（吸血鬼 4 + 殭屍 4），
+而一組最多 10 張。加地城迴響就得砍掉一些舊的。
+我的建議是<b>吸血鬼 3、殭屍 3、地城 4</b>，但這是你的取捨。</p>
+<p>另外這些是<b>遊戲原始畫面，沒有加行銷文字框</b>。要不要做成有標題的宣傳版，你決定。</p>
+</div>
+
+<h2><span class="num">6</span>Game Center 排行榜設定</h2>
+<p><b>DnD 的排行榜目前在 ASC 上不存在</b>——只有吸血鬼與殭屍兩個。
+Build 40 的程式已經在送分到下面這個 ID，但 ID 不存在的話分數會被靜靜丟掉，不會報錯。</p>
+<div class="scroll"><table>
+<tr><th>欄位</th><th>建議值</th></tr>
+<tr><td>Leaderboard ID</td><td><code>com.alexvampire.gamecollection.dnd.score</code>　<b>要一字不差</b></td></tr>
+<tr><td>Reference Name</td><td>地城迴響　層數.等級</td></tr>
+<tr><td>分數格式</td><td><b>Decimal (0.000)</b><span class="pick">建議</span></td></tr>
+<tr><td>排序</td><td>Higher is Better</td></tr>
+<tr><td>提交類型</td><td>Best Score</td></tr>
+<tr><td>循環</td><td><b>不循環（永久）</b><span class="pick">建議</span></td></tr>
+</table></div>
+
+<h3>為什麼建議 Decimal 而不是 Integer</h3>
+<p>送上去的數字是「層數 × 1000 ＋ 角色等級」。設 Decimal(0.000) 會顯示成
+<b><code>12.034</code></b>＝第 12 層、Lv 34，一個欄位同時給你要的兩件事。
+設 Integer 會顯示 <code>12034</code>，玩家看不懂。
+代價是跟另外兩個板（都是 Integer）不一致——建議用名稱補說明，
+看到小數點就知道怎麼讀。</p>
+
+<h3>為什麼建議永久而不是跟進 30 天</h3>
+<p>另外兩款是<b>單場計分</b>，一局結束得一個分數，適合 30 天週期賽。
+地城迴響不一樣：存檔是<b>持續累積的角色</b>，等級、技能、裝備死了都留著，
+「最深層數」是一輩子的紀錄。30 天砍掉一次跟這個成長節奏是牴觸的。</p>
+
+<h2><span class="num">7</span>成就<span class="pick">建議：這次先不做</span></h2>
+<p>目前三款遊戲的成就數是 <b>0</b>。要做就得設計一整套、每個都要寫程式送出
+＋在 ASC 逐項建立，是獨立的一塊工作。<b>它不擋上架</b>，之後任何一版都能補。
+這次先把三款遊戲的商店頁補齊比較實在。</p>
+
+<h2><span class="num">8</span>出貨前硬檢查（build 40，查的是匯出產物）</h2>
+<div class="scroll"><table>
+<tr><th>項目</th><th>結果</th></tr>
+<tr><td>DEVELOPMENT_BUILD</td><td>0 ✓</td></tr>
+<tr><td>VR_SHOTS</td><td>0 ✓</td></tr>
+<tr><td>Deployment target</td><td>15.0 ✓</td></tr>
+<tr><td>加密宣告 ITSAppUsesNonExemptEncryption</td><td>false ✓</td></tr>
+<tr><td>沙盒外絕對路徑寫檔</td><td>無 ✓</td></tr>
+<tr><td>版本 / build</td><td>2.1 / 40 ✓</td></tr>
+<tr><td>技能書掉率</td><td>第一本 8%、之後 0.08%、橘裝 0.15%——<b>已是正式設計，無測試殘留</b> ✓</td></tr>
+<tr><td>BETA 字樣</td><td>已移除 ✓</td></tr>
+</table></div>
+
+<h2><span class="num">9</span>需要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
+<tr><td>版本號走 2.1 還是 1.3</td><td>影響已上傳的 12 個 build 要不要作廢，而且版號是產品對外的宣告</td></tr>
+<tr><td>版本說明／描述／關鍵字的文字</td><td>這是行銷語氣與定位，我只能給草稿</td></tr>
+<tr><td>截圖選哪幾張、舊的砍哪些</td><td>上限 10 張，取捨取決於你想主推哪一款</td></tr>
+<tr><td>排行榜格式 Decimal vs Integer</td><td>可讀性 vs 與另外兩個板一致，兩邊都說得通</td></tr>
+<tr><td>排行榜要不要循環</td><td>週期賽讓新玩家有機會上榜，永久榜獎勵長期投入，是取捨</td></tr>
+<tr><td>成就要不要這次做</td><td>是範圍決定，會影響這一版什麼時候能送</td></tr>
+</table></div>
+
+<div class="note">
+<p><b>送審這個動作我不會自己做。</b>ASC 上的版本紀錄、排行榜建立、截圖與文案上傳、
+以及按下送審，照專案慣例都是你自己操作。你說「送審」我也只會先幫你把 build
+準備好，不會替你按下去。</p>
+</div>
+
+<footer>手搓廣告遊戲選集 · 正式上架準備</footer>
+</div>
+</body>
+</html>
