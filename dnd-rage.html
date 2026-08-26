@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>血怒攻速</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px}
+table th,table td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.10);text-align:right}
+table th:first-child,table td:first-child{text-align:left}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.92em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08)}
+pre{background:rgba(255,255,255,.05);padding:12px 14px;border-radius:8px;overflow-x:auto;font-size:12.5px;line-height:1.6}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 血怒</p>
+<h1>血怒的攻速加成從來沒有生效過</h1>
+<p class="lede">你回報「攻速不明顯、動畫沒有變快」。查下來比這個更糟：
+血怒對攻擊<b>完全沒有作用</b>——間隔沒縮、硬直沒縮、動畫也沒加速。
+真正生效的只有扣血、紅光與 buff 圖示。</p>
+
+<h2><span class="num">1</span>倍率宣告了，但從來沒被乘進去</h2>
+<p>攻速倍率是這樣定義的：</p>
+<pre>float SkillAtkSpeedMul =&gt; (rageT &gt; 0f ? .45f : 1f);   // 乘在冷卻上，越小越快</pre>
+<p>而實際算攻擊間隔的地方是這樣：</p>
+<pre>LastAttackInterval = Sw.cd * stats.cdMul
+                   * (ShieldWallActive ? ShieldWallAtkSlow : 1f);</pre>
+<p><b>沒有 <code>SkillAtkSpeedMul</code>。</b>全專案搜過，這個倍率只出現在兩個地方：
+它自己的定義，以及一個給驗證用的存取子。它從來沒有被乘進任何計算裡。</p>
+
+<div class="note warn">
+<p><b>而且舊的自動測試是「通過」的。</b>它是這樣寫的：</p>
+<pre>Check("血怒", Demo.SkillAtkSpeedMulForVerify &lt; .99f)</pre>
+<p>它驗的是<b>那個屬性回傳 0.45</b>，不是「攻擊真的變快了」。
+屬性永遠回傳 0.45，所以不管倍率有沒有被使用，這項測試都會過——
+它測的是一個常數。你在實機上感覺不到，測試卻是綠的，原因就在這裡。</p>
+<p>這是專案守則第 1 條講的同一件事：<b>要打最靠近玩家行為的入口，
+不要去問底層的數值。</b>現在改成數實際揮了幾刀。</p>
+</div>
+
+<h2><span class="num">2</span>改了四個地方，不只是間隔</h2>
+<p>你的判斷方向是對的——只縮間隔不動動畫的話，看起來只是銜接比較緊、
+甚至會像動作被切斷。所以四個環節要一起吃這個倍率：</p>
+<table>
+<tr><th>環節</th><th>改動</th><th>不改會怎樣</th></tr>
+<tr><td>攻擊間隔</td><td>乘上 0.45</td><td>出手頻率完全沒變</td></tr>
+<tr><td>硬直 <code>attackLock</code></td><td>乘上 0.45</td><td>可以出手了人還被鎖著，節奏照舊</td></tr>
+<tr><td><b>動畫播放速度</b></td><td>除以 0.45（＝2.22 倍速）</td><td><b>你這次點名的：揮砍動作本身不會變快</b></td></tr>
+<tr><td>傷害落點 <code>hitDelay</code></td><td>乘上 0.45</td><td>刀都收回去了才結算傷害</td></tr>
+</table>
+<p class="small">另外補了結束時的還原。<code>AnimationState.speed</code> 是掛在共用 state 上會留著的，
+普攻每次出手都會重設所以自己會回復，但旋風斬與衝鋒是直接播同一支 clip 而不設速度——
+少了還原的話，血怒退了之後第一次放旋風斬會用 2.22 倍速播。
+（石膚忘了還原顏色導致角色一直是灰的，是同一種錯。）</p>
+
+<h2><span class="num">3</span>驗證：數揮刀次數，不問倍率</h2>
+<p>平常與血怒<b>交錯各兩段</b>、每段 4 秒（單純前後比會被敵人位置的漂移汙染）：</p>
+<table>
+<tr><th></th><th>第一輪</th><th>第二輪</th><th>平均</th></tr>
+<tr><td>平常 4 秒內揮刀</td><td>8</td><td>8</td><td>8.0</td></tr>
+<tr><td>血怒 4 秒內揮刀</td><td>17</td><td>17</td><td><b>17.0</b></td></tr>
+<tr><td colspan="3">出手次數倍率</td><td><b>2.13 倍</b>（設定 2.22）</td></tr>
+<tr><td colspan="3">動畫播放速度</td><td><b>1.35 → 3.00＝2.22 倍</b></td></tr>
+<tr><td colspan="3">自然到期後</td><td>1.00（沒有殘留加速）</td></tr>
+</table>
+
+<figure><img src="dnd-rage/strip.jpg" alt="逐幀對照">
+<figcaption><b>同樣 0.89 秒、同樣 8 個影格。</b>上排是發動前：中間有好幾格角色是站著的，
+兩次揮砍之間有明顯空檔。下排是血怒中：幾乎每一格都在揮砍途中，
+而且是不同的揮砍階段。</figcaption></figure>
+
+<figure><img src="dnd-rage/bloodrage.gif" alt="血怒完整一輪">
+<figcaption>完整一輪：還沒開 → 發動（紅光與紅色衝擊波）→ 生效中。</figcaption></figure>
+
+<div class="note">
+<p><b>驗證本身也修了兩次，兩次都是我的量法錯，不是產品錯。</b></p>
+<p>① 第一版判「有沒有還原」拿 1.00 當標準，但<b>單手劍的基準本來就是 1.35</b>，
+於是把「已經正確還原」誤判成漏還原。改成跟武器自己的基準比。</p>
+<p>② 第二版是呼叫 <code>ClearBuffsForVerify()</code> 之後才量——那個函式直接把
+<code>rageT</code> 歸零，<b>繞過了計時器到期的那條分支</b>，等於在驗測試工具自己的行為，
+而且會因為期間有沒有剛好揮到刀而時好時壞。改成等血怒<b>自然到期</b>再量。
+（順帶把那個函式也補上還原，免得它留下產品不會有的狀態。）</p>
+</div>
+
+<footer>地城迴響 · 血怒攻速</footer>
+</div>
+</body>
+</html>
