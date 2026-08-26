@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>法力護盾光罩</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:18px 0;font-size:13px}
+table th,table td{padding:7px 9px;border-bottom:1px solid rgba(255,255,255,.10);text-align:right}
+table th:first-child,table td:first-child{text-align:left}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08)}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · Build 38</p>
+<h1>法力護盾的淡藍色光罩</h1>
+<p class="lede">先講清楚一件事：你提到的那三個缺陷——重斬沒吃劍術精通與戰吼、
+法師普攻不套用附魔、法力護盾的「隨秘能提升」沒實作——<b>都已經修好，
+而且已經在 Build 37 裡了</b>。我上一則報告寫得不夠清楚，讓人以為只是列出發現，抱歉。
+這一版補的是護盾的視覺。</p>
+
+<h2><span class="num">1</span>被打的那一下</h2>
+<figure><img src="dnd-shield/cmp.jpg" alt="護盾四種狀態">
+<figcaption>由左至右：<b>沒有護盾／護盾開著沒被打／被打的那一下／0.75 秒之後</b>。
+平常是一圈很淡的泡泡輪廓，擋下傷害的瞬間整個罩子亮起來並微微撐大，然後退回去。</figcaption></figure>
+
+<figure><img src="dnd-shield/strip.jpg" alt="逐幀">
+<figcaption>從 GIF 取的逐幀：護盾沒開 → 發動 → 生效中（很淡）→ 被骷髏打中兩次 → 生效中。</figcaption></figure>
+
+<figure><img src="dnd-shield/manashield.gif" alt="法力護盾">
+<figcaption>完整一輪。影片裡是<b>真的敵人打真的傷害</b>——不是模擬的。</figcaption></figure>
+
+<h2><span class="num">2</span>幾個刻意的選擇</h2>
+<div class="note">
+<p><b>為什麼是「邊緣亮、中間淡」而不是沿用既有的光暈貼圖。</b>
+既有的那張是中心最亮往外衰減，那是<b>光團</b>的樣子；直接拿來當護盾，
+會變成角色身上糊了一坨藍光，讀起來像中了什麼狀態，不像被罩住。
+護盾要讀成「一顆包住角色的泡泡」，所以貼圖反過來：中間半透明（看得到角色）、
+邊緣一圈亮——那是球殼被看穿時的樣子。</p>
+<p><b>只有真的吸收到才閃。</b>魔力見底、傷害整份落到血上的時候<b>不會</b>亮，
+因為那正是玩家最需要知道「護盾已經擋不住了」的時刻。</p>
+<p><b>平常也要看得見一點。</b>只有被打才亮的話，玩家不知道護盾還在不在；
+只有常亮的話，「這下被擋掉了」又沒有回饋。所以兩段都要。</p>
+</div>
+
+<h2><span class="num">3</span>驗證</h2>
+<p>傷害走真實路徑（同一支 <code>ApplyPlayerDamage</code>，閃光就掛在它的吸收分支上）。
+錄影那段則<b>關掉驗證用的無敵</b>、改成每幀補滿血魔，讓真的敵人打真的傷害——
+無敵旗標會在扣血之前就 return，吸收邏輯根本不會跑，錄出來護盾永遠不會亮。</p>
+<table>
+<tr><th></th><th>平均藍色優勢</th><th>明顯偏藍的像素數</th></tr>
+<tr><td>A 沒有護盾</td><td>5.96</td><td>29</td></tr>
+<tr><td>B 護盾開著沒被打</td><td>6.43</td><td><b>134</b></td></tr>
+<tr><td>C 被打的那一下</td><td><b>9.51</b></td><td><b>631</b></td></tr>
+<tr><td>D 0.75 秒之後</td><td>6.48</td><td>—</td></tr>
+</table>
+
+<div class="note warn">
+<p><b>量法本身修了一次，這個值得記。</b>第一版所有項目都用「視窗平均亮度」判，
+結果「護盾開著看得出來」這一項在 <b>0.43～0.60 之間跳</b>，而門檻 0.5 剛好落在雜訊帶裡
+——<b>同一份程式碼有時過有時不過</b>。原因是平常那圈罩子是很細的一圈邊，
+會被整個視窗的平均稀釋掉。</p>
+<p>改成用「明顯偏藍的像素數」判那一項（29 → 134，連跑兩次都一樣），
+受擊那一下仍用平均值判（那是整片亮起來）。<b>兩種統計量回答的是不同問題，
+不能都用同一個。</b></p>
+<p>參數也是量出來的，不是調到順眼為止：<code>.22/1.00</code> 受擊差 3.19、不夠有存在感；
+<code>.13/1.35</code> 差距拉開了但平常幾乎看不見（只比沒護盾高 0.32）；
+最後是 <code>.22/1.35</code>。關鍵是受擊那一階要靠<b>拉高受擊值</b>，
+不是靠壓低平常值——壓低平常值也能讓比值變好看，但那是犧牲另一項換來的。</p>
+</div>
+
+<p class="lede">已出 <b>Build 38</b>，狀態 VALID，可以直接測。掉率維持測試值 8%。</p>
+<footer>地城迴響 · Build 38</footer>
+</div>
+</body>
+</html>
