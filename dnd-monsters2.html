@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>2.2 怪物實作</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+tr.cap td{opacity:.55}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">地城迴響 · 2.2 怪物（已實作）</p>
+<h1>兩種從沒出現過的怪進場了，還帶了新行為</h1>
+<p class="lede">照你選的範圍做完了：<b>B</b>（啟用兩種閒置模型）、<b>E</b>（精英與安全層前高峰）、
+加上 <b>D</b>（新行為）。<b>A 沒有做</b>——怪物一樣第 18 層才開始有變化，
+第 1～27 層一個字都沒動，這一點列為驗證的第一項在守。</p>
+
+<div class="note">
+<p><b>為什麼在 C 與 D 之間選了 D。</b>B 單獨做的話，亡靈騎士與亡靈術士只是
+「血量不同的換皮」——現有的差異只有血量和「近戰 or 放火球」。
+綁上 D 之後這兩隻各自有身分，<b>B 與 D 互相加成</b>；B＋C 則是兩件不相干的事各做一半。
+C（暗影怪）要動照明判定，那是這款的核心系統、又剛加了技能光源，
+風險最高，不該跟三件事擠在同一版。</p>
+</div>
+
+<h2><span class="num">1</span>亡靈騎士：衝鋒<span class="pick">可以閃</span></h2>
+<p>這是遊戲裡<b>第一個「看得到預告、可以閃」的攻擊</b>。
+既有的近戰是碰到就扣血，玩家只能靠不要靠近；衝鋒則是先停下蓄力 0.55 秒，
+然後往<b>蓄力結束那一刻</b>的玩家位置直線撲出。
+<b>方向在起衝時鎖定</b>，所以橫向走開真的躲得掉——會追蹤的衝鋒等於沒有預告。</p>
+
+<figure><img src="dnd-monsters2/charge-strip.jpg" alt="衝鋒逐幀">
+<figcaption>逐幀：平常 → 蓄力（腳下紅圈＋<b>貼地的指向紅帶</b>）→ 沿著紅帶撲出 → 結束。</figcaption></figure>
+
+<figure><img src="dnd-monsters2/charge.gif" alt="衝鋒">
+<figcaption>完整循環。注意紅帶會在蓄力期間跟著轉（那時它還在瞄），起衝瞬間鎖定。</figcaption></figure>
+
+<div class="note">
+<p><b>指向帶是做完之後才補的。</b>第一版只有腳下的紅圈，拍出來一看——
+它只告訴玩家「有事要發生」，沒告訴玩家「往哪邊」，
+而這個攻擊的破解方式正是<b>橫向移動</b>。
+這款已經被回報過三輪「效果不夠明顯」，這次不等第四輪。</p>
+</div>
+
+<h2><span class="num">2</span>亡靈術士：召喚</h2>
+<figure><img src="dnd-monsters2/summon.gif" alt="召喚">
+<figcaption>每 7 秒叫 2 隻骷髏。<b>一生上限 4 隻</b>——沒有上限的話，
+玩家可以掛在原地無限刷經驗與掉落。</figcaption></figure>
+<p class="small">召喚出來的小兵走的是跟正常出怪同一套接線（進戰鬥清單、接上死亡事件），
+所以技能掃得到它、打死了也會正常掉東西。這件事有列進驗證——
+少接一條線的話，小兵會變成打不到或打死沒反應的東西，而且不會報錯。</p>
+
+<h2><span class="num">3</span>精英</h2>
+<figure><img src="dnd-monsters2/elite.jpg" alt="精英對照">
+<figcaption>血量 ×2.6、威力 ×1.5、體型 ×1.16，腳下暗紅光環。
+<b>前 3 層不出</b>——新玩家還在學操作，這時候丟一隻打不動的只會勸退。</figcaption></figure>
+<p>用意是把後期的難度從「一群很煩」換成「這一隻很難」。
+原本敵人數在第 20 層就撞到 15 隻上限，之後只剩數值線性成長，
+沒有需要判斷的東西；精英讓玩家重新要決定「先打誰、用不用技能」。</p>
+
+<h2><span class="num">4</span>安全層前的高峰</h2>
+<p>安全層（第 6、12 層）的前一層，敵人 <b>+3 隻</b>、精英機率 <b>+10%</b>，
+讓「撐到補給點」有鬆一口氣的感覺。實測第 4 層平均 7.5 隻、第 5 層平均 <b>11.5</b> 隻。</p>
+<div class="note warn">
+<p><b>這一項只在第 17 層以內成立，而且是刻意的。</b>
+第 18 層之後的樓層配置是用「那一層的種子」抽的，而下一層的種子要等真的走下去
+才會產生——拿現在的種子去算下一層，算出來的是另一回事。
+與其做一個「有時候對」的預測，不如在超出設計深度時一律關掉，
+深層的張力改由精英承擔（那個不需要預知下一層）。</p>
+</div>
+
+<h2><span class="num">5</span>順手修掉一個既有缺陷</h2>
+<div class="note warn">
+<p><b>施法者被逼到牆角時，永遠不會出手。</b>
+靠太近時它會進「後退拉開距離」的分支，而背後是牆時位置會被夾回原地，
+但那個分支<b>無論如何都直接結束這一幀</b>——結果是被逼到角落的法師
+變成完全無害的木頭。玩家把法師逼到牆角是很自然的打法，所以這是真的會遇到的。
+既有的骷髏法師也有同樣問題，不只是新的術士。</p>
+<p>抓到的過程值得記：召喚的驗證<b>時好時壞</b>，加了診斷輸出才看到
+術士停在 4.1 公尺、剛好卡在保持距離門檻 4.2 的內側退不出去。
+如果當初只重跑幾次看到「過了」就收工，這個缺陷會留在遊戲裡。</p>
+</div>
+
+<h2><span class="num">6</span>驗證</h2>
+<p>21 項自動檢查，<b>連跑三次結果完全一致</b>。分四組：</p>
+<div class="scroll"><table>
+<tr><th>組別</th><th>內容</th></tr>
+<tr><td><b>一、回歸</b>（你的硬條件）</td><td>1～17 層仍然只吐骷髏兵、18 與 22 的門檻沒有被動到</td></tr>
+<tr><td>二、新啟用的兩種</td><td>28 層亡靈騎士登場、34 層亡靈術士加入；27／33 之前確認不出現</td></tr>
+<tr><td>三、精英與高峰</td><td>前 3 層 0%、隨深度成長到 22% 封頂；5 與 11 是高峰層；高峰層 7.5→11.5 隻</td></tr>
+<tr><td>四、新行為<br>（走真實戰鬥路徑）</td><td>衝刺瞬時速度 7.2 m/s（一般移動 1.85）、位移方向與起衝方向差 <b>2.3°</b>
+（會追蹤的話會偏很多）、召喚的小兵有接上死亡事件、上限生效</td></tr>
+</table></div>
+
+<h2><span class="num">7</span>還沒做 / 要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>項目</th><th>說明</th></tr>
+<tr><td><b>C：暗影怪</b></td><td>沒做。要動照明判定，建議單獨一版，不跟這三件事混在一起</td></tr>
+<tr><td><b>敵人的攻擊判定幀</b></td><td>沒做。近戰仍然是「碰到就扣血」；衝鋒是目前唯一可以閃的攻擊。
+要讓所有近戰都有預備動作，得在每支動畫上標事件，建議留到 2.3</td></tr>
+<tr><td><b>數值強度</b></td><td>精英的 ×2.6／×1.5 與高峰的 +3 隻是我訂的起手值，實際手感要你玩過才知道</td></tr>
+<tr><td>亡靈騎士／術士的登場層數</td><td>目前 28／34。想更早看到的話改一個函式就好</td></tr>
+</table></div>
+
+<footer>地城迴響 · 2.2 怪物（已實作，未出 TestFlight）</footer>
+</div>
+</body>
+</html>
