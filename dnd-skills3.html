@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>技能演出第三版</title>
+<title>已封存：光暈質感與燃燒可見度的第三版</title>
 <style>
 :root{
   --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
@@ -87,75 +87,40 @@ a{color:var(--gold)}
 .tag.new{background:var(--note-bg);color:var(--gold)}
 .tag.live{background:var(--live-bg);color:var(--live-line)}
 footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+tr.cap td{opacity:.55}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
 </style>
+
 </head>
 <body>
 <div class="wrap">
-<p class="eyebrow">地城迴響 · 技能演出第三版</p>
-<h1>找到「陽春」與「燃燒看不出來」的實際原因並修掉</h1>
-<p class="lede">你第三次點名同一件事，所以這次不調參數，先找具體缺陷。
-兩個問題都有明確的技術原因，不是「不夠亮」而已。</p>
-
-<h2><span class="num">1</span>先看這張：一眼看不看得出來</h2>
-<p>前兩輪我都拿<b>放大過的特寫</b>去確認效果，那是在證明「仔細找找得到」，
-不是「一眼看得出來」——這是前兩次沒改對的原因之一。
-這次改用<b>遊戲原本的鏡頭距離</b>，同一畫面並排兩隻敵人，左邊正常、右邊中狀態。</p>
-
-<figure><img src="dnd-skills3/glance.jpg" alt="狀態一眼辨識測試">
-<figcaption>由左至右：燃燒／冰凍／融化／麻痺。<b>每組左邊是正常的敵人、右邊是中了狀態的。</b>
-在這個尺寸下分不出來就是還不夠明顯——這個標準比先前的特寫嚴格得多。</figcaption></figure>
-
+<p class="eyebrow">地城迴響 · 已封存</p>
+<h1>這一頁的圖片已經清掉了</h1>
+<p class="lede">這裡原本是「光暈質感與燃燒可見度的第三版」。它已經被後續版本取代，
+而每一版的 GIF 都是幾十 MB，全部留著會讓網站越來越慢，所以圖片素材清掉了。</p>
+<p><b>要看最新的，請到這裡：</b><br>
+<a href="dnd-skills4.html">技能光源與擊退（第四版）</a></p>
 <div class="note">
-<p><b>「光暈太陽春」的實際原因：環狀網格沒有 UV。</b>
-著色器做的是「用 UV 取貼圖顏色」，而我組環的時候沒給 UV，
-所以整條環只取到白貼圖的同一個像素——變成<b>均勻純色、硬邊</b>的色帶。
-這跟橘裝光環第一版被你回報「像壞掉」是同一個錯。<br>
-現在環的 UV 橫跨帶寬，配一張漸層：外緣（波的前緣）銳利明亮、往內拖長尾，
-所以有厚度與柔邊，讀起來是「一道往外推的波」。</p>
-<p><b>「燃燒看不出來」的實際原因：尺寸太小，而且敵人本身沒有任何變化。</b>
-火焰片只有 0.34～0.56 個單位、角色高 1.8，在實際尺寸下只有十來個像素；
-旁邊多幾個亮點很容易被當成背景火把。<br>
-現在<b>連敵人本體一起染色</b>，「那隻在燒」是整個輪廓在講，不用找細節。
-火焰也從 4 片增為 7 片、主火焰放大並改成上細下寬的火苗形狀。</p>
+<p>這一頁保留下來只是為了讓舊連結還能開，不會變成 404。
+文字說明沒有留——那些內容已經整併進最新版與 git 的 commit 紀錄裡。</p>
 </div>
-
-<h2><span class="num">2</span>附魔｜狀態直接染在敵人身上</h2>
-<div class="grid3">
-<figure><img src="dnd-skills3/enchant_fire.gif" alt="烈焰 → 燃燒" loading="lazy"><figcaption><b>烈焰 → 燃燒</b><br>敵人整體轉橘、七片火焰連成火柱、火星不斷上升</figcaption></figure>
-<figure><img src="dnd-skills3/enchant_frost.gif" alt="霜寒 → 冰凍" loading="lazy"><figcaption><b>霜寒 → 冰凍</b><br>敵人轉冰藍、被冰殼包住、動作停住</figcaption></figure>
-<figure><img src="dnd-skills3/enchant_storm.gif" alt="雷擊 → 麻痺" loading="lazy"><figcaption><b>雷擊 → 麻痺</b><br>敵人轉亮白紫、電弧不斷換位置，定住 0.8 秒</figcaption></figure>
-<figure><img src="dnd-skills3/enchant_venom.gif" alt="劇毒 → 融化" loading="lazy"><figcaption><b>劇毒 → 融化</b><br>敵人轉黃綠、綠色黏液持續往下滴</figcaption></figure>
-</div>
-<h2><span class="num">3</span>戰士</h2>
-<div class="grid3">
-<figure><img src="dnd-skills3/whirlwind.gif" alt="旋風斬" loading="lazy"><figcaption><b>旋風斬</b><br>1080°/秒，可邊走邊轉邊打，360 度判定</figcaption></figure>
-<figure><img src="dnd-skills3/charge.gif" alt="衝鋒" loading="lazy"><figcaption><b>衝鋒</b><br>撞擊半徑 3.8 公尺＝普攻兩倍</figcaption></figure>
-<figure><img src="dnd-skills3/warcry.gif" alt="戰吼" loading="lazy"><figcaption><b>戰吼</b><br>三道帶漸層的金色音波＋吼聲音效</figcaption></figure>
-<figure><img src="dnd-skills3/bloodrage.gif" alt="血怒" loading="lazy"><figcaption><b>血怒</b><br>紅色衝擊波，攻速大幅提升，可正常移動</figcaption></figure>
-</div>
-<h2><span class="num">4</span>法師</h2>
-<div class="grid3">
-<figure><img src="dnd-skills3/frostnova.gif" alt="冰霜新星" loading="lazy"><figcaption><b>冰霜新星</b><br>範圍 6.5 公尺，三道冰波推到範圍邊界</figcaption></figure>
-<figure><img src="dnd-skills3/arcanemissiles.gif" alt="奧術飛彈" loading="lazy"><figcaption><b>奧術飛彈</b><br>五發輪流分配給不同目標</figcaption></figure>
-<figure><img src="dnd-skills3/blink.gif" alt="閃現" loading="lazy"><figcaption><b>閃現</b><br>瞬移到前方 4 公尺</figcaption></figure>
-<figure><img src="dnd-skills3/emberservant.gif" alt="灰燼僕從" loading="lazy"><figcaption><b>灰燼僕從</b><br>召喚火元素僕從 15 秒</figcaption></figure>
-</div>
-<h2><span class="num">5</span>生存</h2>
-<div class="grid3">
-<figure><img src="dnd-skills3/stoneskin.gif" alt="石膚" loading="lazy"><figcaption><b>石膚</b><br>角色整體變成石灰色，減傷 50%</figcaption></figure>
-<figure><img src="dnd-skills3/lantern.gif" alt="提燈術" loading="lazy"><figcaption><b>提燈術</b><br>視野大幅擴大 20 秒</figcaption></figure>
-</div>
-
-<h2><span class="num">6</span>還可以再往上加的</h2>
-<div class="note warn">
-<p>目前特效仍然全部是<b>加法混合的平面貼片</b>（這款沒有粒子系統，也刻意不用
-Light 元件——技能若真的照亮環境，「照明是要爭取的資源」這個核心設計就被繞過去）。
-在這個框架下，質感的上限大概就是「漸層 + 多層疊加 + 本體染色」。</p>
-<p>如果你要更接近商業遊戲的水準，下一步得引入真正的粒子系統或序列幀素材，
-那是另一個量級的工作（也會需要美術資源），要的話跟我說，我先評估再動。</p>
-</div>
-
-<footer>地城迴響 · 技能演出第三版</footer>
+<footer>地城迴響 · 已封存的預覽頁</footer>
 </div>
 </body>
 </html>

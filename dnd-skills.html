@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>技能展示總覽</title>
+<title>已封存：14 個技能書技能的第一版總覽</title>
 <style>
 :root{
   --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
@@ -87,71 +87,40 @@ a{color:var(--gold)}
 .tag.new{background:var(--note-bg);color:var(--gold)}
 .tag.live{background:var(--live-bg);color:var(--live-line)}
 footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+tr.cap td{opacity:.55}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
 </style>
+
 </head>
 <body>
 <div class="wrap">
-<p class="eyebrow">地城迴響 · 技能展示</p>
-<h1>14 個技能書技能的實際效果</h1>
-<p class="lede">每個技能一段 GIF，內容是<b>「還沒開 → 發動 → 生效中」</b>的完整一輪，
-不是只有命中那一瞬間。左下角的 buff 圖示與武器上的光效都在畫面裡，
-可以直接對照。哪個看起來不對，跟我說是哪一個就好。</p>
-
+<p class="eyebrow">地城迴響 · 已封存</p>
+<h1>這一頁的圖片已經清掉了</h1>
+<p class="lede">這裡原本是「14 個技能書技能的第一版總覽」。它已經被後續版本取代，
+而每一版的 GIF 都是幾十 MB，全部留著會讓網站越來越慢，所以圖片素材清掉了。</p>
+<p><b>要看最新的，請到這裡：</b><br>
+<a href="dnd-skills4.html">技能光源與擊退（第四版）</a></p>
 <div class="note">
-<p>錄的是 <b>iOS 模擬器的實際遊戲畫面</b>（含 UI），不是素材預覽。畫面上方的
-橘紅色「BETA・技能書掉率測試 8%」表示這是<b>臨時調高掉率的測試版</b>——
-正式版會改回 0.08%，那行字也會自動變回金色的 BETA。</p>
-<p>為了在暗色地城裡看得清楚，GIF 有整體提亮處理；實機會比這裡再暗一些。
-沙包敵人設成打不死，所以附魔類可以一直看到命中特效。</p>
+<p>這一頁保留下來只是為了讓舊連結還能開，不會變成 404。
+文字說明沒有留——那些內容已經整併進最新版與 git 的 commit 紀錄裡。</p>
 </div>
-
-<h2><span class="num">1</span>附魔</h2>
-<p>四種共用（兩個職業都能學）。這一組是這次改動的重點：<b>持續期間武器本身會發光</b>、左下角有 buff 圖示顯示剩餘時間，不再是只有命中瞬間才看得到。</p>
-<div class="grid3">
-<figure><img src="dnd-skills/enchant_fire.gif" alt="烈焰附魔" loading="lazy"><figcaption><b>烈焰附魔</b><br>12 秒內普攻附加火焰傷害　<span class="pill">buff 色：橘紅</span></figcaption></figure>
-<figure><img src="dnd-skills/enchant_frost.gif" alt="霜寒附魔" loading="lazy"><figcaption><b>霜寒附魔</b><br>12 秒內普攻附加冰霜傷害並減速敵人　<span class="pill">buff 色：藍白</span></figcaption></figure>
-<figure><img src="dnd-skills/enchant_storm.gif" alt="雷擊附魔" loading="lazy"><figcaption><b>雷擊附魔</b><br>12 秒內普攻有機率連鎖到附近的敵人　<span class="pill">buff 色：紫白</span></figcaption></figure>
-<figure><img src="dnd-skills/enchant_venom.gif" alt="劇毒附魔" loading="lazy"><figcaption><b>劇毒附魔</b><br>12 秒內普攻附加持續毒傷　<span class="pill">buff 色：綠</span></figcaption></figure>
-</div>
-<h2><span class="num">2</span>戰士</h2>
-<div class="grid3">
-<figure><img src="dnd-skills/charge.gif" alt="衝鋒" loading="lazy"><figcaption><b>衝鋒</b><br>向前衝刺，撞到的敵人被擊退並受傷</figcaption></figure>
-<figure><img src="dnd-skills/whirlwind.gif" alt="旋風斬" loading="lazy"><figcaption><b>旋風斬</b><br>原地旋轉 1.5 秒，持續打擊周圍所有敵人</figcaption></figure>
-<figure><img src="dnd-skills/warcry.gif" alt="戰吼" loading="lazy"><figcaption><b>戰吼</b><br>8 秒內攻擊 +25%、受到的傷害 −15%　<span class="pill">buff 色：金</span></figcaption></figure>
-<figure><img src="dnd-skills/bloodrage.gif" alt="血怒" loading="lazy"><figcaption><b>血怒</b><br>消耗生命換取大幅攻速，持續 8 秒　<span class="pill">buff 色：紅</span></figcaption></figure>
-</div>
-<h2><span class="num">3</span>法師</h2>
-<div class="grid3">
-<figure><img src="dnd-skills/blink.gif" alt="閃現" loading="lazy"><figcaption><b>閃現</b><br>瞬間移動到前方 4 公尺</figcaption></figure>
-<figure><img src="dnd-skills/frostnova.gif" alt="寒冰新星" loading="lazy"><figcaption><b>寒冰新星</b><br>凍結周圍的敵人 2 秒</figcaption></figure>
-<figure><img src="dnd-skills/arcanemissiles.gif" alt="奧術飛彈" loading="lazy"><figcaption><b>奧術飛彈</b><br>射出 5 發自動追蹤的飛彈</figcaption></figure>
-<figure><img src="dnd-skills/emberservant.gif" alt="灰燼僕從" loading="lazy"><figcaption><b>灰燼僕從</b><br>召喚火元素僕從協同作戰 15 秒</figcaption></figure>
-</div>
-<h2><span class="num">4</span>生存</h2>
-<div class="grid3">
-<figure><img src="dnd-skills/stoneskin.gif" alt="石膚" loading="lazy"><figcaption><b>石膚</b><br>5 秒內受到的傷害減半，但移動變慢　<span class="pill">buff 色：灰</span></figcaption></figure>
-<figure><img src="dnd-skills/lantern.gif" alt="提燈術" loading="lazy"><figcaption><b>提燈術</b><br>20 秒內視野大幅擴大　<span class="pill">buff 色：黃</span></figcaption></figure>
-</div>
-
-<h2><span class="num">5</span>錄的時候發現的問題</h2>
-<div class="note warn">
-<p><b>瞬發技能的 GIF 有一段「什麼都沒發生」。</b>衝鋒、閃現、寒冰新星、
-奧術飛彈是瞬發，旋風斬只有 1.5 秒，但每段 GIF 固定 7.5 秒，
-所以效果結束後還有幾秒空景。這是錄製節奏的問題不是技能本身的問題，
-但看的時候要知道「後面沒東西是正常的」。要我把瞬發類的片段剪短也可以。</p>
-<p><b>畫面偏暗、角色偏小。</b>遊戲的鏡頭是固定的斜俯視，我沒有為了錄影去改它
-（改了就不是玩家實際看到的樣子）。GIF 已經提亮過，但細節仍然不如靜態截圖清楚。</p>
-</div>
-
-<h2><span class="num">6</span>需要你決定的</h2>
-<div class="scroll"><table>
-<tr><th>要決定的</th><th>為什麼不能我自己決定</th></tr>
-<tr><td>哪些技能的特效要加強／收斂</td><td>「夠不夠有展示感」是美術判斷。上一輪就是我覺得可以、實機看起來卻是「一閃即逝」</td></tr>
-<tr><td>buff 圖示用色條還是倒數數字</td><td>目前是色條為主、秒數小字在下。戰鬥中哪個比較好讀，要實際玩過才知道</td></tr>
-<tr><td>瞬發技能的 GIF 要不要剪短</td><td>剪短比較好看，但會失去「技能持續多久」的真實感</td></tr>
-</table></div>
-
-<footer>地城迴響 · 技能展示</footer>
+<footer>地城迴響 · 已封存的預覽頁</footer>
 </div>
 </body>
 </html>
