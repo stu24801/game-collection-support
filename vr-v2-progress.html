@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼復仇 v2 實作進度</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 實作中</p>
+<h1>v2 實作進度</h1>
+<p class="lede">階段① 完成：三條缺失的進化路線補齊，外加一個真 bug。　這一頁會隨著每個階段更新，網址不變，可以存起來重複打開。</p>
+<div class="toc"><ol><li><a href="#g0">進度總覽</a></li><li><a href="#g1">硬碟：7.13 GB → 12.40 GB</a></li><li><a href="#g2">① 補齊三條缺失的進化路線</a></li><li><a href="#g3">順手修掉的一個真 bug</a></li><li><a href="#g4">驗證（三道，全過）</a></li><li><a href="#g5">共用系統的風險（你要求要講清楚的）</a></li><li><a href="#g6">還沒驗到的（老實說）</a></li></ol></div>
+<hr>
+<h2 id="g0">進度總覽</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>階段</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>①</td>
+<td>補齊三條缺失的進化路線</td>
+<td>✅ <strong>完成</strong>（commit <code>cea6cb4</code>）</td>
+</tr>
+<tr>
+<td>—</td>
+<td>修 <code>VrProjectile</code> 擊退負值被吃掉</td>
+<td>✅ <strong>完成</strong>（同一筆）</td>
+</tr>
+<tr>
+<td>②</td>
+<td>10 分鐘突擊模式</td>
+<td>⏳ 進行中</td>
+</tr>
+<tr>
+<td>③</td>
+<td>無盡模式</td>
+<td>⬜ 待做</td>
+</tr>
+<tr>
+<td>④</td>
+<td>新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</td>
+<td>⬜ 待做</td>
+</tr>
+<tr>
+<td>⑤</td>
+<td>新武器組（4 基礎 ＋ 4 進化）</td>
+<td>⬜ 待做</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>四題開放問題照提案裡的建議走</strong>（你沒有逐一回覆，之後要改隨時說）：
+美術先做 <strong>Tier 0</strong>（只做圖示、$0.40，而且<strong>目前一毛都還沒花</strong>）／
+新武器<strong>綁定新種族</strong>／無盡<strong>不分榜</strong>、只在榜上標「無盡 第 N 輪」／
+突擊模式<strong>不上傳線上榜</strong>，只記本機最佳。</p>
+<hr />
+<h2 id="g1">硬碟：7.13 GB → 12.40 GB</h2>
+<p>B 類也清掉了。<strong>沒有任何美術檔案被刪到</strong>——<code>Assets/Resources/Art</code> 底下
+1961 張 PNG 一張不少，<code>git status</code> 對那個路徑完全乾淨。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: right;">刪掉的量</th>
+<th style="text-align: right;">淨增</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1 拆幀中間產物 <code>去背輸出/</code></td>
+<td style="text-align: right;">186 MB</td>
+<td style="text-align: right;">+186 MB</td>
+</tr>
+<tr>
+<td>A2 <code>/tmp/b162</code> Xcode DerivedData</td>
+<td style="text-align: right;">3.62 GB</td>
+<td style="text-align: right;">+3.00 GB</td>
+</tr>
+<tr>
+<td>A3 106 個超過 48 小時的 log</td>
+<td style="text-align: right;">217 MB</td>
+<td style="text-align: right;">+217 MB</td>
+</tr>
+<tr>
+<td>B1 <code>unity/VampireRevenge/Library/</code></td>
+<td style="text-align: right;">1.72 GB</td>
+<td style="text-align: right;">+0.88 GB</td>
+</tr>
+<tr>
+<td>B2 <code>unity/VampireRevenge/Build/</code></td>
+<td style="text-align: right;">1.24 GB</td>
+<td style="text-align: right;">+0.83 GB</td>
+</tr>
+<tr>
+<td>B3 <code>worktree-vampire-bgm-prompts</code></td>
+<td style="text-align: right;">164 MB</td>
+<td style="text-align: right;">+164 MB</td>
+</tr>
+<tr>
+<td></td>
+<td style="text-align: right;"><strong>7.15 GB</strong></td>
+<td style="text-align: right;"><strong>+5.27 GB</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>淨增比刪掉的量少，是因為期間有其他 session 在同時寫入（現在正在刪
+<code>unity/CyberSurvivor/</code>）。刪掉的東西沒有少，是同時有人在長回來。</p>
+<blockquote>
+<p><code>Library/</code> 刪掉之後<strong>下一次開 Unity 會重新匯入，大約十幾分鐘</strong>。
+這是預期內的一次性成本，不是壞掉。</p>
+</blockquote>
+<hr />
+<h2 id="g2">① 補齊三條缺失的進化路線</h2>
+<h3>現況查證</h3>
+<p>十把基礎武器裡有三把沒有進化終點，而且我回頭查了 Expo 原版
+<code>src/vampire/game/data.ts:452</code>——<strong>原版也只有 7 組，所以這不是移植漏掉的，
+是從來沒設計過</strong>。其中十字斬是<strong>狼人的起手武器</strong>，等於選狼人想追進化
+就得先把起手武器換掉。</p>
+<h3>新增的三組</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>新進化</th>
+<th>＝ 武器 Lv6</th>
+<th>× 被動 Lv3</th>
+<th>家族</th>
+<th>新機制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🩸 <strong>血刃輪舞</strong></td>
+<td>⚔️ 十字斬</td>
+<td>🌵 荊棘甲</td>
+<td>Arc</td>
+<td>整圈連斬 <strong>＋ 把敵人整片掃開</strong></td>
+</tr>
+<tr>
+<td>☣️ <strong>疫毒領域</strong></td>
+<td>🧄 大蒜光環</td>
+<td>☕ 濃縮咖啡</td>
+<td>Aura</td>
+<td>域內敵人<strong>受到的所有傷害 +20%</strong></td>
+</tr>
+<tr>
+<td>🌌 <strong>隕星引力</strong></td>
+<td>☄️ 隕石術</td>
+<td>🧲 吸寶磁鐵</td>
+<td>Meteor</td>
+<td>落地前<strong>先把周圍的敵人吸過來</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>配對不是隨便湊的：十字斬 × 荊棘甲 都是「讓敵人靠近才有價值」的東西；
+大蒜光環的身分就是「全遊戲冷卻最短的傷害源」，咖啡把它推到極限；
+磁鐵原本只有「撿寶石」一個用途，接上「引力」主題之後，
+<strong>這遊戲第一次有了聚怪手段</strong>——原本 AoE 武器只能等敵人自己走進來。</p>
+<h3>數值</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>基礎（Lv6）</th>
+<th>進化</th>
+<th>倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>十字斬 → 血刃輪舞</td>
+<td>70 傷 / 0.85s / 半徑 98</td>
+<td>120 傷 / 0.60s / 半徑 145 / 擊退 ×1.5</td>
+<td><strong>DPS ×2.43</strong></td>
+</tr>
+<tr>
+<td>大蒜光環 → 疫毒領域</td>
+<td>19 傷 / 0.30s / 半徑 116</td>
+<td>38 傷 / 0.24s / 半徑 175 / 易傷 ×1.2</td>
+<td><strong>DPS ×2.50</strong></td>
+</tr>
+<tr>
+<td>隕石術 → 隕星引力</td>
+<td>170 傷 ×3 / 2.40s / 半徑 135</td>
+<td>300 傷 ×4 / 2.00s / 半徑 170 / 吸引 1.6×</td>
+<td><strong>DPS ×2.82</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>既有 7 把進化的吞吐倍率落在 2.0–3.6 之間，這三把都在區間內
+（有自動斷言守著，超出範圍測試會紅）。</p>
+<h3>結果：每一把基礎武器現在都有終點了</h3>
+<p>而且把提案 ⑤ 的四把也算進去的話，<strong>16 個被動裡「能當進化鑰匙的 14 個」
+會全部有用途</strong>。剩下兩個（複製護符、天使雕像）是<strong>結構上不可能</strong>——
+進化門檻寫死 <code>PassiveLv = 3</code>，而它們的上限是 2，永遠到不了。</p>
+<hr />
+<h2 id="g3">順手修掉的一個真 bug</h2>
+<p><code>VrProjectile.cs:93</code></p>
+<pre><code class="language-csharp">// 修改前
+knockMul = knockMultiplier &lt;= 0f ? 1f : knockMultiplier;
+// 修改後
+knockMul = knockMultiplier == 0f ? 1f : knockMultiplier;
+</code></pre>
+<p>擊退的方向向量是「敵人座標 − 玩家座標」，<strong>乘上負數就變成「把敵人拉向玩家」</strong>。
+原本的 <code>&lt;= 0</code> 會把負值一起當成「沒設定」吃掉。</p>
+<p>這是提案 ⑤ 那把「血鎖」的整個定位，先修起來放。
+<strong>這個 bug 編譯過、自動測試也會是綠的</strong>，症狀只會是「這把武器手感很普通」
+——正好是 CLAUDE.md 裡記的那一類。</p>
+<hr />
+<h2 id="g4">驗證（三道，全過）</h2>
+<p>我另外寫了兩支可重複跑的檢查，都進了版控：</p>
+<h3>1. <code>tools/csccheck/compile.sh</code> — 不用開 Unity 的編譯 gate</h3>
+<pre><code>來源檔 169 個，error CS = 0
+✅ 編譯通過
+</code></pre>
+<p>CLAUDE.md 的規則 2 要求「建置失敗要 gate，不能拿舊執行檔跑」，但開 Unity
+重建 <code>Library/</code> 要十幾分鐘、還要吃 1.7 GB 硬碟。這支直接拿 Unity 內附的
+Roslyn 去編 <code>Assets/Scripts</code>，<strong>約 10 秒</strong>。</p>
+<h3>2. <code>tools/vrdatacheck/run.sh</code> — 資料層驗證</h3>
+<p><code>VampireData.cs</code> 本來就刻意不相依 UnityEngine（檔頭註解寫明「可以在 Unity
+之外編譯執行、逐欄比對數值」），所以可以獨立跑。驗這些：</p>
+<ul>
+<li>每個 combo 的武器／被動／進化 id 都存在</li>
+<li><strong>被動的 <code>MaxLv</code> ≥ 門檻 3</strong> ← 這條最重要，拿複製護符（上限 2）當鑰匙的話
+  那條路線永遠湊不出來，而且完全不會報錯</li>
+<li>進化武器標了 <code>Evolved</code>（才不會被三選一直接抽到）</li>
+<li>一把武器只對到一條進化、一個進化只被一組指向</li>
+<li><strong>家族推導</strong>：血刃輪舞 → Arc、疫毒領域 → Aura、隕星引力 → Meteor</li>
+<li><strong>既有行為沒被改到</strong>：十字斬 <code>Knock == 0</code>、大蒜 <code>Weaken == 0</code>、隕石 <code>Pull == 0</code></li>
+<li>強度落在既有 7 把的區間內</li>
+</ul>
+<h3>3. <code>symbols.py --check</code> — 效果值有沒有消費點</h3>
+<pre><code>第一層　只有驗證在讀的私有值　0 個
+第二層　完全沒人讀的私有值　　0 個
+</code></pre>
+<p>這是 CLAUDE.md 的第一條硬規則（血怒的病：宣告了、註解寫得好好的、
+測試也綠，但從來沒被乘進任何計算）。新增的 <code>Pull</code> / <code>Weaken</code> /
+<code>DamageTakenMul</code> 都有實際消費點。</p>
+<hr />
+<h2 id="g5">共用系統的風險（你要求要講清楚的）</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>動到什麼</th>
+<th>風險</th>
+<th>怎麼處理的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VrEnemy</code> 新增狀態欄位 <code>weakenUntil</code> / <code>weakenMul</code></td>
+<td><strong>物件池會重用同一個實例</strong>，不清的話上一隻身上的易傷會被下一隻繼承——症狀是「敵人多的時候偶爾有一隻莫名其妙很脆」，而且查不出來</td>
+<td>在共用的 <code>ClearAbilities()</code> 重置，跟既有的 <code>slowUntil</code> 同一個位置</td>
+</tr>
+<tr>
+<td><code>VrDirector.Hit()</code> 多乘一個倍率</td>
+<td>這是<strong>全遊戲每一次傷害</strong>都會走的路徑</td>
+<td>只加一行乘法，且乘在跳傷害數字<strong>之前</strong>——跳的數字必須是實際扣掉的血，不然玩家會以為易傷沒生效</td>
+</tr>
+<tr>
+<td><code>FireArc</code> / <code>FireAura</code> / <code>FireMeteor</code> 加分支</td>
+<td>可能改到既有武器的行為</td>
+<td>三個分支的條件都是「新欄位 &gt; 0」，而既有武器的那三個欄位都是 0，走原本那條。資料層驗證有斷言守住</td>
+</tr>
+<tr>
+<td>存檔格式</td>
+<td>—</td>
+<td><strong>這一階段完全沒動</strong></td>
+</tr>
+<tr>
+<td>選單 UI</td>
+<td>—</td>
+<td><strong>這一階段完全沒動</strong>（那是階段④的事，也是整個 v2 風險最高的一塊）</td>
+</tr>
+</tbody>
+</table></div>
+<h2 id="g6">還沒驗到的（老實說）</h2>
+<p>上面三道都是<strong>靜態</strong>檢查——編得過、資料接得起來、欄位有人讀。
+<strong>「易傷有沒有真的讓傷害變高」「引力有沒有真的把怪拉過去」這種行為層的事，
+要開 Unity 跑 <code>VR_SHOTS</code> 才驗得到。</strong></p>
+<p>我打算把那一次比較貴的實機驗證<strong>攢到階段②③做完再一次跑</strong>
+（<code>Library/</code> 剛被清掉，第一次匯入要十幾分鐘），而不是每個階段各跑一次。
+如果你希望現在就先看到實機畫面，跟我說，我就先跑一輪。</p>
+<a class="navlink" href="vr-v2.html">→ 原始的五項設計提案</a>
+<a class="navlink" href="vr-guide.html">→ 完全攻略</a>
+<footer>吸血鬼復仇 v2 實作進度 · unity/VampireRevenge</footer>
+</div>
+</body>
+</html>
