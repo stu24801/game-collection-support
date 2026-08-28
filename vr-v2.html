@@ -1,0 +1,2084 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼復仇 下一版：五項設計提案</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 提案階段</p>
+<h1>五項設計提案，等你確認方向</h1>
+<p class="lede">缺失的進化組合、10 分鐘突擊模式、無盡模式、新種族＋新職業、新武器組。
+每一項都有實際數值與機制設計，以及這一輪重讀程式碼查到的四件會改變做法的事。</p>
+<div class="note warn">
+<p><b>這一輪不動任何程式碼。</b>這是設計提案，等你確認方向之後才進實作。</p>
+<p><b>錢：在你點頭之前，一張圖、一支影片都不會生。</b>三個檔次可以選：
+<b>Tier 0 約 $0.40</b>（只做圖示）／<b>Tier 1 約 $2.00</b>（＋5 支新特效）／
+<b>Tier 2 約 $3.28</b>（＋新種族與職業動畫）。明細在第 8 節。</p>
+<p><b>硬碟：現在只剩 7.1 GB（99% 滿）。</b>Tier 1／Tier 2 的影片拆格會炸掉，
+動工前要先清出至少 20 GB。Tier 0 不受影響。</p>
+<p><b>禁區：五項都不需要動排行榜 Worker。</b>無盡模式有一個 <code>time</code> 上限的坑，
+但可以在 client 端一行解決——細節在第 1-3 與 4-5 節。</p>
+</div>
+<div class="toc"><ol><li><a href="#p0">先講三件事</a></li><li><a href="#p1">現況稽核（程式碼查證結果）</a></li><li><a href="#p2">提案 1：補齊缺失的進化組合</a></li><li><a href="#p3">提案 2：10 分鐘突擊模式</a></li><li><a href="#p4">提案 3：無盡模式</a></li><li><a href="#p5">提案 4：新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</a></li><li><a href="#p6">提案 5：新武器組（4 基礎 ＋ 4 進化）</a></li><li><a href="#p7">五項提案怎麼互相影響</a></li><li><a href="#p8">美術費用明細</a></li><li><a href="#p9">共用系統風險（你要求特別標注的）</a></li><li><a href="#p10">建議的執行順序</a></li><li><a href="#p11">需要你決定的</a></li><li><a href="#p12">附錄：這一輪查證過但沒有寫進提案的</a></li></ol></div>
+<hr>
+<blockquote>
+<p><strong>這一輪不動任何程式碼。</strong> 這份是設計提案，要你確認方向之後才進實作。</p>
+<p>所有「現況」都是這一輪重讀 <code>unity/VampireRevenge</code> 程式碼查證過的，
+不是照設計文件或上一份攻略的印象。查證到的東西跟預期不一樣的地方，
+都在下面「現況稽核」那一節直接寫出來——<strong>其中有四項會直接改變提案的做法</strong>。</p>
+</blockquote>
+<hr />
+<h2 id="p0">0. 先講三件事</h2>
+<h3>① 錢：AI 美術費用的範圍</h3>
+<p>提案 1 與提案 5 會產生 AI 生成費用，提案 4 也會（角色動畫）。
+<strong>在你點頭之前我一張圖、一支影片都不會生。</strong> 三個檔次的預算：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>檔次</th>
+<th>內容</th>
+<th>估價</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tier 0</strong></td>
+<td>只做必要的武器／角色<strong>圖示</strong>（2 張彙整圖）</td>
+<td><strong>約 $0.40</strong></td>
+</tr>
+<tr>
+<td><strong>Tier 1</strong></td>
+<td>Tier 0 ＋ 5 支新特效影片（讓新武器看起來不一樣）</td>
+<td><strong>約 $2.00</strong></td>
+</tr>
+<tr>
+<td><strong>Tier 2</strong></td>
+<td>Tier 1 ＋ 新種族與新職業的走路／攻擊動畫（4 支影片）</td>
+<td><strong>約 $3.28</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>加上重生／作廢的緩衝（過去紀錄大約三成），<strong>建議上限抓 $4.5</strong>。
+單價依 <code>tools/ai_pipeline/SPEND.md</code>：Grok 圖 $0.20/張、Grok 影片 $0.32（4s 720p）。
+明細見第 8 節。</p>
+<h3>② 禁區：這五項都不需要碰排行榜 Worker</h3>
+<p>CLAUDE.md 列的禁區是「排行榜（Cloudflare D1 + Workers）不要動」。
+我查過 <code>server/leaderboard-worker/src/index.ts</code>：<strong>五項提案都可以在不動 worker
+的前提下做完</strong>，但無盡模式有一個必須在 client 端處理的坑（見提案 3 的
+「排行榜相容性」）。</p>
+<h3>③ 硬碟空間：現在只剩 7.1 GB，動工前要先清</h3>
+<pre><code>/System/Volumes/Data   430Gi used / 7.1Gi avail   99% full
+</code></pre>
+<p>影片生成 → 拆格 → 去背的中間檔很佔空間（一支 4 秒 720p 影片拆完約
+200–400 MB 的 PNG）。CLAUDE.md 裡已經記過一次「archive 前跑到一半 ENOSPC
+連指令都下不了」。<strong>Tier 1／Tier 2 開工前要先清出至少 20 GB</strong>，
+否則會在拆格中途炸掉。這一項不用等我，你隨時可以先清。</p>
+<hr />
+<h2 id="p1">1. 現況稽核（程式碼查證結果）</h2>
+<p>這一節是提案的地基。<strong>有四項查證結果跟直覺不同，直接決定了後面怎麼做。</strong></p>
+<h3>1-1 進化組合：只有 7 組，而且原版就只有 7 組</h3>
+<p><code>VampireData.COMBOS</code> 有 7 筆，格式一律是
+<code>{ 武器, 被動, PassiveLv = 3, 進化成 }</code>，觸發條件是<strong>武器滿等（Lv6）＋ 被動 Lv3</strong>。</p>
+<p>我另外查了 Expo 原版 <code>src/vampire/game/data.ts:452</code>——<strong>原版也只有 7 組</strong>。
+所以十字斬／大蒜光環／隕石術沒有進化路線<strong>不是移植時漏掉的，是從來沒設計過</strong>。</p>
+<p><strong>被動的使用狀況更值得看：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>狀態</th>
+<th>被動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>已被用作進化鑰匙（7）</td>
+<td>力量護符、疾風羽、放大鏡、風之戒、生命藥草、鐵制護甲、吸血鬼牙</td>
+</tr>
+<tr>
+<td>沒被用、且<strong>可以</strong>用（7）</td>
+<td>神行靴、濃縮咖啡、巨人之心、吸寶磁鐵、霜痕靴、荊棘甲、幸運草</td>
+</tr>
+<tr>
+<td>沒被用、且<strong>結構上不可能</strong>用（2）</td>
+<td><strong>複製護符（上限 2）、天使雕像（上限 2）</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>最後那兩個是硬限制：進化門檻寫死 <code>PassiveLv = 3</code>，而這兩個被動的 <code>MaxLv</code> 是 2，
+<strong>永遠到不了 3</strong>。要讓它們當鑰匙就得把門檻改成可設定的欄位——那會動到既有 7 組
+的資料形狀，我不建議。</p>
+<h3>1-2 ⚠️ 特效的素材名稱是「照家族寫死」的，不是照武器</h3>
+<p>這是這一輪最重要的發現，<strong>它決定了提案 1 與提案 5 的美術預算</strong>。</p>
+<p><code>VrWeapons.cs</code> 與 <code>VrDirector.cs</code> 裡，特效序列的名字是字面值：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>家族</th>
+<th>寫死的素材名</th>
+<th>位置</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Chain（落雷系）</td>
+<td><code>"lightning_strike"</code></td>
+<td><code>VrWeapons.cs:266</code></td>
+</tr>
+<tr>
+<td>Nova（新星系）</td>
+<td><code>"frost_nova"</code></td>
+<td><code>VrWeapons.cs:299</code></td>
+</tr>
+<tr>
+<td>Arc（十字斬）</td>
+<td><code>"slash"</code></td>
+<td><code>VrWeapons.cs:337</code></td>
+</tr>
+<tr>
+<td>Aura（大蒜光環）</td>
+<td><code>"aura"</code></td>
+<td><code>VrWeapons.cs:382</code></td>
+</tr>
+<tr>
+<td>Zone（聖水系）</td>
+<td><code>"fire_zone"</code></td>
+<td><code>VrDirector.cs:1544</code></td>
+</tr>
+<tr>
+<td>Meteor（隕石系）</td>
+<td><code>"meteor_fly"／"meteor_burst"</code></td>
+<td><code>VrDirector.cs:1774/1831</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>只有兩個家族例外：</strong></p>
+<ul>
+<li><strong>Projectile（投射）</strong>：彈體直接用 <code>VrIconArt.SpriteOf(武器id)</code>，也就是<strong>武器自己的圖示</strong>。</li>
+<li><strong>Orbit（環繞）</strong>：環繞物同樣退回武器自己的圖示。</li>
+</ul>
+<p><strong>結論（會影響你的錢包）：</strong></p>
+<blockquote>
+<p><strong>新增投射類或環繞類的武器，只需要一張圖示，特效成本 $0。
+新增其他五個家族的武器，一定會跟既有武器長得一模一樣</strong>——
+除非同時做兩件事：生新特效素材，<strong>而且</strong>把特效名稱從字面值改成資料驅動
+（<code>WeaponDef</code> 加一個 <code>FxName</code> 欄位）。</p>
+</blockquote>
+<p>所以提案 5 的新武器組刻意以投射＋環繞為主。</p>
+<h3>1-3 ⚠️ 排行榜 worker 的 <code>time</code> 上限是 3600 秒，超過會被存成 0</h3>
+<p><code>server/leaderboard-worker/src/index.ts:39-49</code>：</p>
+<pre><code class="language-ts">const LIMITS = { name: 12, score: 5_000_000, time: 3_600, kills: 500_000, ... };
+// 註解還寫著「吸血鬼一關 10 分鐘、五關共 50 分鐘」——那是舊版，現在是 40 分鐘
+</code></pre>
+<p>而 <code>int()</code> 的行為是「超出上限就回 fallback」，吸血鬼那條的 fallback 是 <code>0</code>：</p>
+<pre><code class="language-ts">time = int(body.time, LIMITS.time, 0);   // &gt; 3600 → 存成 0
+</code></pre>
+<p><strong>無盡模式一定會撐過 60 分鐘</strong>，那些成績的存活時間會全部顯示成 0。</p>
+<p><strong>好消息是排名根本不看時間</strong>——<code>rankOf()</code> 與 <code>listScores()</code> 都是
+<code>ORDER BY score DESC</code>，而 <code>score = kills</code>（難度加權後的擊殺數）。時間只是顯示欄位。</p>
+<p>→ <strong>解法是 client 端一行</strong>：上傳時 <code>time = Mathf.Min(Elapsed, 3599f)</code>，
+結算畫面照樣顯示真實時間。<strong>不用碰 worker、不用 <code>wrangler deploy</code>。</strong></p>
+<h3>1-4 ⚠️ 選單畫面加第五個角色一定會撞版</h3>
+<p><code>VrMenuScreen.cs</code> 的版面座標是寫死的：</p>
+<ul>
+<li>角色卡 2 欄網格，第 <code>i</code> 張的 y = <code>-310 - pad - (i/2) × 330</code></li>
+<li>「選擇難度」標題<strong>寫死在 y = -970</strong></li>
+<li>這個畫面<strong>沒有捲動區</strong>（暫停面板與結算面板有，選單沒有）</li>
+</ul>
+<p>四個角色 = 2 列，第二列的底緣落在 <strong>-940</strong>，離難度標題只剩 <strong>30 個單位</strong>的餘裕。
+<strong>加第五個角色就會多出第三列，範圍是 -970 到 -1270——
+起點正好就是難度標題的位置，整個標題會被蓋在下面。</strong></p>
+<p>而提案 2（突擊模式）與提案 3（無盡模式）<strong>也都要在同一個畫面加模式選擇</strong>。
+三項疊起來，這個畫面非改捲動不可。詳見第 9 節的共用系統風險。</p>
+<h3>1-5 ⚠️「凍結」其實只是減速</h3>
+<p>順帶查到的：絕對零度的 <code>Freeze = 1.5</code> 與寒冰新星的 <code>Chill</code> 走的是同一條路——</p>
+<pre><code class="language-csharp">float slow = lv.Freeze &gt; 0f ? lv.Freeze : lv.Chill;   // 只當成「持續秒數」
+dir.SlowArea(pos, r, slow);                            // → ApplySlow → spd *= 0.45f
+</code></pre>
+<p><strong>兩者的差別只有持續時間，效果完全一樣（減速 55%）。</strong>
+說明寫「凍結敵人 1.5 秒」，實際上敵人照走，只是慢一點。</p>
+<p>這一項跟提案 4 的新職業有關（那個職業要一個真正的「定身」），所以
+<strong>提案 4 順手就會把絕對零度修好</strong>——見提案 4。</p>
+<h3>1-6 存檔系統：只有 6 個 PlayerPrefs 鍵，加欄位是安全的</h3>
+<p><code>VrProgress.cs</code> 存的是六個獨立純量鍵（<code>vr_progress_totalKills</code> 等），
+讀取一律是 <code>PlayerPrefs.GetInt/GetFloat/GetString(key, 預設值)</code>。</p>
+<p><strong>加新鍵是向後相容的</strong>：舊玩家沒有那個鍵 → 拿到預設值 → 行為等同「還沒解鎖」。
+不需要資料遷移、不需要版本號。這五項提案要加的鍵：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>新鍵</th>
+<th>用途</th>
+<th>預設</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>vr_mode</code></td>
+<td>上次選的模式（standard／blitz）</td>
+<td><code>standard</code></td>
+</tr>
+<tr>
+<td><code>vr_campaign_cleared</code></td>
+<td>有沒有通關過（解無盡模式與新種族）</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>vr_best_cycle</code></td>
+<td>無盡模式最佳輪數</td>
+<td><code>0</code></td>
+</tr>
+<tr>
+<td><code>vr_best_blitz</code></td>
+<td>突擊模式最佳擊殺</td>
+<td><code>0</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>1-7 家族是「從欄位推導」出來的，新武器要挑邊站</h3>
+<p><code>VrWeapons.FamilyOf()</code> 不是 switch 表，是照 <code>Levels[0]</code> 有哪些欄位推導：</p>
+<pre><code>Rot &gt; 0            → Orbit
+Chain &gt; 0          → Chain
+ZoneLife &gt; 0       → Zone
+Chill &gt; 0 或 Freeze &gt; 0 → Nova
+任一級 Back = true → Arc
+Speed &gt; 0          → Projectile
+Count &gt; 0          → Meteor
+其餘                → Aura
+</code></pre>
+<p><strong>好處</strong>：新武器只要往資料表加一筆、欄位對上某個家族就能跑，不用動 C#。
+<strong>限制</strong>：新武器只能是這七種行為之一。要第八種行為＝要動 <code>VrWeapons.cs</code>。
+下面所有新武器都刻意落在既有家族內。</p>
+<hr />
+<h2 id="p2">2. 提案 1：補齊缺失的進化組合</h2>
+<h3>2-1 缺什麼</h3>
+<p>10 把基礎武器，7 把有進化，<strong>缺 3 把</strong>：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>家族</th>
+<th>為什麼這一把特別該補</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚔️ <strong>十字斬</strong></td>
+<td>Arc</td>
+<td><strong>這是狼人的起手武器。</strong>選狼人想追進化，第一件事是把起手武器換掉</td>
+</tr>
+<tr>
+<td>🧄 <strong>大蒜光環</strong></td>
+<td>Aura</td>
+<td>開場最容易拿到的武器之一，中期之後沒有成長天花板</td>
+</tr>
+<tr>
+<td>☄️ <strong>隕石術</strong></td>
+<td>Meteor</td>
+<td>單發傷害最高的基礎武器（Lv6 = 170×3），卻沒有終點</td>
+</tr>
+</tbody>
+</table></div>
+<h3>2-2 三組新進化（提案）</h3>
+<p>每一組刻意配一個<strong>目前沒被任何進化用到的被動</strong>，讓冷門被動一次都有理由。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>新進化</th>
+<th>＝ 武器 Lv6</th>
+<th>× 被動 Lv3</th>
+<th>家族</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🩸 <strong>血刃輪舞</strong> <code>bladewaltz</code></td>
+<td>十字斬</td>
+<td>🌵 <strong>荊棘甲</strong></td>
+<td>Arc</td>
+</tr>
+<tr>
+<td>☣️ <strong>疫毒領域</strong> <code>plague</code></td>
+<td>大蒜光環</td>
+<td>☕ <strong>濃縮咖啡</strong></td>
+<td>Aura</td>
+</tr>
+<tr>
+<td>🌌 <strong>隕星引力</strong> <code>gravitystar</code></td>
+<td>隕石術</td>
+<td>🧲 <strong>吸寶磁鐵</strong></td>
+<td>Meteor</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>配對的理由不是隨便湊的：</strong></p>
+<ul>
+<li><strong>十字斬 × 荊棘甲</strong>：兩者都是「讓敵人靠近才有價值」的東西。十字斬是近身
+  範圍武器，荊棘甲是近身反傷被動，玩法方向一致。</li>
+<li><strong>大蒜光環 × 濃縮咖啡</strong>：大蒜光環的身分就是「全遊戲冷卻最短的傷害源」
+  （Lv6 冷卻 0.30 秒），而咖啡就是減冷卻。這一組是「把它的特色推到極限」。</li>
+<li><strong>隕石術 × 吸寶磁鐵</strong>：磁鐵目前只有「撿寶石」一個用途，是最無聊的必拿被動。
+  把它跟隕石綁在一起，變成「引力」的主題——落點會<strong>把敵人吸過來</strong>。
+  這給了遊戲目前完全沒有的一個角色：<strong>聚怪型武器</strong>。</li>
+</ul>
+<h3>2-3 數值（提案）</h3>
+<p>進化的強度基準是照既有 7 把抓的（相對基礎武器約 <strong>2.3–3.4 倍吞吐</strong>）。</p>
+<h4>🩸 血刃輪舞（Arc）</h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>傷害</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>打背面</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>十字斬 Lv6（現況）</td>
+<td>70</td>
+<td>0.85</td>
+<td>98</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>血刃輪舞</strong></td>
+<td><strong>120</strong></td>
+<td><strong>0.60</strong></td>
+<td><strong>145</strong></td>
+<td>✓</td>
+</tr>
+</tbody>
+</table></div>
+<p>換算 DPS：82 → <strong>200</strong>（2.4×），半徑 1.48×。
+<strong>追加機制</strong>：每次揮擊把範圍內的敵人往外推（擊退力道 = 疾風羽基準的 1.5 倍）。</p>
+<h4>☣️ 疫毒領域（Aura）</h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>每跳傷害</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>換算 DPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大蒜光環 Lv6（現況）</td>
+<td>19</td>
+<td>0.30</td>
+<td>116</td>
+<td>63</td>
+</tr>
+<tr>
+<td><strong>疫毒領域</strong></td>
+<td><strong>38</strong></td>
+<td><strong>0.24</strong></td>
+<td><strong>175</strong></td>
+<td><strong>158</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>DPS 2.5×，半徑 1.51×。
+<strong>追加機制（選配，見 2-4）</strong>：光環內的敵人受到的<strong>所有</strong>傷害 +20%。</p>
+<h4>🌌 隕星引力（Meteor）</h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>傷害</th>
+<th>顆數</th>
+<th>冷卻</th>
+<th>半徑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>隕石術 Lv6（現況）</td>
+<td>170</td>
+<td>3</td>
+<td>2.40</td>
+<td>135</td>
+</tr>
+<tr>
+<td><strong>隕星引力</strong></td>
+<td><strong>300</strong></td>
+<td><strong>4</strong></td>
+<td><strong>2.00</strong></td>
+<td><strong>170</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>DPS 212 → <strong>600</strong>（2.8×）。
+<strong>追加機制</strong>：預警的 0.45 秒期間，落點 1.6 倍半徑內的敵人以 220/秒被吸向落點。</p>
+<h3>2-4 每一項各要多少工</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>資料</th>
+<th>程式</th>
+<th>美術</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>三組 <code>COMBOS</code> ＋ 三筆 <code>WeaponDef</code></td>
+<td>✅ 純資料</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td>三個武器<strong>圖示</strong></td>
+<td>—</td>
+<td>0</td>
+<td>併進 1 張彙整圖</td>
+</tr>
+<tr>
+<td>血刃輪舞的<strong>擊退</strong></td>
+<td>—</td>
+<td>小：<code>FireArc</code> 目前只呼叫 <code>DamageArea</code>，要改走帶擊退的路徑</td>
+<td>—</td>
+</tr>
+<tr>
+<td>隕星引力的<strong>吸引</strong></td>
+<td>—</td>
+<td>小：<code>WeaponLevelDef</code> 加 <code>Pull</code> 欄位＋<code>MeteorStrike</code> 預警期拉敵人</td>
+<td>—</td>
+</tr>
+<tr>
+<td>疫毒領域的<strong>易傷 +20%</strong></td>
+<td>—</td>
+<td><strong>中</strong>：需要 <code>VrEnemy.DamageTakenMul</code> ＋ <code>Hit()</code> 乘進去。這就是上一份文件裡「狀態效果層」的第一塊</td>
+<td>—</td>
+</tr>
+<tr>
+<td>三支新特效（讓它們長得不一樣）</td>
+<td>—</td>
+<td>小：<code>WeaponDef</code> 加 <code>FxName</code>，六處字面值改讀它</td>
+<td><strong>3 支影片 $0.96</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>可以砍的部分</strong>：疫毒領域的易傷、以及三支新特效，都可以先不做。
+不做特效的話三把新進化會<strong>沿用基礎武器的特效</strong>（血刃輪舞長得跟十字斬一樣、
+疫毒領域長得跟大蒜光環一樣），玩法是完整的，只是看起來沒有「進化了」的感覺。</p>
+<blockquote>
+<p>⚠️ <strong>依 CLAUDE.md 的硬規則</strong>：加了 <code>Pull</code>／<code>DamageTakenMul</code> 這種效果欄位之後
+一定要跑 <code>tools/codegraph/symbols.py --check</code>。宣告了卻沒有被乘進任何計算的
+欄位正是「編譯過、測試綠、實際完全沒效果」的那個病。</p>
+</blockquote>
+<hr />
+<h2 id="p3">3. 提案 2：10 分鐘突擊模式</h2>
+<h3>3-1 為什麼「除以四」是錯的</h3>
+<p>直覺做法是把所有時間點 ÷4。<strong>這在兩個地方會壞掉：</strong></p>
+<p><strong>① 玩家會嚴重欠等級。</strong>
+敵人強度是綁「絕對分鐘數」的（<code>hpMul = 1 + 0.35×分鐘</code>），時間軸壓縮 4 倍之後，
+如果爬升率也 ×4，第 10 分鐘的敵人跟原本第 40 分鐘一樣強（血量 ×15）。
+<strong>但玩家的等級不是綁時間的，是綁「殺了幾隻、撿了多少寶石」。</strong>
+時間只剩四分之一，殺的隻數也只剩大約四分之一 → 玩家會用四分之一的裝備
+去打滿強度的敵人。</p>
+<p><strong>② 節奏會爛掉。</strong>
+如果每個子系統都 ÷4：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>子系統</th>
+<th>標準模式</th>
+<th>天真 ÷4</th>
+<th>問題</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>精英</td>
+<td>每 48 秒</td>
+<td>每 12 秒</td>
+<td>精英變成雜兵，「打精英拿補給」的節奏消失</td>
+</tr>
+<tr>
+<td>神秘商人</td>
+<td>7 次</td>
+<td>7 次／10 分鐘</td>
+<td>每 65 秒遇到一次，「一期一會」完全不成立</td>
+</tr>
+<tr>
+<td>魔王</td>
+<td>10 隻</td>
+<td>每 60 秒一隻</td>
+<td>沒有喘息，整局都在打王</td>
+</tr>
+<tr>
+<td>包圍網</td>
+<td>每 72 秒 36 隻</td>
+<td>每 18 秒 36 隻</td>
+<td>手機效能直接爆掉</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3-2 提案：時間軸 ÷4，但每個子系統各自重訂</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>標準（40 分）</th>
+<th><strong>突擊（10 分）</strong></th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>總時長</td>
+<td>2400s</td>
+<td><strong>600s</strong></td>
+<td>÷4</td>
+</tr>
+<tr>
+<td>關卡切點</td>
+<td>480/960/1440/1920</td>
+<td><strong>120/240/360/480</strong></td>
+<td>÷4，5 關 × 2 分鐘。<strong>關卡結構是這個遊戲的骨架，這一項照除</strong></td>
+</tr>
+<tr>
+<td>血量爬升</td>
+<td><code>1 + 0.35×分鐘</code></td>
+<td><strong><code>1 + 1.40×分鐘</code></strong></td>
+<td>×4，第 10 分鐘同樣是 ×15</td>
+</tr>
+<tr>
+<td>傷害爬升</td>
+<td><code>1 + 0.15×分鐘</code></td>
+<td><strong><code>1 + 0.60×分鐘</code></strong></td>
+<td>×4，同樣終點 ×7</td>
+</tr>
+<tr>
+<td>波次表</td>
+<td>31 筆</td>
+<td><strong>同一張表，時間 ÷4</strong></td>
+<td>不另做一張表</td>
+</tr>
+<tr>
+<td>刷怪間隔</td>
+<td>表定值</td>
+<td><strong>表定值 × 0.5</strong></td>
+<td>吞吐 ×2（不是 ×4，見下）</td>
+</tr>
+<tr>
+<td>寶石經驗</td>
+<td>×1</td>
+<td><strong>×2.5（待實測校正）</strong></td>
+<td>補回等級曲線</td>
+</tr>
+<tr>
+<td>精英</td>
+<td>每 48s（約 50 隻）</td>
+<td><strong>每 20s（30 隻）</strong></td>
+<td>不是 ÷4，保留「事件感」</td>
+</tr>
+<tr>
+<td>包圍網</td>
+<td>16:00 起每 72s，36 隻</td>
+<td><strong>4:00 起每 30s，28 隻</strong></td>
+<td>隻數下修，顧手機效能</td>
+</tr>
+<tr>
+<td>神秘商人</td>
+<td>7 次，停 45s</td>
+<td><strong>3 次（1:15／4:00／7:00），停 30s</strong></td>
+<td>保留稀有度</td>
+</tr>
+<tr>
+<td>魔王</td>
+<td>10 隻</td>
+<td><strong>5 隻（每關 1 隻）</strong></td>
+<td>見下表</td>
+</tr>
+<tr>
+<td>血月獵殺者</td>
+<td>追 30／休 5</td>
+<td><strong>追 20／休 8</strong></td>
+<td>2 分鐘的關卡裡休息 5 秒太短</td>
+</tr>
+<tr>
+<td>暴風雪牆</td>
+<td>速度 131</td>
+<td><strong>131（不變）</strong></td>
+<td>這是空間機制不是時間機制，改了會變成另一回事</td>
+</tr>
+<tr>
+<td>武器／被動欄位</td>
+<td>Lv45／Lv50 起擴充</td>
+<td><strong>不變</strong></td>
+<td>經驗倍率校正後等級曲線一致，門檻不用改</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>突擊模式的 5 隻魔王</strong>（從既有 10 隻裡挑每一關的代表，不新增資料）：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>時間</th>
+<th>魔王</th>
+<th>血量</th>
+<th>對應關卡</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:45</td>
+<td>👺 鬼面武者</td>
+<td>800</td>
+<td>幽暗森林</td>
+</tr>
+<tr>
+<td>2:45</td>
+<td>🐉 滅世魔龍</td>
+<td>5,000</td>
+<td>血月荒原</td>
+</tr>
+<tr>
+<td>4:45</td>
+<td>🦖 碎骨暴龍</td>
+<td>10,000</td>
+<td>深淵沼澤</td>
+</tr>
+<tr>
+<td>6:45</td>
+<td>🕷️ 深淵蜘蛛后</td>
+<td>17,000</td>
+<td>冰雪絕地</td>
+</tr>
+<tr>
+<td>9:15</td>
+<td>☠️ 滅世之神</td>
+<td>46,000</td>
+<td>魔王城堡</td>
+</tr>
+</tbody>
+</table></div>
+<h3>3-3 為什麼是「吞吐 ×2 ＋ 經驗 ×2.5」而不是「吞吐 ×4」</h3>
+<p>刷怪吞吐直接 ×4 的話，最後一段波次會變成<strong>每 0.175 秒 11 隻＝每秒 63 隻</strong>。
+<code>MAX_ENEMIES</code> 是 1500，而那個數字<strong>在 iPhone 上從來沒實測過</strong>
+（<code>VampireData.cs</code> 的註解自己寫明了）。把峰值再乘四是拿效能去賭。</p>
+<p>所以改成：<strong>吞吐只 ×2、用寶石經驗倍率把等級補回來。</strong>
+這樣峰值只有標準模式的兩倍，等級曲線靠一個純數值旋鈕校正。</p>
+<blockquote>
+<p>⚠️ <strong>2.5 這個數字是估的，必須量出來。</strong>
+玩家的擊殺數在中後期不是被刷怪速度決定的，是被自己的清場能力決定的
+——所以「時間 ÷4 就是擊殺 ÷4」這個推論並不可靠，算不出正確倍率。</p>
+<p>做法：用既有的 <code>VR_SHOTS</code> 自動驗證跑 A/B——標準 40 分跑一場、突擊 10 分跑一場，
+在<strong>同一個關卡進度</strong>（例如各自的第 3 關開頭）比對玩家等級與武器等級，
+把倍率調到兩條曲線重合。這條路徑跟 CLAUDE.md 的「對照實驗必須同一時間點、
+同一批對象」是同一個要求。</p>
+</blockquote>
+<h3>3-4 實作方式：<code>ModeDef</code> 資料表，不要散在各處</h3>
+<p>現況 <code>VrDirector</code> 有六個地方各自拿 <code>Elapsed</code> 去比對常數
+（<code>SpawnStep</code>／<code>EliteStep</code>／<code>RingStep</code>／<code>BossSpawnStep</code>／<code>UpdateMerchant</code>／<code>StageStep</code>）。
+<strong>如果每個地方各乘一次倍率，一定會漏掉一個。</strong></p>
+<p>提案：加一個 <code>ModeDef</code>（跟 <code>DifficultyDef</code> 同一種東西），把上表整個裝進去：</p>
+<pre><code>ModeDef {
+  Name, WinTime, StageTimes[], HpRate, DmgRate,
+  SpawnIntervalMul, XpMul, EliteInterval,
+  RingStart, RingInterval, RingCount,
+  MerchantTimes[], MerchantStay, BossTimes[], HunterChase, HunterRest
+}
+</code></pre>
+<p>標準模式就是把現在的常數填進去的那一筆。<strong>這樣「加模式」變成加資料，
+不是改流程</strong>，也讓後面的無盡模式（提案 3）共用同一條路。</p>
+<h3>3-5 成本與效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>實作成本</strong></td>
+<td><strong>中</strong>。<code>ModeDef</code> 重構是主要工作（要小心六個讀 <code>Elapsed</code> 的點一個都不能漏）；經驗倍率的 A/B 校正要另外算半天</td>
+</tr>
+<tr>
+<td><strong>美術成本</strong></td>
+<td><strong>$0</strong>（沒有任何新素材）</td>
+</tr>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★★★ 40 分鐘是「必須專門空出來」的長度。10 分鐘塞得進通勤與排隊</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★ 升級速度快 2.5 倍，節奏完全不同，實際上是另一種玩法</td>
+</tr>
+<tr>
+<td><strong>風險</strong></td>
+<td>經驗倍率沒校正好的話，突擊模式會變成「一直死」或「無腦贏」，兩種都很難第二次打開</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p4">4. 提案 3：無盡模式</h2>
+<h3>4-1 這個遊戲沒有「波次」，所以要先定義「一輪」</h3>
+<p>殭屍防線的無盡很直接：它本來就是波次制，<code>ZombieFormulas</code> 的公式又是純波數線性，
+打完第 8 波把 <code>Wave++</code> 繼續加就好（<code>ZlDirector.cs:686</code>）。</p>
+<p><strong>吸血鬼是連續生存制，沒有波次可以加。</strong> 所以要先定義一個等價的單位：</p>
+<blockquote>
+<p><strong>一輪（Cycle）＝ 40 分鐘的正篇長度。</strong>
+第 1 輪 = 0–40 分（正篇）、第 2 輪 = 40–80 分、以此類推。
+每一輪裡面，<strong>五個關卡照 1→5 再跑一次</strong>（重用既有的五套場地素材，
+不需要任何新美術），關卡機制（血月獵殺者、暴風雪牆）也照樣重來。</p>
+</blockquote>
+<p>這樣做的好處是<strong>節奏感直接沿用</strong>：玩家已經熟悉「8 分鐘換一次場景、
+每關兩隻魔王」的呼吸，無盡不是變成一鍋均質的怪湯。</p>
+<h3>4-2 進入無盡的方式：給玩家選，不要自動接上去</h3>
+<p>殭屍防線是打完第 8 波自動進無盡。<strong>吸血鬼不建議照抄</strong>——
+40 分鐘是很大的投入，玩家可能就是想把這場勝利收下來。</p>
+<p>提案：撐滿 2400 秒時，<strong>跳一個面板</strong>（用轉職彈窗那一套已經存在的
+「凍結模擬 ＋ 開面板」狀態機，<code>RunState</code> 加一個值）：</p>
+<pre><code>        🏆  你活下來了
+
+   存活 40:00　擊殺 3,142　等級 58
+
+  ┌──────────────┐  ┌──────────────┐
+  │  結算收工     │  │  進入無盡 ▶  │
+  └──────────────┘  └──────────────┘
+</code></pre>
+<ul>
+<li><strong>結算收工</strong> ＝ 今天的行為，一個字都不改。</li>
+<li><strong>進入無盡</strong> ＝ 標記 <code>CampaignCleared</code>、繼續跑，之後只會因為死亡而結束。</li>
+</ul>
+<p><strong>不論選哪一邊，<code>vr_campaign_cleared</code> 都會被寫入</strong>——那是新種族的解鎖條件（提案 4）。</p>
+<h3>4-3 強度怎麼繼續爬</h3>
+<p><strong>底層曲線天生就能外插。</strong> <code>hpMul = (1 + 分鐘 × 0.35)</code> 沒有上限，
+80 分鐘 = ×29、120 分鐘 = ×43。這跟殭屍防線「公式本身就能外插，
+不用另設曲線」是同一個情況。</p>
+<p><strong>但線性不夠。</strong> 玩家的傷害是倍率<strong>連乘</strong>（力量護符 × 精通 × 職業…），
+而且精通可以無限疊（每層 +4%／+9%）。線性的敵人血量會被追過去。</p>
+<p>提案：在既有曲線上再乘一個<strong>每輪的倍率</strong>：</p>
+<pre><code>最終血量倍率 = (1 + 分鐘 × 0.35) × 難度倍率 × 1.30^(輪數 - 1)
+最終傷害倍率 = (1 + 分鐘 × 0.15) × 1.15^(輪數 - 1)
+</code></pre>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>輪</th>
+<th>時間</th>
+<th>每輪額外倍率</th>
+<th>血量倍率（普通）</th>
+<th>傷害倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0–40 分</td>
+<td>×1.00 / ×1.00</td>
+<td>×1 → <strong>×15</strong></td>
+<td>×1 → <strong>×7</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>40–80 分</td>
+<td>×1.30 / ×1.15</td>
+<td>×19.5 → <strong>×37.7</strong></td>
+<td>×8.1 → <strong>×15.0</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td>80–120 分</td>
+<td>×1.69 / ×1.32</td>
+<td>×49.0 → <strong>×72.7</strong></td>
+<td>×17.2 → <strong>×25.1</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>⚠️ <strong>1.30 與 1.15 都是估的</strong>，要跟提案 2 的經驗倍率一樣用 A/B 量。
+判斷基準：<strong>第 2 輪的存活時間應該落在第 1 輪的 40%–60%</strong>——
+太長代表沒難度，太短代表玩家覺得「一進無盡就被秒」。</p>
+</blockquote>
+<p><strong>敵種</strong>：無盡期間固定用波次表的最後一筆（混沌術士／死靈巫師／墮天使／死神），
+但每一輪 <code>刷怪間隔 × 0.94</code>、<code>一批 +1 隻</code>，上限由 <code>MAX_ENEMIES</code> 與效能守門。</p>
+<p><strong>魔王</strong>：正篇 10 隻整組重跑，血量 <code>× (1 + 0.8 × (輪數-1))</code>，
+技能冷卻 <code>3.4 秒 × 0.85^(輪數-1)</code>（第 3 輪 = 2.46 秒）。</p>
+<h3>4-4 無盡限定機制（這是新鮮感的來源，不只是數字變大）</h3>
+<p><strong>只把數字往上加的無盡模式，第二次就不會有人打開。</strong> 提案兩個限定機制：</p>
+<h4>🦹 獵殺者不再只在第二關</h4>
+<p>第 2 輪起，<strong>血月獵殺者全程在場</strong>（不再只有血月荒原那 8 分鐘），
+但保留「追 30 秒／休 5 秒」的節奏。它的速度是 160、你是 180——
+跑得掉但甩不掉，這給無盡一個<strong>持續的壓力來源</strong>而不只是更肥的血條。</p>
+<p>第 3 輪起追擊速度 +10（每輪 +10，上限 200）。</p>
+<h4>☠️ 輪迴詛咒（三選一，必選）</h4>
+<p>每進入新的一輪，跳一個<strong>「三選一詛咒」</strong>面板——
+<strong>完全複用既有的升級三選一 UI 與 <code>VrLoadout</code> 結構</strong>，只是卡片是負面的。
+玩家必須選一個，換取<strong>該輪之後的分數倍率 +25%</strong>（可累加）。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>詛咒</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🩸 失血</td>
+<td>你的最大生命 −20%</td>
+</tr>
+<tr>
+<td>👣 遲滯</td>
+<td>敵人移速 +12%</td>
+</tr>
+<tr>
+<td>🧲 短視</td>
+<td>拾取範圍 −40%</td>
+</tr>
+<tr>
+<td>⚔️ 鈍化</td>
+<td>你的所有傷害 −12%</td>
+</tr>
+<tr>
+<td>🕰️ 焦躁</td>
+<td>所有攻擊冷卻 +10%</td>
+</tr>
+<tr>
+<td>💀 密集</td>
+<td>精英改成每 30 秒一隻</td>
+</tr>
+<tr>
+<td>🚫 貧瘠</td>
+<td>寶箱件數固定 1 件</td>
+</tr>
+</tbody>
+</table></div>
+<p>三張從七張裡抽，<strong>已經拿過的不再出現</strong>（跟武器三選一同一套抽法）。</p>
+<p>這一項的價值在於：<strong>它讓「打到第幾輪」變成一個構築問題而不是耐力問題。</strong>
+玩家會開始盤算「這輪我扛得住失血還是鈍化」。</p>
+<blockquote>
+<p>這是 roguelite 的標準做法（殺戮尖塔的心臟、吸血鬼倖存者的 Inverse），
+而且對這個專案特別便宜——<strong>升級面板、<code>VrLoadout</code> 的倍率連乘結構
+都已經在了</strong>，詛咒就是幾個負數的倍率。</p>
+</blockquote>
+<h3>4-5 排行榜相容性（重點：不用碰禁區）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排名</td>
+<td><strong>不用改</strong>。<code>ORDER BY score DESC</code>，<code>score = 難度加權擊殺數</code>，無盡的擊殺數自然更高</td>
+</tr>
+<tr>
+<td>存活時間</td>
+<td>⚠️ worker 上限 3600 秒，超過會存成 <strong>0</strong>（見 1-3）。→ <strong>client 上傳時 <code>Mathf.Min(Elapsed, 3599f)</code></strong>，結算畫面顯示真實時間</td>
+</tr>
+<tr>
+<td><code>win</code> 欄位</td>
+<td>已經存在。無盡的成績 <code>win = true</code>（代表通關過正篇）</td>
+</tr>
+<tr>
+<td>「無盡 第 N 輪」的標示</td>
+<td>榜上那一列的文字是 <strong>client 端組的</strong>（<code>VrBoardPanel</code>），照 <code>win</code> ＋ <code>time == 3599</code> 判斷並加標。不用動 worker，也不用改資料庫 schema</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>要不要把無盡與正篇分成兩張榜？</strong> 見第 10 節「需要你決定的」。</p>
+<h3>4-6 成本與效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>實作成本</strong></td>
+<td><strong>中</strong>。輪數循環與強度外插很小；詛咒面板是複用；<code>StageStep</code> 的 <code>Mathf.Clamp(idx, 0, 4)</code> 要改成取模——<strong>這一行改錯會讓正篇的第 5 關跳回第 1 關</strong>，要有測試守住</td>
+</tr>
+<tr>
+<td><strong>美術成本</strong></td>
+<td><strong>$0</strong>（關卡循環重用既有五套素材；詛咒卡用既有的被動圖示）</td>
+</tr>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★★ 給核心玩家一個「這局能到第幾輪」的長期目標</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★★ 詛咒系統實際上是一套新的構築玩法</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p5">5. 提案 4：新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</h2>
+<h3>5-1 現有四個種族與三個職業的空白在哪</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>現有種族</th>
+<th>定位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🧛 伯爵</td>
+<td>均衡（無修正）</td>
+</tr>
+<tr>
+<td>🐺 狼人</td>
+<td>移速 ＋ 攻速，生命 −20%</td>
+</tr>
+<tr>
+<td>🧙 夜巫</td>
+<td>範圍 +15%，移速 −10%</td>
+</tr>
+<tr>
+<td>🏹 獵人</td>
+<td>投射 +1 發，生命 −10%</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>四個都是純數值修正，沒有任何一個改變「怎麼玩」。</strong>
+而且四個裡有三個是「更脆但更強」——<strong>沒有坦克型</strong>。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>現有職業</th>
+<th>定位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🩸 血族領主</td>
+<td>續航（吸血 ＋ 生命上限）</td>
+</tr>
+<tr>
+<td>🌑 暗影行者</td>
+<td>走位（移速 ＋ 閃避 ＋ 屍爆）</td>
+</tr>
+<tr>
+<td>⚡ 元素使</td>
+<td>法術傷害 ＋ 冷卻</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>空白：控場 / 反傷 / 「被打反而變強」。</strong></p>
+<h3>5-2 新種族：⚰️ 不朽者（<code>immortal</code>）</h3>
+<blockquote>
+<p><strong>定位：全遊戲唯一的坦克型種族，而且是「越被打越強」。</strong>
+它把這個遊戲的核心迴圈整個倒過來——其他四隻的玩法是「絕對不要被碰到」，
+不朽者是「主動去吃可控的傷害」。</p>
+</blockquote>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名稱 / 圖示</td>
+<td><strong>不朽者</strong> ⚰️</td>
+</tr>
+<tr>
+<td>起手武器</td>
+<td>🪨 <strong>碎岩衝擊</strong>（提案 5 的新武器）</td>
+</tr>
+<tr>
+<td>修正</td>
+<td><code>maxHpMul 1.35</code>、<code>spdMul 0.86</code>、<strong><code>armorFlat 4</code></strong>（新欄位）</td>
+</tr>
+<tr>
+<td>解鎖條件</td>
+<td><strong>通關一次正篇</strong>（沿用既有的 <code>bestTime</code> 類型，門檻 2400）</td>
+</tr>
+<tr>
+<td>專屬機制</td>
+<td><strong>不朽之怒</strong>：每受到一次傷害，接下來 4 秒內傷害 +8%，最多疊 5 層（+40%）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>設計說明：</strong></p>
+<ul>
+<li><code>maxHpMul 1.35</code> ＋ <code>armorFlat 4</code> 讓它在簡單／普通難度非常穩，
+  但 <code>spdMul 0.86</code>（速度 155）意味著<strong>墮天使（150）、暗影獸（145）幾乎追得上你</strong>——
+  它不能靠走位解決問題，只能站著打。</li>
+<li><strong>不朽之怒</strong>是它的輸出來源。不被打的時候它的傷害是全種族最低的；
+  被打滿 5 層才追上狼人。這是一個<strong>技術性的定位</strong>：要故意讓自己被小怪磨，
+  但不能被黑騎士（第 5 關接觸傷害 261）碰到。</li>
+<li>解鎖條件用「通關一次」而不是累計擊殺，是因為它<strong>設計上就是給熟手的第二輪體驗</strong>。
+  這也讓「破關」第一次有了實質獎勵。</li>
+</ul>
+<blockquote>
+<p>⚠️ <code>armorFlat</code> 是 <code>CharacterDef.Mods</code> 的<strong>新鍵</strong>，<code>VrLoadout.Recalc()</code> 要加一行
+讀它（<code>Armor = 2×護甲被動 + 2×鐵壁意志 + 角色 armorFlat</code>）。
+加完要跑 <code>symbols.py --check</code>。</p>
+</blockquote>
+<h3>5-3 新職業：⛓️ 血鎖裁判（<code>bloodwarden</code>）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名稱 / 圖示</td>
+<td><strong>血鎖裁判</strong> ⛓️</td>
+</tr>
+<tr>
+<td>識別色</td>
+<td><code>#7a8fa8</code>（鋼藍，跟現有的紅／紫／天藍分得開）</td>
+</tr>
+<tr>
+<td>轉職任務</td>
+<td><strong>本局受到傷害 30 次</strong></td>
+</tr>
+<tr>
+<td>效果</td>
+<td>① 反傷 ×3（沒帶荊棘甲時給基礎 12 點）<br>② <strong>血鎖</strong>：每次受傷在原地放一圈半徑 110 的鎖鏈，<strong>定身 1.0 秒</strong>，冷卻 2 秒<br>③ 受傷後 1.5 秒內移速 +20%（脫離用）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>為什麼不會跟現有三個職業打架：</strong></p>
+<ul>
+<li>血族領主是「殺人回血」、暗影行者是「不要被打到」、元素使是「法術倍率」。
+  血鎖裁判是<strong>「被打是你的資源」</strong>——三者的觸發條件完全不重疊。</li>
+<li>它的任務類型是全新的（<code>hurts</code>，<code>QuestValue()</code> 加一個 case 就好）。</li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>這裡有一個平衡陷阱，必須處理。</strong>
+現況三個職業的任務是<strong>同時計時、誰先達標就跳誰</strong>。「受傷 30 次」對新手來說
+可能三分鐘就到，會<strong>永遠搶在暗影行者（5:36）前面</strong>，等於把其他職業擠掉。</p>
+<p><strong>提案的解法：把血鎖裁判做成不朽者的專屬職業</strong>——
+<code>JobDef</code> 加一個 <code>RequiresCharacter</code> 欄位，<code>JobOrder</code> 依角色過濾。
+這樣它只跟不朽者自己的職業池競爭，而且<strong>給了新種族一個真正的身分</strong>，
+也正好符合你要的「新種族搭配一個新轉職職業」。</p>
+</blockquote>
+<h3>5-4 順手修好「凍結」</h3>
+<p>血鎖的「定身 1.0 秒」需要一個<strong>真正的定身</strong>。而現況（見 1-5）
+<code>VrEnemy</code> 只有 <code>slowUntil</code>（×0.45 移速），連絕對零度的「凍結 1.5 秒」
+其實也只是減速。</p>
+<p>提案：加一個 <code>rootUntil</code>，<code>Tick()</code> 裡在移動之前判斷 → 速度歸零。
+<strong>同一個欄位順手把絕對零度改成真的凍結</strong>（<code>Freeze &gt; 0</code> 走 root、<code>Chill &gt; 0</code> 走 slow），
+說明文字與實作就對上了。</p>
+<p>一個欄位、兩個問題。</p>
+<h3>5-5 成本與效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>資料</th>
+<th>程式</th>
+<th>美術</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CHARACTERS</code> ＋ <code>JOBS</code> 各加一筆</td>
+<td>✅ 純資料</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>armorFlat</code> 讀取</td>
+<td>—</td>
+<td>小（<code>Recalc</code> 一行）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>hurts</code> 任務類型</td>
+<td>—</td>
+<td>小（<code>QuestValue</code> 一個 case）</td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>RequiresCharacter</code> 過濾</td>
+<td>—</td>
+<td>小</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>不朽之怒</strong>（受傷疊層）</td>
+<td>—</td>
+<td>小：結構跟既有的狂暴／疾速限時 buff 一模一樣</td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong><code>rootUntil</code> 定身</strong>（順便修絕對零度）</td>
+<td>—</td>
+<td>小–中</td>
+<td>—</td>
+</tr>
+<tr>
+<td>種族立繪</td>
+<td>—</td>
+<td>0</td>
+<td>併進彙整圖</td>
+</tr>
+<tr>
+<td><strong>種族走路 ＋ 攻擊動畫</strong></td>
+<td>—</td>
+<td>0</td>
+<td><strong>2 支影片 $0.64</strong></td>
+</tr>
+<tr>
+<td>職業造型走路 ＋ 攻擊</td>
+<td>—</td>
+<td>0</td>
+<td><strong>2 支影片 $0.64（可省）</strong></td>
+</tr>
+<tr>
+<td><code>VrWalkInk</code> 量測</td>
+<td>—</td>
+<td>跑 <code>tools/measure_walk_ink.py</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><strong>選單版面</strong></td>
+<td>—</td>
+<td>⚠️ <strong>見第 9 節，這是最大的一塊</strong></td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>職業造型可以省</strong>：血族領主現在就沒有專屬走路素材，
+<code>ApplyJobLook()</code> 找不到素材時會<strong>維持原本的角色造型</strong>，不會破圖。
+先上線只做識別色光環，之後再補。</p>
+</blockquote>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★★ 第一個改變玩法而不只是改數值的角色</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★★ 「主動吃傷害」是全新的操作模式</td>
+</tr>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★ 「通關一次解鎖」讓破關第一次有實質獎勵</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p6">6. 提案 5：新武器組（4 基礎 ＋ 4 進化）</h2>
+<h3>6-1 設計原則：兩個家族免費，其他五個要錢</h3>
+<p>照 1-2 的查證結果，這一組刻意這樣配：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>家族</th>
+<th>特效成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⛓️ 血鎖</td>
+<td><strong>Projectile</strong></td>
+<td><strong>$0</strong>（彈體用自己的圖示）</td>
+</tr>
+<tr>
+<td>🛡️ 鋼鐵壁壘</td>
+<td><strong>Orbit</strong></td>
+<td><strong>$0</strong>（環繞物用自己的圖示）</td>
+</tr>
+<tr>
+<td>🪨 碎岩衝擊</td>
+<td>Nova</td>
+<td>$0.32（不生的話會長得跟寒冰新星一樣）</td>
+</tr>
+<tr>
+<td>🦴 骨釘暴雨</td>
+<td>Meteor</td>
+<td>$0.32（不生的話會長得跟隕石術一樣）</td>
+</tr>
+</tbody>
+</table></div>
+<p>四把進化版沿用各自基礎武器的素材（既有的 7 把進化就是這樣處理的）。</p>
+<h3>6-2 四把基礎武器</h3>
+<h4>⛓️ 血鎖 <code>chainWhip</code>（Projectile）</h4>
+<p>甩出鎖鏈，穿透，<strong>命中的敵人被往你這邊拉</strong>。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>發數</th>
+<th>冷卻</th>
+<th>速度</th>
+<th>穿透</th>
+<th>擊退</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>14</td>
+<td>1</td>
+<td>1.10</td>
+<td>480</td>
+<td>2</td>
+<td><strong>−1.2</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td>18</td>
+<td>1</td>
+<td>1.00</td>
+<td>490</td>
+<td>2</td>
+<td>−1.2</td>
+</tr>
+<tr>
+<td>3</td>
+<td>23</td>
+<td>2</td>
+<td>0.92</td>
+<td>500</td>
+<td>3</td>
+<td>−1.3</td>
+</tr>
+<tr>
+<td>4</td>
+<td>29</td>
+<td>2</td>
+<td>0.84</td>
+<td>515</td>
+<td>3</td>
+<td>−1.3</td>
+</tr>
+<tr>
+<td>5</td>
+<td>37</td>
+<td>3</td>
+<td>0.76</td>
+<td>530</td>
+<td>4</td>
+<td>−1.4</td>
+</tr>
+<tr>
+<td>6</td>
+<td>46</td>
+<td>3</td>
+<td>0.68</td>
+<td>550</td>
+<td>5</td>
+<td><strong>−1.4</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>滿等 DPS 203（飛刀是 207），<strong>定位刻意跟飛刀相反</strong>：飛刀把敵人推開（<code>Knock 1.9</code>），
+血鎖把敵人拉過來。拉過來給誰打？給光環、環繞、新星——<strong>近身型構築第一次有了聚怪手段</strong>。</p>
+<blockquote>
+<p><strong>實作註記：</strong> <code>Knock</code> 走負值就是「往玩家方向拉」，因為
+<code>HitWithKnockback()</code> 的方向向量是 <code>敵人 − 玩家</code>，乘負數自然反向。
+<strong>但目前不能直接用</strong>——<code>VrProjectile.Init()</code> 第 93 行寫的是
+<code>knockMul = knockMultiplier &lt;= 0f ? 1f : knockMultiplier;</code>，
+負值會被當成「沒設定」吃掉。要改成 <code>== 0f ? 1f : ...</code>。
+<strong>一行的事，但沒改的話這把武器完全不會拉人。</strong></p>
+</blockquote>
+<h4>🛡️ 鋼鐵壁壘 <code>bulwark</code>（Orbit）</h4>
+<p>盾牌繞身。傷害欄位是<strong>「敵人待在盾上每秒扣多少」</strong>（環繞家族是逐幀結算）。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>每秒傷害</th>
+<th>盾數</th>
+<th>軌道半徑</th>
+<th>轉速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>16</td>
+<td>1</td>
+<td>60</td>
+<td>1.8</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>2</td>
+<td>64</td>
+<td>1.9</td>
+</tr>
+<tr>
+<td>3</td>
+<td>26</td>
+<td>2</td>
+<td>68</td>
+<td>2.0</td>
+</tr>
+<tr>
+<td>4</td>
+<td>33</td>
+<td>3</td>
+<td>74</td>
+<td>2.1</td>
+</tr>
+<tr>
+<td>5</td>
+<td>41</td>
+<td>3</td>
+<td>80</td>
+<td>2.2</td>
+</tr>
+<tr>
+<td>6</td>
+<td>52</td>
+<td>4</td>
+<td>86</td>
+<td>2.4</td>
+</tr>
+</tbody>
+</table></div>
+<p>跟聖光書（Lv6：38 DPS × 4 本、半徑 100、轉速 3.3）<strong>刻意分工</strong>：
+壁壘傷害更高、軌道更緊、轉得更慢＝「貼身硬盾」，聖光書是「大圈掃場」。</p>
+<blockquote>
+<p><strong>免費附贈的功能：</strong> <code>VrWeapons.TryBlockBolt()</code> 是掃<strong>所有 Orbit 家族</strong>的武器，
+所以鋼鐵壁壘<strong>自動會擋敵方彈幕</strong>，不用寫任何程式。
+這正好是不朽者最需要的（它跑不掉遠程）。</p>
+</blockquote>
+<h4>🪨 碎岩衝擊 <code>quake</code>（Nova）— 不朽者的起手武器</h4>
+<p>腳下震波，傷害型的新星。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>減速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>22</td>
+<td>3.0</td>
+<td>95</td>
+<td>1.2s</td>
+</tr>
+<tr>
+<td>2</td>
+<td>28</td>
+<td>2.9</td>
+<td>105</td>
+<td>1.3s</td>
+</tr>
+<tr>
+<td>3</td>
+<td>35</td>
+<td>2.8</td>
+<td>118</td>
+<td>1.4s</td>
+</tr>
+<tr>
+<td>4</td>
+<td>44</td>
+<td>2.6</td>
+<td>130</td>
+<td>1.5s</td>
+</tr>
+<tr>
+<td>5</td>
+<td>55</td>
+<td>2.5</td>
+<td>145</td>
+<td>1.6s</td>
+</tr>
+<tr>
+<td>6</td>
+<td>68</td>
+<td>2.4</td>
+<td>160</td>
+<td>1.8s</td>
+</tr>
+</tbody>
+</table></div>
+<p>寒冰新星 Lv6 是 40 傷／半徑 190／減速 2.5 秒——<strong>寒冰是控場、碎岩是輸出</strong>。</p>
+<h4>🦴 骨釘暴雨 <code>bonespike</code>（Meteor）</h4>
+<p>從地面刺出骨釘（不是天上掉下來），多發小範圍。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>根數</th>
+<th>冷卻</th>
+<th>半徑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>40</td>
+<td>2</td>
+<td>3.0</td>
+<td>70</td>
+</tr>
+<tr>
+<td>2</td>
+<td>50</td>
+<td>2</td>
+<td>2.9</td>
+<td>76</td>
+</tr>
+<tr>
+<td>3</td>
+<td>62</td>
+<td>3</td>
+<td>2.7</td>
+<td>82</td>
+</tr>
+<tr>
+<td>4</td>
+<td>78</td>
+<td>3</td>
+<td>2.6</td>
+<td>90</td>
+</tr>
+<tr>
+<td>5</td>
+<td>98</td>
+<td>4</td>
+<td>2.4</td>
+<td>98</td>
+</tr>
+<tr>
+<td>6</td>
+<td>122</td>
+<td>5</td>
+<td>2.2</td>
+<td>106</td>
+</tr>
+</tbody>
+</table></div>
+<p>滿等 277 DPS（隕石術 212），但半徑只有 106（隕石 135）——
+<strong>多發小範圍 vs 少發大範圍</strong>，兩把可以同時帶不重疊。</p>
+<h3>6-3 四把進化 — 把剩下的冷門被動全部用掉</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>進化</th>
+<th>＝ 武器 Lv6</th>
+<th>× 被動 Lv3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⛓️ <strong>千鎖牢籠</strong> <code>chainprison</code></td>
+<td>血鎖</td>
+<td>👟 <strong>神行靴</strong></td>
+</tr>
+<tr>
+<td>🛡️ <strong>不朽壁壘</strong> <code>aegis</code></td>
+<td>鋼鐵壁壘</td>
+<td>❤️ <strong>巨人之心</strong></td>
+</tr>
+<tr>
+<td>🌋 <strong>大地崩裂</strong> <code>cataclysm</code></td>
+<td>碎岩衝擊</td>
+<td>🥾 <strong>霜痕靴</strong></td>
+</tr>
+<tr>
+<td>⚰️ <strong>白骨墓場</strong> <code>bonefield</code></td>
+<td>骨釘暴雨</td>
+<td>🍀 <strong>幸運草</strong></td>
+</tr>
+</tbody>
+</table></div>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>進化</th>
+<th>數值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⛓️ 千鎖牢籠</td>
+<td>傷害 70 × <strong>8 發</strong> / 0.62s、速度 620、<strong>穿透 6</strong>、擊退 <strong>−1.8</strong></td>
+</tr>
+<tr>
+<td>🛡️ 不朽壁壘</td>
+<td>每秒 78 × <strong>6 面</strong>、軌道半徑 108、轉速 3.0（＝ 6 面彈幕盾）</td>
+</tr>
+<tr>
+<td>🌋 大地崩裂</td>
+<td>傷害 130、冷卻 2.2、<strong>半徑 250</strong>、減速 2.2s</td>
+</tr>
+<tr>
+<td>⚰️ 白骨墓場</td>
+<td>傷害 190 × <strong>9 根</strong> / 1.9s、半徑 120</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>把提案 1 和提案 5 合起來看，會得到一個很乾淨的結果：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>被動</th>
+<th>進化用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>力量護符 → 星殞裁判 ／ 疾風羽 → 千刃流星 ／ 放大鏡 → 聖光守護陣</td>
+<td>既有</td>
+</tr>
+<tr>
+<td>風之戒 → 雷霆天罰 ／ 生命藥草 → 煉獄火海 ／ 鐵制護甲 → 絕對零度 ／ 吸血鬼牙 → 血月獠牙</td>
+<td>既有</td>
+</tr>
+<tr>
+<td><strong>荊棘甲 → 血刃輪舞 ／ 濃縮咖啡 → 疫毒領域 ／ 吸寶磁鐵 → 隕星引力</strong></td>
+<td>提案 1</td>
+</tr>
+<tr>
+<td><strong>神行靴 → 千鎖牢籠 ／ 巨人之心 → 不朽壁壘 ／ 霜痕靴 → 大地崩裂 ／ 幸運草 → 白骨墓場</strong></td>
+<td>提案 5</td>
+</tr>
+<tr>
+<td>複製護符、天使雕像</td>
+<td><strong>結構上不可能</strong>（上限 2 &lt; 門檻 3）</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>做完這兩項，16 個被動裡「能當進化鑰匙的 14 個」就全部有了用途。</strong>
+沒有一個被動是「拿了只是因為沒別的可選」。</p>
+</blockquote>
+<h3>6-4 ⚠️ 配套設計：新武器不能直接全部丟進池子</h3>
+<p><code>VrLoadout.RollChoices()</code> 是從<strong>所有非進化武器</strong>裡抽三張。
+基礎武器從 10 把變 14 把，<strong>三選一抽到你要的那一項的機率會掉 40%</strong>——
+既有的 7 條進化路線會全部變難湊。這是真的會傷到現有平衡的副作用。</p>
+<p>三個選項：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>做法</th>
+<th>優點</th>
+<th>缺點</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. 新武器只在選了不朽者時進池</strong>（<code>WeaponDef.RequiresCharacter</code>）</td>
+<td>既有平衡<strong>完全不動</strong>；給新種族真正的身分</td>
+<td>其他四隻玩不到新武器</td>
+</tr>
+<tr>
+<td>B. 全部進池，同時把武器欄從 4 提早擴充到 5</td>
+<td>大家都玩得到</td>
+<td>動到「被迫取捨」這個核心樂趣</td>
+</tr>
+<tr>
+<td>C. 全部進池，接受稀釋</td>
+<td>零工</td>
+<td>既有進化明顯變難湊，老玩家會有感</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>我建議 A。</strong> 理由：這一版的賣點就是新種族，把新武器綁在它身上會讓
+「解鎖不朽者」變成一個真正的獎勵，而不是「多四把武器稀釋了我的池子」。</p>
+<blockquote>
+<p>⚠️ 如果選 A，<strong>過濾要做兩個地方</strong>：<code>RollChoices()</code> 與
+<code>MerchantOffers()</code>——後者是 <code>foreach (var kv in VampireData.WEAPONS)</code> 掃全表，
+漏掉的話商人會把不朽者專屬武器開給伯爵。</p>
+</blockquote>
+<h3>6-5 成本與效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>實作成本</strong></td>
+<td><strong>中</strong>。8 筆武器資料＋4 筆 COMBOS 是純資料；<code>Knock</code> 負值一行；<code>RequiresCharacter</code> 過濾兩處；<code>FxName</code> 資料驅動（如果要新特效）</td>
+</tr>
+<tr>
+<td><strong>美術成本</strong></td>
+<td><strong>$0.20（只做圖示）～$0.84（含兩支新特效）</strong></td>
+</tr>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★★ 血鎖的「拉人」是全新的機制角色</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★★ 8 把新武器 ＋ 4 條新進化路線</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p7">7. 五項提案怎麼互相影響</h2>
+<p>這五項不是獨立的，有三處耦合值得先講：</p>
+<pre><code>提案 2（突擊）──┐
+                ├──► 都要在選單加「模式選擇」 ──► 選單必須改捲動（見第 9 節）
+提案 3（無盡）──┤
+提案 4（新種族）┘    （第五張角色卡也在同一個畫面）
+
+提案 2（突擊）──► ModeDef 資料表 ──► 提案 3（無盡）直接沿用同一條路
+                                      建議：提案 2 先做，提案 3 才便宜
+
+提案 4（新種族）──► 起手武器是提案 5 的碎岩衝擊
+                    建議：提案 4 與 5 一起做，或提案 4 先用既有武器起手
+</code></pre>
+<hr />
+<h2 id="p8">8. 美術費用明細</h2>
+<p><strong>在你點頭之前不會生任何東西。</strong> 依 <code>SPEND.md</code> 的單價估算：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規格</th>
+<th style="text-align: right;">估價</th>
+<th>屬於</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>武器圖示彙整圖（提案 1 的 3 個 ＋ 提案 5 的 8 個 = 11 個圖示）</td>
+<td>Grok 圖 ×1（一張排 11 格）</td>
+<td style="text-align: right;">$0.20</td>
+<td>Tier 0</td>
+</tr>
+<tr>
+<td>角色／職業立繪彙整圖（不朽者 ＋ 血鎖裁判）</td>
+<td>Grok 圖 ×1</td>
+<td style="text-align: right;">$0.20</td>
+<td>Tier 0</td>
+</tr>
+<tr>
+<td>血刃輪舞 特效</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>疫毒領域 特效</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>隕星引力 特效</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>碎岩衝擊 特效</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>骨釘暴雨 特效</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 1</td>
+</tr>
+<tr>
+<td>不朽者 走路動畫</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>不朽者 攻擊動畫</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 2</td>
+</tr>
+<tr>
+<td>血鎖裁判 走路動畫</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 2（<strong>可省</strong>）</td>
+</tr>
+<tr>
+<td>血鎖裁判 攻擊動畫</td>
+<td>影片 4s 720p</td>
+<td style="text-align: right;">$0.32</td>
+<td>Tier 2（<strong>可省</strong>）</td>
+</tr>
+</tbody>
+</table></div>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>累計</th>
+<th style="text-align: right;">金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tier 0（只做圖示）</td>
+<td style="text-align: right;"><strong>$0.40</strong></td>
+</tr>
+<tr>
+<td>Tier 0 ＋ Tier 1</td>
+<td style="text-align: right;"><strong>$2.00</strong></td>
+</tr>
+<tr>
+<td>全做（Tier 2）</td>
+<td style="text-align: right;"><strong>$3.28</strong></td>
+</tr>
+<tr>
+<td><strong>含三成重生緩衝的上限</strong></td>
+<td style="text-align: right;"><strong>約 $4.30</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>不用花錢的部分：</strong></p>
+<ul>
+<li>無盡模式的關卡循環 → 重用既有五套場地素材</li>
+<li>詛咒卡 → 用既有的被動圖示</li>
+<li>音效 → 12 個共用音效名，新武器照家族沿用（<code>VrSfx</code>）</li>
+<li>突擊模式 → 完全沒有新素材</li>
+</ul>
+<p><strong>流程照 <code>ai-asset-pipeline</code> 的硬規則走：</strong>彙整大圖一次生成 → OpenAI 去背 →
+<strong>先給你看過、拿到明確 OK</strong> → 才裁切進 <code>Assets/</code>。每一次呼叫（含失敗與作廢的）
+都會補進 <code>SPEND.md</code>。<strong>遇到額度不足（402／429）會停下來明講，不會自己換服務或降規格硬跑。</strong></p>
+<hr />
+<h2 id="p9">9. 共用系統風險（你要求特別標注的）</h2>
+<h3>🔴 高風險：<code>VrMenuScreen</code> 版面（必須改捲動）</h3>
+<p><strong>這是這一版最容易出事的地方。</strong> 現況：</p>
+<ul>
+<li>版面座標全部寫死，「選擇難度」釘在 <code>y = -970</code></li>
+<li>四張角色卡（2×2）底緣落在 <code>-940</code>，只剩 30 個單位的餘裕</li>
+<li><strong>這個畫面沒有捲動區</strong></li>
+</ul>
+<p>而這一版要往同一個畫面塞三樣東西：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>要加的</th>
+<th>佔多少垂直空間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 5 張角色卡（3 列）</td>
+<td><strong>+330</strong>（直接蓋掉難度標題 300 個單位）</td>
+</tr>
+<tr>
+<td>模式選擇（標準／突擊／無盡）</td>
+<td>約 +260</td>
+</tr>
+<tr>
+<td>無盡模式的「最佳輪數」顯示</td>
+<td>約 +80</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>提案：把 <code>VrMenuScreen</code> 改成跟 <code>VrPausePanel</code> / <code>VrEndScreen</code> 同一套結構</strong>
+——<code>Viewport</code> ＋ <code>RectMask2D</code> ＋ <code>ScrollContent</code>，「開始遊戲」釘在底部不捲動。
+那兩個畫面已經驗證過這套做法。</p>
+<blockquote>
+<p>⚠️ 改完之後<strong>一定要照 CLAUDE.md 的第 6 條逐項量像素、而且四邊都量</strong>。
+這個專案的 UI 版面踩過的坑（只量垂直沒量水平、只判中心點、pivot 不是 0.5
+卻照中心擺）全部集中在這一類改動上。</p>
+</blockquote>
+<h3>🟡 中風險：<code>ModeDef</code> 重構會碰到六個讀 <code>Elapsed</code> 的點</h3>
+<p><code>SpawnStep</code>／<code>EliteStep</code>／<code>RingStep</code>／<code>BossSpawnStep</code>／<code>UpdateMerchant</code>／<code>StageStep</code>
+各自拿 <code>Elapsed</code> 比對常數。<strong>漏掉任何一個，那個子系統在突擊模式就會用標準模式的節奏</strong>
+（例如商人還是照 300 秒出現＝突擊模式只會遇到兩次）。
+這種錯誤<strong>不會編譯失敗、自動測試也可能是綠的</strong>。</p>
+<p>守法：<code>ModeDef</code> 落地後加一條驗證，跑突擊模式 600 秒，斷言
+「關卡切了 4 次、魔王出了 5 隻、商人出了 3 次、精英出了 30 隻」。</p>
+<h3>🟡 中風險：<code>StageStep</code> 的 clamp 改成取模</h3>
+<p>無盡模式要讓關卡循環，<code>ComputeStageIndex</code> 目前是
+<code>Mathf.Clamp(idx, 0, STAGES.Length - 1)</code>。改成取模的話，<strong>寫錯會讓正篇的
+第 5 關（32:00 之後）跳回第 1 關</strong>——場景、機制、敵種全錯，而且是在
+一局玩到 32 分鐘之後才會出現，很難靠隨手測試發現。</p>
+<p>守法：斷言正篇 <code>t = 0…2400</code> 每 30 秒取樣的 <code>stageIndex</code> 序列是
+<code>0,0,…,1,…,4</code>，不會回頭。</p>
+<h3>🟢 低風險：存檔格式</h3>
+<p><code>VrProgress</code> 是六個獨立的 PlayerPrefs 純量鍵，讀取都帶預設值。
+<strong>加新鍵向後相容</strong>，舊玩家拿到預設值＝「還沒解鎖」，不需要遷移。
+（如果之後要做上一份文件裡的「局外永久成長」，那時才需要改成 JSON 存單一鍵。）</p>
+<h3>🟢 低風險：排行榜</h3>
+<p>見 1-3 與 4-5：<strong>不用碰 worker</strong>，只要 client 端上傳時把 <code>time</code> 夾在 3599 以下。</p>
+<h3>🟠 待量測：手機效能</h3>
+<p><code>MAX_ENEMIES = 1500</code> <strong>在 iPhone 上從來沒實測過</strong>（程式註解自己寫明的：
+Mac 上 1500 隻約 6.2ms/幀，手機沒量）。這一版有兩處會推高峰值：</p>
+<ul>
+<li>突擊模式的刷怪吞吐 ×2</li>
+<li>無盡模式每輪 <code>間隔 ×0.94、批量 +1</code></li>
+</ul>
+<p><strong>建議在動工前先做一次實機量測</strong>（現有的 <code>VR_SHOTS</code> 有 <code>DebugFlood(n)</code> 可以直接灌）。
+如果 1500 在 iPhone 上就已經吃緊，這兩項的參數都要往下調。</p>
+<hr />
+<h2 id="p10">10. 建議的執行順序</h2>
+<pre><code>第 1 批（無美術費用、風險最低，可以先確認可行性）
+  ▸ 提案 1 的資料部分：三組 COMBOS ＋ 三筆 WeaponDef（沿用既有特效）
+  ▸ 提案 5 的資料部分：四把基礎武器 ＋ 四把進化（血鎖與壁壘連特效都不用）
+  ▸ Knock 負值那一行、RequiresCharacter 過濾兩處
+  ▸ 這一批做完就能實際玩到，用來驗證數值方向對不對
+
+第 2 批（共用系統，一次做完）
+  ▸ VrMenuScreen 改捲動  ← 這是第 3、4 批的前置
+  ▸ ModeDef 資料表重構
+
+第 3 批（新模式）
+  ▸ 提案 2 突擊模式（含經驗倍率的 A/B 校正）
+  ▸ 提案 3 無盡模式（輪迴詛咒面板）
+
+第 4 批（新種族／職業，Tier 2 美術）
+  ▸ 提案 4 不朽者 ＋ 血鎖裁判
+  ▸ rootUntil 定身（順手修絕對零度）
+  ▸ 這時才生角色動畫
+
+美術可以跟第 1、3 批平行生成——先確認玩法方向，再決定要不要升到 Tier 1/2
+</code></pre>
+<hr />
+<h2 id="p11">11. 需要你決定的</h2>
+<p><strong>這一節是這份文件存在的主要理由。這些題目輪不到我決定，我只給建議。</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>要決定的</th>
+<th>為什麼輪不到我決定</th>
+<th>我的建議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>美術要做到哪一個 Tier？</strong>（$0.40／$2.00／$3.28）</td>
+<td>這是花你的錢。Tier 0 玩法完整但新武器會跟舊武器長一樣；Tier 1 才有「這是新東西」的感覺；Tier 2 是新角色的完整度</td>
+<td><strong>先做 Tier 0 玩起來，確認數值方向對了再升 Tier 1</strong>。Tier 2 等新種族的玩法定案再說</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>新武器要不要綁定新種族？</strong>（第 6-4 節的 A／B／C）</td>
+<td>這是「保護既有平衡」與「所有人都玩得到新東西」的取捨，不是對錯</td>
+<td><strong>A（綁定）</strong>。既有 7 條進化路線一動都不動，而且讓「解鎖不朽者」變成真的獎勵</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>無盡模式要不要跟正篇分成兩張排行榜？</strong></td>
+<td>混在同一張榜上，無盡的擊殺數會把正篇的紀錄全部洗掉（跑越久殺越多）。但分榜要動 worker，那是禁區</td>
+<td><strong>不分榜，但在榜上那一列標「無盡 第 N 輪」</strong>（client 端的字，不用動 worker）。理由是這是單機榮譽榜不是競技場，而且分榜會讓兩張都很冷清</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>突擊模式的成績要不要上傳線上榜？</strong></td>
+<td>10 分鐘的擊殺數天生比 40 分鐘少一半以上，混在同一張榜上等於永遠上不了榜；但如果乘一個倍率去湊，那個倍率本身就是假的</td>
+<td><strong>不上傳，只記本機最佳</strong>。突擊模式的樂趣是「今天有沒有比昨天快」，不是跟別人比</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>通關 40 分鐘時，要不要強制進無盡？</strong></td>
+<td>殭屍防線是自動接上去的。但吸血鬼一局 40 分鐘，玩家可能就是想把勝利收下來</td>
+<td><strong>給面板讓玩家選</strong>（第 4-2 節）。不論選哪邊都記錄「已通關」</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>「不朽之怒」與「血鎖」要不要一次做滿？</strong></td>
+<td>兩個都是新機制，一次上會很難分辨是哪一個造成平衡問題</td>
+<td><strong>先做不朽之怒</strong>（結構跟既有 buff 一樣，最便宜），血鎖等種族玩法穩定再加</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>要不要順手修「凍結其實只是減速」？</strong></td>
+<td>這會<strong>改變絕對零度的實際強度</strong>（從減速 55% 變成真的定住），是動到既有平衡</td>
+<td><strong>要修，但跟提案 4 綁在一起做</strong>——那時本來就要加 <code>rootUntil</code>，而且會有新種族的數值一起測</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>硬碟空間什麼時候清？</strong></td>
+<td>現在只剩 7.1 GB，Tier 1/2 的影片拆格會炸掉。這是你的機器</td>
+<td>你隨時可以先清出 <strong>20 GB</strong>。Tier 0 不受影響，可以先開工</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="p12">附錄：這一輪查證過但沒有寫進提案的</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>查到的</th>
+<th>為什麼沒放進提案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>VrSfx</code> 只有 12 個共用音效名，新武器照家族沿用</td>
+<td>不需要新音效，沒有成本也沒有決定要做</td>
+</tr>
+<tr>
+<td><code>VrStageArt.KeyOf()</code> 只認 0–4，其他回 <code>null</code>（那一關就用預設網格地板）</td>
+<td>無盡模式用取模循環就不會走到 <code>null</code> 分支，不用改</td>
+</tr>
+<tr>
+<td>商人的「餞別禮」+50 經驗沒有乘 <code>XpMul</code>（貪婪契約）</td>
+<td>上一份文件已經列在「順手該修的」，不影響這五項</td>
+</tr>
+<tr>
+<td><code>MERCHANT_TIMES</code> 在冰雪絕地那兩次（25:00／30:00）玩家常常拿不到</td>
+<td>同上，上一份已列</td>
+</tr>
+<tr>
+<td>落雷的「感電」、血月獠牙的「5% 吸血」都沒有實作</td>
+<td>上一份文件已列。如果做提案 1 的「易傷」機制，感電可以順手一起補</td>
+</tr>
+</tbody>
+</table></div>
+<a class="navlink" href="vr-guide.html">→ 吸血鬼復仇 完全攻略</a>
+<a class="navlink" href="vr-next.html">→ 上一份：下一版的五個方向</a>
+<footer>吸血鬼復仇 v2 設計提案 · 現況查證以 unity/VampireRevenge 現行程式碼為準 · 尚未實作</footer>
+</div>
+</body>
+</html>
