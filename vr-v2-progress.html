@@ -132,8 +132,8 @@ table td:first-child{white-space:nowrap}
 <div class="wrap">
 <p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 實作中</p>
 <h1>v2 實作進度</h1>
-<p class="lede">階段①②③ 完成：三條進化路線、10 分鐘突擊模式、無盡模式＋輪迴詛咒。　這一頁會隨著每個階段更新，網址不變，可以存起來重複打開。</p>
-<div class="toc"><ol><li><a href="#g0">進度總覽</a></li><li><a href="#g1">① 三條缺失的進化路線</a></li><li><a href="#g2">② 10 分鐘突擊模式</a></li><li><a href="#g3">③ 無盡模式</a></li><li><a href="#g4">驗證：三道 gate，每次改完都跑</a></li><li><a href="#g5">共用系統的風險（你要求要講清楚的）</a></li><li><a href="#g6">還沒到位的（老實說）</a></li></ol></div>
+<p class="lede">五個階段全部完成。美術仍在 Tier 0，一毛都還沒花。　這一頁會隨著每個階段更新，網址不變，可以存起來重複打開。</p>
+<div class="toc"><ol><li><a href="#g0">進度總覽</a></li><li><a href="#g1">① 三條缺失的進化路線</a></li><li><a href="#g2">② 10 分鐘突擊模式</a></li><li><a href="#g3">③ 無盡模式</a></li><li><a href="#g4">⑤ 新武器組：4 基礎 ＋ 4 進化（不朽者專屬）</a></li><li><a href="#g5">④ 新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</a></li><li><a href="#g6"><code>VrMenuScreen</code> 改捲動（這一版風險最高的一塊）</a></li><li><a href="#g7">編譯器幫我抓到的一個命名撞車</a></li><li><a href="#g8">驗證：三道 gate，每次改完都跑</a></li><li><a href="#g9">共用系統的風險（你要求要講清楚的）</a></li><li><a href="#g10">還沒到位的（老實說）</a></li></ol></div>
 <hr>
 <h2 id="g0">進度總覽</h2>
 <div class="scroll"><table>
@@ -168,12 +168,17 @@ table td:first-child{white-space:nowrap}
 <tr>
 <td>④</td>
 <td>新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</td>
-<td>⏳ 進行中</td>
+<td>✅ <strong>完成</strong> <code>4997d54</code></td>
 </tr>
 <tr>
 <td>⑤</td>
 <td>新武器組（4 基礎 ＋ 4 進化）</td>
-<td>⬜ 待做</td>
+<td>✅ <strong>完成</strong>（同一筆）</td>
+</tr>
+<tr>
+<td>—</td>
+<td><code>VrMenuScreen</code> 改捲動（風險最高的一塊）</td>
+<td>✅ <strong>完成</strong>（同一筆）</td>
 </tr>
 </tbody>
 </table></div>
@@ -440,7 +445,215 @@ time = int(body.time, LIMITS.time, 0);   // &gt; 3600 → 存成 0
 玩家要撐到第 3 輪（再 40 分鐘）才拿得到第一張。等於整個詛咒系統沒接上，
 而且<strong>不會有任何錯誤訊息</strong>。改成 <code>Cycle - 1</code>。</p>
 <hr />
-<h2 id="g4">驗證：三道 gate，每次改完都跑</h2>
+<h2 id="g4">⑤ 新武器組：4 基礎 ＋ 4 進化（不朽者專屬）</h2>
+<h3>家族的挑法是照「美術成本」決定的，不是照主題</h3>
+<p>稽核時查到：<strong>特效素材名稱在程式裡是照家族寫死的字面值</strong>
+（<code>"slash"</code>、<code>"aura"</code>、<code>"frost_nova"</code>、<code>"fire_zone"</code>、<code>"lightning_strike"</code>、<code>"meteor_*"</code>）。
+<strong>只有投射與環繞兩個家族</strong>的彈體／環繞物會退回用武器自己的圖示。</p>
+<p>所以這一組刻意是「<strong>兩把完全免費 + 兩把各要一支影片</strong>」：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>家族</th>
+<th>特色</th>
+<th>特效成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⛓️ <strong>血鎖</strong></td>
+<td>Projectile</td>
+<td><strong>把命中的敵人拉向自己</strong></td>
+<td><strong>$0</strong></td>
+</tr>
+<tr>
+<td>🛡️ <strong>鋼鐵壁壘</strong></td>
+<td>Orbit</td>
+<td>撞擊傷害 ＋ <strong>免費附贈擋彈幕</strong></td>
+<td><strong>$0</strong></td>
+</tr>
+<tr>
+<td>🪨 <strong>碎岩衝擊</strong></td>
+<td>Nova</td>
+<td>不朽者起手，傷害型新星</td>
+<td>$0.32</td>
+</tr>
+<tr>
+<td>🦴 <strong>骨釘暴雨</strong></td>
+<td>Meteor</td>
+<td>多發小範圍</td>
+<td>$0.32</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>血鎖是全遊戲第一個聚怪手段</strong>——原本 AoE 武器只能等敵人自己走進來。
+定位刻意跟飛刀相反：飛刀 <code>Knock = 1.9</code> 把人推開，血鎖 <code>Knock = -1.4</code> 把人拉過來。
+（這就是階段①順手修的那個 bug 要解鎖的東西。）</p>
+<p><strong>鋼鐵壁壘的擋彈幕是零程式碼換來的</strong>：<code>TryBlockBolt()</code> 掃的是「所有 Orbit 家族」的武器，
+所以它自動就會擋。這正好是不朽者最需要的——它移速 155，跑不掉遠程。</p>
+<h3>四把進化把最後四個冷門被動用掉了</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>進化</th>
+<th>＝ 武器 Lv6</th>
+<th>× 被動 Lv3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⛓️ 千鎖牢籠</td>
+<td>血鎖</td>
+<td>👟 神行靴</td>
+</tr>
+<tr>
+<td>🛡️ 不朽壁壘</td>
+<td>鋼鐵壁壘</td>
+<td>❤️ 巨人之心</td>
+</tr>
+<tr>
+<td>🌋 大地崩裂</td>
+<td>碎岩衝擊</td>
+<td>🥾 霜痕靴</td>
+</tr>
+<tr>
+<td>⚰️ 白骨墓場</td>
+<td>骨釘暴雨</td>
+<td>🍀 幸運草</td>
+</tr>
+</tbody>
+</table></div>
+<p>驗證直接印出盤點結果：</p>
+<pre><code>能當鑰匙的 14 個、結構上不可能的 2 個（MaxLv &lt; 3）
+✅ 能當鑰匙的被動全部有用途（還閒著 0 個）
+</code></pre>
+<p><strong>16 個被動裡能當進化鑰匙的 14 個，現在全部有用途了。</strong>
+剩下兩個是複製護符與天使雕像——上限是 2，永遠到不了門檻 3。</p>
+<h3>為什麼綁定角色</h3>
+<p>不綁的話基礎武器從 10 把變 14 把，<strong>三選一抽到你要的那一項的機率掉 40%</strong>，
+既有 7 條進化路線全部變難湊。驗證有斷言守著「通用角色的基礎武器仍是 10 把」。</p>
+<blockquote>
+<p>⚠️ <strong>過濾要做兩個地方</strong>：<code>RollChoices()</code> 與 <code>MerchantOffers()</code>。
+後者掃的是整張 <code>WEAPONS</code> 表——漏掉的話<strong>商人會把不朽者專屬武器開給伯爵</strong>，
+而那完全不會報錯。</p>
+</blockquote>
+<hr />
+<h2 id="g5">④ 新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</h2>
+<h3>現有四隻角色的空白</h3>
+<p>四隻<strong>全部是純數值修正，沒有一個改變「怎麼玩」</strong>，而且四隻裡有三隻是
+「更脆但更強」——<strong>沒有坦克型</strong>。</p>
+<h3>⚰️ 不朽者：把核心迴圈倒過來</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>修正</td>
+<td>生命 <strong>+35%</strong>、護甲 <strong>+4</strong>、移速 <strong>−14%</strong>（155）</td>
+</tr>
+<tr>
+<td>起手武器</td>
+<td>🪨 碎岩衝擊</td>
+</tr>
+<tr>
+<td>專屬機制</td>
+<td><strong>不朽之怒</strong>：每次受傷傷害 <strong>+8%</strong>，最多 5 層（+40%），4 秒</td>
+</tr>
+<tr>
+<td>解鎖</td>
+<td><strong>通關一次正篇</strong>（撐滿一輪）</td>
+</tr>
+</tbody>
+</table></div>
+<p>移速 155 意味著<strong>墮天使（150）、暗影獸（145）幾乎追得上你</strong>——
+它不能靠走位解決問題，只能站著打。而不被打的時候它的傷害是全種族最低的：
+<strong>要故意讓自己被小怪磨，但不能被黑騎士碰到。</strong></p>
+<p>解鎖用「通關一次」而不是累計擊殺，讓<strong>破關第一次有了實質獎勵</strong>。</p>
+<h3>⛓️ 血鎖裁判：被打是你的資源</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>轉職任務</td>
+<td>本局<strong>受到傷害 30 次</strong></td>
+</tr>
+<tr>
+<td>效果</td>
+<td>反傷 <strong>×3</strong>（沒帶荊棘甲時給基礎 12）／受傷時放出<strong>血鎖定身周圍 1 秒</strong>（冷卻 2 秒）</td>
+</tr>
+<tr>
+<td>限制</td>
+<td><strong>不朽者專屬</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>現有三個職業是「殺人回血」「不要被打到」「法術倍率」，這一個的觸發條件跟三者
+完全不重疊。<strong>綁定角色的理由</strong>：受傷 30 次對新手可能三分鐘就到，
+不綁的話會永遠搶在暗影行者（5:36）前面，把其他職業擠掉。</p>
+<h3>順手修好「凍結其實只是減速」</h3>
+<p>血鎖需要一個<strong>真的定身</strong>。而在這之前這遊戲沒有——
+絕對零度的「凍結 1.5 秒」與寒冰新星的「減速」走同一條路
+（<code>Freeze</code> 與 <code>Chill</code> 都只當成持續秒數丟給 <code>ApplySlow</code> → 移速 ×0.45）。
+說明寫「凍結敵人 1.5 秒」，實際上敵人照走，只是慢一點。</p>
+<p>新增 <code>rootUntil</code> 之後：<code>Freeze</code> 走真定身、<code>Chill</code> 走減速。<strong>一個欄位、兩個問題。</strong>
+魔王不吃定身——能把魔王釘住 1.5 秒等於把後半段十隻魔王變成靶子。</p>
+<hr />
+<h2 id="g6"><code>VrMenuScreen</code> 改捲動（這一版風險最高的一塊）</h2>
+<h3>問題</h3>
+<p>原本每個元件的 y 都是<strong>寫死的字面值</strong>，「選擇難度」釘在 <code>-970</code>，
+而四張角色卡（2×2）第二列的底緣落在 <code>-940</code>——只剩 <strong>30 個單位</strong>的餘裕。</p>
+<p>這一版要往同一個畫面加三樣東西：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>要加的</th>
+<th>佔多少</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>第 5 張角色卡（變 3 列）</td>
+<td><strong>+330</strong> → 第三列範圍 −970 ~ −1270，<strong>起點正好蓋掉難度標題</strong></td>
+</tr>
+<tr>
+<td>模式選擇（標準／突擊）</td>
+<td>約 +260</td>
+</tr>
+<tr>
+<td>突擊的本機最佳</td>
+<td>約 +80</td>
+</tr>
+</tbody>
+</table></div>
+<h3>做法</h3>
+<p>改成 <code>Viewport</code> + <code>RectMask2D</code> + <code>ScrollRect</code>，結構照 <code>VrPausePanel</code> /
+<code>VrEndScreen</code>（那兩個畫面已經在實機驗過）。<strong>「開始遊戲」釘在底部不進捲動區</strong>
+——那是這個畫面的主要動作，不該需要捲動才找得到。</p>
+<p><strong>所有 y 一律從一個游標推導，不再寫死字面值。</strong> 寫死的話下次有人加一個區塊，
+又要手動把下面每一個數字重算一次，漏掉一個就是重疊——這個檔案已經因為這件事壞過一次。</p>
+<p>另外加了 <code>DebugLayoutReport()</code>（VR_SHOTS）逐區塊算間隙，負的就是重疊：</p>
+<pre><code>[MENU] 內容高=? 可視高=? 需要捲動=?
+[MENU] 角色區底=? → 模式標題頂=?　間隙=?  ✓ / ← 重疊！
+[MENU] 模式區底=? → 難度標題頂=?　間隙=?  ✓ / ← 重疊！
+[MENU] 難度區底=? → 內容底=?　餘裕=?      ✓ / ← 被裁掉！
+</code></pre>
+<p><strong>突擊模式現在可以從選單直接選了</strong>（不再需要 <code>VR_MODE</code> 環境變數）。</p>
+<hr />
+<h2 id="g7">編譯器幫我抓到的一個命名撞車</h2>
+<p>不朽之怒的 <code>rageUntil</code> 撞到既有的「狂暴」拾取增益（傷害 ×1.5，8 秒）。
+兩者是完全不同的東西，但名字一樣。已改名 <code>immortalRageUntil</code> / <code>immortalRageStacks</code>。</p>
+<hr />
+<h2 id="g8">驗證：三道 gate，每次改完都跑</h2>
 <h3><code>tools/csccheck/compile.sh</code> — 不用開 Unity 的編譯 gate（約 10 秒）</h3>
 <pre><code>來源檔 170 個
   正式版：error CS = 0
@@ -466,7 +679,7 @@ time = int(body.time, LIMITS.time, 0);   // &gt; 3600 → 存成 0
 <p>CLAUDE.md 的第一條硬規則。新增的 <code>Pull</code> / <code>Weaken</code> / <code>DamageTakenMul</code> /
 <code>SpeedMulGlobal</code> / 四個詛咒倍率都有實際消費點。</p>
 <hr />
-<h2 id="g5">共用系統的風險（你要求要講清楚的）</h2>
+<h2 id="g9">共用系統的風險（你要求要講清楚的）</h2>
 <div class="scroll"><table>
 <thead>
 <tr>
@@ -513,16 +726,20 @@ time = int(body.time, LIMITS.time, 0);   // &gt; 3600 → 存成 0
 </tr>
 </tbody>
 </table></div>
-<h2 id="g6">還沒到位的（老實說）</h2>
+<h2 id="g10">還沒到位的（老實說）</h2>
 <ul>
-<li><strong>模式選擇的 UI 還沒做。</strong> 突擊模式目前要用 <code>VR_MODE=blitz</code> 環境變數進去
-  （跟既有的 <code>VR_ONLY</code> 同一種做法）。<strong>正式的選單入口要等階段④</strong>
-  ——那時 <code>VrMenuScreen</code> 本來就要改成捲動版面，一起做才不會做兩次。</li>
+<li><strong>美術還是 Tier 0，一毛都還沒花。</strong> 不朽者沒有走路素材，
+  <code>VrPlayer</code> 退回一個帶識別色的圓當佔位——<strong>佔位一定要看得出是佔位</strong>
+  （先前寶箱與商人用純色方塊時，使用者第一時間回報的是「破圖」而不是「還沒做」）。
+  要升 Tier 1／Tier 2 跟我說，我會先報價再動手。</li>
 <li><strong>三道 gate 都是靜態檢查。</strong> 編得過、資料接得起來、欄位有人讀。
   <strong>「易傷有沒有真的讓傷害變高」「引力有沒有真的把怪拉過去」「第 2 輪關卡有沒有真的重跑」
   這種行為層的事，要開 Unity 跑 <code>VR_SHOTS</code> 才驗得到。</strong>
-  我把那一次比較貴的實機驗證攢到④⑤做完再一次跑（<code>Library/</code> 剛清掉，
-  第一次匯入要十幾分鐘）。<strong>想現在就看實機畫面的話跟我說，我先跑一輪。</strong></li>
+  <strong>五個階段都做完了，所以下一步就是那一次實機驗證</strong>（<code>Library/</code> 剛清掉，
+  第一次匯入要十幾分鐘）。要驗的清單：易傷有沒有真的讓傷害變高、引力有沒有
+  真的把怪拉過去、血鎖負值有沒有真的拉人、第 2 輪關卡有沒有真的重跑、
+  詛咒面板會不會在第 2 輪就跳出來、以及<strong>選單版面在真機上的四邊間隙</strong>。
+  跟我說一聲我就開跑。</li>
 <li>那兩個關鍵倍率（突擊的經驗 ×2.5、無盡的每輪 ×1.30）<strong>都是估的</strong>，
   要靠實機 A/B 校正。</li>
 </ul>
