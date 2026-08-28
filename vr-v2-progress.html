@@ -132,8 +132,8 @@ table td:first-child{white-space:nowrap}
 <div class="wrap">
 <p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 實作中</p>
 <h1>v2 實作進度</h1>
-<p class="lede">階段① 完成：三條缺失的進化路線補齊，外加一個真 bug。　這一頁會隨著每個階段更新，網址不變，可以存起來重複打開。</p>
-<div class="toc"><ol><li><a href="#g0">進度總覽</a></li><li><a href="#g1">硬碟：7.13 GB → 12.40 GB</a></li><li><a href="#g2">① 補齊三條缺失的進化路線</a></li><li><a href="#g3">順手修掉的一個真 bug</a></li><li><a href="#g4">驗證（三道，全過）</a></li><li><a href="#g5">共用系統的風險（你要求要講清楚的）</a></li><li><a href="#g6">還沒驗到的（老實說）</a></li></ol></div>
+<p class="lede">階段①②③ 完成：三條進化路線、10 分鐘突擊模式、無盡模式＋輪迴詛咒。　這一頁會隨著每個階段更新，網址不變，可以存起來重複打開。</p>
+<div class="toc"><ol><li><a href="#g0">進度總覽</a></li><li><a href="#g1">① 三條缺失的進化路線</a></li><li><a href="#g2">② 10 分鐘突擊模式</a></li><li><a href="#g3">③ 無盡模式</a></li><li><a href="#g4">驗證：三道 gate，每次改完都跑</a></li><li><a href="#g5">共用系統的風險（你要求要講清楚的）</a></li><li><a href="#g6">還沒到位的（老實說）</a></li></ol></div>
 <hr>
 <h2 id="g0">進度總覽</h2>
 <div class="scroll"><table>
@@ -148,27 +148,27 @@ table td:first-child{white-space:nowrap}
 <tr>
 <td>①</td>
 <td>補齊三條缺失的進化路線</td>
-<td>✅ <strong>完成</strong>（commit <code>cea6cb4</code>）</td>
+<td>✅ <strong>完成</strong> <code>cea6cb4</code></td>
 </tr>
 <tr>
 <td>—</td>
-<td>修 <code>VrProjectile</code> 擊退負值被吃掉</td>
+<td>修 <code>VrProjectile</code> 擊退負值被吃掉（真 bug）</td>
 <td>✅ <strong>完成</strong>（同一筆）</td>
 </tr>
 <tr>
 <td>②</td>
 <td>10 分鐘突擊模式</td>
-<td>⏳ 進行中</td>
+<td>✅ <strong>完成</strong> <code>6884751</code></td>
 </tr>
 <tr>
 <td>③</td>
 <td>無盡模式</td>
-<td>⬜ 待做</td>
+<td>✅ <strong>完成</strong> <code>dd1f970</code></td>
 </tr>
 <tr>
 <td>④</td>
 <td>新種族 ⚰️ 不朽者 ＋ 新職業 ⛓️ 血鎖裁判</td>
-<td>⬜ 待做</td>
+<td>⏳ 進行中</td>
 </tr>
 <tr>
 <td>⑤</td>
@@ -177,82 +177,22 @@ table td:first-child{white-space:nowrap}
 </tr>
 </tbody>
 </table></div>
-<p><strong>四題開放問題照提案裡的建議走</strong>（你沒有逐一回覆，之後要改隨時說）：
-美術先做 <strong>Tier 0</strong>（只做圖示、$0.40，而且<strong>目前一毛都還沒花</strong>）／
-新武器<strong>綁定新種族</strong>／無盡<strong>不分榜</strong>、只在榜上標「無盡 第 N 輪」／
-突擊模式<strong>不上傳線上榜</strong>，只記本機最佳。</p>
+<p><strong>四題開放問題照提案的建議走</strong>：美術先做 Tier 0（<strong>目前一毛都還沒花</strong>）／
+新武器綁定新種族／無盡不分榜、只在榜上標「無盡」／突擊不上傳線上榜。</p>
+<p><strong>硬碟：7.13 GB → 12.40 GB</strong>（A＋B 全清完，<code>Assets/Resources/Art</code> 底下
+1961 張 PNG 一張不少）。<code>Library/</code> 刪掉了，<strong>下次開 Unity 會重新匯入約十幾分鐘</strong>。</p>
 <hr />
-<h2 id="g1">硬碟：7.13 GB → 12.40 GB</h2>
-<p>B 類也清掉了。<strong>沒有任何美術檔案被刪到</strong>——<code>Assets/Resources/Art</code> 底下
-1961 張 PNG 一張不少，<code>git status</code> 對那個路徑完全乾淨。</p>
-<div class="scroll"><table>
-<thead>
-<tr>
-<th>項目</th>
-<th style="text-align: right;">刪掉的量</th>
-<th style="text-align: right;">淨增</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>A1 拆幀中間產物 <code>去背輸出/</code></td>
-<td style="text-align: right;">186 MB</td>
-<td style="text-align: right;">+186 MB</td>
-</tr>
-<tr>
-<td>A2 <code>/tmp/b162</code> Xcode DerivedData</td>
-<td style="text-align: right;">3.62 GB</td>
-<td style="text-align: right;">+3.00 GB</td>
-</tr>
-<tr>
-<td>A3 106 個超過 48 小時的 log</td>
-<td style="text-align: right;">217 MB</td>
-<td style="text-align: right;">+217 MB</td>
-</tr>
-<tr>
-<td>B1 <code>unity/VampireRevenge/Library/</code></td>
-<td style="text-align: right;">1.72 GB</td>
-<td style="text-align: right;">+0.88 GB</td>
-</tr>
-<tr>
-<td>B2 <code>unity/VampireRevenge/Build/</code></td>
-<td style="text-align: right;">1.24 GB</td>
-<td style="text-align: right;">+0.83 GB</td>
-</tr>
-<tr>
-<td>B3 <code>worktree-vampire-bgm-prompts</code></td>
-<td style="text-align: right;">164 MB</td>
-<td style="text-align: right;">+164 MB</td>
-</tr>
-<tr>
-<td></td>
-<td style="text-align: right;"><strong>7.15 GB</strong></td>
-<td style="text-align: right;"><strong>+5.27 GB</strong></td>
-</tr>
-</tbody>
-</table></div>
-<p>淨增比刪掉的量少，是因為期間有其他 session 在同時寫入（現在正在刪
-<code>unity/CyberSurvivor/</code>）。刪掉的東西沒有少，是同時有人在長回來。</p>
-<blockquote>
-<p><code>Library/</code> 刪掉之後<strong>下一次開 Unity 會重新匯入，大約十幾分鐘</strong>。
-這是預期內的一次性成本，不是壞掉。</p>
-</blockquote>
-<hr />
-<h2 id="g2">① 補齊三條缺失的進化路線</h2>
-<h3>現況查證</h3>
-<p>十把基礎武器裡有三把沒有進化終點，而且我回頭查了 Expo 原版
-<code>src/vampire/game/data.ts:452</code>——<strong>原版也只有 7 組，所以這不是移植漏掉的，
-是從來沒設計過</strong>。其中十字斬是<strong>狼人的起手武器</strong>，等於選狼人想追進化
-就得先把起手武器換掉。</p>
-<h3>新增的三組</h3>
+<h2 id="g1">① 三條缺失的進化路線</h2>
+<p>十把基礎武器裡有三把沒有終點，其中<strong>十字斬是狼人的起手武器</strong>。
+回頭查了 Expo 原版 <code>data.ts:452</code>——<strong>原版也只有 7 組，不是移植漏掉的</strong>。</p>
 <div class="scroll"><table>
 <thead>
 <tr>
 <th>新進化</th>
 <th>＝ 武器 Lv6</th>
 <th>× 被動 Lv3</th>
-<th>家族</th>
 <th>新機制</th>
+<th>DPS</th>
 </tr>
 </thead>
 <tbody>
@@ -260,109 +200,271 @@ table td:first-child{white-space:nowrap}
 <td>🩸 <strong>血刃輪舞</strong></td>
 <td>⚔️ 十字斬</td>
 <td>🌵 荊棘甲</td>
-<td>Arc</td>
-<td>整圈連斬 <strong>＋ 把敵人整片掃開</strong></td>
+<td>整圈連斬 ＋ <strong>把敵人整片掃開</strong></td>
+<td>82 → 200（×2.43）</td>
 </tr>
 <tr>
 <td>☣️ <strong>疫毒領域</strong></td>
 <td>🧄 大蒜光環</td>
 <td>☕ 濃縮咖啡</td>
-<td>Aura</td>
 <td>域內敵人<strong>受到的所有傷害 +20%</strong></td>
+<td>63 → 158（×2.50）</td>
 </tr>
 <tr>
 <td>🌌 <strong>隕星引力</strong></td>
 <td>☄️ 隕石術</td>
 <td>🧲 吸寶磁鐵</td>
-<td>Meteor</td>
-<td>落地前<strong>先把周圍的敵人吸過來</strong></td>
+<td>落地前<strong>先把敵人吸過來</strong></td>
+<td>213 → 600（×2.82）</td>
 </tr>
 </tbody>
 </table></div>
-<p>配對不是隨便湊的：十字斬 × 荊棘甲 都是「讓敵人靠近才有價值」的東西；
-大蒜光環的身分就是「全遊戲冷卻最短的傷害源」，咖啡把它推到極限；
-磁鐵原本只有「撿寶石」一個用途，接上「引力」主題之後，
-<strong>這遊戲第一次有了聚怪手段</strong>——原本 AoE 武器只能等敵人自己走進來。</p>
-<h3>數值</h3>
+<p>配的三個被動都是<strong>目前沒被任何進化用到</strong>的。磁鐵原本只有「撿寶石」一個用途，
+接上「引力」主題之後，<strong>這遊戲第一次有了聚怪手段</strong>——原本 AoE 武器只能等敵人自己走進來。</p>
+<p><strong>結果：每一把基礎武器現在都有終點了。</strong></p>
+<h3>順手修掉的真 bug — <code>VrProjectile.cs:93</code></h3>
+<pre><code class="language-csharp">- knockMul = knockMultiplier &lt;= 0f ? 1f : knockMultiplier;
++ knockMul = knockMultiplier == 0f ? 1f : knockMultiplier;
+</code></pre>
+<p>擊退方向是「敵人 − 玩家」，<strong>乘負數就是把敵人拉過來</strong>。原本的 <code>&lt;= 0</code> 把負值
+當成「沒設定」吃掉。這是階段⑤那把「血鎖」的整個定位。
+<strong>編譯過、測試綠，症狀只會是「這把武器手感很普通」。</strong></p>
+<hr />
+<h2 id="g2">② 10 分鐘突擊模式</h2>
+<h3>為什麼「除以四」是錯的</h3>
+<p><strong>① 玩家會嚴重欠等級。</strong> 敵人強度綁<strong>絕對分鐘數</strong>，玩家等級綁<strong>擊殺數</strong>。
+時間剩四分之一 = 拿四分之一的裝備打滿強度的敵人。</p>
+<p><strong>② 節奏會爛掉。</strong> 精英每 12 秒＝精英變雜兵；商人 7 次／10 分鐘＝
+「一期一會」不成立；魔王每 60 秒一隻＝整局都在打王。</p>
+<h3>實際做的</h3>
 <div class="scroll"><table>
 <thead>
 <tr>
-<th></th>
-<th>基礎（Lv6）</th>
-<th>進化</th>
-<th>倍率</th>
+<th>項目</th>
+<th>標準（40 分）</th>
+<th><strong>突擊（10 分）</strong></th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>十字斬 → 血刃輪舞</td>
-<td>70 傷 / 0.85s / 半徑 98</td>
-<td>120 傷 / 0.60s / 半徑 145 / 擊退 ×1.5</td>
-<td><strong>DPS ×2.43</strong></td>
+<td>總時長 / 關卡切點</td>
+<td>2400s / 480·960·1440·1920</td>
+<td><strong>600s / 120·240·360·480</strong></td>
 </tr>
 <tr>
-<td>大蒜光環 → 疫毒領域</td>
-<td>19 傷 / 0.30s / 半徑 116</td>
-<td>38 傷 / 0.24s / 半徑 175 / 易傷 ×1.2</td>
-<td><strong>DPS ×2.50</strong></td>
+<td>血量・傷害爬升</td>
+<td><code>1+0.35×分</code> / <code>1+0.15×分</code></td>
+<td><strong><code>1+1.40×分</code> / <code>1+0.60×分</code></strong></td>
 </tr>
 <tr>
-<td>隕石術 → 隕星引力</td>
-<td>170 傷 ×3 / 2.40s / 半徑 135</td>
-<td>300 傷 ×4 / 2.00s / 半徑 170 / 吸引 1.6×</td>
-<td><strong>DPS ×2.82</strong></td>
+<td>終點強度</td>
+<td>血 ×15、傷 ×7</td>
+<td><strong>血 ×15、傷 ×7（斷言守著）</strong></td>
+</tr>
+<tr>
+<td>刷怪吞吐</td>
+<td>×1</td>
+<td><strong>×2</strong>（不是 ×4）</td>
+</tr>
+<tr>
+<td>寶石經驗</td>
+<td>×1</td>
+<td><strong>×2.5</strong></td>
+</tr>
+<tr>
+<td>精英</td>
+<td>每 48s（50 隻）</td>
+<td><strong>每 20s（30 隻）</strong></td>
+</tr>
+<tr>
+<td>包圍網</td>
+<td>16:00 起每 72s、36 隻</td>
+<td><strong>4:00 起每 30s、28 隻</strong></td>
+</tr>
+<tr>
+<td>商人</td>
+<td>7 次、停 45s</td>
+<td><strong>3 次、停 30s</strong></td>
+</tr>
+<tr>
+<td>魔王</td>
+<td>10 隻</td>
+<td><strong>5 隻（每關 1 隻）</strong></td>
+</tr>
+<tr>
+<td>獵殺者</td>
+<td>追 30 休 5</td>
+<td><strong>追 20 休 8</strong></td>
+</tr>
+<tr>
+<td>上線上榜</td>
+<td>✅</td>
+<td><strong>❌ 只記本機最佳</strong></td>
 </tr>
 </tbody>
 </table></div>
-<p>既有 7 把進化的吞吐倍率落在 2.0–3.6 之間，這三把都在區間內
-（有自動斷言守著，超出範圍測試會紅）。</p>
-<h3>結果：每一把基礎武器現在都有終點了</h3>
-<p>而且把提案 ⑤ 的四把也算進去的話，<strong>16 個被動裡「能當進化鑰匙的 14 個」
-會全部有用途</strong>。剩下兩個（複製護符、天使雕像）是<strong>結構上不可能</strong>——
-進化門檻寫死 <code>PassiveLv = 3</code>，而它們的上限是 2，永遠到不了。</p>
+<p>吞吐只 ×2 而不是 ×4，是因為 ×4 會讓最後一段變成<strong>每秒 63 隻</strong>，
+而 <code>MAX_ENEMIES = 1500</code> <strong>在 iPhone 上從來沒實測過</strong>（程式註解自己寫明的）。
+把峰值再乘四是拿效能去賭。差額用寶石經驗補回來。</p>
+<blockquote>
+<p>⚠️ <strong>那個 2.5 是估的，必須量出來。</strong> 玩家的擊殺數在中後期是被自己的清場能力
+決定的，不是被刷怪速度——所以「時間 ÷4 就是擊殺 ÷4」這個推論算不出正確倍率。
+要用 <code>VR_SHOTS</code> 跑 A/B，在<strong>同一個關卡進度</strong>上比對兩邊的玩家等級。</p>
+</blockquote>
+<h3>實作方式：<code>ModeDef</code> 資料表</h3>
+<p><code>VrDirector</code> 有<strong>六個地方</strong>各自拿 <code>Elapsed</code> 去比對常數（刷怪／精英／包圍網／
+魔王／商人／關卡）。各乘一次倍率的話<strong>一定會漏掉一個</strong>，而漏掉的那個
+不會編譯失敗、也不會讓測試變紅——症狀只是「突擊模式的商人還是照 5 分鐘出現」。
+所以旋鈕集中成一張表，<strong>加模式變成加資料，不是改流程</strong>。</p>
+<h3>過程中踩到的坑（已修）</h3>
+<p><code>MODES</code> 原本宣告在 <code>MERCHANT_TIMES</code> 前面。C# 的靜態欄位照宣告順序初始化，
+而 <code>MERCHANT_TIMES</code> 是 <code>static readonly</code>（不是 <code>const</code>）——<code>MODES</code> 建起來的當下
+它還是 <code>null</code>，<strong>標準模式會在第一次檢查商人時 NullReferenceException</strong>。
+編譯完全不會抱怨。已移到常數之後，並加了一條斷言守住。</p>
 <hr />
-<h2 id="g3">順手修掉的一個真 bug</h2>
-<p><code>VrProjectile.cs:93</code></p>
-<pre><code class="language-csharp">// 修改前
-knockMul = knockMultiplier &lt;= 0f ? 1f : knockMultiplier;
-// 修改後
-knockMul = knockMultiplier == 0f ? 1f : knockMultiplier;
+<h2 id="g3">③ 無盡模式</h2>
+<h3>先定義「一輪」</h3>
+<p>殭屍防線很直接：它本來就是波次制，打完第 8 波 <code>Wave++</code> 就好。
+<strong>吸血鬼是連續生存制，沒有波次可以加</strong>，所以定義等價單位：</p>
+<blockquote>
+<p><strong>一輪（Cycle）＝ 一次正篇的長度。</strong>
+輪內的關卡、魔王、商人整組重跑，<strong>關卡循環重用既有的五套場地素材</strong>
+（所以這一項美術成本 $0），機制關（獵殺者、暴風雪）也照樣重來。</p>
+</blockquote>
+<p>節奏感直接沿用——玩家已經熟悉「換場景、每關兩隻魔王」的呼吸。</p>
+<h3>進入方式：給玩家選，不自動接</h3>
+<p>撐滿 40 分鐘時跳一個面板：<strong>「結算收工」／「♾️ 進入無盡」</strong>。</p>
+<p>殭屍防線是自動接進去的，<strong>吸血鬼刻意不照抄</strong>：一局 40 分鐘，玩家很可能就是
+想把這場勝利收下來，硬接進無盡等於<strong>逼他用「死掉」來結束一場漂亮的通關</strong>。</p>
+<h3>強度怎麼爬</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>輪</th>
+<th>血量倍率</th>
+<th>傷害倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1（正篇）</td>
+<td>×1.0 → ×15.0</td>
+<td>×1.00</td>
+</tr>
+<tr>
+<td>2</td>
+<td>×19.5 → ×37.7</td>
+<td>×1.15</td>
+</tr>
+<tr>
+<td>3</td>
+<td>×49.0 → ×72.7</td>
+<td>×1.32</td>
+</tr>
+<tr>
+<td>4</td>
+<td>×94.5 → ×125.2</td>
+<td>×1.52</td>
+</tr>
+</tbody>
+</table></div>
+<p>底層線性曲線本身可以外插，但<strong>線性不夠</strong>——玩家的傷害是倍率連乘、
+精通還能無限疊，會追過去。所以每輪再乘一個複利（有斷言守著
+「新的一輪起點必須高於上一輪終點」，不然進新的一輪反而變簡單）。</p>
+<p>魔王血量用<strong>線性</strong>不是複利（複利會讓第 3 輪的滅世之神變成打不完的血條），
+技能冷卻每輪 ×0.85。</p>
+<h3>無盡限定機制（新鮮感的來源）</h3>
+<p><strong>只把數字往上加的無盡，第二次就不會有人打開。</strong> 所以做了兩個：</p>
+<p><strong>🦹 獵殺者全程在場</strong>（第 2 輪起）— 不再只有血月荒原那 8 分鐘。
+保留「追 30 休 5」的節奏所以仍有反擊視窗，但每輪 +10 速度（上限 200）：
+到第 5 輪你就真的甩不掉了，只能靠減速與擊退。</p>
+<p><strong>☠️ 輪迴詛咒</strong> — 每進入新的一輪，<strong>三選一必選</strong>一張負面效果，換<strong>分數 +25%</strong>（可累加，七張全拿 ×2.75）：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>詛咒</th>
+<th>效果</th>
+<th></th>
+<th>詛咒</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🩸 失血</td>
+<td>最大生命 −20%</td>
+<td></td>
+<td>🕰️ 焦躁</td>
+<td>攻擊冷卻 +10%</td>
+</tr>
+<tr>
+<td>👣 遲滯</td>
+<td>敵人移速 +12%</td>
+<td></td>
+<td>💀 密集</td>
+<td>精英改每 30 秒一隻</td>
+</tr>
+<tr>
+<td>🧲 短視</td>
+<td>拾取範圍 −40%</td>
+<td></td>
+<td>🚫 貧瘠</td>
+<td>寶箱固定 1 件</td>
+</tr>
+<tr>
+<td>⚔️ 鈍化</td>
+<td>所有傷害 −12%</td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table></div>
+<p>這讓「打到第幾輪」<strong>從耐力問題變成構築問題</strong>——玩家會開始盤算
+「這輪我扛得住失血還是鈍化」（押了幸運草的人就不能選貧瘠）。</p>
+<p>實作上<strong>完全複用升級三選一的面板</strong>，只是把 <code>Kind</code> 標成 <code>curse</code>、卡片換暗紫色。
+詛咒的倍率放進 <code>VrLoadout.Recalc</code>——那裡本來就是把所有倍率連乘的地方。</p>
+<h3>排行榜：不需要動禁區</h3>
+<p>我查過 worker（<code>server/leaderboard-worker/src/index.ts:39</code>）：</p>
+<pre><code class="language-ts">const LIMITS = { ..., time: 3_600, ... };
+time = int(body.time, LIMITS.time, 0);   // &gt; 3600 → 存成 0
 </code></pre>
-<p>擊退的方向向量是「敵人座標 − 玩家座標」，<strong>乘上負數就變成「把敵人拉向玩家」</strong>。
-原本的 <code>&lt;= 0</code> 會把負值一起當成「沒設定」吃掉。</p>
-<p>這是提案 ⑤ 那把「血鎖」的整個定位，先修起來放。
-<strong>這個 bug 編譯過、自動測試也會是綠的</strong>，症狀只會是「這把武器手感很普通」
-——正好是 CLAUDE.md 裡記的那一類。</p>
+<p><strong>無盡一定會撐過 60 分鐘</strong>，那些成績的存活時間會全部變成 0。
+但<strong>排名根本不看時間</strong>（<code>ORDER BY score DESC</code>，score = 難度加權擊殺數）——</p>
+<p>→ 解法是 client 端 <code>Mathf.Min(Elapsed, 3599)</code>，結算畫面照樣顯示真實時間。
+榜上用「<code>win</code> 且 <code>time</code> &gt; 一輪長度」判定並標<strong>「無盡」</strong>。
+<strong>沒有 <code>wrangler deploy</code>、沒有改 schema、沒有碰 game key。</strong></p>
+<h3>又一個「不會報錯」的坑（已修）</h3>
+<p><code>AcceptEndless()</code> 原本把 <code>lastCycleSeen</code> 設成 <code>Cycle</code>。這樣 <code>CycleStep</code> 下一幀
+會看到「輪數沒變」而什麼都不做——<strong>第 2 輪不會重置關卡/魔王/商人，也不會發詛咒</strong>，
+玩家要撐到第 3 輪（再 40 分鐘）才拿得到第一張。等於整個詛咒系統沒接上，
+而且<strong>不會有任何錯誤訊息</strong>。改成 <code>Cycle - 1</code>。</p>
 <hr />
-<h2 id="g4">驗證（三道，全過）</h2>
-<p>我另外寫了兩支可重複跑的檢查，都進了版控：</p>
-<h3>1. <code>tools/csccheck/compile.sh</code> — 不用開 Unity 的編譯 gate</h3>
-<pre><code>來源檔 169 個，error CS = 0
-✅ 編譯通過
+<h2 id="g4">驗證：三道 gate，每次改完都跑</h2>
+<h3><code>tools/csccheck/compile.sh</code> — 不用開 Unity 的編譯 gate（約 10 秒）</h3>
+<pre><code>來源檔 170 個
+  正式版：error CS = 0
+  VR_SHOTS：error CS = 0
 </code></pre>
-<p>CLAUDE.md 的規則 2 要求「建置失敗要 gate，不能拿舊執行檔跑」，但開 Unity
-重建 <code>Library/</code> 要十幾分鐘、還要吃 1.7 GB 硬碟。這支直接拿 Unity 內附的
-Roslyn 去編 <code>Assets/Scripts</code>，<strong>約 10 秒</strong>。</p>
-<h3>2. <code>tools/vrdatacheck/run.sh</code> — 資料層驗證</h3>
-<p><code>VampireData.cs</code> 本來就刻意不相依 UnityEngine（檔頭註解寫明「可以在 Unity
-之外編譯執行、逐欄比對數值」），所以可以獨立跑。驗這些：</p>
+<p>CLAUDE.md 規則 2 要求「建置失敗要 gate」，但開 Unity 重建 <code>Library/</code> 要十幾分鐘
+還吃 1.7 GB。這支直接拿 Unity 內附的 Roslyn 編。<strong>兩輪都編</strong>——
+<code>VR_SHOTS</code> 底下是整套自動驗證流程，平常不編的話改壞了要到真的要跑驗證時才知道。</p>
+<h3><code>tools/vrdatacheck/run.sh</code> — 資料層驗證</h3>
+<p><code>VampireData.cs</code> 刻意不相依 UnityEngine，可以獨立跑。目前驗 60 幾條，包括：</p>
 <ul>
-<li>每個 combo 的武器／被動／進化 id 都存在</li>
-<li><strong>被動的 <code>MaxLv</code> ≥ 門檻 3</strong> ← 這條最重要，拿複製護符（上限 2）當鑰匙的話
-  那條路線永遠湊不出來，而且完全不會報錯</li>
-<li>進化武器標了 <code>Evolved</code>（才不會被三選一直接抽到）</li>
-<li>一把武器只對到一條進化、一個進化只被一組指向</li>
-<li><strong>家族推導</strong>：血刃輪舞 → Arc、疫毒領域 → Aura、隕星引力 → Meteor</li>
-<li><strong>既有行為沒被改到</strong>：十字斬 <code>Knock == 0</code>、大蒜 <code>Weaken == 0</code>、隕石 <code>Pull == 0</code></li>
-<li>強度落在既有 7 把的區間內</li>
+<li>進化組合完整性、<strong>被動 <code>MaxLv</code> ≥ 門檻 3</strong>（拿複製護符當鑰匙的話永遠湊不出來）</li>
+<li><strong>標準模式的每個欄位等於原本寫死的常數</strong>（既有行為不能被改到）</li>
+<li>突擊模式的<strong>終點強度跟標準對齊</strong>（爬升率沒跟著縮放的話這裡會分家）</li>
+<li><code>MerchantTimes != null</code>（就是上面那個靜態初始化順序的坑）</li>
+<li><strong>輪數換算的邊界</strong>（t=2399 / 2400 / 4800 → 差一輪或差一關都會抓到）</li>
+<li>無盡強度<strong>單調遞增</strong>、詛咒完整性、排行榜上限相容性</li>
 </ul>
-<h3>3. <code>symbols.py --check</code> — 效果值有沒有消費點</h3>
+<h3><code>symbols.py --check</code> — 效果值有沒有消費點</h3>
 <pre><code>第一層　只有驗證在讀的私有值　0 個
 第二層　完全沒人讀的私有值　　0 個
 </code></pre>
-<p>這是 CLAUDE.md 的第一條硬規則（血怒的病：宣告了、註解寫得好好的、
-測試也綠，但從來沒被乘進任何計算）。新增的 <code>Pull</code> / <code>Weaken</code> /
-<code>DamageTakenMul</code> 都有實際消費點。</p>
+<p>CLAUDE.md 的第一條硬規則。新增的 <code>Pull</code> / <code>Weaken</code> / <code>DamageTakenMul</code> /
+<code>SpeedMulGlobal</code> / 四個詛咒倍率都有實際消費點。</p>
 <hr />
 <h2 id="g5">共用系統的風險（你要求要講清楚的）</h2>
 <div class="scroll"><table>
@@ -370,44 +472,60 @@ Roslyn 去編 <code>Assets/Scripts</code>，<strong>約 10 秒</strong>。</p>
 <tr>
 <th>動到什麼</th>
 <th>風險</th>
-<th>怎麼處理的</th>
+<th>怎麼處理</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td><code>VrEnemy</code> 新增狀態欄位 <code>weakenUntil</code> / <code>weakenMul</code></td>
-<td><strong>物件池會重用同一個實例</strong>，不清的話上一隻身上的易傷會被下一隻繼承——症狀是「敵人多的時候偶爾有一隻莫名其妙很脆」，而且查不出來</td>
-<td>在共用的 <code>ClearAbilities()</code> 重置，跟既有的 <code>slowUntil</code> 同一個位置</td>
+<td><strong>存檔格式</strong></td>
+<td>新增 <code>vr_mode</code>、<code>vr_best_blitz</code> 兩個 PlayerPrefs 鍵</td>
+<td>讀取一律帶預設值，<strong>舊玩家拿到「標準模式」，不需要遷移、不需要版本號</strong></td>
 </tr>
 <tr>
-<td><code>VrDirector.Hit()</code> 多乘一個倍率</td>
-<td>這是<strong>全遊戲每一次傷害</strong>都會走的路徑</td>
-<td>只加一行乘法，且乘在跳傷害數字<strong>之前</strong>——跳的數字必須是實際扣掉的血，不然玩家會以為易傷沒生效</td>
+<td><strong><code>VrEnemy.SpeedMulGlobal</code>（static）</strong></td>
+<td>跨局共用，不還原的話上一局的「遲滯」詛咒會跟進下一局，而且查不出來</td>
+<td><code>Begin()</code> 還原成 1（invariants.md 第 4 條）</td>
 </tr>
 <tr>
-<td><code>FireArc</code> / <code>FireAura</code> / <code>FireMeteor</code> 加分支</td>
-<td>可能改到既有武器的行為</td>
-<td>三個分支的條件都是「新欄位 &gt; 0」，而既有武器的那三個欄位都是 0，走原本那條。資料層驗證有斷言守住</td>
+<td><strong><code>VrEnemy</code> 的易傷欄位</strong></td>
+<td>物件池重用實例，不清的話上一隻的易傷被下一隻繼承</td>
+<td>在共用的 <code>ClearAbilities()</code> 重置</td>
 </tr>
 <tr>
-<td>存檔格式</td>
-<td>—</td>
-<td><strong>這一階段完全沒動</strong></td>
+<td><strong><code>VrDirector.Hit()</code></strong></td>
+<td>全遊戲每一次傷害都走這條</td>
+<td>只加一行乘法，且乘在跳傷害數字<strong>之前</strong>（跳的必須是實際扣掉的血）</td>
 </tr>
 <tr>
-<td>選單 UI</td>
-<td>—</td>
-<td><strong>這一階段完全沒動</strong>（那是階段④的事，也是整個 v2 風險最高的一塊）</td>
+<td><strong><code>VrEndScreen</code> 版面</strong></td>
+<td>依模式決定要不要建上傳鈕與暱稱框</td>
+<td>兩條路徑的 <code>mark()</code> 高度<strong>刻意給一樣</strong>——<code>top</code> 是可視窗的切線，不一致會讓換模式時版面錯位</td>
+</tr>
+<tr>
+<td><strong><code>VrLevelUpPanel</code></strong></td>
+<td>升級與詛咒共用同一個面板</td>
+<td>版面完全一樣，只換標題／卡片顏色／<code>Pick</code> 的去向。另做一個面板只會多一份要維護的版面</td>
+</tr>
+<tr>
+<td><strong><code>VrMenuScreen</code></strong></td>
+<td><strong>完全還沒動</strong></td>
+<td>那是階段④的事，也是整個 v2 風險最高的一塊</td>
 </tr>
 </tbody>
 </table></div>
-<h2 id="g6">還沒驗到的（老實說）</h2>
-<p>上面三道都是<strong>靜態</strong>檢查——編得過、資料接得起來、欄位有人讀。
-<strong>「易傷有沒有真的讓傷害變高」「引力有沒有真的把怪拉過去」這種行為層的事，
-要開 Unity 跑 <code>VR_SHOTS</code> 才驗得到。</strong></p>
-<p>我打算把那一次比較貴的實機驗證<strong>攢到階段②③做完再一次跑</strong>
-（<code>Library/</code> 剛被清掉，第一次匯入要十幾分鐘），而不是每個階段各跑一次。
-如果你希望現在就先看到實機畫面，跟我說，我就先跑一輪。</p>
+<h2 id="g6">還沒到位的（老實說）</h2>
+<ul>
+<li><strong>模式選擇的 UI 還沒做。</strong> 突擊模式目前要用 <code>VR_MODE=blitz</code> 環境變數進去
+  （跟既有的 <code>VR_ONLY</code> 同一種做法）。<strong>正式的選單入口要等階段④</strong>
+  ——那時 <code>VrMenuScreen</code> 本來就要改成捲動版面，一起做才不會做兩次。</li>
+<li><strong>三道 gate 都是靜態檢查。</strong> 編得過、資料接得起來、欄位有人讀。
+  <strong>「易傷有沒有真的讓傷害變高」「引力有沒有真的把怪拉過去」「第 2 輪關卡有沒有真的重跑」
+  這種行為層的事，要開 Unity 跑 <code>VR_SHOTS</code> 才驗得到。</strong>
+  我把那一次比較貴的實機驗證攢到④⑤做完再一次跑（<code>Library/</code> 剛清掉，
+  第一次匯入要十幾分鐘）。<strong>想現在就看實機畫面的話跟我說，我先跑一輪。</strong></li>
+<li>那兩個關鍵倍率（突擊的經驗 ×2.5、無盡的每輪 ×1.30）<strong>都是估的</strong>，
+  要靠實機 A/B 校正。</li>
+</ul>
 <a class="navlink" href="vr-v2.html">→ 原始的五項設計提案</a>
 <a class="navlink" href="vr-guide.html">→ 完全攻略</a>
 <footer>吸血鬼復仇 v2 實作進度 · unity/VampireRevenge</footer>
