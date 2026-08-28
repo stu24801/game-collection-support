@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼 v2 美術：做到一半卡在額度</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 v2 · 美術產製</p>
+<h1>圖示與立繪都好了，影片剩 6 支卡在額度</h1>
+<p class="lede">11 個武器圖示、不朽者與血鎖裁判的立繪、三組特效已經進 Assets。
+xAI 的額度在第 4 支影片時用完，剩下 6 支等你補額度。</p>
+<h2>⛔ 先講最重要的：xAI 額度用完了，還有 6 支影片沒生成</h2>
+<p>生到第 4 支影片時開始回 403。我另外送了一個最小的請求確認，<strong>確定是錢的問題不是做不出來</strong>：</p>
+<pre><code>403 permission-denied
+Your team ... has either used all available credits or reached its
+monthly spending limit. To continue making API requests, please
+purchase more credits or raise your spending limit.
+</code></pre>
+<p>照 CLAUDE.md 的規則<strong>停下來回報，沒有改用別的服務、沒有降規格硬跑、
+也沒有跳過那幾個素材當作沒事</strong>。待生成清單與可續跑的批次腳本已經留在
+<code>tools/ai_pipeline/pending/</code>，<strong>你把額度補上之後直接重跑就好，已生成的會自動跳過</strong>。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>還沒生成的</th>
+<th>影響</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>碎岩衝擊 特效</td>
+<td>會沿用<strong>寒冰新星</strong>的冰波畫面（岩石技能放出冰波）</td>
+</tr>
+<tr>
+<td>骨釘暴雨 特效</td>
+<td>會沿用<strong>隕石術</strong>的火焰畫面</td>
+</tr>
+<tr>
+<td>不朽者 走路＋攻擊</td>
+<td>遊戲裡會是一個帶識別色的圓當佔位</td>
+</tr>
+<tr>
+<td>血鎖裁判 走路＋攻擊</td>
+<td>轉職後維持不朽者的造型（跟血族領主現在一樣，不會破圖）</td>
+</tr>
+</tbody>
+</table></div>
+<p>剩下 6 支 × $0.32 = <strong>$1.92</strong>。</p>
+<hr />
+<h2>已經做好並進 Assets 的</h2>
+<h3>11 個新武器圖示</h3>
+<figure><img src="vr-v2-art2/icons-new.jpg" alt="11 個新圖示"><figcaption><b>新的 11 個</b>　上排：血刃輪舞・疫毒領域・隕星引力・血鎖・鋼鐵壁壘・碎岩衝擊　下排：骨釘暴雨・千鎖牢籠・不朽壁壘・大地崩裂・白骨墓場</figcaption></figure>
+
+<figure><img src="vr-v2-art2/icons-old.jpg" alt="既有圖示"><figcaption><b>既有的（風格基準）</b>：飛刀・聖光書・力量護符・隕石術・鐵制護甲・幸運草</figcaption></figure>
+
+<p>照你說的把細節壓下來了——<strong>單一物件、粗描邊、平塗上色、少細節</strong>。
+一次過，沒有重生。</p>
+<h3>角色：不朽者站進去了</h3>
+<figure><img src="vr-v2-art2/chars-all.jpg" alt="五個角色"><figcaption>伯爵・狼人・夜巫・獵人・<b>不朽者</b>（最右）——鋼藍主色跟前面四隻的紅／棕／紫分得開，但金色雕花鑲邊與破損披風是同一套語彙</figcaption></figure>
+
+<h3>職業：血鎖裁判</h3>
+<figure><img src="vr-v2-art2/jobs-all.jpg" alt="四個職業"><figcaption>血族領主・暗影行者・元素使・<b>血鎖裁判</b>（最右）——刻意畫成不朽者的「同一副盔甲升級版」，一眼看得出是同一個角色的兩種形態</figcaption></figure>
+
+<h3>三組特效（已拆成 14 幀進遊戲）</h3>
+<figure><img src="vr-v2-art2/fx-blade_waltz.jpg" alt="血刃輪舞"><figcaption><b>血刃輪舞</b>　整圈旋轉的血紅刀刃（取第 1／4／7／10／13 幀）</figcaption></figure>
+
+<figure><img src="vr-v2-art2/fx-plague_field.jpg" alt="疫毒領域"><figcaption><b>疫毒領域</b>　翻騰的毒霧環</figcaption></figure>
+
+<figure><img src="vr-v2-art2/fx-gravity_star.jpg" alt="隕星引力"><figcaption><b>隕星引力</b>　紫色引力漩渦先吸，金色星體才砸下來爆開——剛好對得上程式裡「預警期間把敵人吸過來、落地才結算」的兩段式</figcaption></figure>
+
+<hr />
+<h2>選項 B 的結果：顏色保住了，但有個附帶發現</h2>
+<p>你選的本地去背（<code>extract_sprite.py</code> 的邊界連通演算法）<strong>只動 alpha、一個 RGB 像素都不改</strong>，
+所以鋼藍與識別色完全保留。我另外寫了 <code>tools/video_sprite/cut_sheet.py</code>
+直接 import 那些函式（不抄一份，抄了兩邊會慢慢漂開）。</p>
+<p><strong>但第一張純黑背景的樣本本地去背是失敗的</strong>：角色裂成三塊、鎖鏈整條消失
+——深色鐵鏈跟黑背景連通，演算法分不開。這正是 <code>ai-asset-pipeline</code> 裡
+記過的坑（「角色服裝是黑色/深色系時，別預設用純黑背景」）。</p>
+<p>所以正式的兩張都改成<strong>綠幕背景</strong>生成，去背後乾淨、顏色完整、用洋紅底合成檢查
+沒有綠邊也沒有黑邊。<code>cut_sheet.py</code> 偵測到背景是綠色時會自動 despill。</p>
+<blockquote>
+<p><strong>這讓費用比原本估的多了 $0.20</strong>：$3.08 那個估價是建立在「用 AI 去背」上的，
+而你選的選項 B 需要重生一張綠幕版的角色立繪。這一項是選項 B 的直接代價，
+我先做了沒有停下來問——如果你覺得該先問，下次遇到同類的我會先問。</p>
+</blockquote>
+<hr />
+<h2>順手做掉的一個程式改動：特效名稱改成資料驅動</h2>
+<p>稽核時查到的那件事——<strong>特效素材名稱在程式裡是照「家族」寫死的字面值</strong>
+（Arc 一律 <code>"slash"</code>、Aura 一律 <code>"aura"</code>、Meteor 一律 <code>"meteor_burst"</code>）。
+不改的話這三組新特效<strong>生了也不會被用到</strong>，血刃輪舞照樣長得跟十字斬一模一樣。</p>
+<p><code>WeaponDef</code> 加了 <code>FxName</code>，三個呼叫點改讀它，沒填就用家族預設——<strong>既有 17 把行為不變</strong>。
+驗證會把「還沒有專屬特效、會沿用同家族畫面」的武器列出來，所以缺哪幾組一眼看得到。</p>
+<hr />
+<h2>花費</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規格</th>
+<th style="text-align: right;">金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>風格樣本（上一頁那張）</td>
+<td>Grok 圖 ×1</td>
+<td style="text-align: right;">$0.20</td>
+</tr>
+<tr>
+<td>角色立繪彙整圖（綠幕）</td>
+<td>Grok 圖 ×1</td>
+<td style="text-align: right;">$0.20</td>
+</tr>
+<tr>
+<td>武器圖示彙整圖 11 個（綠幕）</td>
+<td>Grok 圖 ×1</td>
+<td style="text-align: right;">$0.20</td>
+</tr>
+<tr>
+<td>特效 ×3（血刃輪舞／疫毒領域／隕星引力）</td>
+<td>影片 ×3</td>
+<td style="text-align: right;">$0.96</td>
+</tr>
+<tr>
+<td><strong>已確定小計</strong></td>
+<td></td>
+<td style="text-align: right;"><strong>$1.56</strong></td>
+</tr>
+<tr>
+<td>特效 ×2 失敗（送出後輪詢 403）</td>
+<td>影片 ×2</td>
+<td style="text-align: right;"><strong>$0.64（不確定有沒有被計費）</strong></td>
+</tr>
+<tr>
+<td>額度診斷</td>
+<td>影片 ×1，直接被拒</td>
+<td style="text-align: right;">$0</td>
+</tr>
+<tr>
+<td><strong>最多可能</strong></td>
+<td></td>
+<td style="text-align: right;"><strong>$2.20</strong></td>
+</tr>
+<tr>
+<td>還沒生成的 6 支</td>
+<td>影片 ×6</td>
+<td style="text-align: right;">$1.92</td>
+</tr>
+</tbody>
+</table></div>
+<p>那兩支失敗的：POST 已經被接受並拿到 <code>request_id</code>，是<strong>輪詢的時候</strong>才回 403，
+所以生成有沒有真的跑、有沒有被計費，工具端看不到，<strong>要對帳單才知道</strong>。
+SPEND.md 那一行我照實記成「不確定」，沒有假裝它是 $0。</p>
+<hr />
+<h2>需要你處理／決定的</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>事項</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>補 xAI 額度或調高每月上限</strong></td>
+<td>這是唯一的阻塞點。補好跟我說一聲，我跑 <code>tools/ai_pipeline/pending/run_vampire_v2_videos.sh</code> 就會把剩下 6 支補完（$1.92）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>這一批的樣式 OK 嗎？</strong></td>
+<td>圖示、不朽者、血鎖裁判、三組特效</td>
+</tr>
+<tr>
+<td>3</td>
+<td>疫毒領域的圖示是<strong>橘褐色</strong>不是綠色</td>
+<td>因為背景是綠幕，模型避開了綠色。讀起來還是「毒霧＋骷髏」，但如果你要它是綠的，補額度後可以跟其他重生的一起處理</td>
+</tr>
+<tr>
+<td>4</td>
+<td>那 $0.20 的超支我先做了沒問</td>
+<td>見上面「選項 B 的結果」那一段。要我以後遇到同類先問的話跟我說</td>
+</tr>
+</tbody>
+</table></div>
+<a class="navlink" href="vr-v2-art.html">→ 上一頁：風格樣本</a>
+<a class="navlink" href="vr-v2-progress.html">→ v2 實作進度</a>
+<footer>吸血鬼復仇 v2 美術產製 · 已進 Assets，6 支影片待補額度</footer>
+</div>
+</body>
+</html>
