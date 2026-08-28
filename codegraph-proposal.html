@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>codegraph 提案</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+tr.cap td{opacity:.55}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">工程基礎建設 · 提案</p>
+<h1>你要的 codegraph，我建議做成兩個小東西而不是一張大圖</h1>
+<p class="lede">我把這個 session 實際踩到的 12 個跨檔問題逐一對照過：
+<b>一張類別依賴圖一個都抓不到。</b>
+下面是量出來的現況、三種形式的比較、以及我推薦的做法。<b>還沒動手做任何東西。</b></p>
+
+<h2><span class="num">1</span>先看現況（實際量的）</h2>
+<div class="scroll"><table>
+<tr><th>範圍</th><th>檔數</th><th>行數</th></tr>
+<tr><td>地城迴響　<b>產品程式</b></td><td>35</td><td>14,377</td></tr>
+<tr><td>地城迴響　<b>驗證探針</b></td><td>45</td><td>6,033</td></tr>
+<tr><td>殭屍防線</td><td>33</td><td>8,020</td></tr>
+<tr><td>共用 Core / UI / Gameplay</td><td>55</td><td>14,337</td></tr>
+<tr><td colspan="3">另有三個獨立 Unity 專案：CyberAdv 36 檔、CyberSurvivor 22 檔、DnDPaperdoll 38 檔</td></tr>
+</table></div>
+<div class="note warn">
+<p><b>兩個數字說明了問題的來源：</b></p>
+<p><code>Demo.cs</code> 一個檔 <b>6,078 行、84 個 public 成員</b>。地城迴響幾乎所有東西都要經過它，
+所以「改一個地方牽動別處」在這裡是常態而不是意外。</p>
+<p>探針有 <b>45 個檔、6,033 行</b>，跟產品程式混在同一個資料夾。
+出貨前的檢查只能靠檔名（<code>*Probe.cs</code>）去排除它們——那個界線目前只存在於一條 grep 裡。</p>
+</div>
+
+<h2><span class="num">2</span>這個 session 實際踩到的坑，分成四類</h2>
+<p>這是提案的依據。任何 codegraph 如果抓不到這四類，就是做給人看的。</p>
+<div class="scroll"><table>
+<tr><th>類型</th><th>次數</th><th>實例</th></tr>
+<tr><td><b>A 宣告了但沒人讀</b></td><td>4</td>
+<td>血怒的攻速倍率、重斬漏掉劍術精通、法師普攻沒接附魔、法力護盾沒吃秘能</td></tr>
+<tr><td><b>B 生成物件沒接線</b></td><td>3</td>
+<td>敵人沒進戰鬥清單／沒接死亡事件——技能掃不到它、打死不掉東西，而且不會報錯</td></tr>
+<tr><td><b>C Tick 排在 early-return 之後</b></td><td>2</td>
+<td>擊退、暗影的明暗——攻擊或硬直期間整段被跳過</td></tr>
+<tr><td><b>D 共用狀態沒還原</b></td><td>3</td>
+<td>動畫播放速度、石膚的角色染色、技能光源——留著會影響下一次</td></tr>
+</table></div>
+
+<h2><span class="num">3</span>三種形式的比較</h2>
+
+<h3>形式 A：符號消費索引 ＋ 不變條件清單<span class="pick">推薦</span></h3>
+<p>兩個小東西，直接對著上面四類問題：</p>
+<div class="scroll"><table>
+<tr><th>產物</th><th>怎麼來</th><th>抓得到</th></tr>
+<tr><td><code>docs/codegraph/dnd-symbols.md</code><br>符號消費索引</td>
+<td>腳本掃出所有「效果修正屬性／狀態欄位」，列出<b>定義在哪、被誰讀取、幾個消費點</b>，
+並標出 0 消費點的。<b>產物是 markdown 且進版控</b>——diff 就看得出「這次改動讓某個東西失去了消費點」</td>
+<td><b>A</b>（這個 session 的 A 類我就是用同樣的腳本抓出來的，掃 51 個屬性揪出 3 個沒人讀）</td></tr>
+<tr><td><code>docs/codegraph/invariants.md</code><br>不變條件清單</td>
+<td>手寫，一頁以內。例如「生成敵人一定要走 SpawnWave／SpawnMinion 那條線」、
+「狀態 Tick 一定要排在所有 early-return 之前」、「共用狀態清單與它們的還原點」</td>
+<td><b>B、C、D</b></td></tr>
+</table></div>
+<p class="small"><b>維護成本：</b>索引是腳本自動產生，改完程式跑一次（幾秒），可以掛進既有的建置腳本。
+清單是手寫，只在<b>發現新的坑時追加一條</b>——這個 session 就能一次寫進 5 條。</p>
+
+<h3>形式 B：完整的類別依賴圖</h3>
+<div class="note warn">
+<p><b>不推薦，因為它抓不到上面任何一類。</b>依賴圖會告訴你「Demo 依賴 Gear」——
+那件事本來就知道，而且四類問題全部發生在<b>符號層級</b>（某個值有沒有被乘進去、
+某個呼叫有沒有接上事件），不是檔案層級。</p>
+<p>成本也不低：C# 要正確解析得用 Roslyn 或 tree-sitter，兩者這台機器都沒有，
+要另外安裝並維護。而且圖要跟著程式碼跑，不然很快就過期變成誤導。</p>
+</div>
+
+<h3>形式 C：ctags／符號索引工具</h3>
+<p>解決的是「跳到定義」。這台機器內建的 ctags 是舊版 BSD 的，<b>不支援 C#</b>，
+要另外裝 universal-ctags。而「找定義」用 grep 已經夠快了——
+這不是目前的瓶頸。<b>不推薦。</b></p>
+
+<h2><span class="num">4</span>範圍：先只做地城迴響</h2>
+<div class="scroll"><table>
+<tr><th>範圍</th><th>做不做</th><th>理由</th></tr>
+<tr><td>地城迴響</td><td><b>做</b></td><td>目前活躍開發的部分，也是踩最多坑的地方</td></tr>
+<tr><td>殭屍防線</td><td><b>先不做</b></td><td><b>有另一個 session 並行在改</b>。同時動同一批檔案會撞，
+等地城這邊驗證這套做法真的有效再推廣</td></tr>
+<tr><td>共用 Core</td><td>只納入被地城讀到的部分</td><td>Core 同時被三款遊戲用，整包納入會讓索引充滿跟地城無關的東西</td></tr>
+<tr><td>CyberAdv／CyberSurvivor</td><td>不做</td><td>獨立專案，不在這次的問題範圍</td></tr>
+</table></div>
+
+<h2><span class="num">5</span>怎麼變成標準做法</h2>
+<p>光是產生檔案沒有用——沒人看的索引跟不存在一樣。要讓它真的被用到，得寫進
+<code>CLAUDE.md</code>（那是每個 session 開場就會讀到的東西）：</p>
+<div class="note">
+<p>新增一節「改程式之前」，內容大致是：</p>
+<p>· <b>動到任何「效果數值」時</b>（倍率、加成、狀態欄位）：改完跑一次索引腳本，
+確認新增的東西<b>消費點大於 0</b>。這一條直接對應血怒那次——宣告了、測試也綠，但從來沒生效。</p>
+<p>· <b>新增生成呼叫、或新增每幀 Tick 時</b>：對照不變條件清單。</p>
+<p>· <b>驗證要打玩家入口，不要問屬性回傳值。</b>（這條 CLAUDE.md 已經有了，
+但可以連到清單裡的具體例子。）</p>
+</div>
+
+<h2><span class="num">6</span>要花多少功夫</h2>
+<div class="scroll"><table>
+<tr><th>項目</th><th>建立</th><th>之後每次維護</th></tr>
+<tr><td>符號消費索引腳本＋首份產出</td><td>約 1～2 小時</td><td>幾秒（跑腳本）</td></tr>
+<tr><td>不變條件清單（含這個 session 的 5 條）</td><td>約 30 分鐘</td><td>只在踩到新坑時加一條</td></tr>
+<tr><td>寫進 CLAUDE.md</td><td>約 15 分鐘</td><td>—</td></tr>
+</table></div>
+
+<h2><span class="num">7</span>要你決定的</h2>
+<div class="scroll"><table>
+<tr><th>要決定的</th><th>為什麼輪不到我決定</th></tr>
+<tr><td>走形式 A，還是仍然要一張類別依賴圖（形式 B）</td>
+<td>我的建議是 A，但如果你要的是「一張看得到全貌的圖」給人看，那是另一種需求，B 才對</td></tr>
+<tr><td>範圍要不要含殭屍防線</td>
+<td>那邊有並行的 session 在改，同時動會撞——要含的話得先協調誰先誰後</td></tr>
+<tr><td>索引要不要掛進建置流程自動跑</td>
+<td>會讓每次建置多幾秒，但也保證它不會過期。取捨在你</td></tr>
+</table></div>
+
+<div class="note warn">
+<p><b>順帶講一件治本的事。</b>這四類問題的根源是 <code>Demo.cs</code> 有 6,078 行、
+84 個 public 成員——所有東西都經過同一個檔案。
+codegraph 是<b>治標</b>：它讓「改了沒接上」被抓出來，但不會讓那件事變得不容易發生。
+治本是把 Demo.cs 拆開，但那是大工程、風險也高，<b>我不建議現在做</b>，
+只是要你知道索引解決不了的是什麼。</p>
+</div>
+
+<footer>工程基礎建設 · codegraph 提案</footer>
+</div>
+</body>
+</html>
