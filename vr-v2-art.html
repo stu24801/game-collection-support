@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼 v2 美術：風格樣本待確認</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 v2 · 美術</p>
+<h1>風格樣本出來了，對不對？</h1>
+<p class="lede">不朽者的角色立繪 ＋ 血鎖 ＋ 鋼鐵壁壘，一張彙整圖同時確認「角色」與「圖示」兩種風格。
+還沒有任何東西寫進 Assets/。</p>
+<h2>這一張花了 $0.20，剩下的等你點頭</h2>
+<p>照你說的做法：<strong>先生一張代表性樣本</strong>，風格對了再把 Tier 1／Tier 2 其餘的一次做完。
+一張彙整圖同時涵蓋<strong>兩種風格</strong>（角色立繪 ＋ 武器圖示），所以一次 $0.20 就能兩種都確認。</p>
+<ul>
+<li>生成：Grok 圖 ×1（<code>grok-imagine-image</code>）＋ OpenAI 去背</li>
+<li><strong>還沒有任何東西寫進 <code>Assets/</code></strong>，全部留在 <code>/tmp</code></li>
+<li>已追加到 <code>SPEND.md</code></li>
+</ul>
+<hr />
+<h2>⚠️ 先講一件我沒預期到的事：去背把顏色改掉了</h2>
+<p>下面兩張是<strong>同一次生成</strong>的前後，請對照看：</p>
+<figure><img src="vr-v2-art/sample-raw.jpg" alt="Grok 原圖"><figcaption><b>① Grok 原圖</b>（還沒去背）——鋼藍色甲、胸口裂痕在發光、盾牌是藍底金框</figcaption></figure>
+
+<figure><img src="vr-v2-art/sample-cut.jpg" alt="OpenAI 去背後"><figcaption><b>② OpenAI 去背後</b>（合成在遊戲的深色底上）——甲變成灰色、<b>胸口的發光裂痕不見了</b>、盾牌變深灰、鎖鏈的纏繞方式也不一樣</figcaption></figure>
+
+<p><strong>原因</strong>：<code>gpt-image-1</code> 的 <code>images/edits</code> 是<strong>重繪</strong>，不是單純把背景挖掉。
+去背品質本身是好的（完全透明 75.3%、邊緣半透明 9.7%、用洋紅底合成檢查沒有黑邊毛邊），
+但它會順手把畫面重新畫一次。</p>
+<p>這件事對這一批特別有影響，因為<strong>鋼藍色（<code>#7a8fa8</code>）是血鎖裁判的識別色</strong>，
+遊戲裡角色腳下的光環會用這個顏色。甲變灰之後，角色跟識別色就對不起來了。</p>
+<p><strong>這一題要你決定</strong>（見最後一節）。</p>
+<hr />
+<h2>風格對照</h2>
+<h3>角色：跟既有四隻放在一起</h3>
+<figure><img src="vr-v2-art/ref-characters.jpg" alt="既有四個角色"><figcaption><b>既有的四隻</b>：伯爵、狼人、夜巫、獵人——暗色哥德奇幻、厚塗、全身正面、深紅與黑金</figcaption></figure>
+
+<p>不朽者走的是同一套語彙（厚塗、全身正面、金色雕花鑲邊、破損披風），
+但<strong>刻意用鋼藍當主色</strong>跟那四隻的紅／棕／紫分開——它是坦克，不是吸血鬼系的。</p>
+<h3>圖示：跟既有的放在一起</h3>
+<figure><img src="vr-v2-art/ref-icons.jpg" alt="既有圖示"><figcaption><b>既有圖示</b>：飛刀、聖光書、力量護符、隕石術、鐵制護甲、幸運草</figcaption></figure>
+
+<p>既有圖示是<strong>厚實、造型單純、柔邊描邊</strong>。樣本裡的血鎖與鋼鐵壁壘density 比較高
+（鎖鏈的細節多），縮到遊戲裡的圖示尺寸（約 140×140 畫布單位）可能會糊掉——
+<strong>這是我自己看到的疑慮，也想聽你的意見</strong>。</p>
+<hr />
+<h2>如果這個風格 OK，接下來一次做完的清單</h2>
+<p>照提案的 Tier 分級，<strong>全部加起來 $3.28</strong>（不含重生緩衝）：</p>
+<h3>已經花掉</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規格</th>
+<th>花費</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>風格樣本（本頁）</td>
+<td>Grok 圖 ×1</td>
+<td><strong>$0.20</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>Tier 0 剩下的：圖示</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規格</th>
+<th>估價</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>武器圖示彙整圖（11 個：階段①的 3 個 ＋ 階段⑤的 8 個）</td>
+<td>Grok 圖 ×1</td>
+<td>$0.20</td>
+</tr>
+</tbody>
+</table></div>
+<p>血鎖與鋼鐵壁壘這次已經畫出來了，正式那張會把 11 個一起排進去統一風格。</p>
+<h3>Tier 1：新特效（5 支影片）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>特效</th>
+<th>為什麼需要</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>血刃輪舞</td>
+<td>不生的話會<strong>沿用十字斬的刀光</strong>，看起來完全一樣</td>
+</tr>
+<tr>
+<td>疫毒領域</td>
+<td>不生的話會沿用大蒜光環的綠光環</td>
+</tr>
+<tr>
+<td>隕星引力</td>
+<td>不生的話會沿用隕石術的火焰</td>
+</tr>
+<tr>
+<td>碎岩衝擊</td>
+<td>不生的話會<strong>沿用寒冰新星的冰波</strong>（岩石技能放出冰波）</td>
+</tr>
+<tr>
+<td>骨釘暴雨</td>
+<td>不生的話會沿用隕石術的火焰</td>
+</tr>
+</tbody>
+</table></div>
+<p>5 × $0.32 = <strong>$1.60</strong></p>
+<blockquote>
+<p>特效素材的名稱在程式裡是<strong>照家族寫死的字面值</strong>，所以除了投射與環繞兩個家族之外，
+新武器不生素材就一定會跟既有武器長一樣。血鎖（投射）與鋼鐵壁壘（環繞）
+只要有圖示就完整了，<strong>不用特效影片</strong>——這也是當初挑家族時就考慮進去的。</p>
+</blockquote>
+<h3>Tier 2：新種族與新職業的動畫（4 支影片）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規格</th>
+<th>估價</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>不朽者 走路（12 幀）</td>
+<td>影片 4s 720p，以本頁的立繪當參考圖</td>
+<td>$0.32</td>
+</tr>
+<tr>
+<td>不朽者 攻擊（8 幀）</td>
+<td>同上</td>
+<td>$0.32</td>
+</tr>
+<tr>
+<td>血鎖裁判 走路</td>
+<td>同上</td>
+<td>$0.32</td>
+</tr>
+<tr>
+<td>血鎖裁判 攻擊</td>
+<td>同上</td>
+<td>$0.32</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>血鎖裁判那兩支可以省。</strong> 血族領主現在就沒有專屬走路素材，
+<code>ApplyJobLook()</code> 找不到素材時會維持原本的角色造型、不會破圖——
+先只做識別色光環，之後再補。省下來 <strong>$0.64</strong>。</p>
+<h3>總計</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>方案</th>
+<th style="text-align: right;">金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>只補圖示（Tier 0 收尾）</td>
+<td style="text-align: right;">再花 <strong>$0.20</strong></td>
+</tr>
+<tr>
+<td>＋ 5 支新特效（Tier 1）</td>
+<td style="text-align: right;">再花 <strong>$1.80</strong></td>
+</tr>
+<tr>
+<td>＋ 不朽者的走路與攻擊（Tier 2，省掉職業造型）</td>
+<td style="text-align: right;">再花 <strong>$2.44</strong></td>
+</tr>
+<tr>
+<td>全做（含職業造型）</td>
+<td style="text-align: right;">再花 <strong>$3.08</strong></td>
+</tr>
+<tr>
+<td><strong>含三成重生緩衝的上限</strong></td>
+<td style="text-align: right;"><strong>約 $4.00</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>需要你決定的</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>要決定的</th>
+<th>為什麼輪不到我決定</th>
+<th>我的建議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>風格對不對？</strong>（跟既有四隻放在一起看）</td>
+<td>這是美術方向，只有你說了算</td>
+<td>我覺得對——同一套厚塗語彙，但鋼藍主色跟現有四隻分得開</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>去背改掉顏色這件事怎麼處理？</strong></td>
+<td>三個選項各有代價，而且牽涉識別色</td>
+<td>見下面三個選項，我建議 <strong>B</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>圖示的細節密度會不會太高？</strong></td>
+<td>縮到 140 單位會不會糊掉，要看實機；但要不要為此重畫是美術取捨</td>
+<td>正式那張我會把 prompt 加「造型單純、粗描邊、少細節」，跟既有圖示對齊</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>做到哪個方案？</strong>（$0.20 / $1.80 / $2.44 / $3.08）</td>
+<td>花你的錢</td>
+<td><strong>$2.44 那個</strong>（全做但省掉職業造型）——職業造型是最沒有感知差異的一項</td>
+</tr>
+</tbody>
+</table></div>
+<h3>第 2 題的三個選項</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>做法</th>
+<th>代價</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A</strong></td>
+<td>接受去背後的灰甲版本</td>
+<td>免費、零風險。但<strong>識別色（鋼藍）失效</strong>，角色跟腳下光環對不起來</td>
+</tr>
+<tr>
+<td><strong>B</strong>（建議）</td>
+<td><strong>用 Grok 原圖，改用程式去背</strong>（<code>tools/video_sprite/extract_sprite.py</code> 的邊界連通演算法，純本地不花錢）</td>
+<td>不用再花錢。原圖是<strong>純黑背景 + 強邊緣光</strong>，正是那支演算法最好處理的情況。要多花一點時間調參數</td>
+</tr>
+<tr>
+<td><strong>C</strong></td>
+<td>重生一張，prompt 加強「保持鋼藍」</td>
+<td>再 $0.20，而且<strong>不保證有用</strong>——去背那一步還是會重繪</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>我建議 B</strong>：<code>extract_sprite.py</code> 本來就是為了「純色背景去背」寫的，而且不花錢。
+這張圖的背景是乾淨的純黑、角色又有強邊緣光，條件比它平常處理的影片幀還好。
+如果 B 試出來的邊緣不夠乾淨，再退回 A。</p>
+<p><strong>跟我說一聲我就往下做。</strong> 在你回覆之前我不會再呼叫任何生成 API。</p>
+<a class="navlink" href="vr-v2-progress.html">→ v2 實作進度</a>
+<a class="navlink" href="vr-v2.html">→ 原始設計提案</a>
+<footer>吸血鬼復仇 v2 美術樣本 · 待確認風格後再批次產製</footer>
+</div>
+</body>
+</html>
