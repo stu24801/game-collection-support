@@ -1,0 +1,828 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼復仇：下一版的五個方向</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇</p>
+<h1>下一版可以發展的五個方向</h1>
+<p class="lede">每一項都寫了現況（照現行程式碼）、建議方向、實作成本與預期效益。最後有一段「需要你決定的」。</p>
+
+<div class="toc"><ol><li><a href="#n0">摘要</a></li><li><a href="#n1">建議 1：進化引導與構築可讀性</a></li><li><a href="#n2">建議 2：補齊三條缺失的進化路線 ＋ 說明與實作對齊</a></li><li><a href="#n3">建議 3：狀態效果層與元素互動</a></li><li><a href="#n4">建議 4：局長度選項與中途續玩</a></li><li><a href="#n5">建議 5：局外永久成長（血之結晶）</a></li><li><a href="#n6">附帶：順手該修的小東西</a></li><li><a href="#n7">建議的執行順序</a></li><li><a href="#n8">需要你決定的</a></li></ol></div><hr><blockquote>
+<p>這份是規劃建議，不是實作。所有「現況」都是照 <code>unity/VampireRevenge</code> 目前的
+程式碼寫的（<code>VampireData.cs</code> / <code>VrDirector.cs</code> / <code>VrWeapons.cs</code> / <code>VrLoadout.cs</code> /
+<code>VrProgress.cs</code>），不是照設計文件或舊的 Expo 版。</p>
+<p>成本標記：<strong>小</strong> ≈ 一兩天、只動 UI 或資料；<strong>中</strong> ≈ 三到五天、要動一到兩個系統；
+<strong>大</strong> ≈ 一週以上、要新增持久化資料與新畫面。</p>
+</blockquote>
+<hr />
+<h2 id="n0">摘要</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>建議</th>
+<th>成本</th>
+<th>主要效益</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>進化引導與構築可讀性</td>
+<td><strong>小</strong></td>
+<td>遊戲性 ★★★／留存 ★★★</td>
+</tr>
+<tr>
+<td>2</td>
+<td>補齊三條缺失的進化路線＋說明與實作對齊</td>
+<td><strong>小–中</strong></td>
+<td>遊戲性 ★★★／新鮮感 ★★</td>
+</tr>
+<tr>
+<td>3</td>
+<td>狀態效果層與元素互動</td>
+<td><strong>中</strong></td>
+<td>新鮮感 ★★★／遊戲性 ★★★</td>
+</tr>
+<tr>
+<td>4</td>
+<td>局長度選項與中途續玩（短局／無盡）</td>
+<td><strong>中</strong></td>
+<td>留存 ★★★★／新鮮感 ★★</td>
+</tr>
+<tr>
+<td>5</td>
+<td>局外永久成長（血之結晶）</td>
+<td><strong>大</strong></td>
+<td>留存 ★★★★★</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="n1">建議 1：進化引導與構築可讀性</h2>
+<h3>現況</h3>
+<p>武器進化是這個遊戲<strong>唯一的長期構築目標</strong>——<code>VampireData.COMBOS</code> 定義了 7 組
+「武器 Lv6 × 被動 Lv3 → 進化武器」，而進化武器的強度是基礎武器的三到五倍
+（雷霆天罰單次最多命中 30 個目標，落雷 Lv6 只有 20；千刃流星 12 發穿透 5，
+飛刀 Lv6 只有 4 發穿透 5）。</p>
+<p><strong>但遊戲從頭到尾沒有任何地方告訴玩家這件事存在。</strong></p>
+<ul>
+<li>升級三選一的卡片（<code>VrLevelUpPanel</code>）只顯示 <code>名稱 / Lv.N / 說明文字</code>。
+  「風之戒：攻擊冷卻再 −8%／級」完全看不出它是雷霆天罰的鑰匙。</li>
+<li>進化武器的 <code>Desc</code> 裡雖然寫了「進化：落雷×風之戒 →」，但<strong>進化武器永遠不會
+  出現在三選一裡</strong>（<code>RollChoices</code> 直接 <code>if (kv.Value.Evolved) continue</code>），
+  所以那行字玩家在進化之前根本看不到。</li>
+<li>暫停面板（<code>VrLoadoutView</code>）列出了武器與被動的等級，但沒有「你離哪個進化還差什麼」。</li>
+<li>商人面板（<code>VrMerchantModal</code>）也一樣——玩家不知道換下這把就能湊出進化。</li>
+<li>只有<strong>真的進化的那一瞬間</strong>才有回饋（爆閃＋橫幅），但那時候已經來不及引導了。</li>
+</ul>
+<p>結果是：一個沒看過攻略的玩家，很可能玩十局都不知道進化系統存在，
+只會覺得「我帶四把武器，每把都點一點」。而那正是最弱的玩法。</p>
+<h3>建議方向</h3>
+<p><strong>不改任何數值，只把已經存在的資訊攤開來。</strong></p>
+<ol>
+<li>
+<p><strong>升級卡片加進化徽章。</strong>
+   在 <code>VrLevelUpPanel</code> 建卡時查一次 <code>COMBOS</code>：如果選了這張之後會滿足某組進化條件，
+   卡片加一條金色邊框＋「⭐ 選這個會進化成〈雷霆天罰〉」。
+   如果選了之後<strong>離進化只差一步</strong>，加一條灰色的「再一級就能進化」。</p>
+</li>
+<li>
+<p><strong>配裝面板加進化進度。</strong>
+   <code>VrLoadoutView</code> 每一把武器後面加一行小字：
+   <code>落雷 Lv4/6 　→ ⛈️ 雷霆天罰（還差：落雷 +2、風之戒 +3）</code>。
+   沒有對應組合的武器（十字斬、大蒜光環、隕石術）就標「無進化路線」——
+   這本身也是有用的資訊（見建議 2）。</p>
+</li>
+<li>
+<p><strong>商人面板標示。</strong>
+   <code>VrMerchantModal</code> 的每個選項加一句「換到這個之後可湊出〈千刃流星〉」。
+   商人本來就是「洗出缺的那一片」的最佳手段，但目前完全沒有提示。</p>
+</li>
+<li>
+<p><strong>第一次進化時給一段一次性教學橫幅</strong>（<code>PlayerPrefs</code> 記旗標，只出現一次）：
+   「武器練滿 6 級 + 對應被動 3 級 = 進化。暫停可以看你離哪個進化最近。」</p>
+</li>
+</ol>
+<h3>實作成本：<strong>小</strong></h3>
+<ul>
+<li>純 UI 層。<code>COMBOS</code> 已經是靜態表，查詢就是一個 foreach。</li>
+<li>不動 <code>VrLoadout.TryEvolve()</code>、不動任何數值 → <strong>不會破壞既有平衡</strong>。</li>
+<li>唯一要注意的是版面：<code>VrLevelUpPanel</code> 的卡片已經有名稱＋說明兩行，
+  第三行要照 CLAUDE.md 的規則量四邊，不要壓到底框。</li>
+</ul>
+<h3>預期效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★★ 把一個「隱藏系統」變成「玩家會主動追求的目標」。同一份內容，體感深度差很多。</td>
+</tr>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★★ 這類遊戲的第二次開啟動機是「這次我要湊出千刃流星」。現在玩家沒有這個念頭。</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★ 沒有新內容，但會讓既有的 7 把進化武器第一次被大多數玩家看到。</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>這是五個建議裡投報率最高的一個。</strong> 建議先做這個再做其他。</p>
+<hr />
+<h2 id="n2">建議 2：補齊三條缺失的進化路線 ＋ 說明與實作對齊</h2>
+<h3>現況</h3>
+<h4>(a) 三把基礎武器沒有進化路線</h4>
+<p><code>COMBOS</code> 只有 7 組，但基礎武器有 10 把。<strong>沒有進化路線的是：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>問題</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚔️ <strong>十字斬</strong></td>
+<td><strong>這是狼人的起手武器。</strong> 玩家選了狼人，起手那把武器永遠練不出終點。</td>
+</tr>
+<tr>
+<td>🧄 <strong>大蒜光環</strong></td>
+<td>中期之後只是補刀，沒有成長天花板</td>
+</tr>
+<tr>
+<td>☄️ <strong>隕石術</strong></td>
+<td>單發傷害最高的基礎武器（Lv6 = 170×3），卻沒有進化</td>
+</tr>
+</tbody>
+</table></div>
+<p>相對地，有進化的 7 把裡有些其實不太需要（血蝠群的存在幾乎只是為了進化）。
+這造成一個很奇怪的局面：<strong>選狼人的玩家如果想進化，第一件事是把起手武器換掉。</strong></p>
+<h4>(b) 說明文字與實作對不上（六處）</h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>位置</th>
+<th>說明寫的</th>
+<th>實際做的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚡ 落雷 <code>Desc</code></td>
+<td>「命中者感電（減速且受傷 +15%）」</td>
+<td><strong>完全沒有感電</strong>，只有傷害</td>
+</tr>
+<tr>
+<td>❄️ 寒冰新星 <code>Desc</code></td>
+<td>「可與感電疊加」</td>
+<td>沒有感電這個狀態</td>
+</tr>
+<tr>
+<td>🌒 血月獠牙 <code>Desc</code></td>
+<td>「傷害 5% 轉為生命」</td>
+<td><strong>沒有實作</strong>；吸血只來自吸血鬼牙與血族領主</td>
+</tr>
+<tr>
+<td>🦷 吸血鬼牙 <code>Desc</code></td>
+<td>「造成傷害的 1.5% 轉為生命／級」</td>
+<td>實際是<strong>每擊殺一隻回「最大生命 ×1.5%×級」</strong>（<code>Hit()</code> 裡 <code>Player.Heal(MaxHp * Lifesteal)</code>）——<strong>強非常多</strong>，但玩家看說明會低估它</td>
+</tr>
+<tr>
+<td>🔍 放大鏡 <code>Desc</code></td>
+<td>「攻擊範圍<strong>及射程</strong> +10%」</td>
+<td><code>AreaMul</code> 沒有乘進落雷的 <code>Range</code>，射程沒變</td>
+</tr>
+<tr>
+<td>Hub 卡片</td>
+<td>「五大關卡、<strong>50 分鐘</strong>」</td>
+<td><code>WIN_TIME = 2400</code> → <strong>40 分鐘</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>另外程式註解也有兩處對不上常數（精英註解寫 60 秒、常數是 <code>ELITE_INTERVAL = 48</code>；
+獵殺者註解寫「休息 60 秒」、常數是 <code>HUNTER_REST = 5</code>）——不影響玩家，
+但下次調平衡時會照著註解改錯。</p>
+<h3>建議方向</h3>
+<ol>
+<li><strong>補三組進化</strong>（照既有的「武器 Lv6 × 被動 Lv3」格式往 <code>COMBOS</code> 加，
+   資料驅動、不用動 C#）：</li>
+</ol>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>新進化</th>
+<th>= 武器</th>
+<th>× 被動</th>
+<th>提案效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🌊 <strong>千斬絕域</strong>（十字斬 × 疾風羽？→ 建議用 <strong>荊棘甲</strong>）</td>
+<td>十字斬 Lv6</td>
+<td>荊棘甲 Lv3</td>
+<td>整圈 ×2 段判定、半徑 160、揮擊時把敵人推開</td>
+</tr>
+<tr>
+<td>☠️ <strong>腐毒領域</strong>（大蒜光環 × 生命藥草）</td>
+<td>大蒜光環 Lv6</td>
+<td>生命藥草 Lv3</td>
+<td>半徑 190、DPS 翻倍、<strong>光環內的敵人受到的傷害 +15%</strong></td>
+</tr>
+<tr>
+<td>🌠 <strong>群星墜落</strong>（隕石術 × 幸運草）</td>
+<td>隕石術 Lv6</td>
+<td>幸運草 Lv3</td>
+<td>一次落 6 顆、半徑 150、<strong>擊殺時必掉一顆額外寶石</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p>被動的搭配刻意選了目前最冷門的三個（荊棘甲、生命藥草、幸運草），
+讓「沒人拿的被動」一次都有了理由。<strong>這比新增被動便宜得多，效果也更好。</strong></p>
+</blockquote>
+<ol start="2">
+<li><strong>六處說明對齊</strong>：要嘛補實作，要嘛改文案。建議是
+   <strong>感電補實作</strong>（併進建議 3）、<strong>血月獠牙補實作</strong>（加一個武器層的 lifesteal 欄位）、
+   <strong>吸血鬼牙改文案</strong>（照實際行為寫，玩家才會知道它有多強）、
+   <strong>放大鏡與 Hub 改文案</strong>。</li>
+</ol>
+<h3>實作成本：<strong>小–中</strong></h3>
+<ul>
+<li>補 <code>COMBOS</code> 三筆：<strong>純資料</strong>，<code>VrLoadout.TryEvolve()</code> 是 foreach 整張表，
+  不用動程式。三把新進化武器的 <code>WeaponDef</code> 也是資料。</li>
+<li>但<strong>美術要三套</strong>（武器圖示＋特效序列），這是主要成本。
+  可以先用既有素材的變體（放大＋改色）上線，之後再補正式素材。</li>
+<li>文案對齊是 5 分鐘的事。感電實作見建議 3。</li>
+<li>⚠️ 依 CLAUDE.md 的規則：動完效果數值要跑 <code>symbols.py --check</code>
+  （血月獠牙的 lifesteal 欄位正是「宣告了但沒人讀」的典型）。</li>
+</ul>
+<h3>預期效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★★ 十把基礎武器全部有終點，構築路線從 7 條變 10 條。狼人不再需要換掉起手武器。</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★ 三把新武器，而且順帶讓三個冷門被動活過來。</td>
+</tr>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★ 多三個「這次我要湊這個」的目標。</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="n3">建議 3：狀態效果層與元素互動</h2>
+<h3>現況</h3>
+<p>目前敵人身上只有<strong>一個</strong>狀態：<code>slowUntil</code>（減速 ×0.45），由寒冰新星、
+絕對零度、霜痕靴共用。除此之外沒有任何狀態機制。</p>
+<p>這造成幾個結果：</p>
+<ul>
+<li><strong>武器之間沒有互動。</strong> 帶落雷＋聖水＋寒冰，跟帶三把獨立武器沒有差別，
+  就是三份傷害加起來。沒有「先冰再雷」這種操作空間。</li>
+<li><strong>落雷的「感電」寫在說明裡卻不存在</strong>（見建議 2），
+  而感電（減速 + 受傷 +15%）正好就是一個標準的易傷狀態。</li>
+<li><strong>元素使</strong>（法術傷害 +35%）目前只是一個乘法倍率，
+  跟「元素」這個主題沒有任何機制上的關係。</li>
+<li>冰雪絕地（第 4 關）、深淵沼澤（第 3 關）這些<strong>關卡主題也沒有對應的狀態</strong>，
+  關卡之間的差別只有背景圖、裝飾物與敵種。</li>
+</ul>
+<h3>建議方向</h3>
+<p>在 <code>VrEnemy</code> 加一個<strong>輕量的狀態欄位組</strong>（不是完整的 buff 系統，
+就是幾個 <code>float xxxUntil</code> + 一個 <code>DamageTakenMul</code>），並讓武器之間產生互動：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>狀態</th>
+<th>來源</th>
+<th>效果</th>
+<th>互動</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚡ <strong>感電</strong></td>
+<td>落雷、雷霆天罰</td>
+<td>移速 ×0.8、<strong>受到傷害 +15%</strong>，3 秒</td>
+<td>對<strong>已凍結</strong>的敵人施加 → 連鎖跳數 +2</td>
+</tr>
+<tr>
+<td>🔥 <strong>燃燒</strong></td>
+<td>聖水炸彈、煉獄火海</td>
+<td>每秒受到 <code>武器傷害 ×20%</code>，4 秒</td>
+<td>對<strong>燃燒中</strong>的敵人施加冰系 → 立刻引爆，範圍傷害</td>
+</tr>
+<tr>
+<td>❄️ <strong>凍結／緩速</strong></td>
+<td>寒冰新星、絕對零度、霜痕靴</td>
+<td>現有行為</td>
+<td>凍結中受到物理擊退 → <strong>碎裂</strong>，額外 30% 傷害</td>
+</tr>
+<tr>
+<td>🩸 <strong>流血</strong></td>
+<td>飛刀、千刃流星（穿透第 2 個目標起）</td>
+<td>每秒 <code>5 × 武器等級</code>，5 秒</td>
+<td>流血中的敵人死亡 → 濺射給周圍（跟屍爆同一套）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>元素使</strong>的定位隨之改成「<strong>狀態專精</strong>」：所有狀態的持續時間 +50%、
+狀態傷害 +35%。這樣三個職業的差異就變成<strong>續航（血族）／走位（暗影）／機制（元素）</strong>，
+而不是現在的「回血／移速／傷害倍率」三個都是被動數字。</p>
+<h3>實作成本：<strong>中</strong></h3>
+<ul>
+<li><code>VrEnemy</code> 加 4 個 <code>float</code> 欄位＋一個 <code>DamageTakenMul</code>，
+  在 <code>Tick()</code> 裡結算——結構跟現有的 <code>slowUntil</code> 完全一樣，是既有模式的擴充。</li>
+<li><code>VrDirector.Hit()</code> 要多乘一個 <code>e.DamageTakenMul</code>（<strong>單點修改</strong>）。</li>
+<li>燃燒／流血的 tick 傷害要走現有的 <code>Hit(..., quiet: true)</code>（不跳傷害數字），
+  這條路徑已經存在（地帶與環繞書在用）。</li>
+<li>⚠️ <strong>這是最容易踩到「宣告了但沒人讀」的地方</strong>——<code>DamageTakenMul</code> 如果沒有真的
+  乘進 <code>Hit()</code>，整個系統會編譯過、測試綠、實際毫無效果（CLAUDE.md 裡的血怒病）。
+  改完一定要跑 <code>tools/codegraph/symbols.py --check</code>。</li>
+<li>視覺回饋要做（敵人染色／小圖示），不然玩家看不出狀態存在——
+  但 <code>VrEnemy</code> 已經有 <code>baseColor</code> 與 <code>flashUntil</code> 的染色機制可以沿用。</li>
+</ul>
+<h3>預期效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★★ 這是<strong>唯一一個能讓既有 17 把武器全部產生新玩法</strong>的改動，不用新增任何武器。</td>
+</tr>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★★ 從「湊傷害最高的那把」變成「湊會互相引爆的那組」，構築深度質變。</td>
+</tr>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★ 中期玩家會為了試組合再開一局。</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="n4">建議 4：局長度選項與中途續玩</h2>
+<h3>現況</h3>
+<ul>
+<li>一局固定 <strong>40 分鐘</strong>（<code>WIN_TIME = 2400</code>），沒有其他長度可選。</li>
+<li><strong>沒有任何存檔／續玩機制</strong>。<code>VrDirector</code> 的所有狀態都在記憶體裡，
+  App 被切出去、被系統回收，這 40 分鐘就沒了。</li>
+<li>勝利之後只有結算畫面，<strong>沒有 40 分鐘之後的內容</strong>——
+  波次表最後一筆是 <code>T = 2352</code>（39:12），也就是最後 48 秒是同一個波次。</li>
+<li>排行榜只比擊殺數 × 難度倍率，而擊殺數幾乎完全由「你活了多久」決定。</li>
+</ul>
+<p>這在手機上是很嚴重的問題：<strong>40 分鐘是一個「必須專門空出來」的長度</strong>。
+通勤十分鐘、排隊五分鐘，這個遊戲都塞不進去。而這類遊戲的留存主要來自
+「零碎時間隨手開一局」。</p>
+<p>另外，<strong>願意投入 40 分鐘的核心玩家反而沒有東西可以追求</strong>——
+勝利之後遊戲就結束了，沒有無盡、沒有更高難度。兩頭都沒接到。</p>
+<h3>建議方向</h3>
+<p><strong>開三種局長，共用同一套資料表，只改時間軸縮放：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>長度</th>
+<th>做法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚡ <strong>突襲</strong></td>
+<td><strong>10 分鐘</strong></td>
+<td>時間軸 ×4 加速：波次、魔王、關卡、商人的觸發時間全部 ÷4，敵人爬升率 ×4。等於把整局壓縮，但強度曲線一致</td>
+</tr>
+<tr>
+<td>🗡️ <strong>標準</strong></td>
+<td>40 分鐘</td>
+<td>現況不變</td>
+</tr>
+<tr>
+<td>♾️ <strong>無盡</strong></td>
+<td>無上限</td>
+<td>40 分鐘之後不結束：波次循環最後一段、敵人繼續照曲線爬升、魔王從第 2 隻開始重跑但血量 ×(1 + 輪數)。<strong>排行榜比「撐到第幾分鐘」</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>時間軸縮放這件事程式上已經做過一次</strong>——<code>VampireData.cs</code> 的註解寫得很清楚：
+關卡從 10 分鐘縮到 8 分鐘時，爬升率也一起從 0.28 改成 0.35（<code>0.28 / 0.8</code>）。
+同一個做法套一個 <code>TimeScale</code> 常數就是突襲模式。</p>
+<p><strong>中途續玩</strong>（獨立於上面，價值一樣高）：</p>
+<ul>
+<li><code>VrDirector</code> 加一組 <code>Serialize()</code> / <code>Restore()</code>，把
+  <code>Elapsed / waveIndex / Load（武器被動精通職業）/ Player（HP、Lv、Xp、Kills）/
+  nextBossIndex / merchantIdx / revivesUsed</code> 寫進 <code>PlayerPrefs</code>。</li>
+<li><strong>場上的敵人、寶石、彈幕不用存</strong>——續玩時重新從邊緣刷一批就好，
+  玩家不會發現差別，但存檔的複雜度會降一個數量級。</li>
+<li>觸發點：<code>OnApplicationPause</code> / <code>OnApplicationQuit</code>，以及暫停面板加一顆
+  「儲存並離開」。回到選單時如果有存檔，主按鈕變成「繼續上一局（18:42）」。</li>
+</ul>
+<h3>實作成本：<strong>中</strong></h3>
+<ul>
+<li>突襲模式：加一個 <code>TimeScale</code>，所有讀 <code>Elapsed</code> 比對常數的地方除以它。
+  要小心的是這些地方散落在 <code>VrDirector</code> 各處（<code>SpawnStep</code>、<code>EliteStep</code>、
+  <code>RingStep</code>、<code>BossSpawnStep</code>、<code>UpdateMerchant</code>、<code>StageStep</code>）——
+  <strong>建議統一改成讀一個 <code>ScaledElapsed</code> 屬性</strong>，而不是每個地方各乘一次。</li>
+<li>無盡模式：波次循環 + 魔王輪數倍率，約半天。</li>
+<li>中途續玩：主要工作在「什麼要存、什麼不用存」的取捨，上面已經定了範圍。
+  ⚠️ 依 CLAUDE.md 的驗證規則，這一項一定要<strong>走真實路徑驗證</strong>：
+  真的存檔 → 真的殺掉 App → 真的重開 → 比對武器等級／關卡／魔王索引，
+  不能只呼叫 <code>Restore()</code> 看欄位對不對。</li>
+</ul>
+<h3>預期效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★★★ 10 分鐘局把「今天沒空所以不開」變成「等車時開一局」。中途續玩則直接解決「玩到一半被打斷就再也不回來」。</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★ 無盡模式給核心玩家一個「這局能撐到 55 分」的新目標。</td>
+</tr>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★ 突襲模式的節奏完全不同（升級速度 ×4），實際上是另一種玩法。</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>如果只能做一件事，做「中途續玩」。</strong> 40 分鐘不能存檔是目前最大的留存漏洞。</p>
+<hr />
+<h2 id="n5">建議 5：局外永久成長（血之結晶）</h2>
+<h3>現況</h3>
+<p><code>VrProgress</code> 整個檔案只存六個鍵：</p>
+<pre><code>vr_progress_totalKills   累計擊殺
+vr_progress_bestKills    單局最佳擊殺
+vr_progress_bestTime     單局最佳存活
+vr_character             上次選的角色
+vr_difficulty            上次選的難度
+vr_player_name           排行榜暱稱
+</code></pre>
+<p>前三個的<strong>唯一用途是解鎖 4 個角色</strong>（3000 累計擊殺、24 分鐘、800 單局擊殺）。
+解完之後，這三個數字就<strong>永遠不再有任何作用</strong>。</p>
+<p>也就是說：<strong>一個玩家解完四個角色之後，再玩 100 局，帳號上不會有任何變化。</strong>
+每一局都從零開始、每一局的結果都不影響下一局。這類遊戲（Vampire Survivors、
+Survivor.io、殺戮尖塔式的 roguelite）的留存核心恰恰就是局外成長，
+而這裡完全沒有。</p>
+<h3>建議方向</h3>
+<p><strong>加一層貨幣 + 永久升級。刻意做小而不做大</strong>——重點是「每一局都有累積」，
+不是做一棵大天賦樹。</p>
+<h4>(a) 貨幣：血之結晶 🩸</h4>
+<ul>
+<li>一局結束（含死亡、含放棄）獲得：<code>結晶 = 擊殺數 ÷ 10 + 存活分鐘 × 2 + 魔王擊殺 × 25</code></li>
+<li>難度加權沿用 <code>ScoreMul</code>（簡單 ÷3、困難 ×3）——<strong>跟排行榜同一個旋鈕，不用另外調</strong>。</li>
+<li>一局大約 300–800 結晶。</li>
+</ul>
+<h4>(b) 永久升級（8 項，每項 5 級，總共 40 級）</h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>升級</th>
+<th>每級</th>
+<th>滿級</th>
+<th>累計花費</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>起始生命</td>
+<td>+6%</td>
+<td>+30%</td>
+<td>便宜</td>
+</tr>
+<tr>
+<td>起始傷害</td>
+<td>+3%</td>
+<td>+15%</td>
+<td>中</td>
+</tr>
+<tr>
+<td>起始移速</td>
+<td>+2%</td>
+<td>+10%</td>
+<td>中</td>
+</tr>
+<tr>
+<td>拾取範圍</td>
+<td>+10%</td>
+<td>+50%</td>
+<td>便宜</td>
+</tr>
+<tr>
+<td>起始護甲</td>
+<td>+1</td>
+<td>+5</td>
+<td>中</td>
+</tr>
+<tr>
+<td>幸運</td>
+<td>+0.3</td>
+<td>+1.5</td>
+<td>貴</td>
+</tr>
+<tr>
+<td>復活次數</td>
+<td>—</td>
+<td>+1（第 5 級）</td>
+<td>很貴</td>
+</tr>
+<tr>
+<td><strong>開局多一個武器欄</strong></td>
+<td>—</td>
+<td>+1（第 5 級）</td>
+<td>最貴</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>技術上這幾乎不用動任何東西</strong>——<code>VrLoadout.Recalc()</code> 已經是
+「角色修正 × 職業修正」的連乘結構，永久升級就是<strong>再乘一組</strong>：</p>
+<pre><code class="language-csharp">DmgMul = (...) * Mod(ch, &quot;dmgMul&quot;, 1f) * Mod(job, &quot;dmgMul&quot;, 1f) * VrMeta.DmgMul;
+</code></pre>
+<h4>(c) 每日任務（三題，每天換）</h4>
+<p>「用落雷擊殺 300 隻」「存活 20 分鐘」「湊出任何一把進化武器」——
+<code>QuestValue()</code> 那套追蹤機制<strong>已經存在</strong>（轉職任務在用），
+只是換一組目標與獎勵（結晶）。這是回訪的鉤子。</p>
+<h3>實作成本：<strong>大</strong></h3>
+<ul>
+<li><code>VrProgress</code> 要從「六個純量」擴成「有結構的存檔」，
+  建議直接改用 JSON 存進 <code>PlayerPrefs</code> 的一個鍵，之後加欄位不用再改讀寫。</li>
+<li><strong>新畫面</strong>：升級樹／商店介面。這是主要成本，而且要照 CLAUDE.md 的版面規則
+  逐項量四邊的像素（這個專案的 UI 版面踩過很多次坑）。</li>
+<li>每日任務要處理時區與換日，比想像中麻煩。</li>
+<li>⚠️ <strong>平衡風險最高的一項</strong>：永久升級會直接改變難度曲線。
+  滿級玩家的起始傷害 +15%、生命 +30%、護甲 +5，
+  第 1 關會變得完全沒有威脅。<strong>建議同步開一個「地獄」難度（血量 ×2.4、計分 ×6）</strong>
+  給滿級玩家，不然這個系統會把遊戲玩壞。</li>
+<li>⚠️ 排行榜的公平性：局外成長會讓老玩家的分數天生比新玩家高。
+  要嘛接受（大多數手遊如此），要嘛在排行榜另開一個「純淨」榜。<strong>這題要先決定。</strong></li>
+</ul>
+<h3>預期效益</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>留存</strong></td>
+<td>★★★★★ 這是唯一一個能把「玩過三局就放著」變成「每天開一局」的改動。每一局都有進度，即使打得很爛。</td>
+</tr>
+<tr>
+<td><strong>遊戲性</strong></td>
+<td>★★ 開局強度提高會讓前 10 分鐘變無聊（所以要配新難度）。</td>
+</tr>
+<tr>
+<td><strong>新鮮感</strong></td>
+<td>★★ 每日任務會逼玩家用不同武器，順帶讓冷門武器被使用。</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="n6">附帶：順手該修的小東西</h2>
+<p>這些不成一條建議，但都是實際存在的問題，做任何一項建議時可以順手處理：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>問題</th>
+<th>說明</th>
+<th>成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>第 4 關的商人幾乎拿不到</strong></td>
+<td>商人生成在玩家周圍 170 距離的<strong>隨機方向</strong>、只停 45 秒；而冰雪絕地是「暴風雪從西向東推、不能回頭」。25:00 與 30:00 那兩次如果生成在西邊，玩家<strong>不可能</strong>去拿。建議：暴風雪關的商人一律生成在玩家<strong>東側</strong>（<code>SpawnMerchant()</code> 加一個角度限制）。</td>
+<td>極小</td>
+</tr>
+<tr>
+<td><strong><code>MAX_ENEMIES = 1500</code> 沒有在 iPhone 上實測過</strong></td>
+<td>程式註解自己寫明了：1500 是使用者指定值，Mac 上量過（1500 隻約 6.2ms/幀），<strong>手機沒量過</strong>。iPhone 的 CPU 時脈低、解析度高很多。建議實機量一次，或改成依裝置動態調整。</td>
+<td>小（但要實機）</td>
+</tr>
+<tr>
+<td><strong><code>XpMul</code>（貪婪契約 +10% 經驗）只影響寶石掉落值</strong></td>
+<td><code>DropGem()</code> 乘了 <code>Load.XpMul</code>，但<strong>商人餞別禮的 +50 經驗沒有乘</strong>。不影響平衡，但不一致。</td>
+<td>極小</td>
+</tr>
+<tr>
+<td><strong>困難難度只有 ×1.6 血量</strong></td>
+<td>傷害、速度、密度都跟普通一樣。對熟練玩家來說「困難」只是「打久一點」，不是「更難」。若做建議 5 的地獄難度，可以順便讓高難度也動敵人傷害倍率。</td>
+<td>小</td>
+</tr>
+<tr>
+<td><strong>兩處程式註解與常數不符</strong></td>
+<td><code>EliteStep</code> 註解寫「每 60 秒」但 <code>ELITE_INTERVAL = 48</code>；<code>HunterRhythmStep</code> 註解寫「追 30 休 60」但 <code>HUNTER_REST = 5</code>。下次調平衡照註解改會改錯。</td>
+<td>極小</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="n7">建議的執行順序</h2>
+<pre><code>第一版  ▸ 建議 1（進化引導）── 成本最小、效益最直接，先做
+        ▸ 建議 2 的「說明對齊」部分（半天）
+        ▸ 附帶小修：暴風雪關商人方位、註解與常數
+
+第二版  ▸ 建議 4 的「中途續玩」── 目前最大的留存漏洞
+        ▸ 建議 2 的三條新進化路線（美術可分批補）
+
+第三版  ▸ 建議 3（狀態效果層）── 讓既有 17 把武器全部產生新玩法
+        ▸ 建議 4 的突襲／無盡模式
+
+第四版  ▸ 建議 5（局外永久成長 + 地獄難度）── 最大工程，最後做
+</code></pre>
+<p><strong>理由：</strong> 前三版都是「同一份內容，讓玩家看得到／玩得完／玩出花樣」，
+成本低而且不會破壞平衡。建議 5 會改變整條難度曲線，
+應該等前面的內容深度做足了再上，否則會變成「用數值蓋過內容不足」。</p>
+<hr />
+<h2 id="n8">需要你決定的</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>要決定的</th>
+<th>為什麼這題輪不到我決定</th>
+<th>我的建議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>建議 5 的排行榜要不要分「純淨榜」</strong></td>
+<td>局外成長會讓老玩家天生分數更高。要「大多數手遊的做法（不分）」還是「競技公平（分榜）」，這是取捨不是對錯，取決於你想讓排行榜代表什麼</td>
+<td><strong>不分</strong>。這是單人休閒遊戲，排行榜的功能是「給自己一個數字」，不是競技。分榜會讓兩邊都很冷清</td>
+</tr>
+<tr>
+<td><strong>建議 2 的三把新進化武器，美術怎麼處理</strong></td>
+<td>AI 素材生成是<strong>真的花錢</strong>（見 CLAUDE.md），而且要你看過才能進 <code>Assets/</code>。三把武器 = 三組圖示 + 三組特效序列</td>
+<td>先用<strong>既有素材的變體</strong>（放大＋改色）上線驗證玩法，確認這三條路線真的有人走，再花錢做正式素材</td>
+</tr>
+<tr>
+<td><strong>突襲模式做 10 分鐘還是 15 分鐘</strong></td>
+<td>這是體驗取捨：10 分鐘塞得進通勤但升級節奏會非常快（×4），15 分鐘比較接近原本的手感但還是有點長</td>
+<td><strong>10 分鐘</strong>。理由是它要解決的是「塞不進零碎時間」，15 分鐘解決不了這個問題</td>
+</tr>
+<tr>
+<td><strong>要不要同步開「地獄」難度</strong></td>
+<td>只有在做建議 5 時才需要。做了會分散玩家、不做則滿級玩家會覺得遊戲變無聊</td>
+<td>跟建議 5 <strong>綁在一起做</strong>，不要分開上線</td>
+</tr>
+</tbody>
+</table></div><a class="navlink" href="vr-guide.html">→ 回到完全攻略</a>
+<footer>吸血鬼復仇 下一版規劃建議 · 現況描述以 unity/VampireRevenge 現行程式碼為準</footer>
+</div>
+</body>
+</html>

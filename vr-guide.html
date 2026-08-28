@@ -1,0 +1,2627 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼復仇 完全攻略</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇</p>
+<h1>吸血鬼復仇 完全攻略</h1>
+<p class="lede">給玩家看的攻略。角色、武器、進化、敵人、魔王、關卡機制、掉落、商人、計分——全部照 Unity 正式版目前的程式碼寫，不是設計文件上的說法。</p>
+
+<div class="toc"><ol><li><a href="#s0">三十秒看懂這個遊戲</a></li><li><a href="#s1">操作與畫面</a></li><li><a href="#s2">角色與解鎖</a></li><li><a href="#s3">難度：不只是血量</a></li><li><a href="#s4">成長系統：等級、欄位、三選一</a></li><li><a href="#s5">武器完全表</a></li><li><a href="#s6">被動完全表</a></li><li><a href="#s7">武器進化（本作的核心目標）</a></li><li><a href="#s8">精通（奧義）</a></li><li><a href="#s9">轉職：一局只能選一次</a></li><li><a href="#s10">關卡與機制</a></li><li><a href="#s11">敵人圖鑑與威脅排序</a></li><li><a href="#s12">波次時間表</a></li><li><a href="#s13">魔王：十隻，全部照時間出場</a></li><li><a href="#s14">掉落物、寶箱與幸運草</a></li><li><a href="#s15">神秘商人</a></li><li><a href="#s16">計分與排行榜</a></li><li><a href="#s17">推薦構築路線</a></li><li><a href="#s18">進階技巧（會不會這幾條差很多）</a></li><li><a href="#s19">十大死因與對策</a></li><li><a href="#s20">附錄：一局的時間軸速查</a></li></ol></div><hr><hr />
+<h2 id="s0">1. 三十秒看懂這個遊戲</h2>
+<ul>
+<li>你操控一個角色在<strong>無限捲動</strong>的地圖上跑，<strong>武器全自動開火</strong>，你只負責走位。</li>
+<li>打怪 → 掉經驗寶石 → 撿寶石 → 升級 → <strong>三選一</strong>強化 → 再打更多怪。</li>
+<li>一局 <strong>40 分鐘（2400 秒）</strong>，分成 <strong>5 關、每關 8 分鐘</strong>。撐滿 40 分鐘就是勝利。</li>
+<li>敵人會隨時間變強：每過 1 分鐘，小怪血量 <code>+35%</code>、傷害 <code>+15%</code>（線性累加）。</li>
+<li>第 8 分鐘：血量 ×3.8、傷害 ×2.2</li>
+<li>第 24 分鐘：血量 ×9.4、傷害 ×4.6</li>
+<li>第 40 分鐘：血量 ×15.0、傷害 ×7.0</li>
+<li>魔王<strong>不吃這條時間曲線</strong>，牠們的強度是照「第幾隻」設計死的（只吃難度倍率）。
+  所以到了中後期，一隻黑騎士小怪的血量可能比早期魔王還高。</li>
+<li>同螢幕敵人上限 1500 隻。</li>
+</ul>
+<p><strong>一句話：這是一個「用走位換時間、用時間換等級、用等級換一把進化武器」的遊戲。</strong></p>
+<hr />
+<h2 id="s1">2. 操作與畫面</h2>
+<h3>操作</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>動作</th>
+<th>手機</th>
+<th>鍵盤（Mac / 編輯器）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>移動</td>
+<td>螢幕任意處按住 → 浮動虛擬搖桿</td>
+<td>WASD / 方向鍵</td>
+</tr>
+<tr>
+<td>攻擊</td>
+<td><strong>不用按，全自動</strong></td>
+<td>—</td>
+</tr>
+<tr>
+<td>暫停</td>
+<td>右上角「暫停」鈕</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>搖桿是<strong>浮動</strong>的：你手指按下去的那一點就是圓心，不用去找固定位置。
+  推到底的距離會依螢幕高度自動調整（約 1.2–1.5 公分）。</li>
+<li>基礎移速 <strong>180</strong>（單位是原版的像素/秒）。<strong>記住這個數字</strong>——第 12 節的敵人速度表
+  就是拿它來比的。場上絕大多數敵人都比你慢。</li>
+</ul>
+<h3>畫面上的資訊</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>位置</th>
+<th>是什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>正上方大字</td>
+<td>存活時間 <code>MM:SS</code></td>
+</tr>
+<tr>
+<td>時間下方</td>
+<td>目前關卡名</td>
+</tr>
+<tr>
+<td>上方兩條</td>
+<td>生命條（紅）／經驗條（藍）</td>
+</tr>
+<tr>
+<td>左上角徽章</td>
+<td>等級</td>
+</tr>
+<tr>
+<td>右上角徽章</td>
+<td>擊殺數（<strong>這就是你的分數來源</strong>）</td>
+</tr>
+<tr>
+<td>魔王出現時</td>
+<td>畫面上方多一條紫色魔王血條 + 名字</td>
+</tr>
+<tr>
+<td>黃色提示字</td>
+<td>關卡機制提示（獵殺者、暴風雪）</td>
+</tr>
+<tr>
+<td>右側小圖示</td>
+<td>限時增益剩餘秒數（狂暴／疾速／經驗／凍結）</td>
+</tr>
+</tbody>
+</table></div>
+<h3>暫停畫面</h3>
+<p>暫停時可以看到：<strong>目前的全部配裝</strong>（武器 n/欄位、被動 n/欄位、精通）、
+<strong>三個轉職任務的即時進度</strong>、目前計分。想確認「我的落雷幾級了、放大鏡湊到 3 沒」，
+就是在這裡看。也可以「放棄本局（成績照算）」——放棄一樣會結算、一樣能上傳排行榜。</p>
+<h3>死亡定格</h3>
+<p>你死掉時<strong>不會直接跳結算</strong>。畫面會慢到 0.12 倍速、整個世界壓灰，
+只有<strong>殺死你的那一擊</strong>跟兇手身上的紅圈保持鮮明，旁邊寫著兇手的名字。
+看夠了再按「查看戰績 ▶」。結算畫面還能「回看死亡畫面」重播一次。</p>
+<hr />
+<h2 id="s2">3. 角色與解鎖</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>角色</th>
+<th>起手武器</th>
+<th>修正</th>
+<th>解鎖條件</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🧛 <strong>伯爵</strong></td>
+<td>魔法飛彈</td>
+<td>無（基準值）</td>
+<td>預設解鎖</td>
+</tr>
+<tr>
+<td>🐺 <strong>狼人</strong></td>
+<td>十字斬</td>
+<td>移速 +15%、攻擊冷卻 ×0.92（攻速 +8%）、<strong>最大生命 ×0.8</strong></td>
+<td>累計擊殺 3000 隻</td>
+</tr>
+<tr>
+<td>🧙 <strong>夜巫</strong></td>
+<td>落雷</td>
+<td>攻擊範圍 +15%、<strong>移速 −10%</strong></td>
+<td>單局存活 <strong>24 分鐘</strong></td>
+</tr>
+<tr>
+<td>🏹 <strong>獵人</strong></td>
+<td>飛刀</td>
+<td><strong>投射物 +1 發</strong>、最大生命 ×0.9</td>
+<td>單局擊殺 800 隻</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>解鎖進度不吃難度加權</strong>：<code>累計擊殺</code>、<code>單局最佳擊殺</code>、<code>單局最佳存活時間</code> 三個數字
+記的都是原始值。所以想解角色，<strong>用簡單難度刷是完全划算的</strong>（敵人少 20% 血，殺得更快）。</p>
+<h3>怎麼選</h3>
+<ul>
+<li><strong>伯爵</strong>：沒有任何缺點，魔法飛彈三等起自動追蹤，新手第一選擇。</li>
+<li><strong>獵人</strong>：<code>+1 發</code>只對<strong>投射類與環繞類</strong>武器生效（見第 19 節），
+  配飛刀／魔法飛彈／血蝠群／聖光書時最強，配落雷隕石則完全沒用。</li>
+<li><strong>狼人</strong>：移速 +15% 是這遊戲最實用的屬性，但 <strong>80 血很脆</strong>，
+  而<strong>敵人傷害也吃時間倍率</strong>——第 27 分鐘的一發混沌魔炮是 <code>50 × 5.05 = 252</code> 點。</li>
+<li><strong>夜巫</strong>：範圍 +15% 幾乎對所有武器都有效（見第 19 節的 <code>AreaMul</code> 說明），
+  但 <strong>移速 −10%（162）</strong> 會讓你被暗影獸（145）、墮天使（150）逼得很緊。
+  是四隻裡最需要技術的一隻。</li>
+</ul>
+<hr />
+<h2 id="s3">4. 難度：不只是血量</h2>
+<p>選單上只寫了血量與計分，但實際上難度動了<strong>三個</strong>旋鈕：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>🌱 簡單</th>
+<th>⚔️ 普通</th>
+<th>💀 困難</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>敵人／魔王血量</td>
+<td>×0.8</td>
+<td>×1.0</td>
+<td><strong>×1.6</strong></td>
+</tr>
+<tr>
+<td>排行榜計分</td>
+<td><strong>÷3</strong></td>
+<td>×1</td>
+<td><strong>×3</strong></td>
+</tr>
+<tr>
+<td>血月獵殺者吃到的擊退</td>
+<td>全額（推得動）</td>
+<td>減半</td>
+<td><strong>完全推不動</strong></td>
+</tr>
+<tr>
+<td>聖光書格檔彈幕的冷卻</td>
+<td>0 秒（<strong>無限全擋</strong>）</td>
+<td>0 秒（<strong>無限全擋</strong>）</td>
+<td>每本書 0.8 秒</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>這兩條隱藏差異很重要：</strong></p>
+<ol>
+<li>在<strong>簡單／普通</strong>難度下，只要你身上有一本聖光書（或聖光守護陣），
+   <strong>所有敵方彈幕都會被打掉，而且沒有次數限制</strong>。第二關之後的遠程敵人
+   （咒術南瓜、毒蛇、冰女巫、死靈巫師、地獄弓手、混沌魔炮）等於全部作廢。</li>
+<li>困難難度下這個免疫變成「每本書 0.8 秒才能擋一次」——4 本滿等書 = 每秒最多擋 5 發，
+   零星狙擊擋得住、密集彈幕擋不住。</li>
+</ol>
+<p><strong>分數只看擊殺數 × 難度倍率</strong>（見第 17 節）。要上排行榜就得打困難。</p>
+<hr />
+<h2 id="s4">5. 成長系統：等級、欄位、三選一</h2>
+<h3>經驗與升級</h3>
+<ul>
+<li>敵人死亡掉經驗寶石，走過去自動吸（<strong>磁力半徑基礎 110</strong>，吸寶磁鐵每級 +30%）。</li>
+<li>升級所需經驗：<code>5 + (等級−1)×4 + 等級^1.7</code></li>
+</ul>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>等級</th>
+<th>該級所需</th>
+<th>等級</th>
+<th>該級所需</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1→2</td>
+<td>6</td>
+<td>30→31</td>
+<td>約 445</td>
+</tr>
+<tr>
+<td>5→6</td>
+<td>約 36</td>
+<td>45→46</td>
+<td>約 828</td>
+</tr>
+<tr>
+<td>10→11</td>
+<td>約 91</td>
+<td>50→51</td>
+<td>約 974</td>
+</tr>
+<tr>
+<td>20→21</td>
+<td>約 244</td>
+<td>60→61</td>
+<td>約 1294</td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>升級立刻<strong>凍結全場</strong>，跳出「升級！選一個」的三張卡。<strong>沒有重抽、沒有跳過。</strong></li>
+<li>一次拿到多層經驗時，只會跳一次三選一（剩下的層數直接算進去）。</li>
+</ul>
+<h3>欄位（本作與原版最大的差異）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>起始欄位</th>
+<th>擴充規則</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>武器</strong></td>
+<td>4 格</td>
+<td><strong>Lv45 起 5 格，之後每 15 等 +1 格（Lv60=6、Lv75=7…），不封頂</strong></td>
+</tr>
+<tr>
+<td><strong>被動</strong></td>
+<td>5 格</td>
+<td><strong>Lv50 起 6 格，之後每 20 等 +1 格（Lv70=7），封頂 7 格</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>前期只有 4 格是刻意的——<strong>這遊戲的樂趣來自被迫取捨</strong>。
+但打到四五十等之後欄位會鬆開，那時候三選一才會又開始出現新武器。</p>
+<h3>三選一的抽牌規則</h3>
+<p>從下面這個池子裡隨機抽 3 張：</p>
+<ul>
+<li><strong>已持有且沒滿等的武器／被動</strong> → 永遠在池子裡（升一級）</li>
+<li><strong>沒持有的武器／被動</strong> → 只有在<strong>還有空欄位</strong>時才會出現</li>
+<li><strong>進化武器永遠不進池</strong>——只能靠組合技解鎖（第 8 節）</li>
+<li>池子空了（全部滿等、欄位全滿）→ 改抽<strong>精通</strong>（第 9 節），無限累加</li>
+</ul>
+<blockquote>
+<p>這代表：<strong>你欄位塞越滿，抽到你想要的那一項的機率就越高</strong>。
+反過來說，前期亂拿武器把 4 格填滿，會讓你想湊的進化組合遲遲抽不到被動。</p>
+</blockquote>
+<hr />
+<h2 id="s5">6. 武器完全表</h2>
+<p>一共 <strong>17 把</strong>：10 把基礎武器（可升到 Lv6）＋ 7 把進化武器（Lv1，靠組合技取得）。
+內部只有 <strong>7 種行為家族</strong>，同家族的手感一致。</p>
+<h3>6-1 直線投射（Projectile）</h3>
+<p>自動朝<strong>最近的敵人</strong>射出，多發時以 9 度為間隔散開。
+吃 <code>投射物速度</code>（疾風羽）、<code>+1 發</code>（複製護符／獵人）、<code>擊退</code>（疾風羽）。</p>
+<h4>🔮 魔法飛彈 — <code>自動瞄準最近的敵人射出魔彈，三等起會追蹤（不穿透）</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>發數</th>
+<th>冷卻</th>
+<th>速度</th>
+<th>穿透</th>
+<th>追蹤</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>16</td>
+<td>1</td>
+<td>1.05</td>
+<td>420</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td>2</td>
+<td>20</td>
+<td>2</td>
+<td>0.95</td>
+<td>430</td>
+<td>0</td>
+<td>—</td>
+</tr>
+<tr>
+<td>3</td>
+<td>22</td>
+<td>2</td>
+<td>0.90</td>
+<td>440</td>
+<td>0</td>
+<td>190°/s</td>
+</tr>
+<tr>
+<td>4</td>
+<td>28</td>
+<td>3</td>
+<td>0.82</td>
+<td>460</td>
+<td>0</td>
+<td>215°/s</td>
+</tr>
+<tr>
+<td>5</td>
+<td>34</td>
+<td>4</td>
+<td>0.74</td>
+<td>480</td>
+<td>0</td>
+<td>240°/s</td>
+</tr>
+<tr>
+<td>6</td>
+<td>44</td>
+<td>5</td>
+<td>0.62</td>
+<td>500</td>
+<td>0</td>
+<td>265°/s</td>
+</tr>
+</tbody>
+</table></div>
+<p>滿等理論 DPS 約 <strong>355</strong>（5 發全中）。<strong>不穿透</strong>是它唯一的缺點——被前排擋住就打不到後排。
+但三等起的追蹤讓它幾乎不會空發，是全遊戲最穩定的單體輸出。</p>
+<h4>🔪 飛刀 — <code>自動朝最近的敵人連射，可穿透（風箏流核心）</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>發數</th>
+<th>冷卻</th>
+<th>速度</th>
+<th>穿透</th>
+<th>擊退</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>10</td>
+<td>1</td>
+<td>0.95</td>
+<td>560</td>
+<td>1</td>
+<td>×1.9</td>
+</tr>
+<tr>
+<td>2</td>
+<td>12</td>
+<td>2</td>
+<td>0.90</td>
+<td>570</td>
+<td>1</td>
+<td>×1.9</td>
+</tr>
+<tr>
+<td>3</td>
+<td>15</td>
+<td>2</td>
+<td>0.82</td>
+<td>580</td>
+<td>2</td>
+<td>×1.9</td>
+</tr>
+<tr>
+<td>4</td>
+<td>19</td>
+<td>3</td>
+<td>0.74</td>
+<td>600</td>
+<td>3</td>
+<td>×1.9</td>
+</tr>
+<tr>
+<td>5</td>
+<td>24</td>
+<td>3</td>
+<td>0.66</td>
+<td>620</td>
+<td>4</td>
+<td>×1.9</td>
+</tr>
+<tr>
+<td>6</td>
+<td>30</td>
+<td>4</td>
+<td>0.58</td>
+<td>650</td>
+<td>5</td>
+<td>×1.9</td>
+</tr>
+</tbody>
+</table></div>
+<p>滿等單體 DPS 約 207，但<strong>每發能貫穿 6 個目標</strong>，在密集怪潮裡實際輸出可以到 1200+。
+<code>×1.9 擊退</code> 是全遊戲最重的——飛刀不只是輸出，它會<strong>把逼近的怪推開</strong>，
+所以它是「風箏流」的核心。</p>
+<h4>🦇 血蝠群 — <code>放出血蝠飛出後迴旋返回，去程回程各判一次傷害</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>發數</th>
+<th>冷卻</th>
+<th>速度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>12</td>
+<td>1</td>
+<td>1.60</td>
+<td>420</td>
+</tr>
+<tr>
+<td>2</td>
+<td>15</td>
+<td>1</td>
+<td>1.50</td>
+<td>430</td>
+</tr>
+<tr>
+<td>3</td>
+<td>18</td>
+<td>2</td>
+<td>1.40</td>
+<td>440</td>
+</tr>
+<tr>
+<td>4</td>
+<td>22</td>
+<td>2</td>
+<td>1.30</td>
+<td>455</td>
+</tr>
+<tr>
+<td>5</td>
+<td>26</td>
+<td>3</td>
+<td>1.20</td>
+<td>470</td>
+</tr>
+<tr>
+<td>6</td>
+<td>30</td>
+<td>3</td>
+<td>1.10</td>
+<td>490</td>
+</tr>
+</tbody>
+</table></div>
+<p>去回各判一次，等於數值表上的傷害要 ×2 看。存在的主要理由是它的進化（血月獠牙）。</p>
+<h3>6-2 環繞（Orbit）</h3>
+<p>書本繞著你轉，碰到就傷害。<strong>傷害是逐幀結算的</strong>——表上的「傷害」實際意思是
+<strong>「敵人待在書上每秒扣多少血」</strong>，不是每次碰撞的固定傷害。</p>
+<h4>📘 聖光書 — <code>書本環繞自身，碰觸傷害敵人</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>每秒傷害</th>
+<th>本數</th>
+<th>軌道半徑</th>
+<th>轉速</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>12</td>
+<td>1</td>
+<td>68</td>
+<td>2.2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>15</td>
+<td>2</td>
+<td>72</td>
+<td>2.4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>19</td>
+<td>2</td>
+<td>78</td>
+<td>2.6</td>
+</tr>
+<tr>
+<td>4</td>
+<td>24</td>
+<td>3</td>
+<td>84</td>
+<td>2.8</td>
+</tr>
+<tr>
+<td>5</td>
+<td>30</td>
+<td>3</td>
+<td>92</td>
+<td>3.0</td>
+</tr>
+<tr>
+<td>6</td>
+<td>38</td>
+<td>4</td>
+<td>100</td>
+<td>3.3</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>這把武器有隱藏的第二個功能：格檔敵方彈幕。</strong>
+碰到書的敵方子彈會被打掉（有金色火花）。簡單／普通難度<strong>無冷卻、無限全擋</strong>，
+困難難度每本書 0.8 秒冷卻。詳見第 4 節。</p>
+<p><strong>轉速吃攻速</strong>：你的攻擊冷卻減得越多（濃縮咖啡、風之戒），書轉得越快、
+單位時間掃過的敵人越多。本數吃 <code>+1 發</code>（複製護符／獵人）。</p>
+<h3>6-3 扇形斬（Arc）</h3>
+<h4>⚔️ 十字斬 — <code>朝面向方向揮出巨劍</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>打背面？</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>20</td>
+<td>1.35</td>
+<td>60</td>
+<td>✗（只砍前方 180°）</td>
+</tr>
+<tr>
+<td>2</td>
+<td>26</td>
+<td>1.25</td>
+<td>66</td>
+<td>✗</td>
+</tr>
+<tr>
+<td>3</td>
+<td>34</td>
+<td>1.15</td>
+<td>72</td>
+<td><strong>✓（整圈）</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>44</td>
+<td>1.05</td>
+<td>80</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>5</td>
+<td>56</td>
+<td>0.95</td>
+<td>88</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>6</td>
+<td>70</td>
+<td>0.85</td>
+<td>98</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table></div>
+<p>「面向」＝<strong>最近的敵人所在方向</strong>，不是你的移動方向。
+<strong>Lv1–2 只砍前方半圈，Lv3 起變成整圈</strong>——這是這把武器最大的一次質變，
+在那之前它是被包夾時最無力的武器之一。</p>
+<h3>6-4 連鎖閃電（Chain）</h3>
+<h4>⚡ 落雷 — <code>劈擊敵人並連鎖跳電</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>道數</th>
+<th>冷卻</th>
+<th>爆炸半徑</th>
+<th>跳躍距離</th>
+<th>連鎖</th>
+<th>單次最多命中</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>30</td>
+<td>1</td>
+<td>2.3</td>
+<td>48</td>
+<td>280</td>
+<td>1</td>
+<td>2</td>
+</tr>
+<tr>
+<td>2</td>
+<td>38</td>
+<td>2</td>
+<td>2.1</td>
+<td>52</td>
+<td>310</td>
+<td>1</td>
+<td>4</td>
+</tr>
+<tr>
+<td>3</td>
+<td>48</td>
+<td>2</td>
+<td>1.9</td>
+<td>58</td>
+<td>340</td>
+<td>2</td>
+<td>6</td>
+</tr>
+<tr>
+<td>4</td>
+<td>60</td>
+<td>3</td>
+<td>1.7</td>
+<td>64</td>
+<td>370</td>
+<td>2</td>
+<td>9</td>
+</tr>
+<tr>
+<td>5</td>
+<td>74</td>
+<td>3</td>
+<td>1.5</td>
+<td>70</td>
+<td>400</td>
+<td>3</td>
+<td>12</td>
+</tr>
+<tr>
+<td>6</td>
+<td>92</td>
+<td>4</td>
+<td>1.3</td>
+<td>78</td>
+<td>430</td>
+<td>4</td>
+<td><strong>20</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>滿等一次施放最多打 20 個目標 × 92 傷 = 1840，冷卻只有 1.3 秒。
+<strong>這是全遊戲清場效率最高的基礎武器。</strong>
+每一跳都會找「還沒被這次打過的最近敵人」，所以怪越密它越強。</p>
+<blockquote>
+<p>⚠️ 說明文字寫「命中者感電（減速且受傷 +15%）」——<strong>目前版本沒有實作感電</strong>，
+落雷只有傷害，不會減速也不會增傷。別為了「感電」去配它。</p>
+</blockquote>
+<h3>6-5 持續地帶（Zone）</h3>
+<h4>🧨 聖水炸彈 — <code>拋向敵群，落地形成燃燒地帶持續灼傷</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>每秒傷害</th>
+<th>顆數</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>持續</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>8</td>
+<td>1</td>
+<td>3.2</td>
+<td>58</td>
+<td>3.0s</td>
+</tr>
+<tr>
+<td>2</td>
+<td>10</td>
+<td>1</td>
+<td>3.0</td>
+<td>64</td>
+<td>3.3s</td>
+</tr>
+<tr>
+<td>3</td>
+<td>13</td>
+<td>2</td>
+<td>2.8</td>
+<td>70</td>
+<td>3.6s</td>
+</tr>
+<tr>
+<td>4</td>
+<td>16</td>
+<td>2</td>
+<td>2.6</td>
+<td>76</td>
+<td>3.9s</td>
+</tr>
+<tr>
+<td>5</td>
+<td>20</td>
+<td>2</td>
+<td>2.4</td>
+<td>82</td>
+<td>4.2s</td>
+</tr>
+<tr>
+<td>6</td>
+<td>24</td>
+<td>3</td>
+<td>2.2</td>
+<td>88</td>
+<td>4.5s</td>
+</tr>
+</tbody>
+</table></div>
+<p>目標是<strong>420 距離內隨機一隻敵人</strong>（不是最近的），從你手上拋出去、落地才生火。
+滿等時場上會同時有 6 塊火海（4.5s ÷ 2.2s × 3 顆），適合封走廊、封逃生路線。</p>
+<h3>6-6 新星（Nova）</h3>
+<h4>❄️ 寒冰新星 — <code>週期放出環形冰波，命中敵人減速</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>減速時間</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>14</td>
+<td>3.5</td>
+<td>110</td>
+<td>1.5s</td>
+</tr>
+<tr>
+<td>2</td>
+<td>18</td>
+<td>3.3</td>
+<td>125</td>
+<td>1.7s</td>
+</tr>
+<tr>
+<td>3</td>
+<td>23</td>
+<td>3.1</td>
+<td>140</td>
+<td>1.9s</td>
+</tr>
+<tr>
+<td>4</td>
+<td>28</td>
+<td>2.9</td>
+<td>155</td>
+<td>2.1s</td>
+</tr>
+<tr>
+<td>5</td>
+<td>34</td>
+<td>2.7</td>
+<td>172</td>
+<td>2.3s</td>
+</tr>
+<tr>
+<td>6</td>
+<td>40</td>
+<td>2.6</td>
+<td>190</td>
+<td>2.5s</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>傷害是全遊戲最低的，但這把武器不是拿來輸出的。</strong>
+減速是 <strong>×0.45 移速</strong>（減掉 55%），半徑 190 幾乎蓋住你周圍一整圈。
+它的價值是「把貼臉的怪變慢」，讓你有時間走出包圍。</p>
+<h3>6-7 天降（Meteor）</h3>
+<h4>☄️ 隕石術 — <code>鎖定敵人落下隕石，短暫延遲後大範圍爆炸</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>傷害</th>
+<th>顆數</th>
+<th>冷卻</th>
+<th>半徑</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>55</td>
+<td>1</td>
+<td>3.6</td>
+<td>85</td>
+</tr>
+<tr>
+<td>2</td>
+<td>70</td>
+<td>1</td>
+<td>3.3</td>
+<td>95</td>
+</tr>
+<tr>
+<td>3</td>
+<td>88</td>
+<td>2</td>
+<td>3.0</td>
+<td>105</td>
+</tr>
+<tr>
+<td>4</td>
+<td>108</td>
+<td>2</td>
+<td>2.8</td>
+<td>115</td>
+</tr>
+<tr>
+<td>5</td>
+<td>135</td>
+<td>2</td>
+<td>2.6</td>
+<td>125</td>
+</tr>
+<tr>
+<td>6</td>
+<td>170</td>
+<td>3</td>
+<td>2.4</td>
+<td>135</td>
+</tr>
+</tbody>
+</table></div>
+<p>目標是 <strong>480 距離內隨機一隻</strong>，先畫預警圈、<strong>0.45 秒後</strong>才結算。
+單發傷害是基礎武器裡最高的，適合打精英與魔王。</p>
+<h3>6-8 光環（Aura）</h3>
+<h4>🧄 大蒜光環 — <code>周身光環持續灼傷靠近的敵人</code></h4>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>Lv</th>
+<th>每跳傷害</th>
+<th>冷卻</th>
+<th>半徑</th>
+<th>換算 DPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>5</td>
+<td>0.50</td>
+<td>72</td>
+<td>10</td>
+</tr>
+<tr>
+<td>2</td>
+<td>7</td>
+<td>0.46</td>
+<td>80</td>
+<td>15</td>
+</tr>
+<tr>
+<td>3</td>
+<td>9</td>
+<td>0.42</td>
+<td>88</td>
+<td>21</td>
+</tr>
+<tr>
+<td>4</td>
+<td>12</td>
+<td>0.38</td>
+<td>96</td>
+<td>32</td>
+</tr>
+<tr>
+<td>5</td>
+<td>15</td>
+<td>0.34</td>
+<td>106</td>
+<td>44</td>
+</tr>
+<tr>
+<td>6</td>
+<td>19</td>
+<td>0.30</td>
+<td>116</td>
+<td>63</td>
+</tr>
+</tbody>
+</table></div>
+<p>零操作、永遠命中貼臉的東西。<strong>沒有進化路線</strong>，中期之後就只是補刀用。
+但它的冷卻只有 0.3 秒，是全遊戲觸發最頻繁的傷害源。</p>
+<hr />
+<h2 id="s6">7. 被動完全表</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>被動</th>
+<th>每級效果</th>
+<th>上限</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>💪 <strong>力量護符</strong></td>
+<td>全傷害 <strong>+10%</strong></td>
+<td>5</td>
+<td>乘法，滿級 ×1.5。→ 星殞裁判</td>
+</tr>
+<tr>
+<td>👟 <strong>神行靴</strong></td>
+<td>移速 +8%</td>
+<td>5</td>
+<td>滿級 ×1.4（180 → 252）</td>
+</tr>
+<tr>
+<td>☕ <strong>濃縮咖啡</strong></td>
+<td>攻擊冷卻 <strong>−6%</strong></td>
+<td>5</td>
+<td>與風之戒<strong>疊乘</strong></td>
+</tr>
+<tr>
+<td>❤️ <strong>巨人之心</strong></td>
+<td>最大生命 +20%</td>
+<td>5</td>
+<td>滿級 ×2.0，而且<strong>當下血量同步補上差額</strong></td>
+</tr>
+<tr>
+<td>🧲 <strong>吸寶磁鐵</strong></td>
+<td>拾取範圍 +30%</td>
+<td>5</td>
+<td>撿不到寶石＝升不了級，比想像中重要</td>
+</tr>
+<tr>
+<td>🛡️ <strong>鐵制護甲</strong></td>
+<td>受傷 <strong>−2（固定值）</strong></td>
+<td>5</td>
+<td>對百分比傷害（地面法術、暴風雪）無效。→ 絕對零度</td>
+</tr>
+<tr>
+<td>🌿 <strong>生命藥草</strong></td>
+<td>每秒回 +0.4</td>
+<td>5</td>
+<td>滿級 2.0/s。→ 煉獄火海</td>
+</tr>
+<tr>
+<td>🔍 <strong>放大鏡</strong></td>
+<td>攻擊範圍 +10%</td>
+<td>5</td>
+<td>幾乎所有武器都吃。→ 聖光守護陣</td>
+</tr>
+<tr>
+<td>🌀 <strong>風之戒</strong></td>
+<td>攻擊冷卻 <strong>再 −8%</strong></td>
+<td>5</td>
+<td>與咖啡疊乘（兩者滿級 ≈ ×0.44 冷卻）。→ 雷霆天罰</td>
+</tr>
+<tr>
+<td>🪶 <strong>疾風羽</strong></td>
+<td>投射速度 +15%、擊退 +20%</td>
+<td><strong>3</strong></td>
+<td>只對投射類有意義。→ 千刃流星</td>
+</tr>
+<tr>
+<td>🥾 <strong>霜痕靴</strong></td>
+<td>移動時留冰霜足跡，踩到的敵人減速</td>
+<td><strong>3</strong></td>
+<td><strong>只在移動時</strong>留；獵殺者免疫</td>
+</tr>
+<tr>
+<td>🧿 <strong>複製護符</strong></td>
+<td>所有投射武器 <strong>+1 發</strong></td>
+<td><strong>2</strong></td>
+<td>只對<strong>投射＋環繞</strong>生效</td>
+</tr>
+<tr>
+<td>🌵 <strong>荊棘甲</strong></td>
+<td>反彈接觸傷害 6</td>
+<td>5</td>
+<td>被碰時反傷，滿級 30</td>
+</tr>
+<tr>
+<td>🦷 <strong>吸血鬼牙</strong></td>
+<td>造成傷害的 1.5% 轉為生命</td>
+<td><strong>3</strong></td>
+<td><strong>實際是「每擊殺一隻回最大生命 ×1.5%」</strong>（見下）。→ 血月獠牙</td>
+</tr>
+<tr>
+<td>🍀 <strong>幸運草</strong></td>
+<td>寶箱更豐富、掉落更慷慨</td>
+<td><strong>3</strong></td>
+<td>唯一作用點是寶箱與掉落率</td>
+</tr>
+<tr>
+<td>🕊️ <strong>天使雕像</strong></td>
+<td>死亡時原地復活一次</td>
+<td><strong>2</strong></td>
+<td>整局共 N 次，換掉不退還</td>
+</tr>
+</tbody>
+</table></div>
+<h3>🦷 吸血鬼牙 的真實運作（重要）</h3>
+<p>說明寫的是「造成傷害的 1.5% 轉為生命」，但<strong>程式實際做的是：
+每擊殺一隻敵人，回復「最大生命 × 1.5% × 等級」</strong>。</p>
+<p>也就是說：</p>
+<ul>
+<li>Lv3 吸血鬼牙 = <strong>每殺一隻回 4.5% 最大生命</strong>。</li>
+<li>100 血的伯爵 = 每殺一隻回 4.5 血。<strong>一秒殺三隻就是每秒回 13.5 血。</strong></li>
+<li>這跟你打了多少傷害無關——<strong>殺小蝙蝠跟殺魔王回一樣多</strong>。</li>
+</ul>
+<p><strong>結論：吸血鬼牙是全遊戲最強的續航被動，而且越到後期怪越多越誇張。</strong>
+配上血族領主（再 +3%，共 7.5%）幾乎不可能被磨死。</p>
+<h3>🥾 霜痕靴 的細節</h3>
+<ul>
+<li>每走 0.32 世界單位留一個足跡（左右腳交錯），<strong>站著不動不會留</strong>。</li>
+<li>足跡半徑 <code>24 + 等級×2</code>，持續 <code>1.2 + 等級×0.6</code> 秒，減速 <code>0.4 + 等級×0.2</code> 秒。</li>
+<li>場上最多同時存在 90 塊。</li>
+<li><strong>血月獵殺者不吃這個減速</strong>（不然機制就被解掉了）。</li>
+</ul>
+<hr />
+<h2 id="s7">8. 武器進化（本作的核心目標）</h2>
+<p><strong>條件：對應武器升到滿等（Lv6）＋ 對應被動達到 Lv3</strong>，下一次拿到升級時自動觸發。
+觸發時會有全畫面爆閃、震動、專屬橫幅——你不會錯過。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>進化武器</th>
+<th>= 武器（Lv6）</th>
+<th>× 被動（Lv3）</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🌟 <strong>星殞裁判</strong></td>
+<td>魔法飛彈</td>
+<td>力量護符 💪</td>
+<td>88 傷 × <strong>6 發</strong> / 0.72s，穿透 3，<strong>命中處再炸半徑 60（半傷）</strong></td>
+</tr>
+<tr>
+<td>🌀 <strong>千刃流星</strong></td>
+<td>飛刀</td>
+<td>疾風羽 🪶</td>
+<td>34 傷 × <strong>12 發</strong> / 0.6s，速度 700，<strong>穿透 5</strong></td>
+</tr>
+<tr>
+<td>✨ <strong>聖光守護陣</strong></td>
+<td>聖光書</td>
+<td>放大鏡 🔍</td>
+<td><strong>7 本書</strong>、每秒 50 傷、軌道半徑 130、轉速 4.2</td>
+</tr>
+<tr>
+<td>⛈️ <strong>雷霆天罰</strong></td>
+<td>落雷</td>
+<td>風之戒 🌀</td>
+<td>115 傷 × 5 道 × <strong>連鎖 5 跳</strong>（單次最多命中 <strong>30</strong>）/ 1.1s</td>
+</tr>
+<tr>
+<td>🔥 <strong>煉獄火海</strong></td>
+<td>聖水炸彈</td>
+<td>生命藥草 🌿</td>
+<td>每秒 30 傷 × 4 顆、半徑 112、<strong>持續 6 秒</strong> / 2.0s</td>
+</tr>
+<tr>
+<td>🧊 <strong>絕對零度</strong></td>
+<td>寒冰新星</td>
+<td>鐵制護甲 🛡️</td>
+<td>60 傷、半徑 <strong>230</strong>、<strong>凍結 1.5 秒</strong></td>
+</tr>
+<tr>
+<td>🌒 <strong>血月獠牙</strong></td>
+<td>血蝠群</td>
+<td>吸血鬼牙 🦷</td>
+<td>40 傷 × <strong>6 隻</strong> / 1.0s（去回各判一次）</td>
+</tr>
+</tbody>
+</table></div>
+<h3>進化強度排序（實戰）</h3>
+<ol>
+<li><strong>⛈️ 雷霆天罰</strong> — 單次最多 30 命中 × 115 傷 / 1.1 秒。清場之王，沒有之一。</li>
+<li><strong>🌀 千刃流星</strong> — 12 發 × 穿透 5 = 理論 72 次命中 / 0.6 秒。輸出天花板最高。</li>
+<li><strong>🌟 星殞裁判</strong> — 6 發追不到（沒有追蹤）但有穿透＋噴濺，穩定度最好。</li>
+<li><strong>✨ 聖光守護陣</strong> — 7 本書 × 50 DPS ＝ 350 持續傷害，<strong>而且是 7 面彈幕盾</strong>。</li>
+<li><strong>🧊 絕對零度</strong> — 傷害低，但<strong>半徑 230 的 1.5 秒凍結</strong>是唯一的「全場硬控」。</li>
+<li><strong>🔥 煉獄火海</strong> — 場上長期維持 12 塊火海（6s ÷ 2s × 4），封路很強。</li>
+<li><strong>🌒 血月獠牙</strong> — 說明寫「傷害 5% 轉為生命」，<strong>但目前版本沒有實作這一項</strong>
+   （吸血只來自吸血鬼牙被動與血族領主）。當成純輸出武器看待。</li>
+</ol>
+<h3>進化的三個陷阱</h3>
+<ol>
+<li><strong>進化會把原本那把武器移除</strong>，換成進化版（佔同一格）。被動<strong>不會</strong>被消耗。</li>
+<li><strong>進化武器不能拿去跟商人交易</strong>，也不會再出現在三選一裡。</li>
+<li><strong>一把武器只能進化一次</strong>——已經有進化版就不會再觸發。</li>
+</ol>
+<h3>湊進化的實務建議</h3>
+<ul>
+<li>被動只要 <strong>Lv3</strong>，武器要 <strong>Lv6</strong>。<strong>武器才是瓶頸</strong>，優先把主武器點滿。</li>
+<li>4 格武器欄位的前期，<strong>不要拿第 4 把武器</strong>。留一格空著，
+  三選一的池子就會一直塞著「新武器」的選項稀釋機率——反過來說，
+  <strong>欄位填滿之後你抽到「已持有的升級」的機率會大幅提高</strong>，這是好事。</li>
+<li>最快的一條線：<strong>伯爵 → 魔法飛彈點滿 → 力量護符 Lv3 → 星殞裁判</strong>。
+  力量護符本來就是你一定會拿的傷害被動，等於順路。</li>
+</ul>
+<hr />
+<h2 id="s8">9. 精通（奧義）</h2>
+<p>當你的武器欄與被動欄<strong>全部滿等、全部滿格</strong>之後，三選一會改抽精通。
+<strong>精通沒有上限，可以無限疊。</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>精通</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>⚔️ 傷害精通</td>
+<td>所有傷害 +4%</td>
+</tr>
+<tr>
+<td>💨 迅捷精通</td>
+<td>移速 +3%</td>
+</tr>
+<tr>
+<td>🫀 體魄精通</td>
+<td>最大生命 +8%</td>
+</tr>
+<tr>
+<td>🔥 <strong>狂暴之血</strong></td>
+<td>所有傷害 +9%，但<strong>受到傷害 +4%</strong></td>
+</tr>
+<tr>
+<td>🎯 <strong>聚能法陣</strong></td>
+<td>攻擊範圍 +8%，但<strong>攻擊冷卻 +3%</strong></td>
+</tr>
+<tr>
+<td>🛡️ <strong>鐵壁意志</strong></td>
+<td>護甲 +2，但所有傷害 −2%</td>
+</tr>
+<tr>
+<td>💰 <strong>貪婪契約</strong></td>
+<td>經驗獲取 +10%，但<strong>受到傷害 +3%</strong></td>
+</tr>
+</tbody>
+</table></div>
+<ul>
+<li>疊到這個階段通常已經是 40 分鐘的後段，血量壓力最大——
+  <strong>狂暴之血與貪婪契約的減益會疊乘</strong>，連拿五層狂暴之血就是受傷 ×1.22。</li>
+<li>這時候最安全的組合是 <strong>體魄精通＋鐵壁意志</strong>（純防禦），
+  因為那時你的輸出通常已經過剩了。</li>
+</ul>
+<hr />
+<h2 id="s9">10. 轉職：一局只能選一次</h2>
+<p>三個職業的任務<strong>同時計時</strong>，哪個先達標就跳出哪個的轉職彈窗。
+<strong>一旦轉職就定終身</strong>，其他兩個不會再出現。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>職業</th>
+<th>轉職任務</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🩸 <strong>血族領主</strong></td>
+<td>本局擊殺 <strong>400 隻</strong></td>
+<td>傷害 +10%、最大生命 <strong>+30%</strong>、<strong>每殺一隻回 3% 最大生命</strong></td>
+</tr>
+<tr>
+<td>🌑 <strong>暗影行者</strong></td>
+<td>本局存活 <strong>5 分 36 秒</strong>（336 秒）</td>
+<td>移速 <strong>+25%</strong>、<strong>15% 閃避</strong>、擊殺的敵人<strong>屍爆</strong>傷害周圍</td>
+</tr>
+<tr>
+<td>⚡ <strong>元素使</strong></td>
+<td>本局用<strong>雷／隕石</strong>擊殺 <strong>150 隻</strong></td>
+<td><strong>法術傷害 +35%</strong>、所有攻擊冷卻 <strong>−12%</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>轉職時會<strong>回復 25% 最大生命</strong>，並換上職業造型與識別色光環。</p>
+<h3>選哪個</h3>
+<ul>
+<li><strong>暗影行者最容易先達標</strong>（5 分 36 秒，幾乎穩上）。移速 +25% 是最強的保命屬性，
+  屍爆（<code>min(140, 12 + 最大血量×12%)</code> 傷害、半徑 46）在雜兵海裡等於免費 AoE 連鎖。
+  <strong>不確定的話就選它。</strong></li>
+<li><strong>血族領主</strong>要 400 擊殺，通常在 5–7 分鐘之間達成，跟暗影行者搶時間。
+  它的續航（3%/擊殺）＋ 生命 +30% 是最肉的路線。配吸血鬼牙 Lv3 = 每殺一隻回 7.5%。</li>
+<li><strong>元素使</strong>要「雷／隕石擊殺 150」，只有落雷與隕石的擊殺算數
+  （寒冰新星、聖水炸彈<strong>不算</strong>）。夜巫（落雷起手）最容易達成。</li>
+</ul>
+<h3>元素使的隱藏加成（比說明還好）</h3>
+<p>說明只寫「雷／隕石傷害 +35%」，但程式實際上把 <code>法術傷害倍率</code> 套在<strong>四個家族</strong>上：</p>
+<ul>
+<li>⚡ 落雷 → ⛈️ 雷霆天罰</li>
+<li>☄️ 隕石術</li>
+<li>🧨 聖水炸彈 → 🔥 煉獄火海</li>
+<li>❄️ 寒冰新星 → 🧊 絕對零度</li>
+</ul>
+<p><strong>不吃</strong>這個加成的是：魔法飛彈、飛刀、血蝠群、十字斬、聖光書、大蒜光環
+（以及它們的進化版星殞裁判、千刃流星、血月獠牙、聖光守護陣）。</p>
+<p>所以 <strong>元素使 + 雷霆天罰 + 煉獄火海</strong> 是全遊戲的傷害上限組合。</p>
+<h3>拒絕轉職</h3>
+<p>彈窗可以選「延後」——那個職業<strong>本局不會再出現</strong>，但其他職業的任務繼續計時。
+如果你想等元素使（最慢達標），就要先把前兩個推掉。<strong>風險是你可能一個都沒拿到。</strong></p>
+<hr />
+<h2 id="s10">11. 關卡與機制</h2>
+<p>5 關 × 8 分鐘。每關有專屬地面、裝飾物與背景。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>關卡</th>
+<th>時間</th>
+<th>裝飾物</th>
+<th>專屬機制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>幽暗森林</strong></td>
+<td>0:00–8:00</td>
+<td>🌲🪨🌳</td>
+<td>無</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>血月荒原</strong></td>
+<td>8:00–16:00</td>
+<td>🌋🗿🪨</td>
+<td><strong>血月獵殺者</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>深淵沼澤</strong></td>
+<td>16:00–24:00</td>
+<td>🌿🍄⛰️</td>
+<td>無（但<strong>包圍網事件</strong>從 16:00 起啟用）</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>冰雪絕地</strong></td>
+<td>24:00–32:00</td>
+<td>❄️🧊🪨</td>
+<td><strong>暴風雪牆</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>魔王城堡</strong></td>
+<td>32:00–40:00</td>
+<td>🏰🗡️🛡️</td>
+<td>無（純強度）</td>
+</tr>
+</tbody>
+</table></div>
+<h3>裝飾物不是純裝飾</h3>
+<p>樹幹／岩石<strong>會擋住你、也會擋住敵人</strong>，而且<strong>會擋掉敵方彈幕</strong>。
+繞著樹跑是第 2、3 關的標準風箏動作。（血月獵殺者是例外，牠穿得過去。）</p>
+<h3>🦹 血月獵殺者（第 2 關）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>血量</td>
+<td><strong>打不死</strong>（所有傷害無效）</td>
+</tr>
+<tr>
+<td>速度</td>
+<td>160（你是 180 → <strong>跑得掉，但只差一點</strong>）</td>
+</tr>
+<tr>
+<td>接觸傷害</td>
+<td>40</td>
+</tr>
+<tr>
+<td>體型</td>
+<td>96（跟最小的魔王同一個量級，一眼認得出來）</td>
+</tr>
+<tr>
+<td>節奏</td>
+<td><strong>追 30 秒 → 休息 5 秒 → 再追 30 秒</strong>，循環到第 2 關結束</td>
+</tr>
+<tr>
+<td>追丟判定</td>
+<td>距離超過畫面對角線 1.6 倍 → <strong>直接傳送到你視野外緣重新撲上來</strong></td>
+</tr>
+<tr>
+<td>免疫</td>
+<td>地形阻擋、霜痕靴減速</td>
+</tr>
+<tr>
+<td>擊退</td>
+<td>簡單=推得動／普通=減半／困難=<strong>完全推不動</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>打法：</strong></p>
+<ol>
+<li><strong>不要試圖甩掉牠</strong>——超過畫面 1.6 倍距離牠就會傳送回來。</li>
+<li><strong>繞圈跑，不要直線跑</strong>。直線跑會把你帶進沒探索過的地形，撞到樹就完蛋。</li>
+<li>牠身上有<strong>紅色光環</strong>：追擊時亮而快、休息時暗而慢。
+   <strong>看到光環變暗就是你的反擊視窗</strong>——趕快撿寶石、打魔王、吃寶箱。</li>
+<li>這一關的地圖裝飾物密度是刻意調低的（給你跑的空間）。</li>
+<li>這一關<strong>不要吃「疾速藥劑」以外的東西優先</strong>——移速就是你的血量。</li>
+</ol>
+<h3>🌨️ 暴風雪牆（第 4 關）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>移動</td>
+<td>由<strong>西向東</strong>（由左向右）持續推進，速度 <strong>131</strong></td>
+</tr>
+<tr>
+<td>你的速度</td>
+<td>180（<strong>跑得贏，但沒有太多餘裕</strong>）</td>
+</tr>
+<tr>
+<td>性質</td>
+<td><strong>硬邊界</strong>——你不能走進去，會被推回牆的右側</td>
+</tr>
+<tr>
+<td>傷害</td>
+<td>貼在牆上時，<strong>每秒扣最大生命的 6%</strong>（護甲無效，因為是百分比）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>打法：</strong></p>
+<ol>
+<li><strong>一路往東（右）走，不要回頭。</strong> 這一關唯一的規則。</li>
+<li>牆速 131 vs 你 180，餘裕是 49/秒。<strong>不要為了撿一顆寶石往西回頭</strong>——
+   回頭 3 秒 = 損失近 400 距離，要花 8 秒才追得回來。</li>
+<li>這一關的魔王是<strong>冰霜魔龍（26:44）與萬年冰靈（31:28）</strong>，兩隻都是「競技場級」
+   （鏡頭會拉遠 1.22 倍）。<strong>在牆前面打魔王</strong>是這一關最危險的情境——
+   魔王的衝刺會把你往牆的方向撞。</li>
+<li>神行靴／迅捷精通／疾速藥劑在這一關的價值翻倍。</li>
+</ol>
+<h3>⭐ 精英怪（全程）</h3>
+<ul>
+<li><strong>每 48 秒</strong>固定生成一隻。</li>
+<li>從<strong>當前波次的敵種</strong>裡隨機挑一隻，<strong>血量 ×8、體型 ×1.6、染成金色</strong>。</li>
+<li><strong>必掉東西</strong>：10%＋8%×幸運 掉寶箱，沒中就從 8 種道具池抽一件
+  （磁鐵／烈焰轟炸／生命之心×2／時間凍結／經驗×2／狂暴／疾速）。</li>
+<li><strong>精英是你補給的主要來源</strong>。看到金色大隻的，優先打掉。</li>
+</ul>
+<h3>🔴 包圍網事件（16:00 起）</h3>
+<ul>
+<li>從 <strong>16:00（第 3 關開始）起，每 72 秒</strong>觸發一次。</li>
+<li>在你身邊<strong>繞一整圈生成 36 隻怪</strong>，半徑剛好在畫面邊緣外。</li>
+<li><strong>目的就是逼你離開安全角落。</strong> 沒有這個機制的話後期可以站著掛機。</li>
+</ul>
+<p><strong>應對：</strong>看到四面八方同時湧來，<strong>立刻往其中一個方向突圍</strong>，
+不要留在圓心。有絕對零度／寒冰新星／飛刀（擊退）的話，這是它們最好用的時刻。</p>
+<hr />
+<h2 id="s11">12. 敵人圖鑑與威脅排序</h2>
+<p><code>速度</code> 欄可以直接跟你的 <strong>180</strong> 比。所有數值都是<strong>基礎值</strong>，
+實戰要乘上時間倍率（血量 <code>1+0.35×分鐘</code>、傷害 <code>1+0.15×分鐘</code>）。</p>
+<h3>一般敵人</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>敵人</th>
+<th>血</th>
+<th>速</th>
+<th>傷</th>
+<th>經驗</th>
+<th>特性</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🦇 蝙蝠</td>
+<td>6</td>
+<td>88</td>
+<td>6</td>
+<td>1</td>
+<td>開場肉盾</td>
+</tr>
+<tr>
+<td>🧟 殭屍</td>
+<td>18</td>
+<td>46</td>
+<td>10</td>
+<td>3</td>
+<td>最慢</td>
+</tr>
+<tr>
+<td>💀 骷髏</td>
+<td>34</td>
+<td>62</td>
+<td>12</td>
+<td>4</td>
+<td>—</td>
+</tr>
+<tr>
+<td>👻 幽靈</td>
+<td>28</td>
+<td>98</td>
+<td>9</td>
+<td>5</td>
+<td>—</td>
+</tr>
+<tr>
+<td>👹 巨魔</td>
+<td>180</td>
+<td>34</td>
+<td>22</td>
+<td>10</td>
+<td>慢速肉盾</td>
+</tr>
+<tr>
+<td>😈 小惡魔</td>
+<td>45</td>
+<td>92</td>
+<td>17</td>
+<td>6</td>
+<td>—</td>
+</tr>
+<tr>
+<td>🐺 地獄犬</td>
+<td>70</td>
+<td><strong>125</strong></td>
+<td>18</td>
+<td>7</td>
+<td>快</td>
+</tr>
+<tr>
+<td>🦂 巨毒蠍</td>
+<td>200</td>
+<td>38</td>
+<td>26</td>
+<td>9</td>
+<td>肉</td>
+</tr>
+<tr>
+<td>🎃 咒術南瓜</td>
+<td>90</td>
+<td>55</td>
+<td>14</td>
+<td>8</td>
+<td><strong>遠程</strong>：射程 360、16 傷、2.8s</td>
+</tr>
+<tr>
+<td>💣 <strong>自爆魔</strong></td>
+<td>120</td>
+<td>108</td>
+<td>10</td>
+<td>12</td>
+<td><strong>靠近 90 內點火 0.9 秒 → 半徑 110、55 傷</strong></td>
+</tr>
+<tr>
+<td>💀 <strong>死神</strong></td>
+<td>320</td>
+<td>118</td>
+<td><strong>999</strong></td>
+<td>35</td>
+<td><strong>碰到即死</strong>，免疫擊退，閃避與護甲無效</td>
+</tr>
+<tr>
+<td>💜 鬼火</td>
+<td>55</td>
+<td><strong>138</strong></td>
+<td>22</td>
+<td>9</td>
+<td>快</td>
+</tr>
+<tr>
+<td>🏔️ 岩石巨人</td>
+<td>450</td>
+<td>28</td>
+<td>38</td>
+<td>16</td>
+<td>免疫擊退</td>
+</tr>
+<tr>
+<td>🐍 毒蛇</td>
+<td>90</td>
+<td>75</td>
+<td>20</td>
+<td>10</td>
+<td><strong>遠程</strong>：射程 340、22 傷、2.4s</td>
+</tr>
+<tr>
+<td>🧙 <strong>沼澤薩滿</strong></td>
+<td>130</td>
+<td>60</td>
+<td>24</td>
+<td>13</td>
+<td><strong>地面法術</strong>：半徑 95、延遲 1.3s、冷卻 4.5s</td>
+</tr>
+<tr>
+<td>⛄ 雪人</td>
+<td>280</td>
+<td>42</td>
+<td>32</td>
+<td>12</td>
+<td>—</td>
+</tr>
+<tr>
+<td>🧊 冰女巫</td>
+<td>100</td>
+<td>65</td>
+<td>28</td>
+<td>11</td>
+<td><strong>遠程 3 連發</strong>：射程 380、30 傷、2.3s</td>
+</tr>
+<tr>
+<td>👁️ 暗影獸</td>
+<td>75</td>
+<td><strong>145</strong></td>
+<td>26</td>
+<td>10</td>
+<td>很快</td>
+</tr>
+<tr>
+<td>🗡️ 黑騎士</td>
+<td><strong>600</strong></td>
+<td>55</td>
+<td>45</td>
+<td>18</td>
+<td>免疫擊退，後期血量會很誇張</td>
+</tr>
+<tr>
+<td>🦴 死靈巫師</td>
+<td>150</td>
+<td>58</td>
+<td>35</td>
+<td>14</td>
+<td><strong>遠程 3 連發</strong>：射程 420、35 傷、2.4s</td>
+</tr>
+<tr>
+<td>🦅 墮天使</td>
+<td>110</td>
+<td><strong>150</strong></td>
+<td>38</td>
+<td>13</td>
+<td>全遊戲最快的一般敵人</td>
+</tr>
+<tr>
+<td>🧛 <strong>混沌術士</strong></td>
+<td>260</td>
+<td>55</td>
+<td>40</td>
+<td>18</td>
+<td><strong>地面法術</strong>：半徑 <strong>130</strong>、延遲 1.2s、冷卻 3.8s</td>
+</tr>
+<tr>
+<td>🗿 石像鬼</td>
+<td>220</td>
+<td>62</td>
+<td>30</td>
+<td>12</td>
+<td>免疫擊退</td>
+</tr>
+<tr>
+<td>🏹 地獄弓手</td>
+<td>68</td>
+<td>85</td>
+<td>22</td>
+<td>9</td>
+<td><strong>遠程 + 會後退</strong>（被貼近到 180 內就往後跑）</td>
+</tr>
+<tr>
+<td>🔮 混沌魔炮</td>
+<td>300</td>
+<td>24</td>
+<td><strong>50</strong></td>
+<td>14</td>
+<td><strong>遠程 3 連發</strong>：射程 420、50 傷；免疫擊退</td>
+</tr>
+</tbody>
+</table></div>
+<h3>威脅排序（照「會不會突然殺死你」排）</h3>
+<p><strong>S 級：💀 死神</strong>
+- 碰到就死。<strong>閃避無效、護甲無效、減傷倍率無效、生命再多也沒用。</strong>
+- 唯一能擋的是<strong>無敵幀</strong>（受傷後 0.35 秒、天使雕像復活後 3 秒）。
+- 速度 118 → <strong>你跑得掉</strong>。從 13:36（816 秒）開始出現在波次裡，之後常駐。
+- <strong>看到 💀 就跑，不要想著打死牠</strong>（320 血 × 時間倍率，中期就是好幾千血）。</p>
+<p><strong>A 級：💣 自爆魔</strong>
+- 進到 90 距離內開始 <strong>0.9 秒引信</strong>，身上會<strong>由紅到白閃爍、越接近爆炸閃越快</strong>。
+- <strong>打死牠也會爆</strong>（引信只要點著就一定會爆），所以「搶在爆炸前殺掉」沒有用。
+- 半徑 110、55 基礎傷。看到閃紅光的東西貼過來，<strong>離開牠 110 以外</strong>。</p>
+<p><strong>A 級：🧛 混沌術士 / 🧙 沼澤薩滿（地面法術）</strong>
+- 會在<strong>你腳下</strong>畫一個紫色警示圈，<strong>1.2–1.3 秒後爆炸</strong>。圈快爆時會閃得更快。
+- 傷害是<strong>當下血量的 8%</strong>（不是固定值），<strong>護甲擋不掉</strong>（百分比傷害不吃固定減免）。
+- 一次不會致命，但術士的半徑 130 幾乎蓋住畫面寬度的三分之二，<strong>會一直磨你</strong>。
+- <strong>看到紫圈就走出去</strong>，不要硬吃。</p>
+<p><strong>B 級：遠程六人組（🎃🐍🧊🦴🏹🔮）</strong>
+- 全部在<strong>射程內就站定開火</strong>，不會貼上來（地獄弓手還會後退）。
+- <strong>一本聖光書就能在簡單／普通難度全部作廢</strong>（第 4 節）。
+- 沒有聖光書的話：躲到樹後面（樹幹會擋彈）、或直接衝進去打死牠們。</p>
+<p><strong>B 級：🦅 墮天使（150）／ 👁️ 暗影獸（145）／ 💜 鬼火（138）</strong>
+- 這三隻的速度接近你的 180。<strong>只靠走位甩不掉</strong>，要靠擊退（飛刀／疾風羽）
+  或減速（寒冰新星／霜痕靴）。夜巫（162）尤其要小心。</p>
+<p><strong>C 級：🗡️ 黑騎士 / 🏔️ 岩石巨人 / 🗿 石像鬼 / 🔮 混沌魔炮</strong>
+- <strong>免疫擊退</strong>。飛刀推不動牠們，靠飛刀開路的構築在第 5 關會很難受。
+- 血厚但慢，繞過去就好。</p>
+<hr />
+<h2 id="s12">13. 波次時間表</h2>
+<p>每個波次規定「這段時間刷哪些怪、多久刷一批、一批幾隻」。
+<code>間隔</code> 越小、<code>批量</code> 越大＝壓力越大。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>時間</th>
+<th>敵種</th>
+<th>間隔</th>
+<th>批量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00</td>
+<td>蝙蝠</td>
+<td>3.0s</td>
+<td>2</td>
+</tr>
+<tr>
+<td>0:32</td>
+<td>蝙蝠×2、殭屍</td>
+<td>2.5s</td>
+<td>2</td>
+</tr>
+<tr>
+<td>1:36</td>
+<td>殭屍、蝙蝠</td>
+<td>2.2s</td>
+<td>3</td>
+</tr>
+<tr>
+<td>2:40</td>
+<td>殭屍、骷髏</td>
+<td>1.6s</td>
+<td>5</td>
+</tr>
+<tr>
+<td>4:00</td>
+<td>骷髏、幽靈</td>
+<td>1.4s</td>
+<td>6</td>
+</tr>
+<tr>
+<td>5:20</td>
+<td>幽靈、殭屍、巨魔</td>
+<td>1.3s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>6:40</td>
+<td>骷髏、幽靈、巨魔</td>
+<td>1.1s</td>
+<td>8</td>
+</tr>
+<tr>
+<td><strong>8:00</strong></td>
+<td>小惡魔、地獄犬</td>
+<td>1.5s</td>
+<td>6</td>
+</tr>
+<tr>
+<td>9:04</td>
+<td>小惡魔、南瓜、地獄犬、弓手</td>
+<td>1.3s</td>
+<td>6</td>
+</tr>
+<tr>
+<td>10:08</td>
+<td>毒蠍、小惡魔、弓手、石像鬼</td>
+<td>1.1s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>12:00</td>
+<td>地獄犬、毒蠍、石像鬼、<strong>自爆魔</strong></td>
+<td>1.0s</td>
+<td>7</td>
+</tr>
+<tr>
+<td><strong>13:36</strong></td>
+<td>石像鬼、自爆魔、弓手、<strong>死神</strong></td>
+<td>0.9s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>14:56</td>
+<td>石像鬼、弓手、死神、自爆魔</td>
+<td>0.8s</td>
+<td>9</td>
+</tr>
+<tr>
+<td><strong>16:00</strong></td>
+<td>鬼火、岩石巨人</td>
+<td>1.5s</td>
+<td>6</td>
+</tr>
+<tr>
+<td>17:20</td>
+<td>鬼火、毒蛇、巨人</td>
+<td>1.3s</td>
+<td>6</td>
+</tr>
+<tr>
+<td>18:40</td>
+<td>巨人、毒蛇、薩滿</td>
+<td>1.1s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>20:16</td>
+<td>鬼火、巨人、薩滿、弓手、死神</td>
+<td>1.0s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>21:36</td>
+<td>石像鬼、巨人、毒蛇、薩滿、自爆魔</td>
+<td>0.9s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>23:12</td>
+<td>薩滿、巨人、自爆魔、死神</td>
+<td>0.8s</td>
+<td>9</td>
+</tr>
+<tr>
+<td><strong>24:00</strong></td>
+<td>雪人、冰女巫</td>
+<td>1.5s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>25:20</td>
+<td>雪人、冰女巫、暗影獸</td>
+<td>1.3s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>26:56</td>
+<td>冰女巫、暗影獸、混沌魔炮</td>
+<td>1.1s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>28:16</td>
+<td>暗影獸、雪人、魔炮、死神</td>
+<td>1.0s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>29:52</td>
+<td>魔炮、冰女巫、暗影獸、死神</td>
+<td>0.9s</td>
+<td>9</td>
+</tr>
+<tr>
+<td>31:12</td>
+<td>魔炮、雪人、冰女巫、死神</td>
+<td>0.8s</td>
+<td>10</td>
+</tr>
+<tr>
+<td><strong>32:00</strong></td>
+<td>黑騎士、死靈巫師</td>
+<td>1.4s</td>
+<td>7</td>
+</tr>
+<tr>
+<td>33:20</td>
+<td>黑騎士、巫師、墮天使</td>
+<td>1.2s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>34:56</td>
+<td>巫師、魔炮、混沌術士</td>
+<td>1.0s</td>
+<td>8</td>
+</tr>
+<tr>
+<td>36:16</td>
+<td>墮天使、黑騎士、術士、死神</td>
+<td>0.9s</td>
+<td>9</td>
+</tr>
+<tr>
+<td>37:36</td>
+<td>魔炮、術士、自爆魔、死神</td>
+<td>0.8s</td>
+<td>10</td>
+</tr>
+<tr>
+<td><strong>39:12</strong></td>
+<td>術士、巫師、墮天使、死神</td>
+<td><strong>0.7s</strong></td>
+<td><strong>11</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>最後一段是<strong>每 0.7 秒 11 隻</strong>，其中 1/4 是死神。<strong>最後 48 秒是全遊戲最難的地方。</strong></p>
+<hr />
+<h2 id="s13">14. 魔王：十隻，全部照時間出場</h2>
+<p>魔王<strong>不吃時間曲線</strong>，只吃難度血量倍率。每隻出場時會有咆哮聲＋畫面上方紫色血條。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>時間</th>
+<th>魔王</th>
+<th>血量</th>
+<th>速</th>
+<th>傷</th>
+<th>經驗</th>
+<th>技能</th>
+<th>競技場</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>0:48</td>
+<td>👺 鬼面武者</td>
+<td>800</td>
+<td>60</td>
+<td>22</td>
+<td>30</td>
+<td>—</td>
+<td></td>
+</tr>
+<tr>
+<td>2</td>
+<td>6:24</td>
+<td>🐉 滅世魔龍</td>
+<td>5,000</td>
+<td>48</td>
+<td>42</td>
+<td>200</td>
+<td>環爆、衝刺</td>
+<td></td>
+</tr>
+<tr>
+<td>3</td>
+<td>11:12</td>
+<td>🐙 深淵之眼</td>
+<td>7,000</td>
+<td>40</td>
+<td>52</td>
+<td>350</td>
+<td>環爆、召喚</td>
+<td></td>
+</tr>
+<tr>
+<td>4</td>
+<td>15:28</td>
+<td>🦖 碎骨暴龍</td>
+<td>10,000</td>
+<td>52</td>
+<td>60</td>
+<td>500</td>
+<td>衝刺、狙擊</td>
+<td></td>
+</tr>
+<tr>
+<td>5</td>
+<td>19:44</td>
+<td>🦎 毒沼魔蜥</td>
+<td>12,000</td>
+<td>55</td>
+<td>65</td>
+<td>650</td>
+<td>狙擊、召喚</td>
+<td></td>
+</tr>
+<tr>
+<td>6</td>
+<td>23:28</td>
+<td>🕷️ 深淵蜘蛛后</td>
+<td>17,000</td>
+<td>42</td>
+<td>70</td>
+<td>850</td>
+<td>環爆、狙擊、召喚</td>
+<td></td>
+</tr>
+<tr>
+<td>7</td>
+<td>27:44</td>
+<td>🐊 冰霜魔龍</td>
+<td>21,000</td>
+<td>56</td>
+<td>76</td>
+<td>1,100</td>
+<td>衝刺、環爆</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>8</td>
+<td>31:28</td>
+<td>🦣 萬年冰靈</td>
+<td>28,000</td>
+<td>38</td>
+<td>82</td>
+<td>1,300</td>
+<td>狙擊、召喚、環爆</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>9</td>
+<td>35:44</td>
+<td>🌑 混沌龍王</td>
+<td>34,000</td>
+<td>58</td>
+<td>88</td>
+<td>1,600</td>
+<td>全四招</td>
+<td>✓</td>
+</tr>
+<tr>
+<td>10</td>
+<td>39:28</td>
+<td>☠️ <strong>滅世之神</strong></td>
+<td>46,000</td>
+<td>62</td>
+<td>96</td>
+<td><strong>3,000</strong></td>
+<td>全四招</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table></div>
+<p>「競技場」＝這隻在場時<strong>鏡頭會平滑拉遠 1.22 倍</strong>（給你更多閃避空間）。</p>
+<h3>四種魔王技能怎麼躲</h3>
+<p>魔王出場 <strong>2.2 秒</strong>後放第一招，之後<strong>每 3.4 秒一招</strong>，照技能列表的順序輪。
+<strong>所以你可以數拍子。</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>技能</th>
+<th>表現</th>
+<th>怎麼躲</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>環爆 <code>ring</code></strong></td>
+<td>魔王腳下先閃一圈<strong>粉紅光暈</strong>，<strong>0.5 秒後</strong>才判定</td>
+<td>半徑 230。看到粉紅圈就往外跑，0.5 秒夠你跑出去</td>
+</tr>
+<tr>
+<td><strong>衝刺 <code>dash</code></strong></td>
+<td>從魔王身上拉出一條<strong>指向你的預警帶</strong>（火焰／骨白／冰藍／虛空／神聖，依魔王而異），<strong>0.45 秒後</strong>以 3.4 倍速衝 0.5 秒</td>
+<td><strong>往預警帶的側面走</strong>，不要往後退——牠衝的是「起手當下你的位置」，橫向移動一定閃得掉</td>
+</tr>
+<tr>
+<td><strong>狙擊 <code>aimed</code></strong></td>
+<td>朝你射一發慢速大彈（速度 260、存活 3 秒）</td>
+<td>橫向走開即可；<strong>有聖光書的話會直接被打掉</strong></td>
+</tr>
+<tr>
+<td><strong>召喚 <code>summon</code></strong></td>
+<td>地上出現一個<strong>大法陣</strong>，0.55 秒後陣裡浮現 3 隻當前波次的怪</td>
+<td>法陣亮起就先離開那塊地；浮現有 0.35 秒淡入，不會被瞬間貼臉</td>
+</tr>
+</tbody>
+</table></div>
+<h3>打魔王的通則</h3>
+<ol>
+<li><strong>魔王會被距離回收機制排除</strong>——你跑遠牠不會消失，會一路追你。
+   跑得掉但甩不掉，所以<strong>不能拖</strong>：拖到下一波刷怪加上來會更難。</li>
+<li><strong>魔王必掉寶箱</strong>（100%），另外 <code>35% + 15%×幸運</code> 掉時間凍結（懷錶）。
+   寶箱直接給 1–3 個升級，<strong>是全遊戲最大的一筆成長</strong>。</li>
+<li><strong>時間凍結（懷錶）是打魔王的最強道具</strong>：敵人整個定格 5 秒，你照常移動與攻擊。
+   <strong>留著在魔王出場時吃。</strong></li>
+<li>對付高血量魔王，隕石術／星殞裁判／千刃流星（單體集火）比落雷（清場）好。</li>
+</ol>
+<hr />
+<h2 id="s14">15. 掉落物、寶箱與幸運草</h2>
+<h3>掉落規則</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>誰死了</th>
+<th>掉什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>魔王</strong></td>
+<td><strong>必掉寶箱</strong> ＋ <code>35% + 15%×幸運</code> 機率掉時間凍結</td>
+</tr>
+<tr>
+<td><strong>精英</strong>（金色大隻）</td>
+<td><code>10% + 8%×幸運</code> 掉寶箱；<strong>沒中就必掉一件道具</strong>（8 選 1）</td>
+</tr>
+<tr>
+<td><strong>一般敵人</strong></td>
+<td><code>0.4% × (1+0.5×幸運)</code> 掉三選一增益；否則 <code>0.8% × (1+0.5×幸運)</code> 掉生命之心</td>
+</tr>
+</tbody>
+</table></div>
+<p>精英的 8 種道具池：磁鐵、烈焰轟炸、<strong>生命之心 ×2</strong>（權重雙倍）、時間凍結、經驗×2、狂暴、疾速。</p>
+<h3>道具效果</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>道具</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>❤️ <strong>生命之心</strong></td>
+<td>立刻回復 <strong>30</strong> 生命</td>
+</tr>
+<tr>
+<td>🧊 <strong>時間凍結</strong></td>
+<td><strong>敵人全場定格 5 秒</strong>（含技能），你照常行動與攻擊</td>
+</tr>
+<tr>
+<td>🧲 <strong>磁鐵</strong></td>
+<td><strong>全場</strong>寶石立刻吸過來（只對當下場上的，之後掉的不算）</td>
+</tr>
+<tr>
+<td>☄️ <strong>烈焰轟炸</strong></td>
+<td>畫面內所有敵人受到 <code>max(300, 最大血量×65%)</code>；<strong>魔王只吃 15%</strong></td>
+</tr>
+<tr>
+<td>🌟 <strong>經驗 ×2</strong></td>
+<td>10 秒內經驗翻倍</td>
+</tr>
+<tr>
+<td>💪 <strong>狂暴</strong></td>
+<td>8 秒內<strong>所有傷害 ×1.5</strong></td>
+</tr>
+<tr>
+<td>👟 <strong>疾速</strong></td>
+<td>8 秒內<strong>移速 ×1.3</strong>（180 → 234）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>同種道具連續吃兩個是「覆蓋重新計時」，不是累加。</strong></p>
+<h3>寶箱：這遊戲最大的一次成長</h3>
+<p>寶箱<strong>不是三選一</strong>，而是<strong>直接發給你 1–3 個隨機升級</strong>（跳過選擇）。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>件數</th>
+<th>機率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 件</td>
+<td><code>6% + 5%×幸運</code></td>
+</tr>
+<tr>
+<td>2 件</td>
+<td><code>24% + 12%×幸運</code>（扣掉 3 件的部分）</td>
+</tr>
+<tr>
+<td>1 件</td>
+<td>其餘</td>
+</tr>
+</tbody>
+</table></div>
+<p>滿級幸運草（Lv3）：3 件的機率從 6% → <strong>21%</strong>，2 件從 18% → <strong>39%</strong>。</p>
+<h3>🍀 幸運草值不值得拿</h3>
+<p>幸運草的<strong>唯一作用</strong>就是上面這兩張表（掉落率＋寶箱件數）。它不加傷害、不加防禦。</p>
+<ul>
+<li><strong>前期（0–15 分）拿：不太值得。</strong> 那時候寶箱本來就少，一格被動很貴。</li>
+<li><strong>中期看到精英很多的時候拿：值得。</strong> 每 48 秒一隻精英 × 40 分鐘 = 約 50 隻精英，
+  幸運草 Lv3 讓其中的寶箱機率從 10% → 34%，等於多 12 個寶箱、約 20 個免費升級。</li>
+<li><strong>但它會佔掉 5 格被動裡的一格</strong>，而那一格可能是你的進化組合被動。<strong>先湊進化。</strong></li>
+</ul>
+<hr />
+<h2 id="s15">16. 神秘商人</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>出現時間</td>
+<td><strong>5:00、10:00、14:00、18:00、25:00、30:00、34:00</strong>（共 7 次）</td>
+</tr>
+<tr>
+<td>停留</td>
+<td><strong>45 秒</strong>，逾時就走，<strong>不會再回來</strong></td>
+</tr>
+<tr>
+<td>位置</td>
+<td>你身邊 170 距離的隨機方向，有<strong>金色雙層光暈＋提燈搖晃的待機動畫</strong></td>
+</tr>
+<tr>
+<td>觸發</td>
+<td>走到他身上 34 距離內</td>
+</tr>
+</tbody>
+</table></div>
+<h3>交易規則：以物易物，沒有錢</h3>
+<ul>
+<li>商人一次開 <strong>最多 3 個</strong> 選項。</li>
+<li><strong>你得拿一把同類（武器換武器、被動換被動）的東西出去換。</strong></li>
+<li>換來的東西<strong>繼承被犧牲那把的等級</strong>（上限是新東西自己的滿等）。
+  → <strong>拿一把 Lv6 的垃圾武器去換，會直接得到一把 Lv6 的新武器。</strong></li>
+<li>商人只會開「<strong>這局從沒拿過</strong>」的東西（進化掉的原武器也算拿過）。</li>
+<li><strong>進化武器不能拿去換。</strong></li>
+<li>可以直接跳過不交易。</li>
+<li>如果沒有任何可交易的東西（例如全部都是進化武器），會給<strong>餞別禮：+60 生命、+50 經驗</strong>。</li>
+</ul>
+<h3>商人的正確用法</h3>
+<p><strong>這是本作最被低估的系統。</strong> 三個實戰用法：</p>
+<ol>
+<li><strong>把廢武器洗成進化組件。</strong> 你已經有力量護符 Lv3，但魔法飛彈一直沒抽到？
+   拿一把點滿的大蒜光環（沒有進化路線）去換魔法飛彈，<strong>直接得到 Lv6 魔法飛彈 → 立刻進化。</strong></li>
+<li><strong>同理洗被動。</strong> 把 Lv5 的吸寶磁鐵換成 Lv3 的疾風羽（上限 3，所以只能拿到 Lv3）。
+   <strong>注意：換到上限低的被動會浪費等級</strong>，所以優先用高等的去換上限同樣高的。</li>
+<li><strong>五分鐘那次一定要去。</strong> 5:00 那次通常你的東西還很少、選項池最大，
+   而且離第 2 關的獵殺者還有 3 分鐘，是唯一能悠閒過去的一次。</li>
+</ol>
+<p><strong>逾時的懲罰是永久的</strong>——第 4 關（24:00–32:00）中間沒有商人，
+25:00 與 30:00 那兩次要在暴風雪追殺下往回走 170 距離，往往根本去不了。</p>
+<hr />
+<h2 id="s16">17. 計分與排行榜</h2>
+<pre><code>最終分數 = 擊殺數 × 難度倍率
+</code></pre>
+<ul>
+<li><strong>只有擊殺數。存活時間、等級、傷害都不算分。</strong></li>
+<li>難度倍率：簡單 <strong>÷3</strong>、普通 <strong>×1</strong>、困難 <strong>×3</strong>。</li>
+<li>放棄本局也照樣結算、照樣能上傳。</li>
+</ul>
+<h3>想衝排行榜就要知道的事</h3>
+<ol>
+<li><strong>打困難。</strong> 同樣 3000 擊殺，普通是 3000 分，困難是 9000 分。</li>
+<li><strong>清場能力 &gt; 單體傷害。</strong> 分數只看殺了幾隻，所以雷霆天罰 / 千刃流星 / 煉獄火海
+   這種「一次殺一片」的構築遠勝過集火魔王。</li>
+<li><strong>後期波次才是分數的來源。</strong> 39:12 之後是每 0.7 秒 11 隻——
+   最後 3 分鐘的擊殺數可能佔全局的三成。<strong>活到最後比中途打得漂亮重要得多。</strong></li>
+<li><strong>經驗 ×2 與狂暴要留在人多的時候用</strong>（包圍網事件、最後一段波次）。</li>
+</ol>
+<p>結算畫面可以：回看死亡畫面、輸入暱稱上傳線上排行榜、看線上排行榜、
+開 Game Center 排行榜、分享戰場截圖。</p>
+<hr />
+<h2 id="s17">18. 推薦構築路線</h2>
+<h3>路線 A：雷霆天罰（清場 / 衝分數）★推薦</h3>
+<pre><code>夜巫（落雷起手）或任意角色
+→ 落雷點到 Lv6（優先度最高）
+→ 風之戒 Lv3 → ⛈️ 雷霆天罰
+→ 轉職選【元素使】（法術傷害 +35% 直接乘上去）
+→ 補：濃縮咖啡（與風之戒疊乘）、力量護符、吸血鬼牙
+→ 第二把主武器：隕石術（同樣吃元素使加成）
+</code></pre>
+<ul>
+<li>上限最高的分數構築。滿等雷霆天罰單次最多命中 30 個目標。</li>
+<li>元素使的 <strong>−12% 冷卻</strong> 直接讓天罰的 1.1 秒變 0.97 秒。</li>
+<li><strong>弱點：對單體魔王輸出普通。</strong> 用隕石術補。</li>
+</ul>
+<h3>路線 B：千刃流星（極限輸出）</h3>
+<pre><code>獵人（飛刀起手 + 投射 +1 發）
+→ 飛刀點到 Lv6
+→ 疾風羽 Lv3 → 🌀 千刃流星
+→ 複製護符 Lv2（+2 發 → 15 發）
+→ 補：力量護符、風之戒、吸血鬼牙
+</code></pre>
+<ul>
+<li>15 發 × 穿透 5 = 理論每 0.6 秒 90 次命中。全遊戲傷害天花板。</li>
+<li>飛刀的 ×1.9 擊退＋疾風羽的 +20% 擊退＝<strong>大部分敵人根本貼不到你</strong>。</li>
+<li><strong>弱點：黑騎士／岩石巨人／石像鬼／混沌魔炮免疫擊退</strong>，第 5 關會突然變難。</li>
+</ul>
+<h3>路線 C：聖光守護陣（無腦穩過 / 新手推薦）</h3>
+<pre><code>伯爵
+→ 聖光書點到 Lv6
+→ 放大鏡 Lv3 → ✨ 聖光守護陣
+→ 轉職選【暗影行者】（移速 +25%、閃避 15%、屍爆）
+→ 補：濃縮咖啡＋風之戒（轉速吃攻速）、巨人之心、吸血鬼牙
+→ 第二把武器：落雷或隕石（補遠程輸出）
+</code></pre>
+<ul>
+<li><strong>7 本書 = 7 面彈幕盾</strong>。簡單／普通難度下，遠程敵人對你完全無效。</li>
+<li>350 持續 DPS、零操作、永遠命中貼臉的東西。</li>
+<li><strong>弱點：完全打不到遠處的敵人</strong>，一定要配一把有射程的武器。</li>
+</ul>
+<h3>路線 D：血族不死身（最穩活到 40 分）</h3>
+<pre><code>任意角色
+→ 吸血鬼牙 Lv3（每殺一隻回 4.5% 最大生命）
+→ 轉職選【血族領主】（+3% → 共 7.5%／擊殺、生命 +30%）
+→ 巨人之心 Lv5（生命 ×2）
+→ 主武器隨意，但要能大量殺（落雷／飛刀）
+→ 補：鐵制護甲、生命藥草、天使雕像
+</code></pre>
+<ul>
+<li>最大生命 <code>100 × 2.0（心）× 1.3（領主）= 260</code>，每殺一隻回 <strong>19.5 血</strong>。</li>
+<li><strong>殺得越快回得越多</strong>，所以它跟清場構築是相輔相成的，不是對立的。</li>
+<li>天使雕像 Lv2 = 兩條命，每次復活回半血 + 3 秒無敵。</li>
+</ul>
+<h3>通用取捨順序（不知道選什麼時照這個排）</h3>
+<ol>
+<li><strong>能湊出進化的那一項</strong>（武器升到 6 / 被動升到 3）</li>
+<li><strong>吸血鬼牙</strong>（續航 CP 值最高）</li>
+<li><strong>攻速</strong>（濃縮咖啡 / 風之戒 — 疊乘，回報最直接）</li>
+<li><strong>傷害</strong>（力量護符）</li>
+<li><strong>移速</strong>（神行靴 — 走位就是防禦）</li>
+<li><strong>生命</strong>（巨人之心 — 而且會同步補血）</li>
+<li>其餘</li>
+</ol>
+<hr />
+<h2 id="s18">19. 進階技巧（會不會這幾條差很多）</h2>
+<h3>1. <code>+1 發</code> 只對兩種武器有效</h3>
+<p>複製護符與獵人的 <code>+1 發</code>，<strong>只加在「投射類」與「環繞類」上</strong>：</p>
+<ul>
+<li>✅ 有效：魔法飛彈、飛刀、血蝠群、聖光書、星殞裁判、千刃流星、聖光守護陣、血月獠牙</li>
+<li>❌ 無效：落雷、隕石術、聖水炸彈、寒冰新星、十字斬、大蒜光環（以及它們的進化）</li>
+</ul>
+<p><strong>玩落雷／隕石流的話，複製護符跟獵人角色對你完全沒用。</strong></p>
+<h3>2. 攻速是這遊戲回報最高的屬性</h3>
+<p><code>攻擊冷卻倍率</code> 是<strong>連乘</strong>的：</p>
+<pre><code>冷卻倍率 = (1 − 0.06×咖啡) × (1 − 0.08×風之戒) × (1 + 0.03×聚能法陣) × 角色 × 職業
+</code></pre>
+<p>濃縮咖啡 Lv5 × 風之戒 Lv5 = <code>0.7 × 0.6 = 0.42</code>，<strong>攻速等於 2.4 倍</strong>。
+再加元素使（×0.88）與狼人（×0.92）＝ <code>0.34</code>，<strong>接近 3 倍攻速</strong>。</p>
+<p>而且攻速還會<strong>連帶加快</strong>：</p>
+<ul>
+<li>聖光書 / 聖光守護陣的<strong>軌道轉速</strong>（轉得越快掃到越多人）</li>
+<li>所有武器特效的播放速度（不會積殘影）</li>
+</ul>
+<h3>3. <code>攻擊範圍</code> 幾乎所有武器都吃</h3>
+<p><code>範圍倍率 = (1 + 0.10×放大鏡) × (1 + 0.08×聚能法陣) × 角色（夜巫 1.15）</code></p>
+<p>它會乘上：聖光書軌道半徑、大蒜光環半徑、寒冰新星半徑、聖水火海半徑、
+隕石半徑、十字斬半徑、星殞裁判的噴濺半徑、落雷的爆炸半徑。</p>
+<p><strong>夜巫（+15%）＋放大鏡 Lv5（+50%）＝ 1.73 倍範圍</strong>，
+絕對零度的半徑會從 230 變成 397——那幾乎是整個螢幕寬度的凍結。</p>
+<h3>4. 自動瞄準有射程上限＝畫面內</h3>
+<p>武器的鎖定距離被限制在<strong>大約畫面高度的一半</strong>（避免打到看不見的敵人、
+避免寶石掉在畫面外撿不到）。所以：</p>
+<ul>
+<li><strong>敵人在畫面外時，你的武器不會開火</strong>（除了光環／環繞這種不用瞄準的）。</li>
+<li>想輸出就要<strong>讓敵人進畫面</strong>。一直逃跑到看不見敵人＝你完全沒有輸出，
+  這也是「跑太遠反而死掉」的原因（升不了級）。</li>
+</ul>
+<h3>5. 敵人的彈幕會被三種東西擋掉</h3>
+<ol>
+<li><strong>樹幹／岩石</strong>（場景裝飾物）</li>
+<li><strong>聖光書 / 聖光守護陣</strong>（簡單／普通無冷卻）</li>
+<li>你自己的無敵幀（受傷後 0.35 秒）</li>
+</ol>
+<h3>6. 護甲擋不住百分比傷害</h3>
+<p><code>鐵制護甲</code> 是<strong>固定值減免</strong>：<code>實際傷害 = max(1, 原傷 × 受傷倍率 − 護甲)</code>。</p>
+<p><strong>不吃護甲的傷害來源：</strong>
+- 地面法術（薩滿／術士）：扣<strong>當下血量的 8%</strong>
+- 暴風雪牆：每秒扣<strong>最大生命的 6%</strong>
+- 死神：直接致死</p>
+<p>所以<strong>純堆護甲不會讓你在第 4 關（暴風雪）活得更久</strong>，堆移速才會。</p>
+<h3>7. 巨人之心會「補上差額」，不會補滿</h3>
+<p>拿到巨人之心時，最大生命 +20%，<strong>當下血量也會 +同樣的絕對值</strong>。
+所以<strong>殘血時拿巨人之心 = 免費回血</strong>（100→120 上限，血量也 +20）。
+但它不會治好你——<strong>殘血時該撿的還是生命之心</strong>。</p>
+<h3>8. 死亡前的最後一根稻草：天使雕像</h3>
+<ul>
+<li>復活時回<strong>半血 + 3 秒無敵</strong>。</li>
+<li>次數是<strong>整局</strong>共 N 次，不是每級各一次；<code>revivesUsed</code> 只增不減。</li>
+<li><strong>中途把雕像跟商人換掉，已經用掉的次數不會退還。</strong></li>
+</ul>
+<h3>9. 十字斬 Lv3 是分水嶺</h3>
+<p>Lv1–2 只砍<strong>面向最近敵人的前方半圈</strong>，被包夾時背後完全沒有防護。
+<strong>Lv3 起變成整圈。</strong> 如果你拿了十字斬，優先把它推到 3 級。</p>
+<h3>10. 後期「碰一下」就是致命傷，不是掉一點血</h3>
+<p>接觸傷害同樣吃時間倍率（<code>1 + 0.15×分鐘</code>）：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>敵人</th>
+<th>基礎傷害</th>
+<th>第 24 分鐘</th>
+<th>第 32 分鐘</th>
+<th>第 40 分鐘</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🗡️ 黑騎士（接觸）</td>
+<td>45</td>
+<td>207</td>
+<td>261</td>
+<td>315</td>
+</tr>
+<tr>
+<td>🔮 混沌魔炮（彈幕）</td>
+<td>50</td>
+<td>230</td>
+<td>290</td>
+<td>350</td>
+</tr>
+<tr>
+<td>🧛 混沌術士（接觸）</td>
+<td>40</td>
+<td>184</td>
+<td>232</td>
+<td>280</td>
+</tr>
+<tr>
+<td>⛄ 雪人（接觸）</td>
+<td>32</td>
+<td>147</td>
+<td>186</td>
+<td>224</td>
+</tr>
+</tbody>
+</table></div>
+<p>而基礎最大生命只有 100（巨人之心滿級 ×2、血族領主 ×1.3 → 260）。
+<strong>這代表第 5 關的一次接觸就可能超過你一半的血，沒堆生命的話直接致命。</strong>
+受傷後有 <strong>0.35 秒無敵幀</strong>，所以「被圍住」不會瞬間秒殺——
+但那 0.35 秒是你唯一的脫身視窗，<strong>吃到傷害的第一時間就要往外走</strong>。</p>
+<h3>11. 精英是排在時鐘上的，不是隨機的</h3>
+<p>每 <strong>48 秒</strong>一隻，從 0:48 開始。你可以數：
+0:48、1:36、2:24、3:12… <strong>一局 40 分鐘 = 50 隻精英 = 50 次補給機會。</strong>
+拿到幸運草的話這 50 次會給你大約 17 個寶箱。</p>
+<hr />
+<h2 id="s19">20. 十大死因與對策</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>死因</th>
+<th>為什麼會發生</th>
+<th>對策</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>💀 <strong>碰到死神</strong></td>
+<td>它是 118 速、外觀跟骷髏一樣是 💀</td>
+<td>從 13:36 起養成「看到 💀 就先確認大小」的習慣；死神體型 32、有 320 血條</td>
+</tr>
+<tr>
+<td>2</td>
+<td>💣 <strong>被自爆魔炸</strong></td>
+<td>打死牠也會爆</td>
+<td>看到閃紅光的東西貼過來就往外跑 110</td>
+</tr>
+<tr>
+<td>3</td>
+<td>🌨️ <strong>在暴風雪關往回走</strong></td>
+<td>為了撿一顆寶石／打一隻精英</td>
+<td>第 4 關<strong>永遠往東</strong>，寶石不撿就不撿</td>
+</tr>
+<tr>
+<td>4</td>
+<td>🦹 <strong>被獵殺者逼進角落</strong></td>
+<td>直線逃跑進了沒探索的地形</td>
+<td>繞大圈，用光環亮度判斷追擊/休息</td>
+</tr>
+<tr>
+<td>5</td>
+<td>🔴 <strong>包圍網事件</strong></td>
+<td>36 隻同時從四面出現</td>
+<td>16:00 之後每 72 秒警戒一次；立刻選一個方向突圍</td>
+</tr>
+<tr>
+<td>6</td>
+<td>🐉 <strong>被魔王衝刺撞死</strong></td>
+<td>往後退而不是往側面走</td>
+<td>預警帶亮起 → <strong>橫向移動</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td>🔮 <strong>遠程彈幕磨死</strong></td>
+<td>沒有聖光書、又一直被追著跑</td>
+<td>簡單／普通難度拿一本聖光書就解決</td>
+</tr>
+<tr>
+<td>8</td>
+<td>🧛 <strong>地面法術疊加</strong></td>
+<td>兩三個術士同時放，每個扣 8%</td>
+<td>紫圈亮起就走出去，不要在術士群裡纏鬥</td>
+</tr>
+<tr>
+<td>9</td>
+<td>⏱️ <strong>39:12 之後的最後衝刺</strong></td>
+<td>每 0.7 秒 11 隻、1/4 是死神</td>
+<td>把時間凍結／烈焰轟炸留到 39 分之後</td>
+</tr>
+<tr>
+<td>10</td>
+<td>📉 <strong>輸出不足被淹沒</strong></td>
+<td>前期亂拿武器把 4 格填滿、一把都沒點滿</td>
+<td><strong>專心把一把武器推到 Lv6 湊進化</strong>，比帶四把 Lv3 強得多</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="s20">附錄：一局的時間軸速查</h2>
+<pre><code>0:00  ▸ 第 1 關 幽暗森林
+0:48  ▸ 👺 鬼面武者（第一隻魔王）／ 精英開始每 48 秒一隻
+5:00  ▸ 🛒 商人 #1（最容易去的一次）
+6:24  ▸ 🐉 滅世魔龍
+8:00  ▸ 第 2 關 血月荒原 ── 🦹 血月獵殺者登場（追30休5）
+10:00 ▸ 🛒 商人 #2
+11:12 ▸ 🐙 深淵之眼
+13:36 ▸ 💀 死神加入波次
+14:00 ▸ 🛒 商人 #3
+15:28 ▸ 🦖 碎骨暴龍
+16:00 ▸ 第 3 關 深淵沼澤 ── 🔴 包圍網事件啟用（每 72 秒 36 隻）
+18:00 ▸ 🛒 商人 #4
+19:44 ▸ 🦎 毒沼魔蜥
+23:28 ▸ 🕷️ 深淵蜘蛛后
+24:00 ▸ 第 4 關 冰雪絕地 ── 🌨️ 暴風雪牆（一路往東）
+25:00 ▸ 🛒 商人 #5（暴風雪中，很難去）
+27:44 ▸ 🐊 冰霜魔龍（競技場）
+30:00 ▸ 🛒 商人 #6
+31:28 ▸ 🦣 萬年冰靈（競技場）
+32:00 ▸ 第 5 關 魔王城堡
+34:00 ▸ 🛒 商人 #7（最後一次）
+35:44 ▸ 🌑 混沌龍王（競技場）
+39:12 ▸ ⚠️ 最終波次：每 0.7 秒 11 隻
+39:28 ▸ ☠️ 滅世之神（競技場，46000 血）
+40:00 ▸ 🏆 勝利
+</code></pre><a class="navlink" href="vr-next.html">→ 下一版可以發展的五個方向</a>
+<footer>吸血鬼復仇（com.alexvampire.gamecollection）玩家攻略 · 數值以 unity/VampireRevenge 現行程式碼為準</footer>
+</div>
+</body>
+</html>
