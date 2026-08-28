@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>程式碼地圖</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+tr.cap td{opacity:.55}
+</style><style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+<p class="eyebrow">工程基礎建設 · 已完成</p>
+<h1>程式碼地圖建好了，而且我拿真的 bug 驗證過它抓得到</h1>
+<p class="lede">四個階段都完成並推上版控。範圍是<b>整個 repo 的四個 Unity 專案</b>，
+301 個 C# 檔。這一頁講它是什麼、怎麼驗的、以及之後怎麼被用到。</p>
+
+<h2><span class="num">1</span>最重要的一件事：它抓得到真的 bug</h2>
+<p>光說「這個工具應該有用」不算數。我把<b>血怒修好之前</b>的程式碼暫時還原後跑檢查：</p>
+<pre class="copy">第一層　只有驗證在讀的私有值　1 個　← 血怒那種形狀
+    ** 地城迴響　SkillAtkSpeedMul（驗證讀了 1 次）</pre>
+<p><b>剛好只有那一筆、零誤報</b>；換回現在的版本則是 0 個。</p>
+<div class="note">
+<p><b>該響的時候響、平常安靜——兩邊都要驗。</b>
+只驗「現在沒問題」的話，一個永遠回傳「沒問題」的檢查也會通過。</p>
+</div>
+<p class="small">血怒那個 bug 是：攻速倍率宣告了、註解寫得好好的、<b>自動測試也是綠的</b>，
+但那個值從來沒被乘進任何計算裡，技能實際完全沒效果，直到你實機回報才發現。
+同一輪還有三個同類。測試抓不到是因為它問「屬性回傳多少」——屬性永遠回傳正確的數字。
+要問的是「有沒有人讀它」。</p>
+
+<h2><span class="num">2</span>全貌</h2>
+<div class="scroll"><table>
+<tr><th>模組</th><th>產品程式</th><th>驗證探針</th></tr>
+<tr><td>地城迴響</td><td>35 檔　14,412 行</td><td>45 檔　6,078 行</td></tr>
+<tr><td>紙娃娃原型</td><td>27 檔　7,080 行</td><td>11 檔　1,480 行</td></tr>
+<tr><td>吸血鬼·核心</td><td>27 檔　6,756 行</td><td>1 檔　2,166 行</td></tr>
+<tr><td>殭屍防線</td><td>32 檔　6,575 行</td><td>1 檔　1,478 行</td></tr>
+<tr><td>CyberSurvivor</td><td>22 檔　4,324 行</td><td>0 檔　0 行</td></tr>
+<tr><td>CyberAdv</td><td>34 檔　4,048 行</td><td>2 檔　288 行</td></tr>
+<tr><td>吸血鬼·玩法</td><td>13 檔　2,747 行</td><td>0 檔　0 行</td></tr>
+<tr><td>共用 UI</td><td>14 檔　2,723 行</td><td>0 檔　0 行</td></tr>
+<tr><td>建置腳本</td><td>36 檔　2,445 行</td><td>0 檔　0 行</td></tr>
+<tr><td>共用資料</td><td>1 檔　471 行</td><td>0 檔　0 行</td></tr>
+</table></div>
+<p class="small">合計產品 <b>51,581</b> 行、驗證探針 <b>11,490</b> 行
+（探針佔 18%，不會出現在出貨的 App 裡）。</p>
+
+<h3>模組依賴</h3>
+<div class="scroll"><pre class="mermaid">graph LR
+  M0["地城迴響"]
+  M1["紙娃娃原型"]
+  M2["吸血鬼·核心"]
+  M3["殭屍防線"]
+  M4["CyberSurvivor"]
+  M5["CyberAdv"]
+  M6["吸血鬼·玩法"]
+  M7["共用 UI"]
+  M8["建置腳本"]
+  M9["共用資料"]
+  M7 -->|41| M2
+  M8 -->|38| M0
+  M6 -->|33| M2
+  M3 -->|20| M2
+  M2 -->|14| M7
+  M2 -->|13| M6
+  M6 -->|9| M9
+  M3 -->|7| M7
+  M7 -->|6| M9
+  M2 -->|6| M9
+  M0 -->|6| M2
+  M7 -->|4| M6
+  M7 -->|3| M3
+  M2 -->|3| M0
+  M2 -->|3| M3
+  M3 -->|2| M6
+  M0 -->|2| M8
+  M8 -->|2| M2
+  M3 -->|1| M0
+  M0 -->|1| M7
+  M6 -->|1| M7</pre></div>
+<p class="small">圖上的數字是「用到對方幾個型別」。若圖沒顯示，下面是同一份資料：</p>
+<div class="scroll"><table>
+<tr><th>從</th><th></th><th>到</th><th>型別數</th></tr>
+<tr><td>共用 UI</td><td>→</td><td>吸血鬼·核心</td><td>41</td></tr>
+<tr><td>建置腳本</td><td>→</td><td>地城迴響</td><td>38</td></tr>
+<tr><td>吸血鬼·玩法</td><td>→</td><td>吸血鬼·核心</td><td>33</td></tr>
+<tr><td>殭屍防線</td><td>→</td><td>吸血鬼·核心</td><td>20</td></tr>
+<tr><td>吸血鬼·核心</td><td>→</td><td>共用 UI</td><td>14</td></tr>
+<tr><td>吸血鬼·核心</td><td>→</td><td>吸血鬼·玩法</td><td>13</td></tr>
+<tr><td>吸血鬼·玩法</td><td>→</td><td>共用資料</td><td>9</td></tr>
+<tr><td>殭屍防線</td><td>→</td><td>共用 UI</td><td>7</td></tr>
+<tr><td>共用 UI</td><td>→</td><td>共用資料</td><td>6</td></tr>
+<tr><td>吸血鬼·核心</td><td>→</td><td>共用資料</td><td>6</td></tr>
+<tr><td>地城迴響</td><td>→</td><td>吸血鬼·核心</td><td>6</td></tr>
+<tr><td>共用 UI</td><td>→</td><td>吸血鬼·玩法</td><td>4</td></tr>
+<tr><td>共用 UI</td><td>→</td><td>殭屍防線</td><td>3</td></tr>
+<tr><td>吸血鬼·核心</td><td>→</td><td>地城迴響</td><td>3</td></tr>
+<tr><td>吸血鬼·核心</td><td>→</td><td>殭屍防線</td><td>3</td></tr>
+<tr><td>殭屍防線</td><td>→</td><td>吸血鬼·玩法</td><td>2</td></tr>
+<tr><td>地城迴響</td><td>→</td><td>建置腳本</td><td>2</td></tr>
+<tr><td>建置腳本</td><td>→</td><td>吸血鬼·核心</td><td>2</td></tr>
+<tr><td>殭屍防線</td><td>→</td><td>地城迴響</td><td>1</td></tr>
+<tr><td>地城迴響</td><td>→</td><td>共用 UI</td><td>1</td></tr>
+<tr><td>吸血鬼·玩法</td><td>→</td><td>共用 UI</td><td>1</td></tr>
+</table></div>
+<p class="small"><b>跨 Unity 專案之間不會有邊</b>——那四個專案各自獨立編譯，結構上無法互相引用。</p>
+
+<h3>每個模組該從哪裡讀起</h3>
+<p>被最多其他檔案引用的型別，通常就是那一塊的樞紐。</p>
+<div class="scroll"><table>
+<tr><th>模組</th><th>樞紐型別（括號是被幾個檔案引用）</th></tr>
+<tr><td><b>紙娃娃原型</b></td><td><code>Floor</code>（8）、<code>RoomArt</code>（5）、<code>Room</code>（5）、<code>Paperdoll</code>（5）、<code>GlowMat</code>（4）</td></tr>
+<tr><td><b>CyberAdv</b></td><td><code>GameConfig</code>（17）、<code>UIFactory</code>（7）、<code>EnemyKind</code>（7）、<code>CharacterId</code>（7）、<code>ProcArt</code>（5）</td></tr>
+<tr><td><b>共用 UI</b></td><td><code>UIFactory</code>（21）、<code>VrIconArt</code>（6）、<code>VrUiArt</code>（5）、<code>VrBoardPanel</code>（3）、<code>VrLoadoutView</code>（2）</td></tr>
+<tr><td><b>吸血鬼·核心</b></td><td><code>VrConfig</code>（25）、<code>SpriteFactory</code>（19）、<code>VrDirector</code>（12）、<code>VrSort</code>（9）、<code>VrSfx</code>（6）</td></tr>
+<tr><td><b>殭屍防線</b></td><td><code>ZombieData</code>（16）、<code>ZlConfig</code>（16）、<code>ZlDirector</code>（9）、<code>ZlUiArt</code>（3）、<code>ZlLoot</code>（3）</td></tr>
+<tr><td><b>地城迴響</b></td><td><code>Gear</code>（18）、<code>Floor</code>（11）、<code>GlowMat</code>（10）、<code>Demo</code>（7）、<code>Boot</code>（7）</td></tr>
+<tr><td><b>吸血鬼·玩法</b></td><td><code>VrWalkArt</code>（6）、<code>VrEnemy</code>（5）、<code>VrLoadout</code>（4）、<code>VrWalkAnim</code>（3）、<code>VrStageProps</code>（3）</td></tr>
+<tr><td><b>建置腳本</b></td><td><code>BuildAxe2HClip</code>（3）、<code>BuildIOS</code>（2）、<code>SetIosBundleId</code>（1）、<code>RigDump</code>（1）、<code>DiagnoseAxe2HClip</code>（1）</td></tr>
+<tr><td><b>CyberSurvivor</b></td><td><code>GameConfig</code>（8）、<code>CharacterId</code>（7）、<code>EnemyKind</code>（6）、<code>StatusKind</code>（4）、<code>StageDb</code>（4）</td></tr>
+<tr><td><b>共用資料</b></td><td><code>VampireData</code>（15）、<code>EnemyTypeDef</code>（2）、<code>CharacterDef</code>（2）、<code>WeaponLevelDef</code>（1）、<code>HunterDef</code>（1）</td></tr>
+</table></div>
+
+<h2><span class="num">3</span>符號消費索引</h2>
+<p>全 repo 掃到 <b>748</b> 個效果值宣告（倍率、加成、狀態欄位、數值常數），分三層：</p>
+<div class="scroll"><table>
+<tr><th>層</th><th>是什麼</th><th>目前</th></tr>
+<tr><td><b>第一層</b></td><td>私有 ＋ 產品零消費點 ＋ 只有驗證讀得到<br>
+<b>這是血怒的形狀，會讓出貨前檢查失敗</b></td><td><b>0</b></td></tr>
+<tr><td>第二層</td><td>私有 ＋ 完全沒人讀（死碼或還沒接上）</td><td>0</td></tr>
+<tr><td>第三層</td><td>公開 ＋ 無內部消費點（存取子或設定表，通常不用管）</td><td>210</td></tr>
+</table></div>
+<div class="note warn">
+<p><b>分層是這支能不能用的關鍵。</b>第一版直接列「沒人讀的」，吐出 <b>210 筆</b>，
+全被兩個早期專案的設定常數淹沒——訊號被雜訊蓋掉，這種東西沒人會看第二次。</p>
+<p>判別的關鍵是<b>存取修飾詞</b>：<code>public int Kills =&gt; kills;</code>
+沒有產品消費點是正常的（本來就是給驗證讀的），而私有的沒有就是有問題。</p>
+</div>
+
+<h2><span class="num">4</span>手寫的不變條件（八條）</h2>
+<p>自動產生的地圖回答「什麼連到什麼」，這份回答「連的時候要注意什麼」。
+<b>每一條都對應一次真的壞掉的東西</b>，共通特徵是：這些錯誤都不會報錯——
+編譯過、測試綠、畫面正常，但功能沒生效。</p>
+<div class="scroll"><table>
+<tr><th>條目</th><th>那次的事故</th></tr>
+<tr><td>效果值一定要有消費點</td><td>血怒等四個技能的加成從來沒被乘進去</td></tr>
+<tr><td>狀態 Tick 要排在 early-return 之前</td><td>擊退在硬直期間整段被跳過；暗影貼身打你時不更新明暗</td></tr>
+<tr><td>生成物件要走接好線的入口</td><td>踩過三次。最明顯：打了 4000 隻怪一本書都沒掉，因為探針生的敵人沒接死亡事件</td></tr>
+<tr><td>改了共用狀態就要還原</td><td>build 31 一盞沒釋放的光把整座地城照亮，摸黑探索失效</td></tr>
+<tr><td>驗證要打玩家實際走的入口</td><td>問屬性回傳值的測試，在技能完全沒效果時仍然是綠的</td></tr>
+<tr><td>不要寫沙盒外絕對路徑</td><td>build 9 每個玩家一進地城就「初始化失敗」，模擬器完全測不出來</td></tr>
+<tr><td>自己組的網格要給 UV</td><td>光環與衝擊波都變成均勻純色的硬邊色塊，看起來像壞掉</td></tr>
+<tr><td>對照實驗要同時間同對象</td><td>沙包擺太近被自己的普攻打到，量出「戰吼中傷害反而變低」</td></tr>
+</table></div>
+
+<h2><span class="num">5</span>怎麼變成標準做法</h2>
+<div class="scroll"><table>
+<tr><th>地方</th><th>內容</th></tr>
+<tr><td><code>CLAUDE.md</code></td><td>新增「改程式之前：先看程式碼地圖」一節。每個 session 開場就會讀到，含三條硬規則</td></tr>
+<tr><td>出貨前硬檢查</td><td>新增第七項，非零就擋。約 30 秒</td></tr>
+<tr><td>Claude Code skill</td><td><code>codegraph</code>，已確認會被載入。給「真的要動這套東西的人」看：
+產生器怎麼運作、三個實際踩過的坑、以及改了產生器要怎麼重新驗證它還抓得到</td></tr>
+<tr><td>產物進版控</td><td><code>git diff docs/codegraph/</code> 看得出這次改動有沒有讓架構變動</td></tr>
+</table></div>
+
+<h2><span class="num">6</span>做的過程中修掉四個會讓它靜靜失效的問題</h2>
+<p>這些都是<b>跑出來看到不對才發現的</b>，不是預先想到的：</p>
+<div class="scroll"><table>
+<tr><th>問題</th><th>後果</th></tr>
+<tr><td>跨 Unity 專案的偽陽性</td><td>CyberAdv 被判成「依賴地城迴響」，只因它自己也有叫 <code>Skills</code> 的東西</td></tr>
+<tr><td><b>型別唯一性用全域判斷</b></td><td>原型分支 DnDPaperdoll 類別同名，把
+<code>Demo</code>／<code>Enemy</code>／<code>Floor</code>／<code>Gear</code>／<code>Room</code>
+<b>全部撞掉</b>——地圖漏掉最常改模組的核心，而且毫無徵兆</td></tr>
+<tr><td>樞紐統計只數靜態存取</td><td>排出來的地城樞紐是 <code>Skills</code> 而不是 <code>Gear</code>／<code>Demo</code></td></tr>
+<tr><td>效能三分鐘</td><td>掛不進建置流程＝這個檢查不會有人開。優化後 <b>26 秒</b>，並重新拿歷史版本驗過仍然抓得到</td></tr>
+</table></div>
+
+<h2><span class="num">7</span>它解決不了的</h2>
+<div class="note warn">
+<p><b>這是治標。</b>那些問題的根源是 <code>Demo.cs</code> 有 6,078 行、84 個 public 成員
+——地城幾乎所有東西都經過同一個檔案，所以「改一個地方牽動別處」在那裡是常態。
+地圖讓「改了沒接上」被抓出來，但不會讓那件事變得不容易發生。</p>
+<p>治本是拆 <code>Demo.cs</code>，但那是大工程、風險也高，<b>我不建議現在做</b>。</p>
+<p>另外：用正規表示式解析不是編譯器，<b>模組層級的統計可信、單一條邊不要當鐵證</b>；
+透過反射或 Inspector 拉的參照看不到。這些都寫在文件的「限制」一節裡。</p>
+</div>
+
+<footer>工程基礎建設 · 程式碼地圖</footer>
+</div>
+<script type="module">
+  import mermaid from "https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs";
+  const dark = matchMedia("(prefers-color-scheme: dark)").matches;
+  mermaid.initialize({ startOnLoad: true, theme: dark ? "dark" : "default" });
+</script>
+</body>
+</html>
