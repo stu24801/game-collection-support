@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>絕域獵手完成＋道士角色規劃</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇</p>
+<h1>絕域獵手做完了；道士要佔的是第五個維度「時機」</h1>
+<p class="lede">絕域獵手的圈外加成我調到 +18%（不是提案的 +25%），
+邊界抖動實測沒有——而且風險其實在慢的敵人那邊，不是衝刺型。
+順手抓到月嚎將永遠拿不到的 bug。下半是道士的規劃。</p>
+<h1>一、絕域獵手：做完了</h1>
+<h3>強度我調保守了一點：<strong>+18%</strong>，不是提案的 +25%</h3>
+<p>獵魔弓在圈外本來就吃到最多 +90%，兩者相乘：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>倍率</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>圈外最遠（弓 ×1.90 × 圈 ×1.18）</td>
+<td><strong>×2.24</strong></td>
+</tr>
+<tr>
+<td>圈內最近（弓 ×0.45 × 圈 ×0.75）</td>
+<td><strong>×0.34</strong></td>
+</tr>
+<tr>
+<td>落差</td>
+<td><strong>6.6 倍</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>給 +25% 的話落差是 7.0 倍。在一個「敵人一定會貼上來」的遊戲裡，
+7 倍等於「被貼到就是死刑」。<strong>+18% 仍然明顯感覺得到，但留了活路。</strong>
+資料驗證新增一條「遠近落差不超過 8 倍」，之後誰調參數都會被擋住。</p>
+<h3>邊界抖動：沒有，而且風險其實在慢的那邊</h3>
+<p>你擔心的是衝刺型，但算下來<strong>慢的才是風險</strong>——殭屍 46px/s 半秒只走 0.38 個單位，
+一個固定推力就把它完全頂住，剛好卡在邊界前後晃。</p>
+<p>所以推力做成<strong>隨深入程度遞減、圈邊界為零</strong>：沒有任何速度會剛好被抵銷，
+抖動從結構上就不存在。實測四種：</p>
+<pre><code>zombie       距離 2.68~5.50（圈半徑 3.00）方向翻轉 0 次  ✓
+shadowbeast  距離 0.35~5.50                 翻轉 2 次  ✓
+hellhound    距離 0.83~5.50                 翻轉 3 次  ✓
+wisp         距離 0.54~5.50                 翻轉 0 次  ✓
+</code></pre>
+<p>讀法：<strong>慢的（殭屍）被擋在 2.68 進不來，快的（暗影獸 0.35）照樣衝到臉上。</strong>
+這正是設計要的——絕域圈是「篩子」不是「牆」。</p>
+<h3>⚠️ 順手抓到一個 build 44 帶出去的 bug：月嚎將永遠拿不到</h3>
+<p>月嚎將的轉職任務計數器 <code>lowHpKills</code> 條件寫的是 <code>if (Frenzied)</code>，
+而 <code>Frenzied</code> 的定義包含<strong>「已經有月嚎將」</strong>——但轉職任務只在
+「還沒有職業」時才會被檢查。所以那個計數器永遠是 0，<strong>月嚎將永遠不會被提供</strong>，
+而且遊戲裡完全看不出來，只是那個職業從來沒出現過。</p>
+<pre><code>狼人（無職業、低血）擊殺 0 → 10   ✓ 修好了
+獵人（無職業）遠處擊殺 0 → 1      ✓ 絕域獵手沒有踩同一個坑
+</code></pre>
+<p>通則已寫進程式註解：<strong>轉職任務的計數器不能依賴「已經有那個職業」的任何狀態。</strong></p>
+<p><img style="width:150px;height:auto;border-radius:12px;margin:10px 0;display:block" alt="絕域獵手圖示" src="img/v3-warden.png" /></p>
+<p>美術只花了 <strong>$0.20</strong>（職業圖示），圈的視覺用程式畫的 <code>SpriteFactory.Ring</code>。</p>
+<hr />
+<h1>二、中式角色規劃：<strong>道士</strong>（提案，還沒動工）</h1>
+<h2>定位：<strong>玩法改變型</strong>，而且是第五個維度</h2>
+<p>現有六隻裡四隻是純數值修正，只有屍語者（數量）與不朽者（受傷疊傷害）改變玩法。
+四個專屬職業各佔一個軸：<strong>反應式／數量／狀態／空間</strong>。</p>
+<p><strong>道士要佔的第五個軸是「時機」——預置與延遲。</strong></p>
+<p>遊戲裡現在所有東西都是「對當下的反應」：自動瞄準最近的、光環繞著你、地帶踩在你腳下。
+<strong>沒有任何東西要求玩家想在敵人前面。</strong> 而這款遊戲的核心循環本來就是
+「一路跑、身後拖著一大群」——<strong>沿路埋符、讓追你的那群自己踩上去</strong>，
+是一個既全新、又完全貼合既有循環的玩法。</p>
+<h3>天賦「殘符」</h3>
+<ul>
+<li>每移動一段距離，自動在<strong>原地留下一張小符</strong>，1.2 秒後生效，敵人踩到就炸</li>
+<li>代價：傷害 −10%；補償：移速 +5%</li>
+<li>不佔武器格，是被動的</li>
+</ul>
+<blockquote>
+<p>實作上有現成的前例：<strong>霜痕靴</strong>已經在做「移動時沿路留下東西」這件事，
+機制骨架可以直接沿用。</p>
+</blockquote>
+<hr />
+<h2>專屬武器組：三把 ＋ 三條進化</h2>
+<p>三把<strong>全部對映到既有的武器家族</strong>，不需要新家族。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>家族</th>
+<th>攻擊方式</th>
+<th>進化</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>桃木飛劍</strong> 🗡</td>
+<td>Projectile</td>
+<td>三把小木劍環繞在身邊，冷卻好時朝最近的敵人飛出去，會追蹤</td>
+<td><strong>五雷斬</strong>：飛劍變五把，每次命中額外引落一道雷</td>
+</tr>
+<tr>
+<td><strong>鎮煞符</strong> 📜</td>
+<td>Zone</td>
+<td>把符擲到敵群，<strong>貼地 1 秒後才生效</strong>，生效後展開金光陣，持續傷害＋減速</td>
+<td><strong>五雷正法陣</strong>：陣中不斷落雷，範圍與持續時間大幅提升</td>
+</tr>
+<tr>
+<td><strong>金剛鈴</strong> 🔔</td>
+<td>Nova</td>
+<td>以自身為中心擴散梵音波，命中的敵人被短暫定住</td>
+<td><strong>大梵音</strong>：波次更密、定身更久，並對被定住的目標追加傷害</td>
+</tr>
+</tbody>
+</table></div>
+<p>「延遲生效」是唯一要加的新欄位（Zone 家族多一個 <code>ArmDelay</code>），其餘全部是既有欄位。</p>
+<p><strong>佛法的部分由金剛鈴這一路承擔</strong>（法器／梵音／結界），
+道的部分由符咒與桃木劍承擔——這兩套在民間信仰裡本來就是混著用的。</p>
+<hr />
+<h2>專屬職業：<strong>因果法師</strong> 🪷　<code>RequiresCharacter = "taoist"</code></h2>
+<h3>機制：業報</h3>
+<p><strong>你放下的每一個符、每一個陣，生效時間再延後 0.8 秒，但威力 +60%，
+而且在生效的瞬間把周圍的敵人拉向中心。</strong></p>
+<p>用一句話講就是：<strong>你放的東西從「傷害」變成「陷阱」。</strong>
+更慢、更痛、還會自己聚怪。</p>
+<blockquote>
+<p>「拉向中心」用的是既有的 <code>Pull</code> 欄位（隕星引力那條），不是新東西。</p>
+</blockquote>
+<h3>為什麼不跟現有四個重複</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>職業</th>
+<th>軸</th>
+<th>你在玩什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>血鎖裁判</td>
+<td>反應式</td>
+<td>被打之後發生什麼</td>
+</tr>
+<tr>
+<td>亡者牧者</td>
+<td>數量</td>
+<td>有幾個東西在打</td>
+</tr>
+<tr>
+<td>月嚎將</td>
+<td>狀態</td>
+<td>你現在處在什麼狀態</td>
+</tr>
+<tr>
+<td>絕域獵手</td>
+<td>空間</td>
+<td>敵人離你多遠</td>
+</tr>
+<tr>
+<td><strong>因果法師</strong></td>
+<td><strong>時機</strong></td>
+<td><strong>你多久以前做了什麼</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>轉職任務會用「本局用延遲生效的東西擊殺 N 隻」——同樣<strong>不依賴已經有這個職業</strong>
+（月嚎將那個坑不會再踩）。</p>
+<hr />
+<h2>美術怎麼落地</h2>
+<h3>規格（照現有的來，不用發明新的）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>規格</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角色立繪</td>
+<td><code>Art/Characters/taoist.png</code></td>
+</tr>
+<tr>
+<td>走路</td>
+<td><code>Art/Characters/Walk/taoist/</code> 10~12 幀 256px，<strong>側面朝右</strong>，佔框 0.85 以上</td>
+</tr>
+<tr>
+<td>攻擊</td>
+<td><code>Art/Characters/Attack/taoist/</code> 8 幀</td>
+</tr>
+<tr>
+<td>武器圖示</td>
+<td><code>Art/Icons/{id}.png</code> 220px，單一剪影＋粗外框＋少細節</td>
+</tr>
+<tr>
+<td>特效</td>
+<td><code>Art/Fx/{name}/</code> 14 幀</td>
+</tr>
+<tr>
+<td>去背</td>
+<td>綠幕 <code>#00FF00</code>、本地演算法</td>
+</tr>
+</tbody>
+</table></div>
+<h3>風格：三件要特別注意的事</h3>
+<ol>
+<li><strong>配色要能混進哥德吸血鬼裡。</strong> 現有美術是暗紅／銀／骨白／紫。
+   中式道士如果用明亮的中國紅＋大片金色會像貼上去的。
+   改用<strong>深靛藍道袍 ＋ 硃砂紅符文 ＋ 做舊的暗黃銅法器</strong>——
+   同一個暗色底，只是換了一組飾色。</li>
+<li><strong>「桃木」不能畫成青木色。</strong> 桃木本來就偏紅褐，而青綠色木頭在綠幕下
+   會被去背吃掉（撕裂爪那次是深紅遇到洋紅幕，同一類問題）。
+   prompt 要寫死「dark reddish-brown peachwood」。</li>
+<li><strong>圖示要壓住細節。</strong> 中式法器很容易被畫成滿版符文與纏繩，
+   跟現有 11 個圖示的「單一形狀、粗外框」對不起來。
+   prompt 要沿用上一批用過的那組措辭。</li>
+</ol>
+<h3>成本估算</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角色立繪彙整圖（道士 ＋ 因果法師造型）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>武器／職業圖示彙整圖（6 武器 ＋ 1 職業，7 格）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>道士 走路 ＋ 攻擊 影片 ×2</td>
+<td>$0.64</td>
+</tr>
+<tr>
+<td>特效 ×3（符陣／飛劍／梵音波）</td>
+<td>$0.96</td>
+</tr>
+<tr>
+<td><strong>小計</strong></td>
+<td><strong>$2.00</strong></td>
+</tr>
+<tr>
+<td>職業專屬走路／攻擊 ×2（<strong>建議先不做</strong>）</td>
+<td>+$0.64</td>
+</tr>
+</tbody>
+</table></div>
+<p>現有六個職業裡有三個沒有專屬動畫（血族領主、月嚎將、亡者牧者），
+所以先不做不會突兀。</p>
+<hr />
+<h2>⚠️ 三個我先講的風險</h2>
+<ol>
+<li><strong>「殘符」是被動自動掉落的傷害源，可能會蓋掉玩家的武器選擇。</strong>
+   數值要壓得很低（單張傷害約主武器的 1/4），它的價值應該是「清掉追兵」
+   而不是「主要輸出」。</li>
+<li><strong>延遲生效在手感上是逆風的。</strong> 這遊戲的回饋一向是即時的，
+   0.8~1.2 秒的延遲第一次玩會像「沒打中」。需要很明確的預警視覺
+   （符咒發光 → 炸開），這一項的特效比其他角色更重要，不能省。</li>
+<li><strong>道士的核心是「拉怪繞圈」，跟暴風雪關（必須往東跑）會打架。</strong>
+   第 4 關那一關可能特別難用。這要實裝後量，不是現在能決定的。</li>
+</ol>
+<hr />
+<p><strong>先出規劃，一行程式、一張圖都沒動。等你決定要不要往下做、或先調方向。</strong></p>
+<a class="navlink" href="vr-hunter-job.html">→ 上一頁：絕域獵手提案</a>
+<a class="navlink" href="vr-v3-done.html">→ v3 完成報告</a>
+</div></body></html>
