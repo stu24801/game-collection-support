@@ -1,0 +1,410 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>突擊榜完成＋獵人狼人新種族提案</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · v3 提案</p>
+<h1>突擊榜做完了；獵人那兩個方向，遊戲裡其實都已經有了</h1>
+<p class="lede">①排行榜評估後範圍很小（零 schema 變更）所以直接做完並部署了。
+②③④是提案，還沒動任何程式碼與美術——其中②有一個你會想先看的發現。</p>
+<h2>① 突擊模式排行榜　<strong>已經做完了</strong>（範圍比預期小很多）</h2>
+<p>評估結論：<strong>不用動 schema，一行遷移都不用跑。</strong></p>
+<p>排行榜那張表用 <code>game</code> 欄位區分三款遊戲，而 <code>game</code> 就是一個 TEXT 欄位加一份
+白名單。所以「突擊模式的榜」＝<strong>多一個 game 值 <code>vampireblitz</code></strong>，不是多一個欄位。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>加 <code>mode</code> 欄位</th>
+<th><strong>多一個 game 值</strong>（採用）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>schema 變更</td>
+<td>要</td>
+<td><strong>零</strong></td>
+</tr>
+<tr>
+<td>資料遷移</td>
+<td>要</td>
+<td><strong>零</strong></td>
+</tr>
+<tr>
+<td>要改的查詢</td>
+<td><code>listScores</code>、<code>rankOf</code>、複合索引 —— <strong>三個都是三款遊戲共用的</strong></td>
+<td>零</td>
+</tr>
+<tr>
+<td>索引</td>
+<td>要重建或新增</td>
+<td>既有的 <code>(game, score DESC, created_at ASC)</code> <strong>前綴本來就是 game</strong>，自動吃到</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>加欄位那條路的真正代價</strong>是它會逼你去改殭屍與地城迴響的查詢路徑，
+而那正是 CLAUDE.md 禁區規則的第一條在講的事。所以我選了不碰它的那條。</p>
+<p>代價是 <code>game</code> 這個欄位同時表達「哪一款」與「哪個模式」。可以接受——
+它本來就只是「哪一張榜」的鍵，不是遊戲的正規化實體。</p>
+<h3>部署前後的驗證（照上次的做法）</h3>
+<pre><code>部署前基準  → vampire / zombie / dnd 各抓 5 筆存檔
+本機驗證    → wrangler dev --local，四張榜各送一筆，確認彼此隔離
+部署        → 版本 fecb54fd
+部署後比對  → vampire ✓　zombie ✓　dnd ✓
+              （欄位、型別、**內容**三項全等，不是「看起來一樣」）
+</code></pre>
+<p>還驗了亂寫的 game 值仍然 404（<code>vampireblit</code> / <code>vampireBlitz</code> / <code>blitz</code> / <code>vampire2</code>），
+以及突擊榜的壞資料把關（負分被擋、配裝碼裡的 <code>&lt;script&gt;</code> 被字元集白名單擋掉）。</p>
+<h3>遊戲端：實機走真正的上傳按鈕</h3>
+<pre><code>=== 突擊 ===                          === 標準 ===
+榜=vampireblitz  上傳線上榜=True      榜=vampire  上傳線上榜=True
+突擊模式有上傳按鈕＝True  ✓            玩家死亡，進入定格  ✓
+突擊榜 +1（應 1）　主榜 0（應 0）✓     突擊榜 0（應 0）　主榜 +1（應 1）✓
+Game Center 送分 0 次（應 0）✓        Game Center 送分 1 次（應 1）✓
+看榜面板開起來了  ✓                    看榜面板開起來了  ✓
+</code></pre>
+<p><strong>兩個方向都驗了。</strong> 只驗突擊的話「兩張榜真的分開」只驗到一半——標準模式
+跑去汙染突擊榜一樣是失敗，而那個方向沒人會想到要驗。</p>
+<p><strong>Game Center：照你指定的，突擊完全不上。</strong> 而且按鈕和送分是<strong>同一個條件</strong>
+——只擋按鈕不擋送分的話，分數還是會偷偷跑進 GC 的吸血鬼榜，畫面上完全看不出來。</p>
+<h3>順手處理的兩件事</h3>
+<ul>
+<li><strong>亡靈改抓同一張榜。</strong> 亡靈的血量是用<strong>對方的等級</strong>推的。突擊只有 10 分鐘、
+  玩家大概二三十級；主榜是 40 分鐘的紀錄，隨便一個都四五十級。拿主榜的亡靈
+  丟進突擊就是一隻一萬多血的東西站在十分鐘的局裡——不是難，是打不完。
+  突擊榜是空的時候退回主榜（新開的榜必然是空的）。</li>
+<li><strong>PlayerPrefs 快取鍵也跟著分榜。</strong> 共用一個鍵的話，玩完一局突擊就會把主榜的
+  快取蓋掉，下一局標準模式在離線時抽到的全是低等亡靈——而且不會有任何錯誤訊息。</li>
+</ul>
+<blockquote>
+<p>⚠️ <strong>我為了驗證加了一個東西：</strong> <code>VR_SHOTS</code> 建置下 <code>Base</code> 會讀 <code>VR_BOARD</code>
+環境變數，讓破壞性測試打 <code>wrangler dev --local</code>。<strong>正式包裡連這段程式碼都不存在</strong>
+（<code>#if VR_SHOTS</code>）。這是上次在正式 D1 留下 26 筆測試資料換來的。</p>
+</blockquote>
+<hr />
+<h1>以下是提案，還沒動工</h1>
+<h2>② 獵人：兩個方向<strong>都已經在遊戲裡了</strong></h2>
+<p>先講最重要的發現，因為它直接改變了這題的答案：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>你提的方向</th>
+<th>現況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>多重箭矢</strong></td>
+<td>獵人的種族天賦<strong>就是這個</strong>——<code>extraProj = 1.0</code>，所有投射武器 +1 發。而且被動「複製護符」再給 +1／級</td>
+</tr>
+<tr>
+<td><strong>導引箭</strong></td>
+<td><code>VrProjectile</code> <strong>已經有 <code>homingDegPerSec</code></strong>，而魔法飛彈三等起就在用（190°/s → 265°/s）</td>
+</tr>
+</tbody>
+</table></div>
+<p>所以照原方向做的話，結果是：<strong>多重箭矢＝獵人維持現狀，導引箭＝獵人玩起來像伯爵。</strong>
+兩個都拿不到「專屬」。</p>
+<h3>我的提案：<strong>距離增傷 + 貫穿線</strong>，把你提的兩個方向留給進化</h3>
+<p>弓真正獨特的地方不是「射很多」也不是「會轉彎」，是<strong>距離</strong>。
+而這個遊戲的每一條路線都要敵人靠近——光環、新星、環繞、地帶。
+<strong>沒有任何一個構築獎勵你把敵人推遠。</strong></p>
+<p><strong>專屬武器：獵魔弓 <code>huntersBow</code></strong>（取代飛刀當獵人起手）</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>機制</th>
+<th>數值</th>
+<th>為什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>距離增傷</td>
+<td>每飛 100 單位 +12%，上限 <strong>+120%</strong></td>
+<td>滿加成要飛 10 個身位——那是「站在人群外」才做得到的事</td>
+</tr>
+<tr>
+<td>直線貫穿</td>
+<td>穿透 999，但每穿一個 <strong>-15% 傷害</strong></td>
+<td>遠射的回報是一整排，不是一隻</td>
+</tr>
+<tr>
+<td>近身懲罰</td>
+<td>200 單位內傷害 <strong>×0.55</strong></td>
+<td>逼你後退。獵人 −10% 生命從「純扣血」變成「這就是代價」</td>
+</tr>
+</tbody>
+</table></div>
+<p>這一條讓獵人變成全遊戲<strong>唯一的遠程狙擊型</strong>，而且它跟既有的 −10% 生命
+第一次產生了意義：你很脆，所以你本來就該站遠——現在站遠會給你回報。</p>
+<p><strong>進化：暴風之眼 <code>stormEye</code>（獵魔弓 6 級 + 複製護符 2 級）</strong>
+→ <strong>導引 ＋ 多重一起給</strong>。你提的兩個方向不是被否決，是被移到終點：
+一路上你在學「怎麼保持距離」，滿等的獎勵是「不用再瞄了」。</p>
+<p><strong>要改的程式：</strong> <code>WeaponLevelDef</code> 加兩個欄位（距離增傷率、貫穿衰減），
+<code>VrProjectile.Tick</code> 裡加一段距離累計——那個類別<strong>已經有 <code>homingRate</code> 的前例</strong>，
+形狀完全一樣。範圍不大。</p>
+<p><strong>美術成本：$0.20 ~ $1.16</strong>
+- 必要：武器圖示彙整圖 ×1（獵魔弓＋暴風之眼＋箭矢貼圖）＝ <strong>$0.20</strong>
+- 建議：暴風之眼的特效影片 ×1 ＝ $0.32
+- 可選：獵人專屬走路／攻擊動畫 ×2 ＝ $0.64（目前獵人跟其他種族共用素體）</p>
+<hr />
+<h2>③ 第二組種族＋職業：<strong>召喚流</strong></h2>
+<h3>現在缺的是什麼</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>現有種族</th>
+<th>機制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>伯爵</td>
+<td>純數值（基準）</td>
+</tr>
+<tr>
+<td>狼人</td>
+<td>純數值（快、脆）</td>
+</tr>
+<tr>
+<td>夜巫</td>
+<td>純數值（範圍大、慢）</td>
+</tr>
+<tr>
+<td>獵人</td>
+<td>純數值（多一發、脆）</td>
+</tr>
+<tr>
+<td><strong>不朽者</strong></td>
+<td><strong>有機制</strong>：受傷疊傷害</td>
+</tr>
+</tbody>
+</table></div>
+<p>五隻裡<strong>四隻是純數值修正</strong>。不朽者是唯一一個改變「怎麼玩」的。
+所以第二組要補的不是數字，是<strong>第二種玩法</strong>。</p>
+<p>盤點下來，遊戲裡完全沒有的東西只有一個：<strong>有東西替你打</strong>。
+沒有寵物、沒有召喚、沒有任何持續存在的友方單位。</p>
+<h3>提案</h3>
+<p><strong>種族：屍語者 <code>necromancer</code> 💀</strong>
+- 每擊殺 25 隻自動召出一隻<strong>亡魂僕從</strong>（同時上限 3 隻，30 秒後消散）
+- 代價：<strong>你自己的傷害 −18%</strong>、生命 −10%
+- 玩法是「經營場面」而不是「輸出」：你的傷害爛，但你的軍隊會滾雪球</p>
+<p><strong>職業：亡者牧者 <code>soulherd</code> ⚱️</strong>（<code>RequiresCharacter = "necromancer"</code>）
+- 僕從上限 <strong>3 → 6</strong>、不再消散
+- <strong>僕從繼承你的主武器</strong></p>
+<blockquote>
+<p><strong>最後那一條是這個提案最強的理由：那條路已經鋪好了。</strong>
+上一版把傷害目標抽成 <code>IDamageSink</code>，就是為了讓玩家亡靈<strong>真的跑玩家的武器邏輯</strong>。
+僕從要「用你的主武器打敵人」，走的是<strong>同一條路，而且是比較簡單的那一邊</strong>
+——亡靈打的是玩家（單一目標），僕從打的是敵人（本來就有的那條）。
+換句話說，這一組的核心機制<strong>幾乎不用寫新程式</strong>。</p>
+</blockquote>
+<p><strong>美術成本：$2.32</strong>（比照不朽者＋血鎖裁判那一批的實際花費）
+- 角色立繪彙整圖 ×1（屍語者＋亡者牧者）＝ $0.20
+- 武器／技能圖示彙整圖 ×1 ＝ $0.20
+- 走路＋攻擊動畫 ×2 角色 ＝ 4 支影片 ＝ $1.28
+- 僕從召喚／消散特效 ×2 ＝ $0.64</p>
+<hr />
+<h2>④「狼人也是」：我猜是 (A)，但兩個都展開</h2>
+<h3>我的猜測：<strong>(A) 狼人也要重新設計專屬攻擊與技能</strong></h3>
+<p>理由有兩個，一個是語意的、一個是資料的：</p>
+<ol>
+<li><strong>②講的是「一個具名角色」，③講的是「再多一組」。</strong> ④ 又點名了一個具名角色
+   （狼人），結構上跟②平行，不跟③平行。</li>
+<li><strong>狼人和獵人是僅剩的兩隻「純數值、沒有識別機制」的種族</strong>，而且理由一模一樣。
+   會想到「獵人要專屬設計」的人，下一個想到的幾乎一定是狼人。</li>
+</ol>
+<p>但我不敢說死——④ 緊接在 ③ 後面，位置上也可以讀成 (B)。所以兩個都寫。</p>
+<h3>解讀 (A)：狼人的專屬攻擊與技能</h3>
+<p>狼人的識別是<strong>速度</strong>（移速 +15%、攻速 +8%），而遊戲裡<strong>沒有任何東西把速度換成傷害</strong>。</p>
+<p><strong>專屬武器：撕裂爪 <code>rendclaw</code> 🐾</strong>
+- 近身扇形（半徑 70，120°）
+- <strong>傷害隨「你這 0.8 秒移動了多遠」加成，最多 +100%</strong>
+- 站著不動 ＝ 半套傷害</p>
+<p>這跟獵人剛好是鏡像：獵人被獎勵「站遠不動」，狼人被獎勵「一直跑」。
+兩個都不是「數字更大」，是<strong>移動方式不一樣</strong>。</p>
+<p><strong>進化：血月狂襲 <code>moonfrenzy</code> 🌕</strong>（撕裂爪 6 級 ＋ 迅捷之靴 2 級）
+→ 冷卻好時<strong>自動朝最近的敵群撲擊</strong>（位移 + 落地扇形）。</p>
+<blockquote>
+<p>⚠️ 這一條要小心：自動位移會搶走玩家的走位控制權，在暴風雪關或血月獵殺者
+在場時可能把玩家撲進死路。做的話要能「按住不放才撲」或加一個開關。</p>
+</blockquote>
+<p><strong>美術成本：$0.32 ~ $0.52</strong>（武器圖示可以併進 ② 那張彙整圖，等於只多花特效錢）</p>
+<h3>解讀 (B)：狼人主題的後期轉職</h3>
+<p>這條<strong>比較便宜</strong>，而且已經有現成的模式：血鎖裁判就是 <code>RequiresCharacter = "immortal"</code>
+的職業。同樣做法：</p>
+<p><strong>職業：月嚎將 <code>moonhowl</code> 🌙</strong>（<code>RequiresCharacter = "werewolf"</code>）
+- 生命低於 40% 時進入狂化：移速 +30%、傷害 +25%、但<strong>不能回血</strong>
+- 轉職任務：本局在低血量狀態下擊殺 150 隻</p>
+<p>不用新種族（狼人本來就是種族），所以只要一組職業素材。
+<strong>美術成本：約 $0.52</strong>（職業圖示＋玩家造型併圖 $0.20＋狂化特效 1 支 $0.32）</p>
+<h3>兩個解讀不衝突</h3>
+<p>(A) 給狼人一把專屬武器，(B) 給狼人一個專屬職業——<strong>可以都做，而且互補</strong>：
+撕裂爪獎勵一直跑，月嚎將在低血量時讓你跑更快。
+如果你想全做，總美術成本約 <strong>$0.84 ~ $1.04</strong>。</p>
+<hr />
+<h2>花錢總表</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>美術成本</th>
+<th>狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>① 突擊排行榜</td>
+<td><strong>$0</strong></td>
+<td><strong>✅ 已完成並部署</strong></td>
+</tr>
+<tr>
+<td>② 獵人專屬（弓＋進化）</td>
+<td>$0.20 ~ $1.16</td>
+<td>等你確認</td>
+</tr>
+<tr>
+<td>③ 屍語者＋亡者牧者</td>
+<td>$2.32</td>
+<td>等你確認</td>
+</tr>
+<tr>
+<td>④(A) 狼人專屬武器</td>
+<td>$0.32 ~ $0.52</td>
+<td>等你確認方向</td>
+</tr>
+<tr>
+<td>④(B) 狼人專屬職業</td>
+<td>~$0.52</td>
+<td>等你確認方向</td>
+</tr>
+</tbody>
+</table></div>
+<p>②③④ 全做（含④兩種解讀）約 <strong>$3.36 ~ $4.52</strong>。
+一個字的程式碼、一張圖都還沒動，等你回覆。</p>
+<a class="navlink" href="vr-pick.html">→ 上一頁：亡靈出現節奏與加權抽選</a>
+<a class="navlink" href="vr-v2-proposal.html">→ v2 的設計提案（對照格式）</a>
+</div></body></html>
