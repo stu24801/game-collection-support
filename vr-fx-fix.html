@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>金剛鐘與飛行中的符</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 視覺修正</p>
+<h1>素材早就生好了，只是沒有接上去</h1>
+<p class="lede">金剛鐘的梵音波躺在資料夾裡 14 幀沒被用到，因為新星家族寫死播冰霜新星；
+鎮煞符飛出去的是「法陣爆發的第一幀」，所以是一團爆炸在飛。兩個的驗證都顯示通過過。</p>
+<p>兩個都修好了。<strong>而且兩個都不是「素材缺了」，是素材有、但沒接上去</strong>
+——所以我原本的驗證兩個都顯示通過。</p>
+<hr />
+<h2>① 金剛鈴 → 金剛鐘，而且用自己的梵音波了</h2>
+<h3>根因：<code>FireNova</code> 寫死播 frost_nova</h3>
+<pre><code class="language-csharp">// 原本
+PlaySequence(&quot;frost_nova&quot;, pos, r * 1.7f, ...)   // ← 完全沒有讀 s.Def.FxName
+</code></pre>
+<p>金剛鐘的資料<strong>早就指定了</strong> <code>FxName = "vajra_wave"</code>，素材也生好了 14 幀——
+但新星家族的開火函式從頭到尾沒去讀那個欄位，所以放出來的一直是冰霜新星的冰波。</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="梵音波 14 幀" src="img/fx-vajra.png" /></p>
+<p>這組八卦音波是之前跟道士那批一起生的，一直躺在 <code>Art/Fx/vajra_wave/</code> 裡沒被用到。
+<strong>所以這一項美術成本是 $0</strong>——不用重生，接上去就好。</p>
+<p>順手把「往外飛的冰晶」也改成只給冰系：梵音波噴一圈冰渣，那個違和感比借用整支特效還明顯。</p>
+<h3>驗證（含對照組）</h3>
+<pre><code>名字 = 金剛鐘                              ✓
+金剛鐘實際播出去的序列 = vajra_wave        ✓ 用自己的梵音波了
+對照：寒冰新星實際播 = frost_nova          ✓ 沒被改壞
+</code></pre>
+<p><strong>對照組是必要的</strong>——改共用函式最容易的失敗是「修好自己、弄壞別人」。</p>
+<hr />
+<h2>② 鎮煞符：飛出去的是一張符，不是一團爆炸</h2>
+<h3>根因：拿「特效序列的第一幀」當飛行物</h3>
+<p>飛行物的貼圖是 <code>VrEffectArt.Get(fxName)</code> 的第一幀，而鎮煞符的 fxName 是
+<code>ward_array</code>——<strong>法陣爆發</strong>。所以畫面上真的是一團爆炸在飛。</p>
+<p>這跟獵魔弓「把弓丟出去」是同一類：<strong>飛行中的視覺跟武器機制對不上</strong>。
+差別是上次用錯的是武器圖示，這次用錯的是特效序列。</p>
+<p>修法：飛行物改用<strong>武器圖示</strong>（就是一張符），並朝飛行方向轉。</p>
+<blockquote>
+<p>一個細節：朝的是<strong>當下真正的飛行方向</strong>，不是終點。
+這是拋物線——起手往上飛、末段往下砸，朝終點對齊的話中途角度全是錯的。</p>
+</blockquote>
+<p>聖水炸彈與煉獄火海那條維持原本的翻滾瓶子，<strong>行為一個字都沒變</strong>。</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="實機" src="img/fx-ward-fly.png" /></p>
+<h3>驗證</h3>
+<pre><code>飛行物掛的圖 = 符咒圖示              ✓ 是一張符（不是 ward_array 的爆發幀）
+朝向對齊飛行方向：56/56 幀           ✓ 像箭一樣朝著飛
+</code></pre>
+<hr />
+<h2>⚠️ 這兩個 bug 教我的事，已經寫成 invariants 第 14 條</h2>
+<p><strong>「素材載得到幾幀」跟「實際播了哪一組」是完全不同的兩件事。</strong></p>
+<p>我先前的道士驗證裡有這一行：</p>
+<pre><code>特效 vajra_wave = 14 幀 ✓
+</code></pre>
+<p>它是真的、也一直是綠的——但它驗的是<strong>素材</strong>，不是<strong>行為</strong>。
+素材可以好好地躺在資料夾裡、載得到、幀數正確，而呼叫端根本沒讀它。</p>
+<p>所以現在 <code>VrFx.PlaySequence</code> 在 <code>#if VR_SHOTS</code> 下會記錄
+<strong>最後一次真的播出去的名字</strong>，驗證改成驗那個。飛行物也一樣——
+驗的是「掛上去的 sprite 是哪一張」，不是「素材在不在」。</p>
+<p>跟法輪那次（「載得到但沒接上，畫面上還是靜態圖」）是同一個模式，
+這已經是第三次了，所以寫進不變條件。</p>
+<hr />
+<h2>這一批的成本</h2>
+<p><strong>美術 $0。</strong> 梵音波是現成的（生了沒接），符咒用現成的武器圖示。</p>
+<h2>驗證</h2>
+<ul>
+<li>金剛鐘：改名 ✓　播 vajra_wave ✓　對照組寒冰新星沒被改壞 ✓</li>
+<li>鎮煞符：飛行物是符 ✓　朝向 56/56 幀 ✓</li>
+<li>回歸：道士（陣法／延遲 1.01 秒／業報 1.80 秒／美術）全過</li>
+<li>回歸：陣形辨識（6% 雜訊 98~100%、12% 雜訊 83~95%、實走方形判成 square）全過</li>
+<li>資料層全過、三輪編譯 0 錯</li>
+</ul>
+<p><strong>還沒出新 TestFlight</strong>——build 47 不含這兩個修正。要出 48 說一聲。</p>
+<a class="navlink" href="vr-ward-status.html">→ 上一頁：殘符／鎮煞符／陣法的現況</a>
+</div></body></html>
