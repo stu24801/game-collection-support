@@ -1,0 +1,338 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>build 46 測試版：全解鎖 + 影忍</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · build 46</p>
+<h1>全解鎖測試包上去了，順便發現一條假的出貨檢查</h1>
+<p class="lede">build 46 標題會寫「🧪 測試版・全解鎖」，八隻角色全開、轉職打三下就跳。
+影忍也做完了。另外：出貨檢查裡那條查 VR_SHOTS 的，其實從來沒驗到任何東西。</p>
+<h1>① 測試版全解鎖 — <strong>build 46 已上 TestFlight</strong></h1>
+<p>新的 <code>VR_TESTUNLOCK</code> define，跟 <code>VR_SHOTS</code> 一樣是<strong>編譯期</strong>開關。
+正式包裡 <code>VrTestUnlock.On</code> 是常數 <code>false</code>，整段會被消掉——不是「有但不執行」，是<strong>不存在</strong>。</p>
+<p>測試包做四件事：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>角色</td>
+<td><strong>全部 8 隻解鎖</strong>（實測 define 開 → 8/8、關 → 1/8）</td>
+</tr>
+<tr>
+<td>轉職任務</td>
+<td>門檻壓到 <strong>3</strong>，每個職業幾分鐘內就會被提供。<strong>任務種類不變</strong>——測到的還是那個職業本來的觸發條件</td>
+</tr>
+<tr>
+<td>提供順序</td>
+<td><strong>專屬職業排在通用職業前面</strong>。不然選了道士，先跳出來的是血族領主那三個，要一直按拒絕才輪到因果法師</td>
+</tr>
+<tr>
+<td>標記</td>
+<td>選單標題寫死 <strong>🧪 吸血鬼復仇（測試版・全解鎖）</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>標記那一條不是裝飾：沒有它，測試包跟正式包在畫面上長得一模一樣，
+有人拿到會以為「正式版就是全解鎖」，回報的問題也會對不上。</p>
+<hr />
+<h2>⚠️ 出貨檢查有一條<strong>從來沒有驗到任何東西</strong></h2>
+<p>出這一包的時候發現的。硬檢查裡有：</p>
+<pre><code class="language-bash">grep -c 'VR_SHOTS' Classes/Preprocessor.h   # 要 0
+</code></pre>
+<p><strong>它永遠是 0</strong>——<code>Preprocessor.h</code> 是 Unity <strong>C++ trampoline</strong> 的標頭，
+裡面是 <code>PLATFORM_IOS</code>、<code>UNITY_USES_*</code>、SDK 版本那些，
+<strong>C# 的 scripting define 從來不會出現在裡面</strong>。</p>
+<p>會抓到是因為這次刻意開著 <code>VR_TESTUNLOCK</code> 出包：
+Preprocessor.h 裡兩個 define 都查不到，可是那一包<strong>確實是全解鎖的</strong>。
+換句話說，如果哪一版真的漏開著 VR_SHOTS，這條檢查一樣會顯示 0 然後放行。</p>
+<p><strong>正確做法</strong>：C# 的字串常數會被 IL2CPP 收進 <code>global-metadata.dat</code>，
+查「只有那個 define 打開才存在的字串」：</p>
+<pre><code>IPA 內的 [VRSHOT]（VR_SHOTS 的探針前綴）: 0   ✓ 正式驗證碼確實不在包裡
+IPA 內的「全解鎖」（測試版標題）        : 1   ⚠️ 這是測試包，刻意的
+</code></pre>
+<p>已修進 <code>upload-testflight</code> skill 與 <code>invariants.md</code> 第 13 條。
+上傳後也把 iOS 的 define 關回去了，下一版不會誤帶。</p>
+<h3>build 46</h3>
+<pre><code>ASC 上最新是 45 → 這次 46　版本 2.2
+四個檢查點：匯出 2.2/46 → 封存 2.2/46 → IPA 2.2/46 → ASC 46 VALID
+</code></pre>
+<hr />
+<h1>③ 影忍 — 做完了</h1>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="影忍與殘影宗師" src="img/ninja-chars.png" /></p>
+<p><strong>每 12 秒凝聚一個影分身（3 個，殘影宗師 5 個），快被打到時分身替你消失。</strong></p>
+<h3>三個實作上的判斷</h3>
+<ol>
+<li><strong>替身擋在 <code>HurtBy</code> 這個唯一的受傷入口。</strong> 跟月嚎將的「不能回血」擋在 <code>Heal</code>
+   同一個道理：傷害來源有接觸、遠程、自爆、地帶、魔王技能、亡靈……
+   逐個接一定會漏，而且以後新增一種又要記得處理。</li>
+<li><strong>靠時間生成，不是靠擊殺。</strong> 被逼到角落打不到人的時候，正是你最需要分身的時候
+   ——防禦型的資源不能綁在輸出上。</li>
+<li><strong>分身輸出 ×0.22</strong>（屍語者的僕從是 ×0.35）。分身的價值是擋刀不是輸出，
+   打得痛就只是「屍語者但比較快」。</li>
+</ol>
+<h3>實測</h3>
+<pre><code>完全沒擊殺（2 → 2）的情況下，24 秒生出 3 個分身        ✓ 靠時間不靠擊殺
+第 1 下（20 傷害）：分身 3 → 2　血 100 → 100          ✓ 分身替你擋掉
+第 2 下：分身 2 → 1　血 100 → 100                     ✓
+第 3 下：分身 1 → 0　血 100 → 100                     ✓
+第 4 下：分身 0 → 0　血 100 → 80                      ✓ 分身用完了，真的會痛
+轉職殘影宗師 → 分身上限 5　替身時炸開                  ✓
+</code></pre>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="影忍奔跑" src="img/ninja-walk.png" /></p>
+<p><strong>美術只花 $0.84</strong>（立繪 + 奔跑 12 幀 + 攻擊 8 幀）。
+<strong>分身本身零美術成本</strong>——沿用玩家自己的走路幀染成半透明藍灰，
+跟亡靈的 <code>ApplyWraithLook</code> 同一個做法。</p>
+<hr />
+<h1>② 解鎖條件重新設計（提案）</h1>
+<p>先講現況：<strong>九個職業裡其實已經有四個是機制專屬的</strong>（受傷次數、法術擊殺、
+成陣次數、替身次數）。真正千篇一律的是這四個：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>職業</th>
+<th>現在</th>
+<th>提議改成</th>
+<th>為什麼呼應機制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>血族領主</strong></td>
+<td>擊殺 400</td>
+<td><strong>本局回復的生命累計達 2 倍最大生命</strong></td>
+<td>它的本體是吸血與續戰，不是殺得多</td>
+</tr>
+<tr>
+<td><strong>亡者牧者</strong></td>
+<td>擊殺 600</td>
+<td><strong>僕從累計打死 150 隻</strong></td>
+<td>這個職業的重點是「別人替你殺」</td>
+</tr>
+<tr>
+<td><strong>絕域獵手</strong></td>
+<td>遠處擊殺 200</td>
+<td><strong>累計 120 秒身邊 180 單位內沒有敵人</strong></td>
+<td>它獎勵的是<strong>保持距離</strong>，不是遠處殺得多</td>
+</tr>
+<tr>
+<td><strong>月嚎將</strong></td>
+<td>低血擊殺 150</td>
+<td><strong>累計在低血狀態下存活 90 秒</strong></td>
+<td>它獎勵的是<strong>待在那個狀態</strong>，不是那時候殺幾隻</td>
+</tr>
+</tbody>
+</table></div>
+<p>順便再調兩個：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>職業</th>
+<th>現在</th>
+<th>提議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>暗影行者</strong></td>
+<td>存活 5:36</td>
+<td><strong>本局閃避 25 次</strong>（它給 15% 閃避）</td>
+</tr>
+<tr>
+<td><strong>血鎖裁判</strong></td>
+<td>受傷 30 次</td>
+<td><strong>用反傷打死 15 隻</strong>（反傷才是它的本體，受傷只是前提）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>元素使／因果法師／殘影宗師維持原樣</strong>——法術擊殺、成陣次數、替身次數
+本來就是各自的機制。</p>
+<p>技術上全部是同一個模式：一個獨立計數器，跟 <code>formations</code>／<code>substitutes</code> 一樣，
+而且都<strong>不依賴已經有那個職業</strong>（月嚎將那個坑不會再踩）。
+大概半小時的工作量，等你點頭就做。</p>
+<hr />
+<h1>④ 浮游砲適合誰：<strong>夜巫</strong></h1>
+<h3>為什麼是夜巫</h3>
+<ol>
+<li><strong>它是現在唯一沒有專屬武器、也沒有專屬職業的角色</strong>，天賦還是純數值
+   （範圍 +15%、移速 −10%）。八隻裡最被冷落的一隻。</li>
+<li><strong>它的天賦跟這個機制天生對得上</strong>：你很慢，所以你<strong>帶著自己的砲台</strong>，
+   去覆蓋你跑不到的地方。「範圍大、移動慢」正是浮游砲要解決的問題。</li>
+<li><strong>跟兩套召喚都不撞</strong>，因為關鍵差別是<strong>它不是一個單位</strong>：</li>
+</ol>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>會移動</th>
+<th>會死</th>
+<th>本質</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>屍語者的僕從</td>
+<td>會追敵人</td>
+<td>會</td>
+<td>一支軍隊</td>
+</tr>
+<tr>
+<td>影忍的分身</td>
+<td>跟著你</td>
+<td>替你死</td>
+<td>你的替身</td>
+</tr>
+<tr>
+<td><strong>浮游砲</strong></td>
+<td><strong>鎖在你身上繞</strong></td>
+<td><strong>不會死</strong></td>
+<td><strong>你身體的延伸</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>機制草案：<strong>星樞法師</strong> 🜛（<code>RequiresCharacter = "witch"</code>）</h3>
+<ul>
+<li>2 個（滿級 4 個）法輪固定繞著你轉，<strong>自動朝最近的敵人射出光束</strong></li>
+<li>傷害不高但<strong>完全不用瞄、不會被打掉</strong>，而且射程吃夜巫的 +15% 範圍</li>
+<li>代價：法輪存在時<strong>你自己的攻擊冷卻 +15%</strong>——它不是白給的火力，
+  是把你的一部分輸出外包出去</li>
+</ul>
+<p>軸：現有六個是反應式／數量／狀態／空間／時機／轉嫁，這個是<strong>覆蓋</strong>——
+不靠走位就把你的有效範圍撐大。</p>
+<h3>技術上便宜</h3>
+<p><strong>環繞的機制已經有了</strong>——聖光書與聖光守護陣就是 Orbit 家族，
+每幀算角度、繞著玩家轉。新的只有「從法輪的位置開火」而不是從玩家位置，
+而 <code>VrWeapons</code> 的開火函式本來就吃一個 <code>pos</code> 參數。</p>
+<p>成本量級：程式小；美術約 <strong>$0.52</strong>（法輪圖示併一張彙整圖 $0.20 ＋ 光束特效 $0.32）。</p>
+<hr />
+<h2>這一版你可以直接測</h2>
+<p>TestFlight <strong>build 46（2.2）</strong>，選單標題會寫「🧪 測試版・全解鎖」。
+八隻角色全開，轉職任務打三下就會跳。</p>
+<a class="navlink" href="vr-fix-menu.html">→ 上一頁：選不到的角色與會飛的弓</a>
+</div></body></html>
