@@ -1,0 +1,244 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>道士風格樣本</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 道士風格樣本</p>
+<h1>圖示我覺得可以直接用；立繪跟現有角色擺在一起會讀不出來</h1>
+<p class="lede">太極／五行／八卦一把分一個，剛好對上三把武器的機制。
+但角色立繪的剪影太乾淨——縮到遊戲尺寸會變成一條藍色長方形。建議重生一次，$0.20。</p>
+<p>兩張樣本，$0.40。<strong>一張我覺得可以直接用，一張我建議重做一次</strong>——
+理由在下面，是真的問題不是龜毛。</p>
+<hr />
+<h2>✅ 武器圖示：這張我建議直接採用</h2>
+<p>太極／五行／八卦<strong>一把分一個</strong>，不是全部堆在一起——這樣三把武器在圖示上就分得開：</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="道士武器圖示" src="img/dao-icons.png" /></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>融入的元素</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>桃木飛劍</strong></td>
+<td><strong>太極</strong>——一圈銀色陰陽環穿過劍身，當作飛行軌跡的殘影</td>
+</tr>
+<tr>
+<td><strong>鎮煞符</strong></td>
+<td><strong>五行</strong>——硃砂符文兩側排著金（銀條）／木（葉）／水（水滴）／火（火焰）／土（黃方塊）</td>
+</tr>
+<tr>
+<td><strong>金剛鈴</strong></td>
+<td><strong>八卦</strong>——鈴口外一圈八道卦爻當作梵音波</td>
+</tr>
+</tbody>
+</table></div>
+<p>而且剛好對上三把武器的機制：飛劍會繞（太極）、符是五種效果的載體（五行）、
+鈴放的是擴散波（八卦圈）。<strong>視覺語彙跟機制是同一件事</strong>，不是貼上去的裝飾。</p>
+<p>風格上跟現有 11 個圖示同一個調性：單一剪影、粗外框、細節很少。
+桃木也照規範畫成暗紅褐而不是青木色，綠幕去背一次就過，顏色完整保留。</p>
+<hr />
+<h2>⚠️ 角色立繪：<strong>建議重生一次</strong></h2>
+<p>先看樣本本身（左：道士　右：因果法師）：</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="道士立繪" src="img/dao-chars.png" /></p>
+<p>太極銅盤在胸口、法衣下襬有八卦爻紋、桃木劍配紅穗、右邊的因果法師有懸浮符咒
+與刻著太極的黃銅光輪——<strong>元素都到位了。</strong></p>
+<p>問題在<strong>跟現有角色擺在一起</strong>的時候：</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="跟現有角色比對" src="img/dao-compare.png" /></p>
+<p>（左起：伯爵、不朽者、屍語者、道士）</p>
+<p><strong>現有三隻的共同語言是「破碎的剪影」</strong>——撕裂的斗篷、帶尖刺的甲、垂到地上的
+爛袍角，加上飄在旁邊的東西（伯爵的蝙蝠、屍語者的藍焰）。
+道士是<strong>乾淨、對稱、收得很整齊的一條</strong>。</p>
+<p>這不只是好不好看的問題，是<strong>遊戲裡讀不讀得出來</strong>：這些立繪最後會被縮到大約
+一個世界單位高，那個尺寸下玩家能分辨角色靠的是輪廓。現有三隻縮小後
+仍然是三個很不一樣的形狀，道士會變成一條藍色的長方形。</p>
+<h3>重生的話我會改這四點</h3>
+<ol>
+<li><strong>下襬與袖口做成被風吹起的破布</strong>，把輪廓打散（不用改成「破爛」，
+   道袍被風掀起就夠了）</li>
+<li><strong>加飄浮物</strong>——三張符咒繞在身邊、桃木劍浮在肩側。
+   現有每一隻都有飄浮的東西，這是這批美術的隱形規則</li>
+<li><strong>把對比拉高</strong>：強一點的輪廓光、暗一點的陰影面</li>
+<li><strong>太極銅盤放大成視覺焦點</strong>，讓它在縮圖尺寸還看得見</li>
+</ol>
+<p>成本：<strong>再 $0.20</strong>。</p>
+<hr />
+<h2>我的建議</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>武器圖示</td>
+<td><strong>直接採用</strong>，不用再花錢</td>
+</tr>
+<tr>
+<td>角色立繪</td>
+<td><strong>重生一次（$0.20）</strong>，照上面四點調</td>
+</tr>
+</tbody>
+</table></div>
+<p>如果你覺得現在這版的立繪就可以，跟我說，我就照這個風格把全套做完——
+只是縮到遊戲裡的辨識度我先講在前面。</p>
+<p><strong>確認之後的全套剩餘成本：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>立繪重生（如果要）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>進化武器圖示 ×3 ＋ 職業圖示（一張彙整圖）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>道士 走路 ＋ 攻擊 影片 ×2</td>
+<td>$0.64</td>
+</tr>
+<tr>
+<td>特效 ×3（符陣／飛劍／梵音波）</td>
+<td>$0.96</td>
+</tr>
+<tr>
+<td><strong>剩餘合計</strong></td>
+<td><strong>$1.80 ~ $2.00</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>程式還是一行都沒動——等你點頭風格之後才會開始。</p>
+<a class="navlink" href="vr-taoist.html">→ 上一頁：道士角色規劃</a>
+</div></body></html>
