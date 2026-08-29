@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>定身免疫 + 亡靈出現條件</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 亡靈出場規則</p>
+<h1>免疫把 38% 能動翻成 67%，出場時間也避開了魔王血條</h1>
+<p class="lede">定身後 3 秒免疫做好了，實測有效。出現條件照你的方向 gate 起來，
+但突擊那個時間點我改過——原本會跟魔王的血條撞在一起。有一個保留意見在下面。</p>
+<h2>① 定身免疫（選項 A）：做了，而且效果比預期好</h2>
+<p>免疫 <strong>3 秒</strong>，從「這次定身結束」起算——不是從現在起算，
+不然 3 秒免疫會被 1.5 秒的定身吃掉一半。免疫中的定身<strong>直接吃掉、不縮短也不累積</strong>：
+「被定住之後保證有一段能跑」這個承諾要是硬的，玩家才敢往前衝。
+被擋下時會跳「免疫」的浮動文字，玩家才知道剛剛發生了什麼。</p>
+<h3>實測：模擬最壞情況的亡靈</h3>
+<p>模擬一隻帶 🧊 絕對零度的亡靈（每 2.4 秒武器冷卻就定你 1.5 秒），跑 9 秒：</p>
+<pre><code>定身結束　免疫中=True                              ✓
+免疫期間再定一次 → IsRooted=False                  ✓ 被免疫吃掉
+最壞情況模擬：能動的幀數 720/1078（67%）
+（沒有免疫的話理論值是 38% 能動）
+</code></pre>
+<p><strong>從「三分之二時間不能動」翻轉成「三分之二時間能動」。</strong>
+壓迫感留著（每 4.5 秒還是會被定住一次半），但不會變成被鎖住等死。</p>
+<hr />
+<h2>② 出現條件</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>模式</th>
+<th>時間</th>
+<th>難度</th>
+<th>關卡</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>標準（40 分）</strong></td>
+<td><strong>25:30</strong></td>
+<td><strong>限困難</strong></td>
+<td><strong>第 4 關以後</strong></td>
+</tr>
+<tr>
+<td><strong>突擊（10 分）</strong></td>
+<td><strong>8:15</strong></td>
+<td>不限</td>
+<td>不限</td>
+</tr>
+<tr>
+<td>無盡</td>
+<td>—</td>
+<td>—</td>
+<td><strong>不出額外的</strong>（見下）</td>
+</tr>
+</tbody>
+</table></div>
+<h3>時間點是挑過的，不是隨便填</h3>
+<p><strong>血條一次只畫得下一條</strong>（<code>TryGetActiveBoss</code> 只回一隻），跟魔王撞在一起的話
+玩家根本看不到亡靈的血條，整個出場就白做了。所以：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>出場</th>
+<th>最近的魔王</th>
+<th>相隔</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>標準</td>
+<td>25:30</td>
+<td>冰霜魔龍 27:44</td>
+<td><strong>134 秒</strong></td>
+</tr>
+<tr>
+<td>突擊</td>
+<td>8:15</td>
+<td>滅世之神 9:15</td>
+<td><strong>60 秒</strong></td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>突擊那個是改過的。</strong> 原本我設 4:30，但那裡離碎骨暴龍（4:45）只有 <strong>15 秒</strong>
+——兩條血條會直接撞在一起。改到第 5 關開頭之後：上一隻魔王（6:45）早就處理完，
+下一隻留 60 秒，而且<strong>第 5 關沒有關卡機制</strong>，不會跟暴風雪或獵殺者疊在一起。</p>
+</blockquote>
+<p>資料層驗證新增三條斷言（出場在勝利前、出場時已達指定關卡、<strong>跟最近的魔王至少隔 45 秒</strong>），
+並把「出場時那一關有沒有機制」印出來。</p>
+<hr />
+<h2>⚠️ 你要我評估的部分：我的判斷與一個保留意見</h2>
+<h3>標準模式「困難 + 第 4 關以後」合不合理？<strong>合理，但有一個交互作用你要知道</strong></h3>
+<p><strong>限困難是對的。</strong> 標準模式是一場 40 分鐘的長跑，簡單／普通的定位是「玩得完」；
+塞一隻用真人配裝打你、還會定身的東西進去太重。困難的定位本來就是「你想被虐」。</p>
+<p><strong>整局只出一次也是對的。</strong> 40 分鐘裡出兩次會讓它從「事件」變成「例行公事」。</p>
+<p><strong>但驗證印出了這個：</strong></p>
+<pre><code>⚠️ 出場時在「冰雪絕地」，該關有機制：wall
+</code></pre>
+<p>第 4 關是<strong>暴風雪牆</strong>——玩家必須持續往東跑，回頭路會被吞掉。
+在那一關被定身，是這個遊戲目前最痛的組合。</p>
+<p>我算過帳：定身 1.5 秒會被牆推進 3.3 個世界單位，而免疫的 3 秒能跑回 2.4 個
+——每個定身循環淨損約 0.9 單位。牆是硬邊界（會把你推開，不會直接吞掉），
+貼著牆磨的懲罰是每秒 6% 最大生命。<strong>所以是「很緊但活得下來」，不是死局。</strong></p>
+<p><strong>我的判斷是保留它。</strong> 有了免疫之後這變成一個很好的高潮時刻——
+「暴風雪逼上來、而你被一個真人玩家的亡靈定在原地」，那是會被記住的一分鐘。</p>
+<p><strong>但如果你覺得太過分，改一個數字就好</strong>：把 <code>WraithTime</code> 從 <code>1530</code> 改成
+<code>2010</code>（33:30），就會落在第 5 關魔王城堡——沒有關卡機制，而且離
+萬年冰靈（31:28）與混沌龍王（35:44）都有兩分鐘以上。<strong>跟我說一聲我就改。</strong></p>
+<h3>突擊模式要出現幾次？<strong>一次，8:15</strong></h3>
+<p>10 分鐘的局出兩次太密（等於每 5 分鐘一次，變成節奏的一部分而不是意外）。
+放在 8:15 的代價是<strong>死得早的玩家看不到</strong>——但突擊模式重玩成本低，
+而且「有東西在後段等著」本來就是繼續玩下去的理由。</p>
+<blockquote>
+<p><strong>這一點我不太確定，想聽你的：</strong> 如果你覺得曝光度比較重要，
+可以往前挪到 3:30（第 2 關末）——但那一關有血月獵殺者，會變成兩隻同時追你。
+我傾向維持 8:15。</p>
+</blockquote>
+<h3>無盡模式：<strong>先不放，而且這是免費得到的</strong></h3>
+<p><code>wraithDone</code> 是「<strong>整局</strong>」的旗標不是「每輪」的，所以撐進第 2、3 輪
+不會再冒出新的亡靈——不用寫任何程式就是這個行為。</p>
+<p>我的判斷是<strong>先不開</strong>：無盡本來就已經有每輪複利的強度、
+<strong>全程在場的血月獵殺者</strong>、還有輪迴詛咒。再疊一隻會定身的亡靈會過頭，
+而且會跟獵殺者的定位重複（兩個都是「甩不掉的壓力源」）。</p>
+<p>之後要開的話是加一個 <code>WraithPerCycle</code> 旗標，一行的事。</p>
+<hr />
+<h2>驗證</h2>
+<pre><code>[WCC] 減速 ✓　易傷 1.20 ✓　擊退 0.72 單位 ✓
+[WCC] 定身 1.0 秒：192 幀裡 119 幀完全沒位移（62%）
+[WCC] 定身結束　免疫中=True ✓
+[WCC] 免疫期間再定一次 → IsRooted=False ✓
+[WCC] 最壞情況模擬：能動 720/1078（67%）
+[WCC] 出現條件：標準／普通：需要 困難難度、第 4 關以後、1530s
+                現在 第 1 關 13s　難度✗ 關卡✗ 已出現✗
+</code></pre>
+<p>最後那一行是在普通難度跑的，gate 正確擋下來了。
+資料層驗證與 <code>IDamageSink</code> 的 9 項等價性測試也都重跑過，全過。</p>
+<a class="navlink" href="vr-cc.html">→ 上一頁：控場與識別色</a>
+<a class="navlink" href="vr-sink.html">→ IDamageSink 重構</a>
+</div></body></html>
