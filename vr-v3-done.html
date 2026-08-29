@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>獵人狼人屍語者做完了</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · v3 完成</p>
+<h1>四項都做完了，中間有兩個「數字全對但東西是壞的」</h1>
+<p class="lede">獵魔弓的設計上限在真機上碰不到；六隻僕從的計數器全綠但畫面上一隻都沒有。
+兩個都不是資料驗證抓得到的，是實機量測與截圖抓到的。</p>
+<p>四項全部做完並實機驗證過了。<strong>中間發現兩個「數字全對但東西是壞的」的問題</strong>，
+都寫在下面——那兩個比功能本身值得看。</p>
+<hr />
+<h2>② 獵人：獵魔弓　<strong>設計上限一開始是碰不到的</strong></h2>
+<h3>先講那個問題</h3>
+<p>我把「飛 1000px 吃滿 +120%」寫進資料表、資料驗證也過了。實機一量才發現：</p>
+<pre><code>[V3] 瞄準上限 TargetRange = 6.2 單位 = 371 px
+</code></pre>
+<p><code>VrDirector.TargetRange</code> ＝ <strong>攝影機可視範圍 ×0.95</strong>，直式手機上約 <strong>402 px</strong>。
+超過那個距離的敵人<strong>自動瞄準根本不會挑中</strong>——所以那個 +120% 的上限
+在真機上永遠碰不到，等於白寫。資料層看不出來，因為它只是一個沒人達得到的數字。</p>
+<p>重新校正成：<strong>每 100px +22%、上限 +90%（409px 剛好吃滿）、近身 150px 內 ×0.45</strong>。
+並且把「加成吃滿的距離必須 ≤ 420px」寫成資料層的硬條件——下次有人調參數
+調到碰不到的地方，會當場失敗。</p>
+<h3>實測曲線</h3>
+<pre><code>距離 1.5 單位 → 一發打 6.9        （近身懲罰）
+距離 3.5 單位 → 一發打 18.9
+距離 5.5 單位 → 一發打 22.6
+遠/近 = 3.27 倍（設計 ≈3.2）      ✓
+額外發數：伯爵 +0　獵人 +1        ✓ 獵人天賦仍然多一發
+</code></pre>
+<blockquote>
+<p>量單發傷害時<strong>故意用伯爵不是獵人</strong>：獵人的天賦一次射兩發，兩發會在不同距離
+命中，量到的「第一次掉血」有時是兩發相加、有時只有一發，比值完全沒有意義
+（第一次量到 1.60 倍，實際單發是 3.27 倍）。距離規則掛在武器上，跟拿的人無關。</p>
+</blockquote>
+<p><strong>進化「暴風之眼」</strong> ＝ 你原本提的兩個方向（導引 ＋ 多重）一起給，
+近身懲罰也放寬到 ×0.75。鑰匙是複製護符 <strong>2 級</strong>——那個被動 MaxLv 只有 2，
+照慣例寫 3 的話這條進化永遠湊不出來。這一條是新加的資料驗證抓到的
+（同時抓到我把萬魂哀歌的鑰匙也寫成 3 級）。</p>
+<hr />
+<h2>④A 狼人：撕裂爪　跑越快打越痛</h2>
+<pre><code>站著 → 一刀 78.0（移動量 0.00）
+跑著 → 一刀 156.0（移動量 1.00）
+跑/站 = 2.00 倍                   ✓
+</code></pre>
+<p>移動量的追蹤放在 <code>VrWeapons</code> 而不是 <code>VrPlayer</code>——<strong>亡靈也會用撕裂爪</strong>，
+它跑的是同一份武器程式碼，放在武器層就自動一致，不用另外接線。</p>
+<p>分母用「基準速度」而不是持有者自己的速度：用自己的速度的話，狼人的
++15% 移速會被自動抵銷掉（跑更快但分母也更大），那個天賦就完全沒有回報。</p>
+<hr />
+<h2>③ 屍語者 ＋ 亡者牧者　<strong>這裡有一個計數器測不出來的真 bug</strong></h2>
+<h3>功能全過</h3>
+<pre><code>傷害倍率：伯爵 1.000 → 屍語者 0.820 = ×0.820   ✓
+僕從上限=3　餵 200 擊殺 → 3 隻（卡在上限）      ✓
+轉職亡者牧者 → 上限 6　→ 補到 6 隻              ✓
+僕從在場時擊殺數 +7  ✓ 擊殺有記帳（走 Director.Hit，掉寶與分數都算）
+</code></pre>
+<h3>然後我拍了一張截圖，畫面上一隻僕從都沒有</h3>
+<p>把玩家與每一隻僕從的座標印出來才看見：</p>
+<pre><code>玩家@(17.6, 0.4)　僕從全部還在 (1.2, 0.0) 與 (6.3, 0.9)
+</code></pre>
+<p>第一版的僕從<strong>只會追「最近的敵人」</strong>。敵人清空的那一刻它們就停在原地，
+而且永遠不會回頭找玩家——而這款遊戲的玩家是一直在跑的。
+<strong>生成數、上限、擊殺記帳、傷害倍率全部是綠的，因為那些測的都是計數器。</strong></p>
+<p>修了三件事，每一件都是分開踩到的：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>問題</th>
+<th>修法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>沒有敵人時停在原地</td>
+<td>沒有可追的敵人就回到玩家身邊</td>
+</tr>
+<tr>
+<td>基礎速度 132 比玩家 180 慢，<strong>永遠追不上</strong></td>
+<td>落後時加速，最多兩倍</td>
+</tr>
+<tr>
+<td>六隻的目標點都是「玩家的位置」→ <strong>疊在同一個像素，看起來只有一隻</strong></td>
+<td>每隻有自己的環繞站位角度</td>
+</tr>
+</tbody>
+</table></div>
+<p>修完之後（玩家站定 7 秒）：</p>
+<pre><code>玩家@(29.2, 5.0)　六隻各自在 d=1.1 ~ 1.7 的環繞位置  ✓
+一路衝刺時穩定咬在 4.4 個單位（畫面高度約 13 單位，看得到）
+</code></pre>
+<p>已經寫成 <code>invariants.md</code> 第 12 條。</p>
+<blockquote>
+<p><strong>順帶一提，這個 bug 差點被測試自己蓋掉。</strong> 我讓玩家「站著不動 7 秒」再拍照，
+結果那 7 秒裡玩家又跑了 21 個單位——<code>DebugDriving = false</code> 是「把控制權還給
+真實輸入」，不是「停下來」。要停得寫 <code>DebugDriving = true</code> 加輸入 0。</p>
+</blockquote>
+<p>僕從用玩家主武器時傷害 <strong>×0.35</strong>：不打折等於直接把輸出乘以僕從數量，
+六隻各跑一份滿等主武器會蓋過遊戲裡的一切。資料驗證斷言「6 隻的合計 ≤ 玩家的 2.5 倍」（現在 2.10）。</p>
+<hr />
+<h2>④B 月嚎將：低血狂化</h2>
+<pre><code>滿血時狂化=False                    ✓
+打到 20/80（25%）→ 狂化=True        ✓
+狂化中 ExtraSpdMul=1.30              ✓
+狂化中回血 50 → 血量 20 → 20         ✓ 被擋住
+</code></pre>
+<p><strong>擋回血擋在 <code>Heal</code> 這一個出口</strong>，不是去關掉每一個回血來源——來源有五個以上
+（生命藥草、吸血、拾取物、商人、天使雕像），逐個關一定會漏，而且以後新增
+一個又要記得處理。擋在唯一的出口上，「不能回血」就永遠是真的。</p>
+<p><strong>移速跟疾速藥劑合併成單一寫入點相乘。</strong> 兩個地方各自賦值的話，後跑的會把
+前一個整個蓋掉——症狀是「喝了疾速藥劑反而沒變快」，而且看誰排後面。</p>
+<hr />
+<h2>美術（綠幕，本地去背，$2.20）</h2>
+<h3>⚠️ 第一張圖示挑錯幕色，作廢重生</h3>
+<p>我一開始用洋紅幕，結果<strong>深紅色的主體被吃掉</strong>——撕裂爪整組消失、血月被去背成
+純黑、獵魔弓的木頭被 despill 染成紫色。這跟「綠幕遇到綠色主體」是同一個失敗模式，
+而專案規則本來就寫著「預設綠幕，只有主體是綠色系才換洋紅」。這批主體是紅／白／銀，
+是我挑錯。$0.20 的學費，已照規則記進 SPEND.md。</p>
+<p>改綠幕之後一次就過，8 個全部採用：</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="v3 圖示" src="img/v3-icons.png" /></p>
+<h3>屍語者：立繪 ＋ 走路 10 幀 ＋ 攻擊 8 幀</h3>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="屍語者走路" src="img/v3-necro-walk.png" /></p>
+<blockquote>
+<p>抽出來的主體原本只佔 256px 裡的 76×120，比其他角色小一大截。
+另外寫了一支依「所有幀的<strong>聯集</strong>邊界」統一裁切放大的工具——用聯集而不是
+逐幀，才不會播起來忽大忽小。<strong>沒有為了這個重新花錢生成。</strong>
+佔框比例 0.91，其他角色是 0.73～0.94，對得齊。</p>
+</blockquote>
+<h3>實機：屍語者與六隻亡魂僕從</h3>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="屍語者與僕從" src="img/v3-necro.png" /></p>
+<h3>實機：狼人的撕裂爪</h3>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="撕裂爪" src="img/v3-claw.png" /></p>
+<p>三組特效（撕裂爪／血月狂襲／萬魂哀歌）各 14 幀，實機確認載得到。</p>
+<hr />
+<h2>花費</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>圖示彙整圖（洋紅幕，<strong>作廢</strong>）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>圖示彙整圖（綠幕，採用）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>角色彙整圖（屍語者 + 僕從）</td>
+<td>$0.20</td>
+</tr>
+<tr>
+<td>屍語者 走路 + 攻擊 影片 ×2</td>
+<td>$0.64</td>
+</tr>
+<tr>
+<td>特效影片 ×3</td>
+<td>$0.96</td>
+</tr>
+<tr>
+<td><strong>合計</strong></td>
+<td><strong>$2.20</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>提案時估 ②③④ 全做是 $3.36 ~ $4.52，實際 $2.20（含作廢的 $0.20）。
+省下來的地方是<strong>兩個新職業沒有各自的走路動畫</strong>——它們退回角色本身的動畫，
+跟血族領主現在的處理一樣。要補的話是 4 支影片 $1.28，跟我說。</p>
+<hr />
+<h2>回歸</h2>
+<p><code>IDamageSink</code> 等價性、v2 五項、資料層全套（含新加的起手武器綁定、進化配方
+完整性、共用鑰匙的角色互斥、距離曲線要在瞄準上限內吃得滿）——<strong>全過</strong>。
+兩輪編譯 0 錯。</p>
+<a class="navlink" href="vr-v3.html">→ 上一頁：v3 提案</a>
+<a class="navlink" href="vr-pick.html">→ 亡靈出現節奏與加權抽選</a>
+</div></body></html>
