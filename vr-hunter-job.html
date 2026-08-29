@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>獵人的專屬轉職</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 提案</p>
+<h1>獵人的專屬轉職：讓敵人過不來</h1>
+<p class="lede">三個現有的專屬職業分別佔了「反應式／數量／狀態」，
+剩下沒人做的軸是<strong>空間</strong>——而那正好是獵魔弓最需要、遊戲卻從來不給的東西。</p>
+<h2>提案：<strong>絕域獵手</strong> 🎯　<code>RequiresCharacter = "hunter"</code></h2>
+<blockquote>
+<p>「你要的不是打得更遠，是讓他們<strong>過不來</strong>。」</p>
+</blockquote>
+<h3>為什麼是「空間」這個軸</h3>
+<p>三個現有的專屬職業各佔一個軸，都不能重複：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>職業</th>
+<th>軸</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>血鎖裁判（不朽者）</td>
+<td><strong>反應式</strong>——被打才反擊</td>
+</tr>
+<tr>
+<td>亡者牧者（屍語者）</td>
+<td><strong>數量</strong>——多幾隻打手</td>
+</tr>
+<tr>
+<td>月嚎將（狼人）</td>
+<td><strong>狀態</strong>——低血才爆發</td>
+</tr>
+<tr>
+<td><strong>絕域獵手（獵人）</strong></td>
+<td><strong>空間</strong>——控制敵人離你多遠</td>
+</tr>
+</tbody>
+</table></div>
+<p>而「空間」剛好是<strong>全遊戲唯一沒人做的方向</strong>：寒冰只減速、隕星引力是把怪往內拉，
+<strong>沒有任何東西會持續把敵人往外推</strong>。獵魔弓的整個設計是「站遠才痛」，
+但這遊戲從來不讓你站遠——這個職業就是去解決那件事。</p>
+<h3>機制：絕域圈</h3>
+<p>以玩家為中心的一個圈，半徑 <strong>180 單位</strong>：</p>
+<ol>
+<li><strong>圈內的敵人被持續往外推</strong>（緩慢，不是清場）</li>
+<li><strong>圈外</strong>的敵人受到的傷害 <strong>+25%</strong></li>
+<li>代價：<strong>圈內</strong>的敵人你打起來 <strong>−25%</strong></li>
+</ol>
+<p>第 3 條是重點——它不是懲罰，是把「不該讓他們靠近」從建議變成規則。
+獵人 −10% 生命第二次有了意義。</p>
+<blockquote>
+<p><strong>半徑 180 是對齊出來的，不是隨便挑的。</strong> 獵魔弓的近身懲罰邊界是 150 單位，
+絕域圈設 180 → 圈的邊界剛好落在「弓開始吃距離加成」的外面一點點。
+兩個系統對到同一條線上，玩家腦中只要記一個距離。</p>
+</blockquote>
+<h3>數值方向</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>值</th>
+<th>備註</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>絕域圈半徑</td>
+<td>180 單位（3 世界單位）</td>
+<td>對齊獵魔弓的 150</td>
+</tr>
+<tr>
+<td>圈內推開</td>
+<td>每 0.5 秒一次，力道約撕裂爪擊退的 1/3</td>
+<td>走既有的 <code>DamageAreaKnockback</code>，傷害給 0</td>
+</tr>
+<tr>
+<td>圈外易傷</td>
+<td>+25%</td>
+<td>走既有的 <code>e.DamageTakenMul</code> 那條路（疫毒領域用的同一條）</td>
+</tr>
+<tr>
+<td>圈內減傷</td>
+<td>−25%</td>
+<td></td>
+</tr>
+<tr>
+<td>轉職任務</td>
+<td>本局在 180 單位外擊殺 200 隻</td>
+<td>新計數器 <code>farKills</code>，做法同月嚎將的 <code>lowHpKills</code></td>
+</tr>
+</tbody>
+</table></div>
+<h3>程式範圍：小</h3>
+<p>三件事全部有現成的路：推開用 <code>DamageAreaKnockback</code>（傷害給 0）、
+遠近傷害倍率在 <code>Hit()</code> 裡加一行（<code>e.DamageTakenMul</code> 隔壁）、
+任務計數器照 <code>lowHpKills</code> 抄。<strong>沒有新系統。</strong></p>
+<hr />
+<h2>美術成本：<strong>$0 ~ $0.52</strong></h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>金額</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>絕域圈的視覺</td>
+<td><strong>$0</strong></td>
+<td>用現成的 <code>SpriteFactory.Ring()</code> 程式畫，不需要素材</td>
+</tr>
+<tr>
+<td>職業圖示</td>
+<td>$0.20</td>
+<td>可以跟下一批圖一起生，不用單獨開一張</td>
+</tr>
+<tr>
+<td>專屬「推開」特效</td>
+<td>$0.32</td>
+<td>可選，不做的話用圈本身的脈動代替</td>
+</tr>
+<tr>
+<td>職業走路／攻擊動畫</td>
+<td>$0.64</td>
+<td><strong>建議先不做</strong>——月嚎將與亡者牧者現在也沒有，退回角色動畫</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>我的建議是先花 $0.20（只做圖示）</strong>，圈用程式畫的，看實機感覺再決定要不要補特效。</p>
+<hr />
+<h2>⚠️ 兩個我不確定、想先講的地方</h2>
+<ol>
+<li><strong>圈外 +25% 可能過強。</strong> 獵魔弓本身遠距就 +90%，兩者相乘是 <strong>×2.375</strong>。
+   我傾向先做 +25% 再實測，但如果你要保守就先給 +15%。這是一個常數。</li>
+<li><strong>推力太大的話，衝刺型敵人會卡在圈邊界抖動</strong>（血月獵殺者、暗影獸那種）。
+   推開做成「緩慢持續」而不是「一次推飛」就是為了避免這件事，
+   但這要實機看才知道，我會在實作時特別量那幾隻。</li>
+</ol>
+<hr />
+<p><strong>等你決定：照這個做、還是調方向。</strong> 目前一行程式、一張圖都還沒動。</p>
+<a class="navlink" href="vr-v3-done.html">→ 上一頁：v3 完成報告</a>
+</div></body></html>
