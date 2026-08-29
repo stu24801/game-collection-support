@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亡靈的出現節奏與加權抽選</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 亡靈突襲</p>
+<h1>開局抽到榜首的機率 0.3%，撐滿一輪變 15.6%</h1>
+<p class="lede">三件事都做完了：突擊提早到 3:30、無盡每輪一隻、抽選改成依存活時間加權。
+公式的行為做成一張表放在下面，之後要調參數看那張表就夠。</p>
+<h2>① 突擊提早到 3:30 ✓</h2>
+<p>你的理由成立，而且我原本沒想到那一層：<strong>亡靈打得死，獵殺者打不死。</strong>
+獵殺者是常駐壓力所以會累積，亡靈打完就結束了——兩者疊在一起是一個
+<strong>有出口的高潮</strong>，不是雙重懲罰。所以曝光度值得換。</p>
+<p>實測（普通難度，證明不限難度那條也接上了）：</p>
+<pre><code>[WCY] 突擊／普通：需要 第 1 關以後、210s　現在 第 1 關 1s　難度✓ 關卡✓
+[WCY] 突擊（210s／第 2 關／普通 難度）：出了「玩家（上一局） 的亡靈」滿血=6330  ✓
+[WCY] 同一時間的關卡機制：🦹 獵殺者緊追不捨——保持移動！
+</code></pre>
+<p>最後一行是刻意印的：<strong>證明它真的跟獵殺者同時發生</strong>，不是剛好錯開所以看起來沒事。</p>
+<blockquote>
+<p>⚠️ 還有一個附帶效果：3:30 離「滅世魔龍」（2:45）只有 45 秒，那隻可能還活著。
+HUD 一次只畫得下一條血條，所以<strong>魔王的血條會被亡靈蓋掉</strong>。
+依你的同一套理由這應該也可以接受，但這是知情的取捨，不是沒注意到。
+資料層的「相隔 45 秒」從硬條件降級成提醒，硬底線只剩「不會同一秒登場」。</p>
+</blockquote>
+<hr />
+<h2>② 無盡：每輪一隻，血量成長刻意壓低</h2>
+<p><strong>每輪一次（＝每 40 分鐘一隻），排在輪的第 4 關。</strong></p>
+<p>為什麼不更密：無盡已經有三個<strong>常駐</strong>壓力源——每輪複利的敵人強度、
+全程在場的血月獵殺者、輪迴詛咒。亡靈要當「事件」，不是第四個常駐壓力。
+排在輪的中後段，也自然跟輪開頭的詛咒三選一錯開。</p>
+<p><strong>平衡是從血量下手，不是從頻率</strong>：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>每輪血量成長</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一般魔王</td>
+<td>+80%</td>
+</tr>
+<tr>
+<td><strong>亡靈</strong></td>
+<td><strong>+50%</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>為什麼給亡靈低一點：它的<strong>傷害完全不隨輪數成長</strong>（輸出來自那個玩家固定的配裝）。
+血量再往上疊只會做出「打不動又不痛的沙包」——那不叫難，那叫無聊。</p>
+<p>實測（困難／標準，撥時鐘跨輪，走的是玩家真的會按的「進入無盡」）：</p>
+<pre><code>[WCY] 第 1 輪（1530s）：出了「玩家（上一局） 的亡靈」滿血=10128       ✓
+[WCY] 出過之後 wraithDone=True                        ✓ 同一輪不會再出
+[WCY] 通關面板：state=Cleared
+[WCY] 進入第 2 輪　wraithDone=False                    ✓ 跨輪已重置
+[WCY] 第 2 輪（3930s／輪內 1530s）：生成第 2 隻「…的亡靈」滿血=15192  ✓
+[WCY] 滿血 第2輪÷第1輪 = 1.50（設計值 1.50）             ✓
+</code></pre>
+<blockquote>
+<p><strong>難度條件在無盡照樣生效</strong>——用普通難度通關再進無盡的話，一輩子都不會遇到亡靈。
+這是刻意的：「限困難」是你訂的，不該因為進了無盡就偷偷放寬。
+如果你希望無盡不管什麼難度都出，那是另一個旗標，跟我說。</p>
+</blockquote>
+<hr />
+<h2>③ 加權抽選：活越久，越可能撞上榜首</h2>
+<pre><code>p = (名次 − 1) / (候選人數 − 1)           0 ＝ 榜首、1 ＝ 榜尾
+t = clamp01(存活秒數 / 2400)              0 ＝ 剛開局、1 ＝ 撐滿一輪正篇
+w = exp( 2.0 × (2t − 1) × (1 − 2p) )
+</code></pre>
+<p><strong>為什麼用指數而不是「名次的冪次」</strong>：它天生對稱。把 <code>t</code> 從 0 換成 1，
+整條分布就左右鏡像——所以「早期多弱」和「後期多強」是同一個旋鈕在動，
+不用調兩組參數互相打架。三個定點就講完它：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>t</th>
+<th>意義</th>
+<th>行為</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>剛開局</td>
+<td>榜首 <code>e⁻²≈0.14</code>、榜尾 <code>e²≈7.4</code> → <strong>強豪幾乎抽不到</strong></td>
+</tr>
+<tr>
+<td>0.5</td>
+<td>半輪</td>
+<td>指數是 0 → <strong>完全均勻</strong></td>
+</tr>
+<tr>
+<td>1</td>
+<td>撐滿一輪</td>
+<td>分布翻轉 → <strong>榜首最容易抽到</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>實際機率（榜上 25 人）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>存活</th>
+<th>前 5 名</th>
+<th>6-10</th>
+<th>11-15</th>
+<th>16-20</th>
+<th>21-25</th>
+<th>榜首單獨</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0:00</td>
+<td>2.0%</td>
+<td>4.7%</td>
+<td>10.8%</td>
+<td>25.0%</td>
+<td><strong>57.4%</strong></td>
+<td>0.3%</td>
+</tr>
+<tr>
+<td><strong>3:30</strong>（突擊出場）</td>
+<td><strong>3.3%</strong></td>
+<td>6.5%</td>
+<td>13.0%</td>
+<td>25.8%</td>
+<td>51.4%</td>
+<td>0.5%</td>
+</tr>
+<tr>
+<td>10:00</td>
+<td>7.4%</td>
+<td>11.2%</td>
+<td>16.9%</td>
+<td>25.7%</td>
+<td>38.9%</td>
+<td>1.2%</td>
+</tr>
+<tr>
+<td>20:00</td>
+<td>20.0%</td>
+<td>20.0%</td>
+<td>20.0%</td>
+<td>20.0%</td>
+<td>20.0%</td>
+<td>4.0%</td>
+</tr>
+<tr>
+<td><strong>25:30</strong>（標準出場）</td>
+<td><strong>30.0%</strong></td>
+<td>23.9%</td>
+<td>19.0%</td>
+<td>15.1%</td>
+<td>12.0%</td>
+<td>6.6%</td>
+</tr>
+<tr>
+<td>40:00＋（無盡）</td>
+<td><strong>57.4%</strong></td>
+<td>25.0%</td>
+<td>10.8%</td>
+<td>4.7%</td>
+<td>2.0%</td>
+<td>15.6%</td>
+</tr>
+</tbody>
+</table></div>
+<p>實抽 20000 次驗過輪盤法真的照權重走（0s：理論 2.0% 實測 2.1%；
+2400s：理論 57.4% 實測 57.5%），並斷言「前 5 名的機率隨存活時間單調上升」
+——公式方向寫反的話這條會當場失敗。</p>
+<h3>兩個旋鈕都在 <code>VampireData</code>，各自一句話</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>常數</th>
+<th>現值</th>
+<th>調它會怎樣</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WRAITH_RANK_BIAS</code></td>
+<td><code>2.0</code></td>
+<td><strong>早晚差距的極端程度</strong>。設 3.0：開局前 5 名掉到 0.7%、撐滿一輪升到 78%</td>
+</tr>
+<tr>
+<td><code>WRAITH_RANK_RAMP</code></td>
+<td><code>2400</code>（一輪正篇）</td>
+<td><strong>多久到頂</strong>。設 1200：20 分鐘就封頂，突擊的 3:30 也會從 3.3% 升到 7.4%</td>
+</tr>
+</tbody>
+</table></div>
+<h3>三個實作細節，都是「不寫會安靜壞掉」的那種</h3>
+<ul>
+<li><strong><code>t</code> 在 1 就封頂是刻意的</strong>——無盡第 2 輪和第 10 輪分布一樣。封頂之後前 5 名
+  仍只佔 57%，所以 4 成的機率還是會遇到中後段的人，不會變成「永遠打同一個榜首」。</li>
+<li><strong>傳的是整局累計時間，不是輪內時間。</strong> 用輪內的話，無盡第 3 輪在輪內也是 25:30，
+  「活越久越強」在無盡<strong>完全不會發生</strong>，每輪抽到一樣的分布。</li>
+<li><strong><code>Rank = 0</code>（自己上一局的紀錄）特判成 <code>p = 0.5</code>。</strong> 不特判會算出負的 <code>p</code>，
+  在開局拿到爆炸性的權重——症狀只是「開局老是抽到自己」，不會報錯。</li>
+</ul>
+<hr />
+<h2>順手修掉的一個測試工具 bug（不是產品，但值得講）</h2>
+<p><code>DebugKillAllEnemies</code> 用倒序索引掃 <code>enemies</code>，寫很久了都沒事——因為驗證通常在
+開局幾十隻的場面呼叫它。這次第一次在 25 分鐘（幾百隻）呼叫，當場索引越界：
+<code>Hit()</code> 死亡時會從 list 移除，而且<strong>不保證一次只移除一個</strong>（連鎖爆炸、分裂體）。</p>
+<p>值得講的是<strong>症狀</strong>：協程裡的例外只會讓那個協程<strong>安靜地停住</strong>，log 停在一半，
+看起來像「無盡跨輪的功能沒接上」而不是「測試工具壞了」。查了兩輪建置才發現。
+已改成先拷貝快照，並寫進 <code>invariants.md</code> 第 11 條。</p>
+<hr />
+<h2>沒動的東西</h2>
+<p>正篇第 4 關（暴風雪）那個保留意見你沒回覆，<strong>照上次的判斷維持 25:30 不動</strong>。
+要改成 33:30（第 5 關，無關卡機制）隨時說一聲，是一個常數的事。</p>
+<a class="navlink" href="vr-gate.html">→ 上一頁：定身免疫與出現條件</a>
+<a class="navlink" href="vr-cc.html">→ 控場與識別色</a>
+</div></body></html>
