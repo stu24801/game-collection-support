@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亡靈突襲上線 + v2 實機驗證</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 共用後端變更</p>
+<h1>亡靈突襲上線了，殭屍與 DnD 的回應逐字未變</h1>
+<p class="lede">排行榜加了一個 nullable 的配裝欄位並已部署。部署前後跑同一份測試，
+殭屍防線與地城迴響的回應完全相同。v2 五項功能的行為層也在 Unity 裡量過了。</p>
+<h2>兩件事都做完了</h2>
+<ol>
+<li><strong>Unity 實機驗證</strong>：v2 五項功能 ＋ 新美術，行為層全部通過（下面有量到的數字）</li>
+<li><strong>玩家亡靈突襲</strong>：Cloudflare Worker 與 D1 已加欄位並<strong>部署上線</strong>，用真實配裝生亡靈</li>
+</ol>
+<figure><img src="vr-wraith/wraith.jpg" alt="亡靈突襲實機畫面"><figcaption><b>實機畫面</b>：紫紅色的亡靈（用那個玩家當時的角色素材染色）、魔王血條「玩家 昨天 的亡靈 6330/6330」、橫幅寫著他的等級／職業／主武器</figcaption></figure>
+
+<hr />
+<h2>共用後端：我做了什麼、驗了什麼</h2>
+<blockquote>
+<p><strong>完整的風險與影響範圍在 <code>docs/vampire-revenge-wraith.md</code></strong>，
+那一份是寫給你拿去跟殭屍／DnD 那邊對齊的。下面是摘要。</p>
+</blockquote>
+<h3>改動只有這樣</h3>
+<pre><code class="language-sql">ALTER TABLE scores ADD COLUMN build TEXT;
+</code></pre>
+<p>nullable、無約束、O(1) 中繼資料變更、既有每一列都是 <code>NULL</code>。
+Worker 端三處改動<strong>全部在 vampire 分支內</strong>。</p>
+<h3>部署順序刻意這樣排</h3>
+<pre><code>① 三款遊戲的部署前基準（POST + GET 各一次）
+② 先跑遷移 ← 舊 Worker 還在線上。它的 SELECT/INSERT 都是明列欄位，
+              多一個欄位它看不到也不會壞，所以這一步零風險
+③ 部署新 Worker
+④ 跟 ① 完全一樣的測試再跑一次，逐字比對
+</code></pre>
+<p>全程零停機，中間沒有任何一刻是「Worker 要讀一個還不存在的欄位」。</p>
+<h3>部署前後的比對結果</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>部署前</th>
+<th>部署後</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>殭屍防線</strong> GET 欄位</td>
+<td><code>date, name, score, wave, win</code></td>
+<td><strong>完全相同</strong></td>
+</tr>
+<tr>
+<td><strong>殭屍防線</strong> GET 內容</td>
+<td><code>Alex / 164349 / wave 85</code></td>
+<td><strong>逐字相同</strong></td>
+</tr>
+<tr>
+<td><strong>殭屍防線</strong> POST</td>
+<td><code>{"ok":true,"rank":20}</code></td>
+<td><code>{"ok":true,"rank":22}</code></td>
+</tr>
+<tr>
+<td><strong>地城迴響</strong> GET 欄位</td>
+<td><code>date, depth, kills, level, name, time, win</code></td>
+<td><strong>完全相同</strong></td>
+</tr>
+<tr>
+<td><strong>地城迴響</strong> GET 內容</td>
+<td><code>Alex / depth 24 / lv16 / 263 kills</code></td>
+<td><strong>逐字相同</strong></td>
+</tr>
+<tr>
+<td><strong>地城迴響</strong> POST</td>
+<td><code>{"ok":true,"rank":5}</code></td>
+<td><code>{"ok":true,"rank":6}</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>兩款的回應都沒有多出 <code>build</code> 欄位</strong>——那是刻意的。雖然 <code>JsonUtility</code> 會忽略
+不認識的欄位，但「不動就是零風險」比「應該不會壞」可靠，而且要驗的東西少一半。</p>
+<p>吸血鬼這邊：<strong>舊版 App（不送 build）照樣上傳成功</strong>，向後相容。</p>
+<p>另外在本機用「沒有 build 欄位的舊 schema ＋ 三款各一筆舊資料」模擬過整個遷移，
+三筆舊資料都還在、<code>build</code> 都是 NULL。</p>
+<h3>⚠️ 我做得不夠好的一點，先自己講</h3>
+<p>過程中往<strong>正式資料庫</strong>寫了 26 筆 <code>ZZ_*</code> 測試列，其中一筆 <code>kills=99999</code>
+一度衝到吸血鬼榜首。<strong>已經逐筆核對後全部刪除，目前殘留 0 筆</strong>，三款的榜首
+都回到真實資料。</p>
+<p>但正確做法應該是：破壞性測試全部放 <code>wrangler dev --local</code>，正式環境只跑
+最小的煙霧測試。這一條已經寫進文件了。</p>
+<hr />
+<h2>濫用防護</h2>
+<p>Worker 端<strong>刻意不解析遊戲語意</strong>——三款共用，它不該知道「magicBolt 是不是
+一把真的武器」。只做三件跟遊戲無關的把關：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>把關</th>
+<th>擋掉什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>型別必須是字串</td>
+<td><code>{"a":1}</code>、<code>12345</code>、陣列</td>
+</tr>
+<tr>
+<td>長度 ≤ 256</td>
+<td>拿這個欄位灌爆資料庫</td>
+</tr>
+<tr>
+<td>字元集白名單 <code>[A-Za-z0-9;:,_-]</code></td>
+<td>HTML／script、引號、反斜線、換行、空白、emoji、控制字元</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>不合格一律存 NULL，但那一列的成績照樣成立</strong>——沒有理由因為配裝碼壞掉
+就把一個有效的分數整筆丟掉。實測 7 種惡意輸入全部擋下。</p>
+<p>client 端還有第二道（實機量過）：</p>
+<pre><code>惡意輸入 （空字串）          → 拒絕 ✓
+惡意輸入 9;count;-;knife:1;-  → 拒絕 ✓   版本號不對
+惡意輸入 1;不存在的角色;…      → 拒絕 ✓
+惡意輸入 1;count;-;不存在的武器 → 拒絕 ✓
+惡意輸入 1;count;-;-;-        → 拒絕 ✓   沒有武器的亡靈打不了人
+惡意輸入 亂七八糟              → 拒絕 ✓
+等級偽造 knife:999 → 夾到 6（飛刀上限 6）  ✓
+</code></pre>
+<p>解不出來一律回 <code>null</code>，<strong>不回半殘的物件</strong>——呼叫端會拿它去生成敵人，
+半殘資料會變成「一隻沒有能力、站著不動的魔王」，比沒有還糟。</p>
+<p>亡靈的強度用<strong>等級</strong>推不用分數：分數是難度加權後的擊殺數，而且可以偽造；
+等級至少有伺服器的 <code>LIMITS.level = 999</code> 夾著。</p>
+<hr />
+<h2>剩下的風險（沒有假裝防護是完整的）</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>風險</th>
+<th>現況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>沒有身分驗證，分數與配裝都可偽造</strong></td>
+<td><strong>既有的</strong>，不是這次帶進來的。但這次把可偽造的東西從數字擴大到字串，所以 client 端加了整套夾制。仍擋不住「合法但很怪的配裝」（7 把武器全滿等），不過強度照等級算、等級有上限，不會做出打不死的東西</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>名字沒有髒話過濾</strong></td>
+<td>亡靈的名字會很顯眼地掛在橫幅、魔王血條、死亡定格的死因上。<strong>介意的話改成「第 N 名的挑戰者」是一行的事</strong>，跟我說就改</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>沒有速率限制、沒有列數上限</strong></td>
+<td>也是既有的。這次唯一多做的是把單列的 build 壓在 256 bytes。沒有做 IP 限流／每日上限／舊資料清理</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>冷啟動：線上前 25 名目前全是舊紀錄</strong></td>
+<td><code>build</code> 是這一版才加的，所以<strong>線上一個亡靈都抽不到</strong>（實測就是這樣）。已加「自己上一局」當退路，功能第一天就會動</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>亡靈怎麼做的</h2>
+<p><strong>沒有真的讓 NPC 跑一份 <code>VrWeapons</code>。</strong> 那個類別從頭到尾綁死玩家——
+每一條開火路徑最後都呼叫「傷害<strong>敵人</strong>」的函式，要讓 NPC 用它等於要把
+傷害目標端整個抽象化，而那是全遊戲每一次傷害都會走的路徑。</p>
+<p>改成把配裝<strong>對映</strong>到既有的魔王能力：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>主武器</th>
+<th>能力</th>
+<th>讀起來像</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>落雷／寒冰／光環／十字斬／碎岩</td>
+<td>環爆</td>
+<td>範圍壓制</td>
+</tr>
+<tr>
+<td>飛刀／魔法飛彈／血鎖</td>
+<td>狙擊</td>
+<td>遠程點名</td>
+</tr>
+<tr>
+<td>隕石／聖水／骨釘</td>
+<td>召喚</td>
+<td>把場面鋪滿</td>
+</tr>
+<tr>
+<td>聖光書／壁壘</td>
+<td>衝刺</td>
+<td>貼身</td>
+</tr>
+</tbody>
+</table></div>
+<p>生出來的是一筆<strong>動態的 <code>BossDef</code></strong>，走既有的 <code>SpawnBoss</code>——所以魔王血條、
+死亡定格的死因、必掉寶箱，<strong>全部免費就有</strong>。外觀用那個玩家當時的角色走路
+素材 ＋ 紫紅染色，<strong>美術成本 $0</strong>。</p>
+<p><strong>三層資料來源</strong>：線上榜（前 25 有配裝碼的）→ 本機快取 → 自己上一局 →
+都沒有就不出亡靈（少一個事件，不是壞掉，但會留一行 log）。</p>
+<p>出場時間：<strong>只有突擊模式、4:30</strong>。標準模式已經有 10 隻魔王＋精英＋包圍網，
+再塞一隻讀不出來是特別的。</p>
+<hr />
+<h2>v2 五項功能的實機驗證</h2>
+<p><code>Library/</code> 重建後跑起來，<strong>行為層全部通過</strong>：</p>
+<h3>新美術</h3>
+<pre><code>新武器圖示 11/11 載入成功  ✓
+特效 blade_waltz / plague_field / gravity_star / quake_burst / bone_spike = 各 14 幀 ✓
+不朽者 走路=12 攻擊=8　血鎖裁判 走路=12 攻擊=8  ✓
+著墨比例 不朽者=0.927 血鎖裁判=0.943
+</code></pre>
+<p>著墨比例有量到（不是 1.000 的預設值），代表兩個新角色在畫面上的高度會跟
+既有五隻一致，不會因為素材留白多寡而忽大忽小。</p>
+<h3>行為（都是量真實結果，不是問屬性回傳值）</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>驗什麼</th>
+<th>量到的</th>
+<th>判定</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>易傷</strong></td>
+<td>同一隻岩石巨人：平常吃 100.0 → 易傷中吃 <strong>120.0</strong>（比值 1.20）</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>引力</strong></td>
+<td>5 隻殭屍到落點的距離總和 11.00 → <strong>0.18</strong></td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>擊退（正值）</strong></td>
+<td>離玩家 3.00 → <strong>3.47</strong>（推遠）</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>擊退（負值＝血鎖）</strong></td>
+<td>離玩家 3.00 → <strong>2.72</strong>（拉近）</td>
+<td>✓</td>
+</tr>
+<tr>
+<td><strong>不朽之怒 3 層</strong></td>
+<td>平常吃 100.0 → 怒中吃 <strong>124.0</strong>（比值 1.24）</td>
+<td>✓</td>
+</tr>
+</tbody>
+</table></div>
+<h3>⚠️ 第一次量到「擊退反而變遠」——是測試壞了不是產品壞了</h3>
+<p>第一版拿<strong>岩石巨人</strong>當靶，量到 3.00 → 3.42（反而變遠）。查下去發現
+岩石巨人的資料是 <code>NoKnockback = true</code>，<code>ApplyKnockback</code> 直接 return
+——那一發根本沒有擊退可言。</p>
+<p>換成吃擊退的殭屍、並改成 <strong>A/B</strong>（同一種敵人、同一個距離，一發正值一發負值）
+之後就對了。只量負值那一發的話，量到的可能只是敵人自己在走路。</p>
+<hr />
+<h2>現在的狀態</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Worker</td>
+<td><strong>已部署</strong>（版本 <code>47a021e9</code>）</td>
+</tr>
+<tr>
+<td>D1</td>
+<td><strong>已遷移</strong>，測試列已清乾淨（殘留 0）</td>
+</tr>
+<tr>
+<td>遊戲端</td>
+<td>已 commit，<code>Build/Mac</code> 可跑</td>
+</tr>
+<tr>
+<td>硬碟</td>
+<td>可用 11 GB</td>
+</tr>
+<tr>
+<td>我<strong>沒有</strong> push</td>
+<td>game-collection 領先 origin/main 數個 commit，時機交給你</td>
+</tr>
+</tbody>
+</table></div>
+<h2>需要你跟殭屍／DnD 那邊確認的</h2>
+<ol>
+<li><strong>兩款的上傳／讀榜有沒有異狀</strong> — 我這邊比對是逐字相同，但<strong>那兩款的 client 我沒有跑起來測</strong>。方便的話實際開一次上傳最保險。</li>
+<li><strong>亡靈的名字要不要顯示</strong> — 沒有髒話過濾。改成「第 N 名的挑戰者」是一行的事。</li>
+<li><strong>要不要補速率限制</strong> — 既有的洞，這次沒動它。</li>
+</ol>
+<a class="navlink" href="vr-v2-art3.html">→ v2 美術完成</a>
+<a class="navlink" href="vr-v2-invasion.html">→ 當初的可行性評估</a>
+<a class="navlink" href="vr-v2-progress.html">→ v2 實作進度</a>
+<footer>吸血鬼復仇 · 玩家亡靈突襲 · 共用後端已變更並驗證</footer>
+</div></body></html>
