@@ -1,0 +1,360 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>特效稽核・走路・反傷・僕從追擊</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇</p>
+<h1>四把武器一次修好，美術成本 $0</h1>
+<p class="lede">全 40 把稽核完：真正借用別人特效的只有 4 把，而且素材早就生好了、
+只是家族函式沒去讀。碎岩衝擊其實沒問題。走路慢半拍量出來是 117 毫秒，已修成 12。
+僕從追擊的答案是「追不夠遠」，不是「追太遠」。</p>
+<p>做完四件事，另外有<strong>兩個需要你們確認才能動</strong>的，跟一份<strong>還沒做</strong>的清單。</p>
+<hr />
+<h1>① 全 40 把武器的特效歸屬稽核</h1>
+<p>你要的「一次查完」。而且結果<strong>修正了一個前提</strong>：</p>
+<blockquote>
+<p><strong>碎岩衝擊沒有借用冰霜新星。</strong> 它是 Aura 家族、<code>FxName = quake_burst</code>，
+而 Aura 本來就會讀 FxName——它一直在放自己的特效。
+使用者遇到的應該是它的<strong>進化「大地崩裂」</strong>（Nova 家族），
+而那個在這一輪修 <code>FireNova</code> 的時候<strong>已經一起修好了</strong>。</p>
+</blockquote>
+<h2>真正還在借用別人的：4 把，同一個根因</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>武器</th>
+<th>家族</th>
+<th>原本播的</th>
+<th>自己的素材</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>靈魂虹吸</td>
+<td>Chain</td>
+<td><code>lightning_strike</code>（落雷）</td>
+<td>—</td>
+</tr>
+<tr>
+<td>萬魂哀歌</td>
+<td>Chain</td>
+<td><code>lightning_strike</code></td>
+<td><strong><code>soul_choir</code> 14 幀，早就生好了</strong></td>
+</tr>
+<tr>
+<td>鎮煞符</td>
+<td>Zone</td>
+<td><code>fire_zone</code>（火海）</td>
+<td><strong><code>ward_array</code> 14 幀，早就生好了</strong></td>
+</tr>
+<tr>
+<td>五雷正法陣</td>
+<td>Zone</td>
+<td><code>fire_zone</code></td>
+<td>同上</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>四把都早就指定了自己的 FxName、素材也早就在資料夾裡</strong>，只是
+<code>FireChain</code> 與 <code>SpawnZone</code> 兩個函式<strong>寫死了特效名、根本沒去讀</strong>。
+跟金剛鐘完全同一個坑。兩個函式各改一行，<strong>四把一次修好，美術成本 $0</strong>。</p>
+<p>順手：從天而降的落雷只給雷系（抽魂不該掉閃電）、往外飛的冰晶只給冰系。</p>
+<h2>另外 6 把是「共用」不是「借用」</h2>
+<p>十字斬／大蒜光環／落雷／隕石術／聖水炸彈／寒冰新星用的是共用特效——
+<strong>但那些特效本來就是為它們做的</strong>（<code>slash</code> 就是十字斬的刀光、<code>frost_nova</code>
+就是寒冰新星的冰波）。它們是來源，不是借用者。</p>
+<p>真正可以討論的是<strong>它們的進化沿用了本體的特效</strong>：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>進化</th>
+<th>現在用</th>
+<th>要不要做自己的</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>雷霆天罰</td>
+<td>落雷的</td>
+<td>一支 $0.32</td>
+</tr>
+<tr>
+<td>煉獄火海</td>
+<td>聖水炸彈的</td>
+<td>一支 $0.32</td>
+</tr>
+<tr>
+<td>絕對零度</td>
+<td>寒冰新星的</td>
+<td>一支 $0.32</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>這三支要不要補，請你們決定</strong>（共 $0.96）。其餘 34 把現在都是對的。</p>
+<hr />
+<h1>② 走路起步慢半拍：<strong>117 毫秒 → 12 毫秒</strong></h1>
+<h3>根因不是「動畫沒跟上移動」，是換幀的門檻</h3>
+<p>換幀的判斷是 <code>(int)t</code> 有沒有變，而站定時 <code>t</code> 被歸零。玩家的播放倍率約 0.90，
+每幀只加 0.15——<strong>要 7 幀（117 毫秒）才爬到 1.0</strong>，這段時間角色已經走了 21px。
+畫面上就是「人已經動了、腳還沒開始邁」。</p>
+<p>改成站定時停在 <code>0.9999</code>：站著時 <code>(int)t</code> 仍然是 0（待機幀不變），
+但<strong>一起步的第一幀就跨過 1</strong>，動畫立刻接上。</p>
+<pre><code>第 1 次：起步 → 換幀 17 ms，移動 3 px
+第 2~4 次：8 / 8 / 9 ms，移動 1~2 px
+平均 12 ms　✓（修好前是 117 ms、21 px）
+朝向：往右 scale.x=0.67 → 往左 -0.67　✓ 兩幀內就翻面
+</code></pre>
+<blockquote>
+<p>順帶更正一點：<strong>朝向本來就是同一幀就翻的</strong>，不是慢半拍。
+玩家感覺到的「轉向慢」其實是腳步動畫那 117 毫秒。</p>
+</blockquote>
+<hr />
+<h1>③ 不朽者的反傷</h1>
+<h3>⚠️ 我沒有完全照建議做，理由講在前面</h3>
+<p>使用者建議「反傷隨疊層成長，讓早期弱後期強」。但<strong>問題本身就是早期太弱</strong>
+——把反傷也做成早期弱，等於沒有解決那個問題。</p>
+<p>所以拆成兩段：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>一個從第 1 級就有的底</strong>（隨玩家等級線性成長）</td>
+<td>解決早期撐不住</td>
+</tr>
+<tr>
+<td><strong>再乘上疊層加成</strong>（滿 5 層 ×1.75）</td>
+<td>讓它後期不會過時，也照到原本的方向</td>
+</tr>
+</tbody>
+</table></div>
+<p>疊層那一段仍然照建議做，只是<strong>不能是唯一的來源</strong>。</p>
+<h3>數值</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>等級</th>
+<th>0 層</th>
+<th>滿 5 層</th>
+<th>＋血鎖裁判 ×3（滿層）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>11</td>
+<td>19</td>
+<td>57</td>
+</tr>
+<tr>
+<td>10</td>
+<td>18</td>
+<td>32</td>
+<td>94</td>
+</tr>
+<tr>
+<td>30</td>
+<td>34</td>
+<td>60</td>
+<td>178</td>
+</tr>
+<tr>
+<td>60</td>
+<td>58</td>
+<td>102</td>
+<td>304</td>
+</tr>
+</tbody>
+</table></div>
+<p>對照敵人血量：蝙蝠 6／殭屍 18／骷髏 34／地獄犬 70／暗影獸 75。</p>
+<p><strong>Lv1 就能一下反殺蝙蝠、滿層反殺殭屍</strong>——這正是早期最需要的。
+Lv30 的 34 點會直接反殺貼上來的骷髏，「站著挨打、靠近的自己死」那個幻想成立了。</p>
+<hr />
+<h1>④ 僕從追擊：實機量過了，答案是 <strong>(B)</strong></h1>
+<p><strong>不是追太遠跟丟，是追不夠遠就放棄。</strong></p>
+<pre><code>畫面可視半高 = 6.2 單位　　追擊範圍 = 6 單位（從僕從自己算）
+
+敵人離玩家  3（畫面內）／離僕從 1.9：僕從離牠 1.9 → 0.0  ✓ 追過去了
+敵人離玩家  5（畫面內）／離僕從 3.1：3.1 → 0.0           ✓ 追過去了
+敵人離玩家  7（畫面外）／離僕從 5.3：5.3 → 0.0           ✓ 追過去了
+敵人離玩家  9（畫面外）／離僕從 7.4：7.4 → 7.4           ✗ 沒動（放棄）
+敵人離玩家 12（畫面外）／離僕從 10.4：10.4 → 10.4        ✗ 沒動（放棄）
+</code></pre>
+<p><strong>實際行為</strong>：僕從只追「離<strong>自己</strong> 6 個單位以內」的敵人。因為僕從通常站在
+玩家前方約 1.5 單位，換算成「離玩家多遠」大約是 <strong>7.5 單位</strong>——
+剛好比畫面邊緣（6.2）再外面一點點，然後就完全不動了。</p>
+<p><strong>牽引繩（11 單位）在正常遊玩中幾乎不會觸發</strong>——僕從根本跑不到那麼遠。</p>
+<blockquote>
+<p>這是我當初刻意設的（怕「我的軍隊自己跑掉了」），但使用者顯然覺得太保守。
+<strong>要改成更積極只要動一個常數</strong>：<code>MINION_HUNT_RANGE 6 → 9</code>（約等於一個畫面）
+或 12（明顯追出畫面）。<strong>要調成多少請你們決定</strong>，我不自己拍板——
+這是手感取捨，不是對錯。</p>
+</blockquote>
+<hr />
+<h1>需要你們確認才能動的兩件事</h1>
+<h3>A.「僕從也能使用十字斬」是哪個意思</h3>
+<p>兩種讀法差很多：</p>
+<ol>
+<li><strong>僕從複製玩家當下的主武器</strong>——這個<strong>現在就有了</strong>（亡者牧者的
+   <code>minionWeapon</code>，僕從會跑玩家等級最高的那把武器，傷害 ×0.35）。
+   如果玩家帶十字斬，僕從現在就會揮十字斬。</li>
+<li><strong>僕從固定會用十字斬</strong>，不管玩家帶什麼——這是新的，要給僕從一份
+   獨立的武器配置。</li>
+</ol>
+<p>請問是哪一個？</p>
+<h3>B. 僕從上限 20 隻——我要先講一個平衡問題</h3>
+<p>現在僕從用主武器的傷害是 <strong>×0.35</strong>，上限 6 隻 → 合計約玩家的 <strong>2.1 倍</strong>。
+如果上限拉到 <strong>20 隻</strong>而折扣不變，合計會變成玩家的 <strong>7 倍</strong>——
+那不是「召喚流」，那是「玩家本人變成無關緊要的東西」。</p>
+<p>要拉到 20 的話，折扣得跟著降（例如 ×0.12，20 隻 ≈ 2.4 倍）。
+<strong>要維持「20 隻但每隻很弱」還是「少一點但每隻有感」，請你們選一個方向。</strong></p>
+<p>（另外 20 隻各跑一份 <code>VrWeapons</code> 的每幀成本我還沒量，會在動工前先量。）</p>
+<hr />
+<h1>還沒做的（等上面確認）</h1>
+<ul>
+<li>僕從／虹吸的傷害與數量隨<strong>靈魂虹吸的武器等級</strong>成長</li>
+<li>僕從幫忙擋遠程攻擊</li>
+<li><strong>血肉僕從特化</strong>（僕從反哺主角變坦）——我的初步想法：
+  做成一個<strong>跟「亡者牧者」二選一的職業</strong>，機制是
+  「每有一隻僕從在場，你的最大生命 +12%、受傷 −4%，但僕從完全不會攻擊」。
+  這樣兩條路線是同一個資源（僕從）的兩種用法，而不是互相疊加。
+  這一項我還沒細算，等前面確認完再一起提。</li>
+</ul>
+<hr />
+<h2>這一批的驗證</h2>
+<ul>
+<li>金剛鐘播 <code>vajra_wave</code> ✓　對照組寒冰新星沒被改壞 ✓</li>
+<li>鎮煞符飛行物是符 ✓　朝向 55/55 幀 ✓</li>
+<li>走路 12 ms ✓　朝向兩幀內翻面 ✓</li>
+<li>道士回歸 16 項全過、0 失敗 ✓</li>
+<li>資料層全過、三輪編譯 0 錯</li>
+<li><strong>這一批美術成本 $0</strong></li>
+</ul>
+<a class="navlink" href="vr-fx-fix.html">→ 上一頁：金剛鐘與飛行中的符</a>
+</div></body></html>
