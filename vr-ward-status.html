@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>殘符／鎮煞符／陣法的現況</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 現況回報</p>
+<h1>這三個看起來是一套，程式上完全互不相干</h1>
+<p class="lede">殘符是天賦、鎮煞符是武器、陣法讀的是玩家座標——三份不同的清單。
+會看起來像同一套，是因為殘符借用了鎮煞符的圖示，而且兩者的取樣間距剛好都是 46px。</p>
+<p>先回報現況，<strong>一行程式都沒動。</strong></p>
+<h2>結論先講：這是<strong>三套完全獨立</strong>的系統</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>是什麼</th>
+<th>來源</th>
+<th>物件存在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>殘符</strong></td>
+<td>移動時沿路留下的小符</td>
+<td><strong>種族天賦</strong>（道士天生就有）</td>
+<td><code>List&lt;TrailWard&gt; wards</code></td>
+</tr>
+<tr>
+<td><strong>鎮煞符</strong></td>
+<td>三把武器之一</td>
+<td><strong>武器</strong>，要抽到才有</td>
+<td><code>List&lt;Zone&gt; zones</code></td>
+</tr>
+<tr>
+<td><strong>陣法</strong></td>
+<td>軌跡閉合就成陣</td>
+<td><strong>種族天賦</strong></td>
+<td><code>List&lt;Vector2&gt; formPts</code></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>陣法判定用的軌跡，跟鎮煞符放出的符咒，是完全不相干的兩套東西。</strong>
+而且<strong>陣法用的也不是殘符物件</strong>——它讀的是「玩家位置的取樣點」，
+一個只有座標的 <code>Vector2</code> 清單，跟地上那些符咒沒有任何關聯。</p>
+<h3>為什麼看起來像同一套</h3>
+<p>兩個巧合疊在一起：</p>
+<ol>
+<li><strong>殘符用的貼圖就是鎮煞符的武器圖示</strong>（<code>VrIconArt.SpriteOf("wardtalisman")</code>）
+   ——地上那些符跟武器欄裡那張圖長得一模一樣。</li>
+<li><strong>殘符與陣法的取樣間距剛好都是 46px</strong>，所以符咒看起來剛好長在軌跡上。</li>
+</ol>
+<p>畫面上完全像「鎮煞符丟出的符咒連成軌跡、圍起來就成陣」，
+<strong>但程式上三者互不知道對方存在。</strong></p>
+<h3>唯一的接觸點</h3>
+<p>只有一個：<strong>離火陣（三角）成陣時會呼叫 <code>SpawnZone</code> 生一塊燃燒地帶</strong>
+——那是陣法<strong>產生</strong>一塊地帶，不是消耗鎮煞符的符咒。</p>
+<hr />
+<h2>對照你提的四點</h2>
+<h3>①「隨等級延長續存時間，好走出更大的陣型」</h3>
+<p><strong>現況：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>隨等級變化嗎</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>鎮煞符</strong>（武器）的地帶存活</td>
+<td><strong>會</strong>：Lv1 3.2 秒 → Lv6 5.0 秒（進化 6.5 秒）</td>
+</tr>
+<tr>
+<td><strong>殘符</strong>（天賦）的存活</td>
+<td><strong>不會</strong>，固定 4.5 秒 ＋ 蓄力 1.2 秒</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>但這裡有一件事要先講清楚：延長符咒的存活時間，並不會讓你能圍出更大的陣型。</strong></p>
+<p>因為陣法的大小是被<strong>另一個東西</strong>限制的——它自己的軌跡緩衝區：</p>
+<pre><code>看得見的符痕：5.7 秒 × 189 px/s = 1077 px = 18.0 世界單位（約 23 張符）
+陣法緩衝區　：60 點 × 46 px    = 2760 px = 46.0 世界單位（約 14.6 秒）
+</code></pre>
+<p><strong>看得見的符痕只佔陣法能力的 39%。</strong> 也就是說玩家現在<strong>已經可以</strong>圍出比
+「看得到的符痕」長 2.6 倍的形狀——只是他看不到自己還剩多少可以繞。</p>
+<p>所以這一項真正的問題<strong>不是「能圍多大」，是「看不看得到」</strong>。
+延長殘符存活會讓畫面上的符痕追上實際能力（這是好事，而且是對的方向），
+但如果目的是「圍更大的陣」，要動的是 <code>FORM_POINTS</code> 與 <code>FORM_MAX_AREA</code>，
+不是符咒的壽命。<strong>這兩件事要分開決定。</strong></p>
+<h3>②「傷害也要隨等級提升」</h3>
+<p><strong>兩者都已經隨等級成長，但吃的是不同的「等級」：</strong></p>
+<ul>
+<li><strong>鎮煞符</strong>（武器）：吃<strong>武器等級</strong> 13 → 41（進化 62）</li>
+<li><strong>殘符</strong>（天賦）：吃<strong>玩家等級</strong>，<code>9 + 1.1 × 玩家等級</code></li>
+</ul>
+<p>所以要先確認你指的是哪一個。如果是「殘符要隨鎮煞符的武器等級成長」，
+那就是<strong>要把兩套接起來</strong>——那是一個結構性的改動（見下面）。</p>
+<h3>③「成陣時消耗掉組成邊界的符咒」</h3>
+<p><strong>現況是做不到的</strong>，因為陣法根本不知道 <code>wards</code> 存在——
+它觸發時只清掉自己的座標清單（<code>formPts.Clear()</code>），
+地上的符咒完全不受影響，會繼續照自己的計時器過期。</p>
+<p><strong>但這一項改起來很小</strong>：成陣時拿多邊形去比對 <code>wards</code> 的座標，
+把落在邊界附近的消耗掉即可。大概 20 行。</p>
+<h3>④「陣型內敵人受對應傷害」</h3>
+<p><strong>這一項已經有了。</strong> 四種陣都會挑出多邊形內部的敵人並套用各自的效果：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>陣</th>
+<th>對圈內敵人</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>周天（圓）</td>
+<td>傷害 ＋ 你回血</td>
+</tr>
+<tr>
+<td>離火（三角）</td>
+<td>留下燃燒地帶</td>
+</tr>
+<tr>
+<td>厚土（方）</td>
+<td>定身 ＋ 你受傷減免</td>
+</tr>
+<tr>
+<td>五雷（星）</td>
+<td>拖向中心 ＋ 超高額斬擊</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>但它跟鎮煞符這把武器沒有任何關係</strong>——沒帶鎮煞符照樣會成陣、照樣有傷害，
+因為陣法是種族天賦。這一點跟使用者的預期可能不一樣，值得確認。</p>
+<hr />
+<h2>所以真正要決定的是一件事</h2>
+<p><strong>這三套要不要合併成一套？</strong></p>
+<p>現在是「道士天生會沿路留符、天生會結陣，而鎮煞符只是一把碰巧圖示一樣的武器」。
+使用者的敘述聽起來像是預期「<strong>鎮煞符是這一切的來源</strong>」。兩種都成立，但差很多：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>維持獨立（現況）</th>
+<th>合併成一套</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>陣法要不要帶鎮煞符</td>
+<td>不用，天生就有</td>
+<td><strong>要</strong>，沒帶就不能結陣</td>
+</tr>
+<tr>
+<td>符咒的等級</td>
+<td>殘符吃玩家等級</td>
+<td>吃鎮煞符的武器等級</td>
+</tr>
+<tr>
+<td>好處</td>
+<td>每個道士都玩得到陣法</td>
+<td>主題一致、成長線清楚、「升級鎮煞符 → 陣更強」很直覺</td>
+</tr>
+<tr>
+<td>壞處</td>
+<td>主題散、三個東西長一樣卻無關</td>
+<td><strong>沒抽到鎮煞符的道士＝天賦廢掉一半</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>我自己的看法：<strong>中間路線最好</strong>——陣法與殘符維持天賦（不然沒抽到武器的道士等於殘廢），
+但<strong>鎮煞符變成「強化器」</strong>：帶著它時殘符的存活與傷害改吃武器等級、
+成陣時額外附加鎮煞符的地帶效果。這樣三者主題接起來了，又不會把天賦綁死在運氣上。</p>
+<p><strong>這一段請幫我轉達確認，我再動手。</strong></p>
+<hr />
+<h2>另外：鎮煞符的進階呈現，我的方向</h2>
+<p>使用者說想討論這個，先丟四個方向：</p>
+<p><strong>A. 讓等級「看得出來」——符的形狀隨等級變。</strong>
+現在 Lv1 到 Lv6 都是同一張符，只有數字在變。可以做成
+一階單張黃符 → 三階雙符交疊 → 五階三符成品字 → 進化變成完整的法陣盤。
+<strong>成本低</strong>（圖示彙整圖一張），但玩家對「我升級了」的感受最直接。</p>
+<p><strong>B. 延遲那一秒要變成「可以讀的資訊」。</strong>
+現在蓄力期間只是由暗轉亮。可以在符上疊一圈<strong>倒數的符文環</strong>
+——玩家就知道還有多久炸、能不能把怪拉進去。
+鎮煞符是陷阱不是傷害，那一秒是它的核心，值得做得更清楚。</p>
+<p><strong>C. 進化「五雷正法陣」應該有「陣」的樣子。</strong>
+現在只是更大更久的同一個東西。可以做成落地後展開一個<strong>有邊界的法陣盤</strong>，
+陣中週期性落雷——跟基礎版的「一塊地帶」在視覺上真的分開。</p>
+<p><strong>D.（如果三套要合併）成陣時鎮煞符沿邊界「引爆」。</strong>
+陣的邊界上如果有殘符，成陣瞬間讓它們依序炸開，像引線一路燒過去。
+這會是把三套系統接起來之後最好看的一個畫面，也讓「消耗邊界符咒」
+這件事在視覺上完全說得通。</p>
+<p>美術成本粗估：A ＋ B 約 $0.20（一張彙整圖就夠，B 的環可以程式畫）；
+C 一支特效 $0.32；D 沿用現有素材，$0。</p>
+<hr />
+<p><strong>目前完全沒有動工，等你們討論完再說。</strong></p>
+<a class="navlink" href="vr-orb-anim.html">→ 上一頁：法輪本身會動了</a>
+</div></body></html>
