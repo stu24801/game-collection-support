@@ -1,0 +1,284 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>選不到的角色與會飛的弓</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 修正</p>
+<h1>不只道士——屍語者跟四個新職業也全部碰不到</h1>
+<p class="lede">兩張寫死的清單沒跟著資料表加，而且完全不報錯。
+我會漏掉是因為驗證都走 DebugSetCharacterJob，那支繞過了整個選單。
+已補齊並加了兩道防線。獵魔弓改成真的射箭。</p>
+<h2>⚠️ 先講最重要的：這個 bug 比你回報的更大</h2>
+<p>你只發現道士選不到。查下去發現<strong>這兩版 TestFlight 出去的內容有一半在遊戲裡碰不到</strong>：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>東西</th>
+<th>狀況</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>屍語者</td>
+<td><strong>選不到</strong>（build 44 就是了，不只道士）</td>
+</tr>
+<tr>
+<td>道士</td>
+<td><strong>選不到</strong></td>
+</tr>
+<tr>
+<td>亡者牧者</td>
+<td><strong>永遠不會被提供</strong></td>
+</tr>
+<tr>
+<td>月嚎將</td>
+<td><strong>永遠不會被提供</strong></td>
+</tr>
+<tr>
+<td>因果法師</td>
+<td><strong>永遠不會被提供</strong></td>
+</tr>
+<tr>
+<td>絕域獵手</td>
+<td><strong>永遠不會被提供</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>原因：兩張寫死的清單</h3>
+<pre><code class="language-csharp">VrMenuScreen.CharacterOrder = { count, werewolf, witch, hunter, immortal }   // 少 2 隻
+VrDirector.JobOrder        = { bloodlord, shadow, elementalist, bloodwarden } // 少 4 個
+</code></pre>
+<p>資料表裡有 7 隻角色、8 個職業，但選單與轉職流程各自照一張<strong>寫死的清單</strong>跑。
+清單是為了順序穩定（Dictionary 走訪順序不保證），代價是<strong>漏掉的東西完全不報錯</strong>
+——它只是不存在。</p>
+<blockquote>
+<p>你上次提醒過選單寫死座標會撞版。<strong>座標那一塊沒事</strong>（之前改成捲動版之後
+全部從一個游標推導，加到 7 隻自動排成 4 列）。出事的是<strong>清單本身</strong>。</p>
+</blockquote>
+<h3>我為什麼會漏掉：驗證繞過了真實路徑</h3>
+<p>所有驗證都走 <code>DebugSetCharacterJob("taoist", ...)</code>——那支<strong>直接設定角色，
+繞過整個選單與轉職流程</strong>。所以資料驗證全綠、實機探針全綠、
+上了兩版 TestFlight，而玩家連選都選不到。</p>
+<p>這正是 CLAUDE.md 驗證規則第 1 條在講的事，而我整場都在引用它。</p>
+<h3>修法：補齊 ＋ 兩道防線</h3>
+<ol>
+<li>兩張清單補齊（7 隻／8 個）</li>
+<li><strong>開場自檢</strong>：<code>VerifyOrderTables()</code> / <code>VerifyJobOrder()</code> 每次啟動比對資料表，
+   漏了直接 <code>LogError</code></li>
+<li><strong>走真正的選角畫面數卡片</strong>：<code>VR_ONLY=menus</code> 現在會把畫面上找得到的角色列出來</li>
+</ol>
+<p>實機（走真實選單）：</p>
+<pre><code>[選單] 角色清單自檢：資料表 7 隻、選單列出 7 隻
+[轉職] 職業清單自檢：資料表 8 個、順序表列出 8 個
+[CHIP] 選角畫面上找得到的角色：7/7
+  伯爵 ✓　狼人 ✓　夜巫 ✓　獵人 ✓　屍語者 ✓　道士 ✓　不朽者 ✓
+</code></pre>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="選角畫面" src="img/fix-menu.png" /></p>
+<p>道士在最後一列置中（單數張時最後一張置中的邏輯本來就有），版面沒有撞到。</p>
+<hr />
+<h2>🏹 獵魔弓「把弓丟出去」</h2>
+<h3>原因</h3>
+<p>投射家族一律拿<strong>武器圖示</strong>當彈丸：</p>
+<pre><code class="language-csharp">dir.SpawnShot(..., VrIconArt.SpriteOf(s.Id), ...)
+</code></pre>
+<p>對飛刀（一把刀）、魔法飛彈（一顆球）、血蝠群（一隻蝙蝠）都對，
+但獵魔弓的圖示是<strong>一把弓</strong>——所以飛出去的就是弓。</p>
+<h3>我選 A（真的射箭），而且 B 會把已經做好的機制拆掉</h3>
+<p><strong>B（浮空弓自動射擊）不能做</strong>，理由不是難度是設計：獵魔弓的整個機制是
+「傷害隨<strong>箭從發射點飛了多遠</strong>遞增」，而發射點就是玩家。做成固定在半空的砲台，
+發射點就變成那把弓——<strong>玩家站哪裡不再影響傷害</strong>，「站遠才強」這個獵人的識別
+會整個消失。那條路線的數值（每 100px +22%、近身 ×0.45、瞄準上限 402px）
+是為「玩家自己的位置」調的。</p>
+<p>所以加了 <code>WeaponDef.ShotIcon</code>：彈丸可以指定自己的圖，沒指定就沿用武器圖示
+（既有 10 把投射武器一個字都沒改）。</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="弓與箭" src="img/fix-arrow.png" /></p>
+<p>左邊是武器圖示（原本被拿去當彈丸的那張），中間是獵魔弓現在射的銀箭，
+右邊是暴風之眼的光箭。$0.20。</p>
+<pre><code>獵魔弓的彈丸圖 = arrow        ✓ 射的是箭
+暴風之眼的彈丸圖 = arrow_storm ✓
+遠/近 = 3.27 倍（設計 ≈3.2）   ✓ 機制沒被動到
+</code></pre>
+<blockquote>
+<p>老實說一件事：我拍了一張飛行中的截圖但<strong>沒拍到箭</strong>（快門時機沒對上，
+箭已經命中了）。所以這一項的證據是「彈丸貼圖確實換成箭矢圖、而且載得到」，
+不是「我看到箭飛過去」。你重測時會第一眼就看到。</p>
+</blockquote>
+<hr />
+<h2>🥷 忍者構想：簡短評估</h2>
+<h3>技術上：<strong>跟屍語者的召喚系統可以共用九成</strong></h3>
+<p><code>VrMinion</code> 已經有：生成、跟隨玩家、牽引繩、追敵人、接觸傷害、
+還有「跑玩家的主武器」（走 <code>VrWeapons</code> + <code>IDamageSink</code>）。
+<strong>分身要的東西幾乎就是這些。</strong></p>
+<p>真正新的只有一件事：<strong>分身要能替玩家擋傷害。</strong> 兩種做法：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>做法</th>
+<th>成本</th>
+<th>手感</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>替身</strong>：玩家將要受傷時，附近有分身就由它代替消失</td>
+<td>低——傷害有單一入口（<code>HurtBy</code>），一個 hook</td>
+<td>讀得非常清楚：「分身替你擋了一刀」</td>
+</tr>
+<tr>
+<td><strong>嘲諷</strong>：敵人改成追分身</td>
+<td>高——要改敵人的移動目標，每一隻都會受影響</td>
+<td>比較自然但風險大很多</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>我會選替身。</strong> 而且它剛好給了忍者一個沒人佔的軸：
+現有五個是反應式／數量／狀態／空間／時機，忍者是<strong>轉嫁</strong>——
+把本來要落在你身上的東西丟給別人。</p>
+<h3>成本量級</h3>
+<ul>
+<li><strong>程式：小。</strong> 大概 60~100 行（新種族 ＋ 新職業 ＋ 一個傷害攔截 hook），
+  因為召喚系統已經做完了。</li>
+<li><strong>美術：約 $1.36。</strong> 立繪 $0.20、圖示 $0.20、走路＋攻擊 $0.64、特效 $0.32。
+  <strong>分身本身不用另外做美術</strong>——沿用忍者自己的走路幀染色就好，
+  亡靈的 <code>ApplyWraithLook</code> 已經是這個做法。</li>
+</ul>
+<h3>一個要先想清楚的問題</h3>
+<p>忍者跟屍語者都是「召喚」，定位很容易撞。要分開的話：
+<strong>屍語者是輸出（軍隊幫你打）、忍者是防禦（分身幫你死）。</strong>
+如果忍者的分身也打得很痛，那就只是「屍語者但比較快」。</p>
+<p>先評估到這裡，之後要細談再說。</p>
+<hr />
+<h2>這一版的驗證</h2>
+<ul>
+<li>選單走真實路徑：7/7 角色都在 ✓</li>
+<li>兩張清單開場自檢：7 隻 / 8 個 ✓</li>
+<li>箭矢貼圖：獵魔弓 arrow、暴風之眼 arrow_storm ✓</li>
+<li>回歸：獵魔弓距離曲線 3.27 倍、獵人 +1 發 ✓</li>
+<li>資料層驗證全過、兩輪編譯 0 錯</li>
+</ul>
+<p><strong>還沒出新的 TestFlight。</strong> 要我出 build 46 說一聲——這兩個都是擋住測試的 bug，
+我建議出。</p>
+<a class="navlink" href="vr-dao-done.html">→ 上一頁：道士完成報告</a>
+</div></body></html>
