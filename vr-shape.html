@@ -1,0 +1,237 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>陣法看形狀了</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 道士修正</p>
+<h1>畫圓、三角、方、五芒星，四種不同的陣</h1>
+<p class="lede">形狀辨識可行，但量出兩個不量就一定會出貨的問題：
+化簡容差憑感覺訂差了一個數量級；而連續繞圈原本會被判成五芒星，五次全中。</p>
+<p>三點都做完了。<strong>評估結果是範圍合理</strong>，但過程中量出兩個「不量就一定會出貨」的問題，
+兩個都在下面。</p>
+<hr />
+<h2>① 桃木飛劍 → 桃木劍（近戰揮砍）</h2>
+<p>你的直覺是對的，而且分工本來就更清楚：<strong>符咒管遠程（Zone 延遲地帶）、劍管近身</strong>。</p>
+<p>改動範圍：<strong>純資料，一行程式都沒動。</strong> 武器家族是從資料推導的
+（<code>VrWeapons.FamilyOf</code>），拿掉 <code>Speed</code>／<code>Homing</code>、給 <code>Radius</code> 與 <code>Back</code>，
+它就自動變成 Arc 家族（跟十字斬、撕裂爪同一條路）。三等起前後都砍得到。</p>
+<p>進化「五雷斬」也一起改成揮出五道雷光劍氣。實測家族 = <code>Arc</code> ✓</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="桃木劍刀光" src="img/peach-slash.png" /></p>
+<hr />
+<h2>② 陣法：形狀不同、效果不同</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>形狀</th>
+<th>陣</th>
+<th>效果</th>
+<th>難度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>圓</td>
+<td><strong>周天陣</strong></td>
+<td>圈內傷害 ＋ 回血 12%</td>
+<td>保底，隨便繞就有</td>
+</tr>
+<tr>
+<td>三角</td>
+<td><strong>離火陣</strong></td>
+<td>圈內留下燃燒地帶</td>
+<td>中</td>
+</tr>
+<tr>
+<td>方</td>
+<td><strong>厚土陣</strong></td>
+<td>圈內定身 ＋ 你受傷減免</td>
+<td>中</td>
+</tr>
+<tr>
+<td>五芒星</td>
+<td><strong>五雷陣</strong></td>
+<td>拖向中心 ＋ 超高額斬擊</td>
+<td>最難，回報最大</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>沒有用樣板比對</strong>（那需要玩家畫得準，做不到）。改成三個對「畫得歪」寬容的
+整體幾何量：<strong>圓度</strong>、<strong>角數</strong>（平滑 → RDP 化簡後剩幾個頂點）、<strong>自交數</strong>。
+另外加了 0.75 秒的等待窗——不然五芒星的第一次自交在第二個角就發生，
+會在星星畫完之前先觸發成一個小圈。</p>
+<h3>⚠️ 問題一：化簡容差憑感覺訂，差了一個數量級</h3>
+<p>第一版我把 RDP 的容差訂成半徑的 0.14。乾淨的合成形狀 4/4 全對，
+<strong>但一加雜訊就崩</strong>——12% 雜訊下三角形只認得出 8%，而且用搖桿真的畫一個方形
+會被判成圓。原因很單純：<strong>每一個手抖都被當成一個角</strong>。</p>
+<p>所以掃了六個值：</p>
+<pre><code>eps 0.10 → 三角  0%  方   0%        eps 0.22 → 三角 78%  方  98%
+eps 0.14 → 三角  8%  方   0%        eps 0.26 → 三角 85%  方 100%
+eps 0.18 → 三角 53%  方  60%        eps 0.32 → 三角 98%  方 100%
+</code></pre>
+<p>取 <strong>0.28</strong>（0.32 三角更準，但方形會開始被過度化簡成三角）。</p>
+<h3>⚠️ 問題二：連續繞圈被判成五芒星，五次全中</h3>
+<p>這個更嚴重。<strong>繞圈拉怪是這遊戲最自然的動作</strong>，而連續繞圈畫出來的是一個螺旋
+——自交 53~69 次。我原本寫「自交 ≥ 3 就是星」，結果回歸測試連繞五圈，
+<strong>五次全部拿到五雷陣（最強的那個）</strong>。等於什麼都不做就拿最高獎勵，
+我設計的難度階梯整個不存在。</p>
+<p>量出來的差別其實很清楚：</p>
+<pre><code>五芒星     自交 5      角 6      圓度 0.20
+連續繞圈   自交 53~69  角 16~21  圓度 0.23
+</code></pre>
+<p>改成「自交要在 <strong>3~12</strong> 之間、而且角不超過 9」。超出區間一律退回周天陣。
+修完之後連繞五圈，<strong>五次都判成周天陣</strong> ✓</p>
+<h3>實測辨識率（合成形狀加雜訊，每種 40 次）</h3>
+<pre><code> 6% 雜訊：圓 100%  三角 100%  方 100%  星 100%
+12% 雜訊：圓  88%  三角  93%  方  95%  星  88%
+20% 雜訊：圓  50%  三角  18%  方  18%  星   0%
+</code></pre>
+<p><strong>20% 雜訊那一列不是失敗</strong>：認不出來時一律落回周天陣，所以
+<strong>繞了就一定有回報</strong>，只是拿不到特殊的那三種。這是刻意的保底設計——
+原本「繞就有」的手感留著，上面多了一個技術上限。</p>
+<p>而且用搖桿<strong>真的走一個方形</strong>，判成厚土陣 ✓（不只是純函式對）。</p>
+<hr />
+<h2>③ 陣成的視覺</h2>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="實機" src="img/form-ingame.png" /></p>
+<p>畫面上那條發亮的金線，是<strong>玩家真正走出來的那條路徑</strong>——不是一個通用的法陣圖案。
+這樣一眼就看得到「我剛剛繞的是這個形狀」，比任何預製圖案都清楚。
+線會先亮起來再一邊變細一邊淡出，像陣紋燒完。</p>
+<p>外圈同時有一個擴散環，中心疊上手繪的法陣爆發素材：</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="法陣爆發" src="img/form-burst.png" /></p>
+<p>同心卦爻環依序落位 → 金光爆開，正好對上「陣成」那一瞬。
+再加畫面震動與吼聲。<strong>不再只是跳一行字。</strong></p>
+<hr />
+<h2>驗證</h2>
+<ul>
+<li>分類器：乾淨 4/4、6% 雜訊 100%、12% 雜訊 88~95% ✓</li>
+<li>連續繞圈 → 周天陣（不再誤判成五雷陣）✓</li>
+<li>搖桿真的走方形 → 厚土陣 ✓</li>
+<li>桃木劍家族 = Arc ✓　法陣爆發 14 幀 ✓</li>
+<li>回歸：quest（新解鎖任務＋星樞法輪）、ninja、dao 全過</li>
+<li>資料層全套通過、三輪編譯 0 錯</li>
+</ul>
+<p>美術這批 <strong>$0.64</strong>（法陣爆發 ＋ 桃木劍刀光）。</p>
+<p><strong>還沒出新 TestFlight</strong>——build 46 不含這批。要出 build 47 說一聲。</p>
+<a class="navlink" href="vr-quest-astral.html">→ 上一頁：解鎖條件與星樞法師</a>
+</div></body></html>
