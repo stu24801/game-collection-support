@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亡靈血條：本來就跟魔王一樣</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 亡靈 UI</p>
+<h1>血條本來就跟魔王一樣，但查的時候挖到一個雙份輸出的 bug</h1>
+<p class="lede">量過了：位置、尺寸、顏色、文字格式逐項相同。倒是發現亡靈同時掛著真武器與魔王技能，傷害大約翻倍——已修。</p>
+<h2>先講結論：血條<strong>本來就已經跟魔王一樣了</strong></h2>
+<p>亡靈從一開始就走 <code>bossStates</code>，所以 HUD 的 <code>TryGetActiveBoss</code> 早就把它當魔王在畫。
+我沒有「做出」這個功能，是<strong>去量了一次確認它真的一致</strong>，並且加了驗證守住。</p>
+<figure><img src="vr-wbar/cmp.jpg" alt="魔王與亡靈的血條對照"><figcaption><b>左＝真魔王「滅世魔龍」　右＝亡靈</b>。同一個位置、同一個尺寸、同一個紫色、同樣的「名字＋現血/滿血」格式</figcaption></figure>
+
+<p>量的是<strong>實際渲染出來的</strong> RectTransform 四角（換算回畫布單位），不是只判
+「有沒有 <code>SetActive(true)</code>」——旗標對不代表畫面對：</p>
+<pre><code>魔王  顯示中  寬700×高60  中心x=540（畫布中線=540）  填充1.00  名稱「滅世魔龍   5000/5000」
+亡靈  顯示中  寬700×高60  中心x=540（畫布中線=540）  填充1.00  名稱「玩家（上一局） 的亡靈   8745/8745」
+</code></pre>
+<p>逐項相同。亡靈甚至比魔王<strong>多</strong>一段出場橫幅（魔王沒有），會顯示它的等級、職業、主武器。</p>
+<hr />
+<h2>⚠️ 但我在查這件事的時候發現一個真的 bug：亡靈在雙份輸出</h2>
+<p><code>SpawnWraith</code> 的註解寫著「只留 dash 當移動花招，其餘傷害全部由它自己的
+<code>VrWeapons</code> 產生」，<strong>但程式碼還是照主武器掛上整組魔王能力</strong>
+（<code>ring</code> 環爆／<code>aimed</code> 狙擊／<code>summon</code> 召喚）。</p>
+<p>那是「不跑真武器」時代的折衷做法留下來的。兩者並存的結果是：</p>
+<ul>
+<li>亡靈<strong>一邊用真的落雷劈你、一邊還放魔王的環爆</strong></li>
+<li>傷害大約<strong>翻倍</strong></li>
+<li>而且玩家分不出哪一下是哪來的——那正好毀掉「這是那個人的配裝」這個賣點</li>
+</ul>
+<p>已改成<strong>只留 <code>dash</code></strong>：它只是位移、不造成傷害，是純粹的移動花招，
+不會跟武器的輸出重複。註解與實作終於對上。</p>
+<blockquote>
+<p>這也解釋了上一輪那個數字：實測亡靈把玩家從 100 打到 0 只花了約 6 秒。
+那裡面有一半是不該存在的魔王技能傷害。<strong>修完之後亡靈會明顯變弱一些</strong>，
+這是正確的方向，但那個強度曲線（<code>1500 + 等級×115</code> 血、<code>30 + 等級/2</code> 傷）
+現在需要重新看一次——我還沒調，想先聽你的意見。</p>
+</blockquote>
+<hr />
+<h2>一個我不確定、想跟你確認的</h2>
+<p>你寫的是「<strong>畫面中間</strong>要顯示血條」。現在魔王與亡靈的血條都是
+<strong>水平置中、靠近畫面上方</strong>（在經驗條下面那一格）——那是這個遊戲既有的魔王血條位置。</p>
+<p>如果你要的就是「跟魔王一樣」，那現在已經對了。
+但如果你的意思是<strong>垂直方向也要在畫面正中央</strong>，那是另一回事：</p>
+<ul>
+<li>那會<strong>連現有十隻魔王的血條一起改</strong>（同一個元件）</li>
+<li>而畫面正中央正是角色與戰鬥發生的地方，一條 700×60 的橫條壓在那裡會擋住走位</li>
+</ul>
+<p>所以我<strong>沒有自作主張去動它</strong>。要改的話跟我說一聲，我把它移下來，
+但建議連帶考慮改成半透明或縮短。</p>
+<hr />
+<h2>這一輪的驗證</h2>
+<p>新增 <code>VR_ONLY=wbar</code>：拍兩張同構圖的對照（真魔王一張、亡靈一張），
+並量血條的實際位置與尺寸。之後這條路徑再壞掉會被抓到。</p>
+<a class="navlink" href="vr-sink.html">→ IDamageSink 重構</a>
+<a class="navlink" href="vr-wraith.html">→ 後端變更與風險</a>
+</div></body></html>
