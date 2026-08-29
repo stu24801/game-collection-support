@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>道士的陣法機制</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 道士陣法</p>
+<h1>不要辨識形狀，要偵測「有沒有圍起來」</h1>
+<p class="lede">照八卦方位走出圖形，在一個被追著跑的遊戲裡玩家做不到。
+但「繞圈把怪圍起來」本來就是這遊戲的核心循環——只要偵測軌跡有沒有自己交叉就夠了，
+而且成本接近零。</p>
+<blockquote>
+<p>美術樣本那一輪已經跑完並發過頁面了（武器圖示建議直接採用、立繪建議重生一次），
+所以這一輪就是把「陣法」整合進道士的設計。<strong>還是沒有動任何程式或美術。</strong></p>
+</blockquote>
+<h2>先確認我的理解</h2>
+<p><strong>「移動後完成陣法 → 產出特別的傷害或加成」</strong>，而「夾層」＝「加成」（buff），
+不是疊層也不是包夾——你補充的那句我收到了，下面全部照這個意思寫。</p>
+<p>所以陣法會產出<strong>兩類</strong>東西：一次性的<strong>傷害</strong>，或一段時間的<strong>加成</strong>。
+我把兩類都排進去了（見下面的五行輪替）。</p>
+<hr />
+<h2>技術可行性：三個做法，我推薦中間那個</h2>
+<h3>❌ A. 真的辨識形狀（八卦方位、特定圖形）</h3>
+<p>技術上做得到——單筆手勢辨識（<code>$1 recognizer</code> 那類）大概一百多行，
+路徑重取樣＋樣板比對，不難。</p>
+<p><strong>但玩法上是錯的。</strong> 這遊戲的玩家正在被一大群東西追著跑，
+用的是虛擬搖桿。要他「照著八卦方位走出一個特定圖形」，結果只會是兩種：
+永遠畫不出來，或者為了畫圖形而站著被打死。
+<strong>它要求的精度，是這個遊戲從來不要求的東西。</strong></p>
+<h3>✅ B. 偵測「路徑有沒有圍起來」——推薦</h3>
+<p>不比對形狀，只問一件事：<strong>你的移動軌跡有沒有自己交叉、圍出一塊面積？</strong></p>
+<pre><code>每走一段距離就記一個點（軌跡緩衝區，保留最近 6 秒約 60 個點）
+每記一個新點，就拿「最新那一段」去跟前面的線段測相交
+交到了 → 從交點到現在的那一段就是一個封閉多邊形 = 陣成
+用鞋帶公式算面積與重心，再對「多邊形內部的敵人」結算效果
+</code></pre>
+<p><strong>為什麼這個做法對：</strong></p>
+<ul>
+<li><strong>它就是這遊戲本來的玩法。</strong> 拉怪繞圈是核心循環，
+  玩家不用學新動作，只是他一直在做的事突然有了回報。</li>
+<li><strong>任何形狀都算</strong>——圓、歪掉的圈、8 字的一葉，都是封閉迴圈。
+  不用「畫得準」，只要「繞得起來」。</li>
+<li><strong>成本很低。</strong> 60 個點的緩衝區，每次取樣只要拿新線段測 60 次線段相交；
+  多邊形內判定只在陣成的那一瞬間跑一次，而且先用外接圓篩過敵人。
+  每幀成本接近零。</li>
+<li><strong>現成的前例在。</strong> 霜痕靴的 <code>FrostStep</code> 已經在做「依走了多遠取樣、
+  留下東西、緩衝區上限 90 筆」——軌跡取樣可以直接照抄那個骨架。</li>
+</ul>
+<p><strong>需要的護欄（不加的話會一直誤觸發）：</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>護欄</th>
+<th>為什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>最小面積</td>
+<td>原地小抖動也會自交，不擋的話陣會一直成</td>
+</tr>
+<tr>
+<td>最大面積</td>
+<td>不然玩家繞一個整個畫面大的圈，一次清場</td>
+</tr>
+<tr>
+<td>冷卻（約 6 秒）</td>
+<td>連續繞圈不能變成無限觸發</td>
+</tr>
+<tr>
+<td>效果隨面積遞增（有上限）</td>
+<td>小圈幾乎沒回報，大圈才值得——<strong>讓「繞得漂亮」有意義，而不是「繞就有」</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>🔸 C. 更簡單的近似版（如果 B 覺得太重）</h3>
+<p>不做多邊形，只累計<strong>轉向角度</strong>：在一個半徑內，累積轉了 360°就算一圈。
+大約 30 行。缺點是<strong>拿不到「圈內是哪些敵人」</strong>——效果只能做成
+「以玩家為中心的一個固定半徑」，「把敵人圍起來」那個爽點就沒有了。</p>
+<p><strong>我認為 B 值得做</strong>，因為「圍起來」正是這個機制唯一有趣的地方；
+C 做出來會很像一個普通的環形技能。</p>
+<hr />
+<h2>陣成之後給什麼：<strong>五行相生輪替</strong></h2>
+<p>每成一次陣，依 <strong>金 → 水 → 木 → 火 → 土 → 金</strong> 的相生順序推進一格，
+每一格的效果都不同——傷害與加成交錯，所以不會膩，也剛好把你要的
+「五行」用在機制上而不只是紋樣上。</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>順序</th>
+<th>陣</th>
+<th>效果</th>
+<th>類型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>金</strong> ⚔</td>
+<td>圈內所有敵人吃一次高額斬擊</td>
+<td>傷害</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>水</strong> 💧</td>
+<td>圈內敵人被拖向重心並大幅減速</td>
+<td>傷害（控場）</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>木</strong> 🌿</td>
+<td>你獲得一段持續回血</td>
+<td><strong>加成</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>火</strong> 🔥</td>
+<td>圈內留下燃燒地帶</td>
+<td>傷害</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>土</strong> ⛰</td>
+<td>你獲得一段受傷減免</td>
+<td><strong>加成</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>五個效果全部有現成的程式路徑</strong>：斬擊＝<code>DamageArea</code>、拖拉＝隕星引力的
+<code>Pull</code>、燃燒地帶＝Zone 家族、回血＝<code>Player.Heal</code>、受傷減免＝玩家的
+<code>DamageTakenMul</code>（亡靈的易傷用的同一個欄位，給小於 1 的值就是減傷）。
+<strong>沒有新系統要蓋。</strong></p>
+<h3>跟「殘符」怎麼疊起來</h3>
+<p>兩層剛好是同一個輸入的兩種讀法，而且<strong>殘符順便解決了陣法的視覺問題</strong>：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>讀的是</th>
+<th>給的是</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>殘符</strong>（種族天賦）</td>
+<td>路徑<strong>經過</strong>哪裡</td>
+<td>沿路的小傷害</td>
+</tr>
+<tr>
+<td><strong>陣法</strong>（新機制）</td>
+<td>路徑有沒有<strong>閉合</strong></td>
+<td>圈內的大效果</td>
+</tr>
+</tbody>
+</table></div>
+<p>玩家看得到自己留下的一串符——<strong>那串符就是軌跡的視覺化</strong>。
+不用另外做一條發光的線，玩家自然就看得懂「我剛剛繞起來了」。</p>
+<hr />
+<h2>工作量</h2>
+<p>大約 <strong>200～250 行</strong>＋一支驗證探針，跟屍語者的僕從系統同一個量級——
+<strong>一個階段的工作，不是大工程。</strong></p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>部分</th>
+<th>估計</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>軌跡取樣＋自交偵測</td>
+<td>~80 行（照 <code>FrostStep</code> 的骨架）</td>
+</tr>
+<tr>
+<td>多邊形面積／重心／內部判定</td>
+<td>~40 行</td>
+</tr>
+<tr>
+<td>五行輪替與五個效果的接線</td>
+<td>~60 行（全部呼叫既有函式）</td>
+</tr>
+<tr>
+<td>陣成的視覺（程式畫的環＋五行色）</td>
+<td>~30 行，<strong>零美術成本</strong></td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2>⚠️ 四個風險</h2>
+<ol>
+<li><strong>可能太常誤觸發，變成「繞就有」而不是「繞得好才有」。</strong>
+   這是我最擔心的一點。護欄是「效果隨面積遞增」——小圈幾乎沒回報。
+   但實際手感要實裝後量：我會量「一場正常的遊玩裡陣成幾次」，
+   目標大概是<strong>每 20～30 秒一次</strong>，太密就把最小面積往上調。</li>
+<li><strong>第 4 關（暴風雪，必須持續往東跑）幾乎繞不起來。</strong>
+   道士在那一關會明顯變弱。我認為可以接受——角色有弱勢關卡是好事，
+   但要先講清楚，不要上線才發現。</li>
+<li><strong>「圈內」在地形上會有奇怪的例外</strong>：軌跡穿過牆或障礙時，
+   多邊形內部可能包含玩家根本走不到的地方。影響不大，但會有「怎麼打到那邊」的疑惑。</li>
+<li><strong>這一層是加在「殘符」之上的第二層。</strong> 兩層都靠移動，
+   道士會變成六隻裡機制最重的一隻。如果實裝後覺得太複雜，
+   我的建議是<strong>砍殘符、留陣法</strong>——陣法比較有記憶點。</li>
+</ol>
+<hr />
+<h2>我需要你決定的</h2>
+<ol>
+<li><strong>B（多邊形）還是 C（轉向角度）</strong>——我推薦 B。</li>
+<li><strong>五行輪替可以嗎</strong>，還是你想要「五種陣讓玩家自己選」？
+   （輪替比較單純，也保證五種都會用到。）</li>
+<li>陣法<strong>要不要跟殘符並存</strong>，還是二選一。</li>
+</ol>
+<p>決定之後我會連同道士的其餘部分一起做。<strong>目前一行程式、一張圖都沒動。</strong></p>
+<a class="navlink" href="vr-dao-sample.html">→ 上一頁：道士風格樣本</a>
+<a class="navlink" href="vr-taoist.html">→ 道士角色規劃</a>
+</div></body></html>
