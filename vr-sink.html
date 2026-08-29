@@ -1,0 +1,383 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>亡靈真的跑玩家武器了</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 高風險重構</p>
+<h1>亡靈真的跑玩家的武器了，既有數值一位都沒變</h1>
+<p class="lede">傷害目標抽成 IDamageSink。範圍比預期小——你問的那個共同介面本來就存在。
+9 項新舊路徑等價性測試逐位相同，亡靈實測把玩家打死了。美術成本仍然是 $0。</p>
+<h2>結論先講</h2>
+<p><strong>做完了，而且範圍比我原本評估的小。</strong> 關鍵是：<strong>你問的那個「共同介面」已經存在了。</strong></p>
+<p><code>ISpatialItem</code>（<code>Alive</code> / <code>Radius</code> / <code>Position</code>）本來就在專案裡，而且
+<code>VrPlayer</code> 與 <code>VrEnemy</code> <strong>早就都實作了</strong>——不用新發明型別，也不用改繼承關係。</p>
+<hr />
+<h2>1. 抽換範圍（實際動到什麼）</h2>
+<h3>刻意<strong>不</strong>做的事：把整條路徑泛型化</h3>
+<p>兩側的規模差一個數量級：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>數量</th>
+<th>資料結構</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>敵人側</td>
+<td>最多 <strong>1500</strong></td>
+<td>空間雜湊 <code>SpatialHash&lt;VrEnemy&gt;</code></td>
+</tr>
+<tr>
+<td>玩家側</td>
+<td><strong>永遠只有 1 個</strong></td>
+<td>就一個物件</td>
+</tr>
+</tbody>
+</table></div>
+<p>把 <code>SpatialHash&lt;T&gt;</code>、查詢、每幀配置全部泛型化，等於<strong>為了一個單一目標付出
+全遊戲最熱路徑的代價</strong>。所以只抽「動詞」，做成 <code>IDamageSink</code>：</p>
+<pre><code>找目標    Nearest / NearestExcept / RandomNear
+施加傷害  Area / Cone / AreaKnockback / HitOne
+施加狀態  Slow / Root / Weaken
+</code></pre>
+<h3>兩個實作</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>做什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EnemySink</code></td>
+<td><strong>每一個方法都是一行委派給既有的那支函式，參數一個都沒改</strong></td>
+</tr>
+<tr>
+<td><code>PlayerSink</code></td>
+<td>單一目標的距離判斷 → <code>HurtBy</code>（死因會記到）</td>
+</tr>
+</tbody>
+</table></div>
+<p><code>EnemySink</code> 這樣寫是刻意的：<strong>既有 21 把武器走的是「同一份程式碼」，
+不是「另一份看起來一樣的程式碼」。</strong> 這是「數值不變」最強的結構性保證。</p>
+<h3>實際改動量</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>檔案</th>
+<th>改了什麼</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IDamageSink.cs</code></td>
+<td>新檔（介面）</td>
+</tr>
+<tr>
+<td><code>VrDirector.cs</code></td>
+<td>兩個 sink 實作 ＋ 10 個傷害函式各加一個 sink 多載</td>
+</tr>
+<tr>
+<td><code>VrWeapons.cs</code></td>
+<td>15 個 <code>dir.X</code> 呼叫點改成 <code>sink.X</code> ＋ 建構子帶 sink</td>
+</tr>
+<tr>
+<td><code>VrProjectile.cs</code></td>
+<td>加 <code>Sink</code>／<code>Origin</code> ＋ 一個「單一目標」分支</td>
+</tr>
+</tbody>
+</table></div>
+<blockquote>
+<p><strong>既有呼叫端一個都沒改。</strong> 舊的多載原封不動保留，內部委派給 <code>EnemyTargets</code>。</p>
+</blockquote>
+<hr />
+<h2>2. 回歸測試：既有武器的數值完全沒變</h2>
+<p><code>DebugSinkParity</code>——<strong>同一幀、兩隻條件完全相同的靶</strong>，一隻走新的 sink 路徑、
+一隻走舊的直接呼叫，比掉血量：</p>
+<pre><code>[PARITY] 範圍傷害        sink=  137.000  舊路徑=  137.000  ✓ 完全相同
+[PARITY] 範圍(spell)     sink=   91.000  舊路徑=   91.000  ✓ 完全相同
+[PARITY] 範圍(quiet)     sink=   55.000  舊路徑=   55.000  ✓ 完全相同
+[PARITY] 扇形斬          sink=   73.000  舊路徑=   73.000  ✓ 完全相同
+[PARITY] 範圍+擊退       sink=   64.000  舊路徑=   64.000  ✓ 完全相同
+[PARITY] 減速            sink=True      舊路徑=True      ✓ 完全相同
+[PARITY] 易傷            sink=1.20      舊路徑=1.20      ✓ 完全相同
+[PARITY] 定身            sink=True      舊路徑=True      ✓ 完全相同
+[PARITY] 最近目標                                        ✓ 挑到同一隻
+</code></pre>
+<p>v2 那組行為驗證也重跑一次，<strong>沒有回歸</strong>：易傷 1.20、引力 11.00→0.20、
+擊退正值推遠／負值拉近、不朽之怒 3 層 1.24，全部跟改動前一樣。</p>
+<h3>⚠️ 這個測試自己壞了四次才寫對</h3>
+<p>四次量出來的數字<strong>每次都很像真的</strong>，這是最危險的地方：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>錯在哪</th>
+<th>症狀</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>靶擺 2.2 單位外，近戰半徑只有 1.63</td>
+<td>十字斬、光環量到 0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>沒清上一把還在飛的彈丸</td>
+<td>千刃流星的 12 發打到下一把的靶（「飛刀 0、血鎖 600」）</td>
+</tr>
+<tr>
+<td>3</td>
+<td>忘了 <code>AutoResolve</code></td>
+<td>升級面板一開模擬凍住，而<strong>空間雜湊是在 <code>Update</code> 裡重建的</strong>——新生的靶從來沒進過雜湊，每一把都量到 0</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>WaitForSeconds</code> 吃 <code>timeScale</code></td>
+<td>玩家被亡靈打死 → 死亡定格把 timeScale 壓到 0 → 觀察迴圈永遠等不完，探針卡死</td>
+</tr>
+</tbody>
+</table></div>
+<p>第 3、4 條已經加進 <code>docs/codegraph/invariants.md</code>。</p>
+<hr />
+<h2>3. 亡靈真的會打死你</h2>
+<figure><img src="vr-sink/sink.jpg" alt="亡靈跑玩家武器"><figcaption>亡靈用那個玩家真正的配裝攻擊</figcaption></figure>
+
+<pre><code>[WRAITH] 生成 玩家（上一局） 的亡靈 Lv40 血=6100 主武器=magicBolt
+[SINK] 亡靈 存活=True 離玩家=3.35 武器數=1 彈丸數=1 玩家血=52.0
+[SINK] 亡靈 存活=True 離玩家=1.12 武器數=1 彈丸數=0 玩家血=4.0
+[SINK] 玩家被打死了 → 提早結束觀察
+[SINK] 玩家血量 100.0 → 最低 0.0　✓ 亡靈的武器真的打到玩家了
+[SINK] 死因記錄 = 玩家（上一局） 的亡靈
+</code></pre>
+<p>那一行 <code>WraithWeaponStep</code> 呼叫的 <code>wraithWeapons.Tick(...)</code> 跟玩家的
+<code>weapons.Tick(...)</code> 是<strong>同一個方法</strong>，只差在 loadout、位置、以及建構時給的 sink。</p>
+<h3>順帶抓到一個真 bug</h3>
+<p><code>VrWraith.LoadSelf</code> 寫死 <code>f.Length != 5</code>，但加了名次欄位之後 <code>RecordSelf</code> 寫的是 6 欄
+——<strong>「自己上一局」這條退路永遠回 null</strong>，等於整個退路沒接上，而且不會報錯。</p>
+<hr />
+<h2>4. 你要我點出的兩件事</h2>
+<h3>① 亡靈有沒有不小心打開「只有玩家能做的事」？<strong>沒有。</strong> 逐條查過：</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>能力</th>
+<th>結論</th>
+<th>依據</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>撿寶箱／拾取物</td>
+<td>❌ 打不開</td>
+<td><code>ChestStep</code> 用的是 <code>Player.Position</code>，亡靈碰不到</td>
+</tr>
+<tr>
+<td>撿寶石／升級</td>
+<td>❌ 打不開</td>
+<td><code>GemStep</code> 用的是 <code>Player.Position</code> ＋ <code>Player.AddXp</code></td>
+</tr>
+<tr>
+<td>擊殺記帳／掉落</td>
+<td>❌ 打不開</td>
+<td><code>RegisterKill</code> / <code>DropGem</code> / <code>MaybeDropChest</code> <strong>只在 <code>Hit(VrEnemy)</code> 裡</strong>，而 <code>PlayerSink</code> 完全不會走到那條</td>
+</tr>
+<tr>
+<td>傷害其他敵人</td>
+<td>❌ 打不開</td>
+<td><code>PlayerSink</code> 的 10 個接觸點<strong>全部只碰 <code>d.Player</code></strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>實測也印證了：<strong>亡靈在場期間玩家擊殺數 4 → 4</strong>，沒有幫玩家賺分。</p>
+<blockquote>
+<p><strong>這是刻意的設計決定，不是碰巧。</strong> 我在 <code>PlayerSink</code> 的註解裡寫死了理由：
+讓亡靈的落雷也劈到小怪的話，它會<strong>幫玩家清場</strong>，而那些擊殺會走 <code>Hit()</code>
+→ 記進玩家的擊殺數、掉寶石、掉寶箱——等於「NPC 幫你賺分數」，
+那不是這個功能的意思。</p>
+<p><strong>如果你反而想要「亡靈也會誤傷小怪」的混戰感</strong>，那要另外決定要不要
+讓那些擊殺算進玩家的分數。現在的版本不會。</p>
+</blockquote>
+<p>另外兩個刻意的取捨（也寫在程式碼註解裡）：</p>
+<ul>
+<li><strong>玩家不吃擊退／減速／定身／易傷。</strong> 那幾個狀態欄位長在 <code>VrEnemy</code> 上，
+  而且「被亡靈定身」在一個靠走位活命的遊戲裡是不能接受的體驗。傷害照樣結算。</li>
+<li><strong>隕石的引力只對敵人生效</strong>，不會把玩家吸過去。</li>
+</ul>
+<h3>② 美術成本有沒有增加？<strong>沒有，$0。</strong> 已經全部涵蓋。</h3>
+<p>亡靈現在會渲染<strong>那個玩家配裝裡每一把武器的真實視覺</strong>，所以我逐項掃過：</p>
+<pre><code>武器總數 28 把
+  缺圖示：       （無）
+  缺專屬特效：   （無）
+  家族共用特效缺：（無）
+角色走路素材 5 個（亡靈外觀用），缺：（無）
+</code></pre>
+<p><strong>之前做的 11 個圖示 ＋ 5 組特效剛好把缺口補滿了。</strong> 亡靈的外觀也還是
+用那個玩家當時的角色走路素材 ＋ 紫紅染色，<strong>沒有任何新素材需求</strong>。</p>
+<blockquote>
+<p>換句話說：折衷方案是 $0，改成真跑玩家武器<strong>還是 $0</strong>——
+因為武器的視覺本來就是為玩家做的，亡靈只是換一個位置播同一套。</p>
+</blockquote>
+<hr />
+<h2>需要你回覆的</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>事項</th>
+<th>我的判斷</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>亡靈要不要誤傷小怪？</strong></td>
+<td>現在<strong>不會</strong>。要的話還得決定那些擊殺算不算玩家的分數（我傾向不算，不然變成 NPC 幫你刷分）</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>玩家要不要吃亡靈的控場？</strong>（擊退／減速／定身）</td>
+<td>現在<strong>不吃</strong>。定身在這個遊戲會很難受，但減速或許可以接受</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>亡靈的環繞物／光環跟玩家的長得一樣</strong></td>
+<td>同一套素材。目前靠位置與紅框血條分辨，實機看起來還行，但混戰時可能會分不清</td>
+</tr>
+<tr>
+<td>4</td>
+<td>名字沒有髒話過濾</td>
+<td>你要求秀真名，所以維持原樣。這條風險還在</td>
+</tr>
+</tbody>
+</table></div>
+<a class="navlink" href="vr-wraith.html">→ 上一頁：後端變更與風險</a>
+<a class="navlink" href="vr-v2-progress.html">→ v2 實作進度</a>
+<footer>吸血鬼復仇 · IDamageSink 重構 · 回歸測試通過</footer>
+</div></body></html>
