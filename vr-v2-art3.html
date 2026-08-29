@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>吸血鬼 v2 美術：全部完成</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 v2 · 美術完成</p>
+<h1>6 支影片補完了，疫毒也變綠了</h1>
+<p class="lede">額度儲值後剩下的 6 支一次跑完、零失敗。不朽者與血鎖裁判都有走路與攻擊動畫了，
+碎岩衝擊與骨釘暴雨也有自己的特效。全部已進 Assets 並 commit。</p>
+<h2>全部做完了</h2>
+<p>額度儲值之後，剩下的 6 支影片一次跑完、<strong>零失敗</strong>，
+疫毒領域的顏色也修好了。<strong>全部已經進 <code>Assets/</code> 並 commit。</strong></p>
+<hr />
+<h2>兩組補完的特效</h2>
+<figure><img src="vr-v2-art3/fx-quake_burst.jpg" alt="碎岩衝擊"><figcaption><b>碎岩衝擊</b>　岩石炸開後結出冰晶——剛好對得上這把武器的 <code>Chill</code> 減速</figcaption></figure>
+
+<figure><img src="vr-v2-art3/fx-bone_spike.jpg" alt="骨釘暴雨"><figcaption><b>骨釘暴雨</b>　骨釘從地面炸出來</figcaption></figure>
+
+<p>這兩組進去之後，<strong>碎岩衝擊不再放出寒冰新星的冰波、骨釘暴雨不再放出隕石的火焰</strong>。
+<code>大地崩裂</code> 與 <code>白骨墓場</code>（進化版）沿用各自基礎武器的素材，
+跟既有 7 把進化的做法一致。</p>
+<h2>不朽者：走路 12 幀 ＋ 攻擊 8 幀</h2>
+<figure><img src="vr-v2-art3/immortal-walk.jpg" alt="不朽者走路"><figcaption><b>不朽者 走路</b>（12 幀取 6）</figcaption></figure>
+
+<figure><img src="vr-v2-art3/immortal-attack.jpg" alt="不朽者攻擊"><figcaption><b>不朽者 攻擊</b>（8 幀取 5）</figcaption></figure>
+
+<h2>血鎖裁判：走路 12 幀 ＋ 攻擊 8 幀</h2>
+<figure><img src="vr-v2-art3/bloodwarden-walk.jpg" alt="血鎖裁判走路"><figcaption><b>血鎖裁判 走路</b>——同一副盔甲的升級形態，鎖鏈明顯變多變長</figcaption></figure>
+
+<figure><img src="vr-v2-art3/bloodwarden-attack.jpg" alt="血鎖裁判攻擊"><figcaption><b>血鎖裁判 攻擊</b></figcaption></figure>
+
+<p>兩個都是用立繪當參考圖走 image-to-video，所以造型跟立繪對得上。
+<code>VrWalkInk</code> 已重跑（不朽者著墨 92.7%、血鎖裁判 94.3%），
+所以它們在畫面上的高度會跟既有五隻一致，不會因為素材留白多寡而忽大忽小。</p>
+<h2>疫毒領域改成綠色了</h2>
+<figure><img src="vr-v2-art3/plague-fix.jpg" alt="疫毒領域前後"><figcaption>左＝綠幕版（被逼成橘褐色）　右＝<b>洋紅幕版（正確的酸綠）</b></figcaption></figure>
+
+<p>原因就是<strong>綠幕逼模型把主體改色躲開幕色</strong>。改用洋紅幕 <code>#FF00FF</code> 之後一次就對。
+<code>cut_sheet.py</code> 的 despill 條件也一般化成「背景是高飽和純色」，綠幕與洋紅幕都吃。</p>
+<hr />
+<h2>你訂的規則已經寫進文件了</h2>
+<p><code>CLAUDE.md</code> 的「花錢的東西」底下多了一節，<code>ai-asset-pipeline</code> 的硬性規則也改了：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>預設</td>
+<td><strong>綠幕 <code>#00FF00</code></strong>，完全均勻、無漸層、無光暈、無地面陰影</td>
+</tr>
+<tr>
+<td>主體本身是綠色系時</td>
+<td>改用<strong>洋紅幕 <code>#FF00FF</code></strong></td>
+</tr>
+<tr>
+<td>去背方式</td>
+<td><strong>本地演算法</strong>，不要用 AI 重繪去背</td>
+</tr>
+</tbody>
+</table></div>
+<p>三條各自綁著一次真的做壞的東西（不朽者在黑背景下裂成三塊、毒霧被改色、
+<code>gpt-image-1</code> 的 edits 把鋼藍甲重繪成灰甲），所以之後不會再退回舊做法。</p>
+<hr />
+<h2>花費</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th style="text-align: right;">金額</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>上一輪已確定</td>
+<td style="text-align: right;">$1.56</td>
+</tr>
+<tr>
+<td>碎岩衝擊／骨釘暴雨 特效 ×2</td>
+<td style="text-align: right;">$0.64</td>
+</tr>
+<tr>
+<td>不朽者 走路＋攻擊 ×2</td>
+<td style="text-align: right;">$0.64</td>
+</tr>
+<tr>
+<td>血鎖裁判 走路＋攻擊 ×2</td>
+<td style="text-align: right;">$0.64</td>
+</tr>
+<tr>
+<td>疫毒領域重生（洋紅幕）</td>
+<td style="text-align: right;">$0.20</td>
+</tr>
+<tr>
+<td><strong>已確定合計</strong></td>
+<td style="text-align: right;"><strong>$3.68</strong></td>
+</tr>
+<tr>
+<td>先前 2 支輪詢 403 的</td>
+<td style="text-align: right;"><strong>$0.64（仍不確定有沒有被計費）</strong></td>
+</tr>
+<tr>
+<td><strong>最多可能</strong></td>
+<td style="text-align: right;"><strong>$4.32</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p>原本估的上限是「含三成緩衝約 $4.00」，<strong>已確定的 $3.68 在裡面</strong>。</p>
+<hr />
+<h2>順手修掉的兩個 shell 坑（都不是工具壞了）</h2>
+<p>批次腳本第一次跑的時候看起來像「全部跳過」，其實是兩個 shell 行為：</p>
+<ol>
+<li><strong>先 <code>cd</code> 再用 <code>$(dirname "$0")</code></strong> 會以新的工作目錄解析相對路徑 → 找不到清單檔，
+   <strong>而且 exit code 還是 0</strong>，背景任務回報「完成」。</li>
+<li><strong>macOS 是 bash 3.2</strong>，在 <code>set -u</code> 之下展開<strong>空陣列</strong>會噴
+   <code>unbound variable</code> 直接中斷（新版 bash 不會）。要寫 <code>${args[@]+"${args[@]}"}</code>。</li>
+</ol>
+<p>兩個都修掉了，腳本現在失敗會反映在 exit code 上。
+（另外 zsh 不做未加引號的斷詞這件事，這一輪踩了三次——<code>--image</code>、<code>--frames</code>
+都中過，這是既有 skill 文件裡就記過的坑。）</p>
+<hr />
+<h2>還沒驗到的</h2>
+<p>美術<strong>只驗過素材本身</strong>（幀數、透明度、洋紅底合成沒有毛邊、著墨比例）。
+<strong>遊戲裡實際跑起來長怎樣還沒看過</strong>——那要開 Unity（<code>Library/</code> 之前清掉了，
+第一次匯入約十幾分鐘）。這跟 v2 那五項功能的實機驗證是同一件事，
+建議一次做完。<strong>跟我說一聲我就開跑。</strong></p>
+<a class="navlink" href="vr-v2-art2.html">→ 上一頁：圖示與立繪</a>
+<a class="navlink" href="vr-v2-invasion.html">→ 異步入侵評估</a>
+<a class="navlink" href="vr-v2-progress.html">→ v2 實作進度</a>
+<footer>吸血鬼復仇 v2 美術產製完成 · 待實機驗證</footer>
+</div></body></html>

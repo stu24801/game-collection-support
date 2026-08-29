@@ -1,0 +1,548 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>突襲模式的異步入侵：可行性評估</title>
+<style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 評估</p>
+<h1>異步入侵值得做，但不該排進這一版</h1>
+<p class="lede">後端完全沒有記配置、也沒有可借用的欄位；而真正的成本不在後端，
+在「讓 NPC 使用玩家武器」。有一個不動後端就能做到八成驚喜感的做法。</p>
+<div class="toc"><ol><li><a href="#i0">一句話結論</a></li><li><a href="#i1">1. 後端有沒有記玩家的配置？沒有，而且沒有可借用的欄位</a></li><li><a href="#i2">2. 技術上怎麼做「異步」？真正的成本不在網路那一段</a></li><li><a href="#i3">3. 成本量級與「值不值得排進這一版」</a></li><li><a href="#i4">4. 更輕量的替代做法（建議這一版做這個）</a></li><li><a href="#i5">5. 這件事的風險（不論做哪一案都要先想）</a></li><li><a href="#i6">需要你決定的</a></li></ol></div><hr><blockquote>
+<p><strong>這份是評估與提案，不是實作。</strong> 這個構想會動到後端與資料庫層，
+而排行榜是 CLAUDE.md 明列的禁區，所以我先把可行性、成本與替代方案攤開來，
+等你決定方向再說。</p>
+<p>現況全部是這一輪重讀 <code>server/leaderboard-worker/</code>、<code>VrWeapons.cs</code>、
+<code>VrDirector.cs</code> 查證過的。</p>
+</blockquote>
+<hr />
+<h2 id="i0">一句話結論</h2>
+<p><strong>完整版（真的拉別人的配置來打你）值得做，但不該排進這一版</strong>——
+它會動到禁區、而且真正的成本不在後端，在「讓 NPC 使用玩家武器」這件事上。</p>
+<p><strong>建議這一版先做第 4 節的「排行榜名字幽靈」</strong>：只用<strong>現有的 GET 端點</strong>、
+<strong>完全不動後端</strong>，就能做出「第 3 名的『阿明』來突襲你」的驚喜感，
+成本約一到兩天。</p>
+<hr />
+<h2 id="i1">1. 後端有沒有記玩家的配置？沒有，而且沒有可借用的欄位</h2>
+<h3>資料表長這樣（<code>server/leaderboard-worker/schema.sql</code>）</h3>
+<pre><code class="language-sql">CREATE TABLE IF NOT EXISTS scores (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  game       TEXT    NOT NULL,              -- 'vampire' | 'zombie'
+  name       TEXT    NOT NULL,
+  score      INTEGER NOT NULL,
+  time       INTEGER,                       -- 吸血鬼：存活秒數
+  kills      INTEGER,                       -- 吸血鬼
+  level      INTEGER,                       -- 吸血鬼
+  wave       INTEGER,                       -- 殭屍：撐到第幾波
+  win        INTEGER NOT NULL DEFAULT 0,
+  created_at INTEGER NOT NULL
+);
+</code></pre>
+<p><strong>跟配置有關的欄位：一個都沒有。</strong> 沒有職業、沒有武器、沒有被動、沒有精通，
+連角色（伯爵／狼人／夜巫／獵人／不朽者）都沒存。</p>
+<p>吸血鬼上傳的 body 只有 <code>{name, kills, time, level, win}</code>
+（<code>VrLeaderboardClient.Submit</code>）。</p>
+<h3>有沒有可以借用的空欄位？實質上沒有</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>吸血鬼有沒有用</th>
+<th>能不能借</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>wave</code></td>
+<td>❌ 沒用（殭屍專用，吸血鬼存 NULL）</td>
+<td><strong>不能</strong>。Worker 的 vampire 分支根本沒讀 <code>body.wave</code>，而且 <code>listScores</code> 回應也沒有這個欄位——要用它就得改 Worker，那就是禁區</td>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td>有用</td>
+<td>上限 12 字，塞了配置就不能顯示名字了</td>
+</tr>
+<tr>
+<td><code>level</code> / <code>kills</code> / <code>time</code></td>
+<td>都有用</td>
+<td>—</td>
+</tr>
+</tbody>
+</table></div>
+<p>即使硬要借 <code>wave</code>，Worker 的 <code>LIMITS.wave = 999</code>，只有約 10 個 bit。
+<strong>剛好夠塞「角色 × 職業 × 主武器」</strong>（5 × 5 × 17 = 425 &lt; 999），
+但塞不下完整配裝（17 武器 × 6 級 + 16 被動 × 5 級 + 精通）。</p>
+<h3>結論</h3>
+<p>要記錄配置，<strong>一定要動 Worker 與 D1 schema</strong>：</p>
+<ol>
+<li><code>schema.sql</code> 加一個 <code>build TEXT</code>（或 <code>loadout TEXT</code>）欄位</li>
+<li><code>src/index.ts</code> 的 vampire 分支收下並回傳它</li>
+<li><code>wrangler deploy</code> ＋ 對線上資料庫跑一次 <code>ALTER TABLE</code></li>
+</ol>
+<p>這三件事全部落在 CLAUDE.md 的禁區裡（「不 <code>wrangler deploy</code>、不改 game key」）。
+<strong>不是做不到，是需要你明確授權，而且要接受線上資料庫遷移的風險。</strong></p>
+<blockquote>
+<p>附帶一提：這個 API <strong>沒有身分驗證</strong>（Worker 自己的註解就寫明了
+「分數是可以偽造的」）。加了 build 欄位之後，任何人都能 POST 一個
+偽造的配置進來，client 端一定要對讀回來的 build 做上限夾制，
+不能直接照著生成敵人。</p>
+</blockquote>
+<hr />
+<h2 id="i2">2. 技術上怎麼做「異步」？真正的成本不在網路那一段</h2>
+<p>「拉別人過去的紀錄、用那組配置生一個 NPC」聽起來像是網路問題，
+<strong>但網路那一段其實最便宜</strong>（一個 GET、一份快取、一個離線退路，半天）。</p>
+<p>貴的是這一段：</p>
+<h3>⚠️ <code>VrWeapons</code> 從頭到尾是綁死玩家的</h3>
+<p>不是「換一個 owner 參數」就好。每一條開火路徑最後都呼叫<strong>傷害敵人</strong>的函式：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>家族</th>
+<th>開火時做的事</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Projectile</td>
+<td><code>dir.SpawnShot(...)</code> → <code>ShotStep</code> → <code>HitWithKnockback(VrEnemy, ...)</code></td>
+</tr>
+<tr>
+<td>Chain</td>
+<td><code>dir.NearestEnemyExcept(...)</code> ＋ <code>dir.DamageArea(...)</code></td>
+</tr>
+<tr>
+<td>Nova / Aura / Arc</td>
+<td><code>dir.DamageArea(...)</code> / <code>dir.DamageCone(...)</code></td>
+</tr>
+<tr>
+<td>Zone</td>
+<td><code>dir.SpawnZone(...)</code> → <code>ZoneStep</code> → <code>DamageArea</code></td>
+</tr>
+<tr>
+<td>Meteor</td>
+<td><code>dir.MeteorStrike(...)</code> → <code>DamageArea</code></td>
+</tr>
+</tbody>
+</table></div>
+<p>再加上瞄準端：<code>dir.NearestEnemy(pos)</code> 出現在三個地方，
+<code>dir.Player.PlayAttack()</code> 也直接寫死。</p>
+<p><strong>要讓 NPC 真的使用玩家的武器，等於要把「傷害目標端」整個抽象化</strong>
+（打敵人 vs 打玩家），而那條路徑是<strong>全遊戲每一次傷害</strong>都會走的
+（<code>VrDirector.Hit()</code>）。這是這個功能真正的成本，不是後端。</p>
+<h3>所以有三種做法，成本差一個量級</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>做法</th>
+<th>忠實度</th>
+<th>成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>甲</strong></td>
+<td>真的讓 NPC 跑一份 <code>VrWeapons</code>，抽象化傷害目標端</td>
+<td>★★★ 完全忠實</td>
+<td><strong>大</strong>（動到全遊戲的傷害路徑，而且極容易產生「敵人的落雷打到別的敵人」這種難查的錯誤）</td>
+</tr>
+<tr>
+<td><strong>乙</strong></td>
+<td><strong>把配置「對映」成既有的魔王能力</strong>——<code>BossDef</code> 的 <code>ring</code>／<code>dash</code>／<code>aimed</code>／<code>summon</code> 已經會傷害玩家而且已經驗過</td>
+<td>★★ 讀起來像那個人的風格</td>
+<td><strong>中</strong>（新增一張對映表 ＋ 一個 <code>BossDef</code> 產生器）</td>
+</tr>
+<tr>
+<td><strong>丙</strong></td>
+<td>只用名字與強度，不用配置</td>
+<td>★ 只有社交感</td>
+<td><strong>小</strong>（見第 4 節）</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>乙</strong>是我會選的中間路線：既有的魔王能力系統本來就在傷害玩家，
+只要寫一張「配置 → 能力」的對映表：</p>
+<pre><code>主武器 落雷／雷霆天罰   → ability &quot;ring&quot;（環爆，已有預警圈）
+主武器 飛刀／千刃流星   → ability &quot;aimed&quot;（狙擊彈幕）
+主武器 隕石／隕星引力   → ability &quot;aimed&quot; ＋ 半徑放大
+職業   暗影行者        → ability &quot;dash&quot;（高速衝刺）
+職業   血族領主        → 血量 ×1.4、擊殺回血
+被動   複製護符        → 彈幕發數 +1
+</code></pre>
+<p>生出來的是一隻<strong>外觀是那個角色、名字是那個玩家、能力反映他的配置</strong>的
+魔王級敵人。玩家讀到的是「阿明那套雷流很兇」，
+而程式上它只是一筆動態產生的 <code>BossDef</code> ——<strong>完全走既有的、已經驗過的路徑</strong>。</p>
+<h3>資料流（乙案）</h3>
+<pre><code>開局（突襲模式）
+  └─ 背景 GET /api/vampire/scores?limit=20      ← 已存在的端點
+       ├─ 成功 → 隨機挑一筆，存進本機快取
+       └─ 失敗／離線 → 用上一次的快取；再沒有就用內建的「名人堂」預設幾筆
+  └─ 到 t=4:30 左右
+       └─ BuildInvader(entry) → 動態 BossDef → 既有的 SpawnBoss()
+            ├─ HUD 走既有的魔王血條，名字換成「阿明的亡魂」
+            └─ 被它殺死時，死亡定格已經會顯示「被誰打死」——免費就有
+</code></pre>
+<p><strong>要動到的既有系統</strong>：<code>VrDirector</code>（生成入口已存在）、<code>VrBoardClient</code>（已存在）、
+<code>VrHud</code> 的魔王血條（已存在）、<code>VrProgress</code>（多一個快取鍵）。
+<strong>沒有一個是新系統。</strong></p>
+<hr />
+<h2 id="i3">3. 成本量級與「值不值得排進這一版」</h2>
+<h3>成本</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>項目</th>
+<th>甲案</th>
+<th>乙案</th>
+<th>丙案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Worker ＋ D1 schema（<strong>禁區，要你授權</strong>）</td>
+<td>有</td>
+<td>有</td>
+<td><strong>不用</strong></td>
+</tr>
+<tr>
+<td>配置序列化／反序列化 ＋ 偽造夾制</td>
+<td>小</td>
+<td>小</td>
+<td>不用</td>
+</tr>
+<tr>
+<td>抓榜 ＋ 快取 ＋ 離線退路</td>
+<td>小</td>
+<td>小</td>
+<td>小</td>
+</tr>
+<tr>
+<td>入侵者本體</td>
+<td><strong>大</strong></td>
+<td>中</td>
+<td>小</td>
+</tr>
+<tr>
+<td>UI（名牌、橫幅、結算「你被 XXX 擊敗」）</td>
+<td>小</td>
+<td>小</td>
+<td>小</td>
+</tr>
+<tr>
+<td><strong>美術</strong></td>
+<td><strong>$0</strong></td>
+<td><strong>$0</strong></td>
+<td><strong>$0</strong></td>
+</tr>
+<tr>
+<td>合計</td>
+<td><strong>大</strong></td>
+<td><strong>中</strong></td>
+<td><strong>小</strong></td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>美術是 $0</strong>：入侵者直接用<strong>既有的角色走路素材</strong>（那個玩家用哪個角色就用哪套）
+再加一層紅色染色與名牌就好。<code>VrEnemy</code> 已經有 <code>baseColor</code> 染色機制，
+<code>VrWalkArt.Character(id)</code> 也已經在用。不用生任何新素材。</p>
+<h3>值不值得排進這一版：<strong>我建議不要</strong></h3>
+<p>三個理由：</p>
+<ol>
+<li><strong>這一版已經有五項功能還沒在實機上驗過。</strong> 三條進化路線、突擊模式、
+   無盡模式、新種族職業、新武器組——目前只有靜態檢查（編得過、資料接得起來、
+   欄位有人讀）過關。再疊一個動到後端的功能，出問題時會很難分辨是誰造成的。</li>
+<li><strong>它動到禁區。</strong> 線上資料庫遷移 ＋ <code>wrangler deploy</code> 的風險，
+   跟「補三條進化路線」不是同一個量級，不該混在同一次出貨裡。</li>
+<li><strong>它的價值可以先用丙案驗證。</strong> 如果丙案上線之後玩家根本不在意
+   「誰來突襲我」，那甲／乙案的投資就是白費的。<strong>先用便宜的版本測需求。</strong></li>
+</ol>
+<hr />
+<h2 id="i4">4. 更輕量的替代做法（建議這一版做這個）</h2>
+<h3>🥇 排行榜名字幽靈（丙案）— 完全不動後端</h3>
+<p><strong>關鍵發現：現有的 GET 端點已經回傳足夠的東西了。</strong></p>
+<pre><code>GET /api/vampire/scores?limit=N
+→ [{ name, kills, time, level, win, date }, ...]
+</code></pre>
+<p><code>VrBoardClient.Fetch()</code> 已經在用它（看排行榜那個畫面）。有了
+<code>name</code>、<code>kills</code>、<code>level</code>、<code>time</code>、<code>win</code> 就能做出：</p>
+<blockquote>
+<p><strong>⚔️ 第 3 名「阿明」的亡魂追上來了</strong>
+（Lv58・撐過 40 分鐘・通關過）</p>
+</blockquote>
+<ul>
+<li><strong>強度從 <code>level</code> 與 <code>win</code> 推導</strong>，不是從真實配置——但玩家看不出差別，
+  因為他本來就不知道阿明帶了什麼。</li>
+<li><strong>外觀</strong>用一個既有角色的走路素材＋紅色染色（隨機或依 <code>level</code> 決定）。</li>
+<li><strong>名牌</strong>掛在頭上，死亡定格已經會顯示「被誰打死」，免費就有一句
+  「你被『阿明』擊敗了」。</li>
+<li>出場時機放在突擊模式的 <strong>4:30 左右</strong>（第 4 關開頭，玩家已經成型），
+  一局一隻，打倒必掉寶箱。</li>
+</ul>
+<p><strong>成本：一到兩天，$0 美術，零後端改動，零禁區風險。</strong></p>
+<h3>🥈 本機幽靈（自己的上一局）— 連網路都不用</h3>
+<p>把玩家<strong>自己</strong>最近幾局的成績存在本機（<code>VrProgress</code> 加一個 JSON 鍵），
+突擊模式時拉自己上一局的紀錄來當入侵者：</p>
+<blockquote>
+<p><strong>⚔️ 你昨天那一局的亡魂</strong>（Lv46・28,140 分）</p>
+</blockquote>
+<p>賽車遊戲的 ghost 就是這個。好處是<strong>離線可用、一定有資料、而且很個人</strong>
+（「這是我自己」比「這是某個陌生人」更有情緒）。
+<strong>而且本機是唯一可以存完整配置的地方</strong>——<code>VrLoadout</code> 就在手上，
+序列化整份配裝完全不用動後端，所以本機幽靈<strong>可以直接做甲／乙案的忠實度</strong>。</p>
+<blockquote>
+<p>這一點值得特別講：<strong>「想要真實配置」與「想要動後端」其實是兩件事。</strong>
+本機幽靈可以有 100% 真實的配置，代價只是「那個人是你自己」。</p>
+</blockquote>
+<h3>🥉 內建名人堂 — 零風險的保底</h3>
+<p>在資料表裡手寫幾組「名人」配置（像 <code>BOSSES</code> 那樣），隨機挑一個來突襲。
+可預期、可調平衡、完全不依賴網路。適合當上面兩個的<strong>離線退路</strong>，
+而不是主要方案。</p>
+<h3>三個替代方案的比較</h3>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>資料來源</th>
+<th>配置忠實度</th>
+<th>社交感</th>
+<th>離線</th>
+<th>後端</th>
+<th>成本</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>排行榜名字幽靈</td>
+<td>線上榜（現有端點）</td>
+<td>✗ 推導</td>
+<td>★★★</td>
+<td>用快取</td>
+<td><strong>不動</strong></td>
+<td>小</td>
+</tr>
+<tr>
+<td>本機幽靈</td>
+<td>自己的上一局</td>
+<td><strong>★★★ 完整</strong></td>
+<td>✗</td>
+<td>✅</td>
+<td><strong>不動</strong></td>
+<td>小</td>
+</tr>
+<tr>
+<td>內建名人堂</td>
+<td>寫死的資料表</td>
+<td>★★ 手寫</td>
+<td>✗</td>
+<td>✅</td>
+<td><strong>不動</strong></td>
+<td>極小</td>
+</tr>
+<tr>
+<td>（完整版甲／乙）</td>
+<td>線上榜 ＋ build 欄位</td>
+<td>★★★</td>
+<td>★★★</td>
+<td>用快取</td>
+<td><strong>要改＋要遷移</strong></td>
+<td>中～大</td>
+</tr>
+</tbody>
+</table></div>
+<p><strong>我的建議：這一版做「排行榜名字幽靈 ＋ 本機幽靈」兩個一起。</strong>
+前者給社交感、後者給配置忠實度，加起來的體感非常接近完整版，
+但<strong>零後端改動、零禁區風險、$0 美術</strong>，而且兩個都是完整版的前置——
+入侵者實體、名牌 UI、出場時機、平衡，全部可以先用它們調好。
+之後真的要接線上 build，只是把資料來源換掉而已。</p>
+<hr />
+<h2 id="i5">5. 這件事的風險（不論做哪一案都要先想）</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>風險</th>
+<th>說明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>名字是使用者自己輸入的、沒有驗證</strong></td>
+<td>Worker 的 <code>cleanName</code> 只去控制字元與限長 12，<strong>沒有髒話過濾</strong>。入侵者的名字會很顯眼地掛在畫面上。要嘛加一層過濾，要嘛只用排名不用名字</td>
+</tr>
+<tr>
+<td><strong>API 沒有身分驗證，分數可偽造</strong></td>
+<td>Worker 自己的註解就寫明了。如果之後真的存 build，讀回來一定要做上限夾制，不能照著生成</td>
+</tr>
+<tr>
+<td><strong>突擊模式目前不上傳線上榜</strong></td>
+<td>這是上一輪定的（局長不同、分數基準不一樣）。所以「突擊模式的入侵者」讀的會是<strong>標準模式</strong>玩家的成績——強度換算要另外想，不能直接拿</td>
+</tr>
+<tr>
+<td><strong>離線一定要能玩</strong></td>
+<td>這是單機遊戲。抓榜失敗絕對不能卡住開局，要有快取與內建退路</td>
+</tr>
+</tbody>
+</table></div>
+<hr />
+<h2 id="i6">需要你決定的</h2>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>#</th>
+<th>要決定的</th>
+<th>為什麼輪不到我決定</th>
+<th>我的建議</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>要不要為此改 Worker ＋ D1 schema？</strong></td>
+<td>那是 CLAUDE.md 明列的禁區，而且是線上資料庫遷移</td>
+<td><strong>這一版不要</strong>。先用不動後端的版本驗證玩家在不在意這件事</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>這一版做哪一個？</strong></td>
+<td>取捨在「社交感」與「配置忠實度」之間</td>
+<td><strong>兩個都做</strong>：排行榜名字幽靈（社交感）＋ 本機幽靈（完整配置）。零後端、$0 美術</td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>入侵者的名字要不要顯示？</strong></td>
+<td>沒有髒話過濾，而名字會很顯眼</td>
+<td>先只顯示「第 N 名的挑戰者」，等你決定要不要加過濾再放名字</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>要現在做，還是等 v2 實機驗過再說？</strong></td>
+<td>v2 的五項功能目前只有靜態檢查過關</td>
+<td><strong>等實機驗過</strong>。先把 v2 收乾淨，這個排 v2.1</td>
+</tr>
+</tbody>
+</table></div>
+<a class="navlink" href="vr-v2-art3.html">→ v2 美術完成</a>
+<a class="navlink" href="vr-v2-progress.html">→ v2 實作進度</a>
+<footer>突襲模式異步入侵評估 · 評估階段，未實作</footer>
+</div></body></html>
