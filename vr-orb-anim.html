@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>法輪本身會動了</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇 · 星樞法輪</p>
+<h1>符文環在轉、核心在脈動</h1>
+<p class="lede">13 幀（抽 14 幀丟掉開場放大中的那一幀，不然每輪播放會彈一下大小）。
+四個法輪的相位刻意錯開，不然看起來像貼在同一個轉盤上的四張貼紙。</p>
+<p>法輪本身現在會動了——<strong>符文環在轉、核心在脈動</strong>，不是一張靜態圖被繞行軌跡拖著走。</p>
+<h2>13 幀</h2>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="法輪動畫幀" src="img/orb-frames.png" /></p>
+<p>外圈銀環順時針轉、內圈符文逆時針轉、中央紫晶核脈動明暗，環溝裡有淡紫能量流動。
+規格跟其他特效素材對齊（256px、綠幕、本地去背）。</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="實機" src="img/orb-ingame2.png" /></p>
+<hr />
+<h2>兩個實作上的處理</h2>
+<h3>① 每個法輪的播放相位刻意錯開</h3>
+<p>起始進度各差 3.7 幀。<strong>同步脈動的話，四個法輪看起來像貼在同一個轉盤上的
+四張貼紙</strong>，不像四個各自運轉的法器。錯開之後才有「各自在轉」的感覺。</p>
+<h3>② 抽 14 幀，丟掉第 1 幀</h3>
+<p>原始影片開場的那一幀是法輪<strong>還在放大中</strong>的：</p>
+<pre><code>第 1 幀   主體  72px      ← 丟掉
+其餘 13 幀 主體 113~134px
+</code></pre>
+<p>留著的話，法輪每播完一輪就會「彈」一下大小——那種瑕疵在單張截圖上看不出來，
+要播起來才會發現。丟掉之後尺寸差只剩 21px。</p>
+<p>所以最後是 <strong>13 幀</strong>，不是 14。</p>
+<hr />
+<h2>驗證量的是「貼圖有沒有真的換」</h2>
+<p>這一點很重要：<strong>素材載得到 ≠ 有接上去</strong>。載得到但沒接的話，
+畫面上還是一張靜態圖被拖著走——而那正是你回報的問題。
+所以驗證直接抓法輪的 <code>SpriteRenderer</code>，數它換過幾張不同的貼圖：</p>
+<pre><code>法輪動畫素材 astral_orb = 13 幀
+2.5 秒內法輪換過 13 張不同的貼圖（共 13 幀）　✓ 法輪本身真的在動
+同一段時間法輪繞行了 4.8 個單位                ✓ 繞行也還在
+</code></pre>
+<p>兩件事同時成立才算對——只有動畫沒繞行、或只有繞行沒動畫，都是壞的。</p>
+<p>其餘星樞法師的功能一併回歸過：法輪 2 個（Lv1）、冷卻倍率 1.15、
+<code>orbKills</code> 有增加。資料層全過、三輪編譯 0 錯。</p>
+<p>美術 <strong>$0.32</strong>。</p>
+<p><strong>還沒出新 TestFlight</strong>——build 46 不含這批（以及前面的桃木劍改近戰、陣形辨識）。
+要出 build 47 說一聲，我建議出，累積的東西已經不少了。</p>
+<a class="navlink" href="vr-shape.html">→ 上一頁：陣法看形狀了</a>
+</div></body></html>
