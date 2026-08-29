@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="zh-Hant"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>十種解鎖條件 + 星樞法師</title><style>
+:root{
+  --ground:#F2EEE6; --card:#FFFDF8; --line:#DCD2C0; --line-soft:#EAE3D5;
+  --ink:#1E1A16; --ink-soft:#6B6154;
+  --gold:#8A6A22; --ember:#A8412A;
+  --note-bg:#F6EEDC; --note-line:#C9A94E;
+  --warn-bg:#F7E7E2; --warn-line:#A8412A;
+  --live-bg:#E3F5E9; --live-line:#1F7A44;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}}
+:root[data-theme="dark"]{
+  --ground:#100D0B; --card:#1A1613; --line:#332A22; --line-soft:#241E19;
+  --ink:#EDE6DA; --ink-soft:#9B9081;
+  --gold:#D9AE55; --ember:#E0765A;
+  --note-bg:#241C10; --note-line:#8A6A22;
+  --warn-bg:#2A1713; --warn-line:#A8412A;
+  --live-bg:#1F4A2E; --live-line:#7FE0A0;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; padding:26px 16px 72px;
+  background:var(--ground); color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Noto Sans TC",sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:960px;margin:0 auto}
+.eyebrow{font-size:12px;letter-spacing:.2em;color:var(--gold);font-weight:700;margin:0}
+h1{font-size:27px;margin:8px 0 0;letter-spacing:-.01em;text-wrap:balance}
+.lede{margin:10px 0 0;color:var(--ink-soft);font-size:14.5px}
+.note{background:var(--note-bg);border-left:3px solid var(--note-line);
+  border-radius:0 10px 10px 0;padding:14px 16px;margin:22px 0;font-size:14.5px}
+.note.warn{background:var(--warn-bg);border-left-color:var(--warn-line)}
+.note p{margin:0 0 8px}.note p:last-child{margin:0}
+h2{font-size:20px;margin:38px 0 6px;padding-top:14px;border-top:2px solid var(--gold);
+  display:flex;align-items:baseline;gap:10px}
+.num{display:inline-flex;align-items:center;justify-content:center;
+  width:26px;height:26px;border-radius:50%;background:var(--gold);color:var(--card);
+  font-size:14px;font-weight:700;flex:none}
+h3{font-size:16px;margin:24px 0 6px;color:var(--gold)}
+.unit-sub{color:var(--ink-soft);font-size:13.5px;margin:-2px 0 0}
+figure{margin:0;background:var(--card);border:1px solid var(--line);
+  border-radius:14px;overflow:hidden}
+figure img{display:block;width:100%;height:auto;background:
+  repeating-conic-gradient(#00000012 0% 25%, transparent 0% 50%) 50%/16px 16px}
+figcaption{padding:10px 14px 12px;font-size:13px;color:var(--ink-soft);
+  border-top:1px solid var(--line-soft);text-align:center}
+figcaption b{color:var(--ink)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+@media (max-width:640px){.grid3{grid-template-columns:1fr 1fr}}
+.scroll{overflow-x:auto;margin:16px 0}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:440px;
+  background:var(--card);border:1px solid var(--line);border-radius:10px}
+th,td{text-align:left;padding:9px 11px;border-bottom:1px solid var(--line-soft)}
+th{color:var(--gold);font-size:12.5px;letter-spacing:.05em;white-space:nowrap}
+tr:last-child td{border-bottom:none}
+td.num2{text-align:right;font-variant-numeric:tabular-nums}
+p{font-size:15px;margin:0 0 12px}
+ul{padding-left:22px;margin:0 0 14px}li{margin:5px 0;font-size:15px}
+code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  background:var(--card);border:1px solid var(--line);border-radius:5px;
+  padding:1px 5px;color:var(--ember)}
+a{color:var(--gold)}
+.pillrow{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0 0}
+.pill{font-size:12px;padding:3px 10px;border-radius:999px;border:1px solid var(--line);
+  color:var(--ink-soft);background:var(--card)}
+.redo{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:12px;
+  padding:14px 16px;margin:14px 0 0}
+.redo b{color:var(--ember)}
+.rowlabel{font-size:13px;font-weight:700;color:var(--ink-soft);margin:16px 0 0;
+  display:flex;align-items:center;gap:8px}
+.rowlabel.isnew{color:var(--gold)}
+.tag{font-size:11px;padding:2px 8px;border-radius:6px;font-weight:700;letter-spacing:.03em}
+.tag.old{background:var(--warn-bg);color:var(--ember)}
+.tag.new{background:var(--note-bg);color:var(--gold)}
+.tag.live{background:var(--live-bg);color:var(--live-line)}
+footer{margin-top:44px;color:var(--ink-soft);font-size:13px;text-align:center}
+</style>
+<style>
+table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13px;min-width:440px}
+table th,table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.10);text-align:left;vertical-align:top}
+table th{font-weight:600;opacity:.72;border-bottom:1px solid rgba(255,255,255,.22)}
+.scroll{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.small{font-size:13px;opacity:.75;line-height:1.7}
+code{font-size:.9em;padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.08);word-break:break-all}
+h3{font-size:17px;margin:26px 0 10px;font-weight:600}
+pre.copy{background:rgba(255,255,255,.05);padding:14px 16px;border-radius:8px;overflow-x:auto;
+  font-size:13px;line-height:1.85;white-space:pre-wrap;word-break:break-word;
+  font-family:inherit;border:1px solid rgba(255,255,255,.10)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:14px;margin:18px 0}
+.grid2 figure{margin:0}
+.grid2 img{width:100%;border-radius:8px;display:block}
+.pick{display:inline-block;font-size:12px;padding:2px 8px;border-radius:99px;
+  background:rgba(120,200,140,.18);color:#8fd8a2;margin-left:6px;vertical-align:middle}
+body{padding-bottom:72px}
+</style>
+<style>
+.toc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 18px;margin:22px 0}
+.toc ol{margin:0;padding-left:22px;columns:2;column-gap:26px}
+@media (max-width:640px){.toc ol{columns:1}}
+.toc li{margin:3px 0;font-size:14px}
+.toc a{text-decoration:none}
+h2{scroll-margin-top:12px}
+h4{font-size:15px;margin:20px 0 4px;color:var(--ink)}
+blockquote{margin:16px 0;padding:12px 16px;background:var(--note-bg);
+  border-left:3px solid var(--note-line);border-radius:0 10px 10px 0;
+  color:var(--ink-soft);font-size:14px}
+blockquote p{font-size:14px;margin:0 0 8px}blockquote p:last-child{margin:0}
+pre{background:var(--card);border:1px solid var(--line);border-radius:10px;
+  padding:14px 16px;overflow-x:auto;font-size:13px;line-height:1.8}
+pre code{background:none;border:none;padding:0;color:var(--ink);word-break:normal}
+hr{border:none;border-top:1px solid var(--line);margin:32px 0}
+.navlink{display:inline-block;margin:18px 0 0;font-size:14px;padding:8px 14px;
+  border:1px solid var(--line);border-radius:999px;background:var(--card);text-decoration:none}
+table td:first-child{white-space:nowrap}
+@media (max-width:640px){table td:first-child{white-space:normal}}
+</style></head>
+<body><div class="wrap">
+<p class="eyebrow">手搓廣告遊戲選集 · 吸血鬼復仇</p>
+<h1>十個職業十種解鎖條件，沒有一個是「擊殺 N 隻」</h1>
+<p class="lede">四個原本數的是輸出而不是職業本身，改掉了。
+星樞法師也做完——法輪的射程真的吃夜巫的 +15% 範圍，不只是主題貼合。</p>
+<p>兩件都做完了。</p>
+<h1>② 解鎖任務：十個職業，十種條件，沒有一個是「擊殺 N 隻」</h1>
+<pre><code>血族領主   healed       ×2     累計回復 2 倍最大生命
+暗影行者   dodges       ×25    閃避 25 次
+元素使     spellKills   ×150   用雷／隕石擊殺
+亡者牧者   minionKills  ×150   僕從打死 150 隻
+月嚎將     lowHpTime    ×90    低血狀態累計存活 90 秒
+星樞法師   orbKills     ×60    法輪打死 60 隻
+殘影宗師   substitutes  ×8     被分身替身擋下 8 次
+因果法師   formations   ×12    成陣 12 次
+絕域獵手   farTime      ×120   累計 120 秒身邊沒有敵人
+血鎖裁判   thornsKills  ×15    用反傷打死 15 隻
+</code></pre>
+<p>四個改動的理由都一樣——<strong>原本數的是輸出，不是那個職業本身</strong>：</p>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th>職業</th>
+<th>原本</th>
+<th>現在</th>
+<th>差在哪</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>血族領主</td>
+<td>擊殺 400</td>
+<td>回復 2 倍最大生命</td>
+<td>它的本體是吸血與續戰</td>
+</tr>
+<tr>
+<td>亡者牧者</td>
+<td>擊殺 600</td>
+<td>僕從打死 150</td>
+<td>重點是「<strong>別人</strong>替你殺」</td>
+</tr>
+<tr>
+<td>絕域獵手</td>
+<td>遠處擊殺 200</td>
+<td>累計 120 秒身邊沒敵人</td>
+<td>它獎勵<strong>保持距離</strong>，不是遠處殺得多</td>
+</tr>
+<tr>
+<td>月嚎將</td>
+<td>低血擊殺 150</td>
+<td>低血累計存活 90 秒</td>
+<td>它獎勵<strong>待在那個狀態</strong>，不是那時殺幾隻</td>
+</tr>
+</tbody>
+</table></div>
+<p>順手也改了兩個：暗影行者從「存活 5:36」改成「閃避 25 次」（它給 15% 閃避），
+血鎖裁判從「受傷 30 次」改成「用反傷打死 15 隻」（受傷只是前提，反傷才是它）。</p>
+<h3>兩條新的硬條件擋住未來偷懶</h3>
+<p>資料驗證加了：<strong>任務類型不得是通用的 <code>kills</code></strong>、而且<strong>十個之間不得重複</strong>。
+重複代表兩個職業在數同一件事，那就沒有「專屬」可言。</p>
+<h3>六個新計數器都在「還沒有那個職業」時就會動</h3>
+<p>這是月嚎將踩過的坑（計數器依賴職業本身 → 那個職業永遠拿不到），
+所以每一個都特別驗過：</p>
+<pre><code>healed（血族領主）    0.00 → 0.50 倍最大生命   ✓
+lowHpTime（月嚎將）   0.3  → 3.8 秒            ✓
+farTime（絕域獵手）   1.8  → 6.7 秒            ✓
+dodges（暗影行者）    0    → 2                 ✓
+minionKills（亡者牧者）0    → 1                 ✓ 僕從打死的有算到
+</code></pre>
+<blockquote>
+<p><code>healed</code> 只算<strong>真的補進去的量</strong>——快滿血時回 100 只補了 3 就記 3。
+記名目值的話，滿血站著吃回血道具可以無限刷任務。</p>
+</blockquote>
+<hr />
+<h1>④ 星樞法師 🜛 — 夜巫的法輪</h1>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="實機" src="img/astral-ingame.png" /></p>
+<p>畫面中央是夜巫，兩個紫色法輪繞著她轉，右上那個正在射出光束。</p>
+<p><strong>2~4 個法輪繞著你自動射光束，射程吃你的範圍加成，代價是你自己的冷卻 ×1.15。</strong></p>
+<pre><code>法輪 2 個（Lv1，2~4）　冷卻倍率 1.15　✓
+orbKills 0 → 1                        ✓ 法輪真的在打死東西
+</code></pre>
+<p>法輪數量隨等級成長（每 18 級 +1，2 → 4）。</p>
+<h3>為什麼給夜巫</h3>
+<ol>
+<li>牠是八隻裡<strong>唯一沒有專屬武器、也沒有專屬職業</strong>的角色，天賦還是純數值。</li>
+<li><strong>天賦跟機制天生對得上</strong>：範圍 +15%、移速 −10%。你很慢，
+   所以你帶著自己的砲台去覆蓋你跑不到的地方——而且<strong>法輪的射程真的吃那 +15%</strong>，
+   不只是主題貼合，是數值上真的接起來了。</li>
+<li><strong>跟兩套召喚不撞</strong>，關鍵是它不是一個單位：</li>
+</ol>
+<div class="scroll"><table>
+<thead>
+<tr>
+<th></th>
+<th>會移動</th>
+<th>會死</th>
+<th>本質</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>屍語者的僕從</td>
+<td>追敵人</td>
+<td>會</td>
+<td>一支軍隊</td>
+</tr>
+<tr>
+<td>影忍的分身</td>
+<td>跟著你</td>
+<td>替你死</td>
+<td>你的替身</td>
+</tr>
+<tr>
+<td><strong>星樞的法輪</strong></td>
+<td><strong>鎖在你身上繞</strong></td>
+<td><strong>不會</strong></td>
+<td><strong>你身體的延伸</strong></td>
+</tr>
+</tbody>
+</table></div>
+<h3>便宜在哪</h3>
+<p>環繞沿用聖光書那套（Orbit 家族本來就每幀算角度繞玩家），
+光束沿用<strong>連鎖閃電的線段特效</strong> <code>SpawnChainArc</code>——兩個都是現成的。
+所以只花了 <strong>$0.20</strong> 做法輪貼圖與職業徽記：</p>
+<p><img style="width:100%;height:auto;border-radius:10px;margin:10px 0" alt="法輪與徽記" src="img/astral-icons.png" /></p>
+<hr />
+<h2>驗證</h2>
+<ul>
+<li>十個職業的任務類型：全部不同、沒有一個是通用擊殺數 ✓</li>
+<li>六個新計數器：都在無職業時就會動 ✓</li>
+<li>星樞法輪：數量、冷卻代價、擊殺計數、貼圖 ✓</li>
+<li>回歸：影忍（分身替身四連測）、道士（陣法／延遲／業報）全過 ✓</li>
+<li>資料層全套通過、三輪編譯（正式／VR_SHOTS／VR_TESTUNLOCK）0 錯</li>
+</ul>
+<p><strong>還沒出新的 TestFlight</strong>——build 46 是上一版的測試包。
+要我出 build 47 把這兩項也放進去，說一聲。</p>
+<a class="navlink" href="vr-b46.html">→ 上一頁：build 46 測試包</a>
+</div></body></html>
